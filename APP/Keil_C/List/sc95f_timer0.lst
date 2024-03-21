@@ -1,32 +1,475 @@
-C51 COMPILER V9.59.0.0   SC95F_TIMER0                                                      03/20/2024 20:54:40 PAGE 1   
-
-
+C51 COMPILER V9.59.0.0   SC95F_TIMER0                                                      03/21/2024 20:54:13 PAGE 1   
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_TIMER0
-OBJECT MODULE PLACED IN ..\Output\sc95f_timer0.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_timer0.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE
-                    - INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\.
-                    -.\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_timer0.lst) TABS(2) OBJECT(..\Output\sc95f_timer0.obj)
-
+OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_timer0.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\FWLib\SC95F_Lib\src\sc95f_timer0.c OMF2 INTVECTOR(0X2800) DEFINE(SC95
+                    -F8x1xB) LARGE INCDIR(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\inc;D:\tfxu\Project\AM901_0308\APP
+                    -\Keil_C\Project\..\User;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\IOT_DRIVER\XIAOMI;D:\tfxu\Project\AM901_0308\AP
+                    -P\Keil_C\Project\..\Drivers;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C;D:\tfxu\Project\AM901_03
+                    -08\APP\Keil_C\Project\..\List\..\Apps;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Apps) BROWSE DEBUG OBJECTEXTEND O
+                    -PTIMIZE(8,SIZE) CODE NOCOND SYMBOLS LISTINCLUDE PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\List\sc95f_timer0
+                    -.lst) OBJECT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_timer0.obj)
 line level    source
-
-   1          //************************************************************
-   2          //  Copyright (c) 
-   3          //  文件名称:     sc95f_timer0.c
-   4          //  作者:         赛元应用团队
-   5          //  模块功能:     TIMER0固件库函数C文件
-   6          //  最后更正日期: 2024年1月18日
-   7          //  版本:       V1.0002
-   8          //  说明: 
-   9          //*************************************************************
+   1          
+   2          
+   3          
+   4          
+   5          
+   6          
+   7          
+   8          
+   9          
   10          
   11          #include "sc95f_timer0.h"
+   1      =1  
+   2      =1  
+   3      =1  
+   4      =1  
+   5      =1  
+   6      =1  
+   7      =1  
+   8      =1  
+   9      =1  
+  10      =1  
+  11      =1  #ifndef _sc95f_TIMER0_H_
+  12      =1  #define _sc95f_TIMER0_H_
+  13      =1  
+  14      =1  #include "sc95f.h"
+   1      =2  
+   2      =2  
+   3      =2  
+   4      =2  
+   5      =2  
+   6      =2  
+   7      =2  
+   8      =2  
+   9      =2  
+  10      =2  
+  11      =2  #ifndef _sc95f_H
+  12      =2  #define _sc95f_H
+  13      =2  
+  14      =2  #ifdef SC95F8x1x
+  17      =2  #ifdef SC95F7x1x
+  20      =2  #ifdef SC95F8x2x 
+  23      =2  #ifdef SC95F7x2x
+  26      =2  #ifdef SC95FWxx
+  29      =2  #ifdef SC95F8x3x
+  32      =2  #ifdef SC95F7x3x
+  35      =2  #ifdef SC95F8x6x
+  38      =2  #ifdef SC95F7x6x
+  41      =2  #ifdef SC95F8x1xB
+  42      =2    #include "SC95F8x1xB_C.H"
+   1      =3  
+  11      =3  #ifndef _SC95F861xB_H_
+  12      =3  #define _SC95F861xB_H_
+  13      =3  
+  14      =3  
+  15      =3  
+  16      =3  sfr   SP    = 0X81;  
+  17      =3  sfr   DPL   = 0X82;  
+  18      =3  sfr   DPH   = 0X83;  
+  19      =3  sfr   DPL1  = 0X84;  
+  20      =3  sfr   DPH1  = 0X85;  
+  21      =3  sfr   DPS   = 0X86;  
+  22      =3  sfr   PSW   = 0XD0;  
+  23      =3  sfr   ACC   = 0XE0;  
+  24      =3  sfr   EXA0  = 0XE9;  
+  25      =3  sfr   EXA1  = 0XEA;  
+  26      =3  sfr   EXA2  = 0XEB;  
+  27      =3  sfr   EXA3  = 0XEC;  
+  28      =3  sfr   EXBL  = 0XED;  
+  29      =3  sfr   EXBH  = 0XEE;  
+  30      =3  sfr   B     = 0XF0;  
+  31      =3  
+  32      =3  
+  33      =3  sfr   EXADH = 0XF7;  
+  34      =3  
+  35      =3  
+  36      =3  sfr   ROMBNK = 0XDF;  
+  37      =3  
+  38      =3  
+  39      =3  sfr   PCON = 0X87;  
+  40      =3  
+  41      =3  
+  42      =3  sfr   IE  = 0XA8;  
+  43      =3  sfr   IE1 = 0XA9;  
+  44      =3  sfr   IE2 = 0XAA;  
+  45      =3  sfr   IP  = 0XB8;  
+  46      =3  sfr   IP1 = 0XB9;  
+  47      =3  sfr   IP2 = 0XBA;  
+  48      =3  
+  49      =3  
+  50      =3  sfr   P0      = 0X80;  
+  51      =3  sfr   P1      = 0X90;  
+  52      =3  sfr       P1CON   = 0X91;  
+  53      =3  sfr   P1PH        = 0X92;  
+  54      =3  sfr   DDRCON  = 0X93;  
+  55      =3  sfr   P1VO    = 0X94;  
+  56      =3  sfr   IOHCON0 = 0X96;  
+  57      =3  sfr   IOHCON1 = 0X97;  
+  58      =3  sfr       P0CON   = 0X9A;  
+  59      =3  sfr       P0PH    = 0X9B;  
+  60      =3  sfr   P0VO    = 0X9C;  
+  61      =3  sfr   P2      = 0XA0;  
+  62      =3  sfr       P2CON   = 0XA1;  
+  63      =3  sfr   P2PH        = 0XA2;  
+  64      =3  sfr   P2VO    = 0XA3;  
+  65      =3  sfr   P3      = 0XB0;  
+  66      =3  sfr   P3CON   = 0XB1;  
+  67      =3  sfr   P3PH    = 0XB2;  
+  68      =3  sfr   P3VO    = 0XB3;  
+  69      =3  sfr   P4      = 0XC0;  
+  70      =3  sfr   P4CON   = 0XC1;  
+  71      =3  sfr   P4PH    = 0XC2;  
+  72      =3  sfr   P5      = 0XD8;  
+  73      =3  sfr   P5CON   = 0XD9;  
+  74      =3  sfr   P5PH    = 0XDA;  
+  75      =3  
+  76      =3  
+  77      =3  sfr   CMPCFG  = 0XB6;  
+  78      =3  sfr   CMPCON  = 0XB7;  
+  79      =3  
+  80      =3         
+  81      =3  sfr   TCON   = 0X88;  
+  82      =3  sfr   TMOD   = 0X89;  
+  83      =3  sfr   TL0    = 0X8A;  
+  84      =3  sfr   TL1    = 0X8B;  
+  85      =3  sfr   TH0    = 0X8C;  
+  86      =3  sfr   TH1    = 0X8D;  
+  87      =3  sfr   TMCON  = 0X8E;  
+  88      =3  sfr   TXCON  = 0XC8;  
+  89      =3  sfr   TXMOD  = 0XC9;  
+  90      =3  sfr   RCAPXL = 0XCA;  
+  91      =3  sfr   RCAPXH = 0XCB;  
+  92      =3  sfr   TLX    = 0XCC;  
+  93      =3  sfr   THX    = 0XCD;  
+  94      =3  sfr   TXINX  = 0XCE;  
+  95      =3  
+  96      =3  
+  97      =3  sfr       ADCCFG0 = 0XAB;  
+  98      =3  sfr       ADCCFG1 = 0XAC;  
+  99      =3  sfr   ADCCON  = 0XAD;  
+ 100      =3  sfr   ADCVL   = 0XAE;  
+ 101      =3  sfr   ADCVH   = 0XAF;  
+ 102      =3  sfr   ADCCFG2 = 0XB5;  
+ 103      =3  
+ 104      =3  
+ 105      =3  sfr   PWMCFG  = 0XD1;  
+ 106      =3  sfr   PWMCON0 = 0XD2;  
+ 107      =3  sfr   PWMCON1 = 0XD3;  
+ 108      =3  sfr   PWMPDL  = 0XD4;  
+ 109      =3  sfr   PWMPDH  = 0XD5;  
+ 110      =3  sfr   PWMDFR  = 0XD6;  
+ 111      =3  sfr   PWMFLT  = 0XD7;  
+ 112      =3  
+ 113      =3  
+ 114      =3  sfr   WDTCON = 0XCF;  
+ 115      =3  
+ 116      =3  
+ 117      =3  sfr       BTMCON = 0XFB;  
+ 118      =3  
+ 119      =3  
+ 120      =3  sfr   INT0F = 0XB4;  
+ 121      =3  sfr   INT0R = 0XBB;  
+ 122      =3  sfr   INT1F = 0XBC;  
+ 123      =3  sfr   INT1R = 0XBD;  
+ 124      =3  sfr   INT2F = 0XBE;  
+ 125      =3  sfr   INT2R = 0XBF;  
+ 126      =3  
+ 127      =3  
+ 128      =3  sfr   IAPKEY = 0XF1;  
+ 129      =3  sfr   IAPADL = 0XF2;  
+ 130      =3  sfr   IAPADH = 0XF3;  
+ 131      =3  sfr   IAPADE = 0XF4;  
+ 132      =3  sfr   IAPDAT = 0XF5;  
+ 133      =3  sfr   IAPCTL = 0XF6;  
+ 134      =3  
+ 135      =3  
+ 136      =3  sfr   OTCON = 0X8F;  
+ 137      =3  sfr   SCON  = 0X98;  
+ 138      =3  sfr   SBUF  = 0X99;  
+ 139      =3  
+ 140      =3  
+ 141      =3  sfr   US0CON0 = 0X95;  
+ 142      =3  sfr   US0CON1 = 0X9D;  
+ 143      =3  sfr   US0CON2 = 0X9E;  
+ 144      =3  sfr   US0CON3 = 0X9F;  
+ 145      =3  sfr   US1CON0 = 0XA4;  
+ 146      =3  sfr   US1CON1 = 0XA5;  
+ 147      =3  sfr   US1CON2 = 0XA6;  
+ 148      =3  sfr   US1CON3 = 0XA7;  
+ 149      =3  sfr   USXCON0 = 0XC4;  
+ 150      =3  sfr   USXCON1 = 0XC5;  
+ 151      =3  sfr   USXCON2 = 0XC6;  
+ 152      =3  sfr   USXCON3 = 0XC7;  
+ 153      =3  sfr   USXINX  = 0XDC;  
+ 154      =3  
+ 155      =3  
+ 156      =3  
+ 157      =3  sfr   OPINX = 0XFE;  
+ 158      =3  sfr   OPREG = 0XFF;  
+ 159      =3  
+ 160      =3  
+ 161      =3  sfr   OPERCON = 0XEF;  
+ 162      =3  sfr   CRCINX  = 0XFC;  
+ 163      =3  sfr   CRCREG  = 0XFD;  
+ 164      =3  
+ 165      =3  
+ 166      =3  
+ 167      =3  
+ 168      =3  sbit  CY  = PSW^7;  
+             -薪唬蛘呒醴ㄔ怂阕罡呶挥薪栉皇?
+ 169      =3  sbit  AC  = PSW^6;  
+             -?
+ 170      =3  sbit  F0  = PSW^5;  
+ 171      =3  sbit  RS1 = PSW^4;  
+ 172      =3  sbit  RS0 = PSW^3;  
+ 173      =3  sbit  OV  = PSW^2;  
+ 174      =3  sbit  F1  = PSW^1;  
+ 175      =3  sbit  P   = PSW^0;  
+ 176      =3  
+ 177      =3  
+ 178      =3  sbit  TFX   = TXCON^7;  
+ 179      =3  sbit  EXFX  = TXCON^6;  
+ 180      =3  sbit  RCLKX = TXCON^5;  
+ 181      =3  sbit  TCLKX = TXCON^4;  
+ 182      =3  sbit  EXENX = TXCON^3;  
+ 183      =3  sbit  TRX   = TXCON^2;  
+ 184      =3  sbit  TX    = TXCON^1;  
+ 185      =3  sbit  CP    = TXCON^0;  
+ 186      =3  
+ 187      =3  
+ 188      =3  sbit  IPADC  = IP^6;  
+             -热ㄊ?“高”
+ 189      =3  sbit  IPT2   = IP^5;  
+             -嫌畔热ㄊ?“高”
+ 190      =3  sbit  IPUART = IP^4;  
+             -先权是 “高”
+ 191      =3  sbit  IPT1   = IP^3;  
+             -嫌畔热ㄊ?“高”
+ 192      =3  sbit  IPINT1 = IP^2;  
+             -先权是 “高”
+ 193      =3  sbit  IPT0   = IP^1;  
+             -嫌畔热ㄊ?“高”
+ 194      =3  sbit  IPINT0 = IP^0;  
+             -高
+ 195      =3  
+ 196      =3  
+ 197      =3  sbit  EA    = IE^7;  
+ 198      =3  sbit  EADC  = IE^6;  
+ 199      =3  sbit  ET2   = IE^5;  
+ 200      =3  sbit  EUART = IE^4;  
+ 201      =3  sbit  ET1   = IE^3;  
+ 202      =3  sbit  EINT1 = IE^2;  
+ 203      =3  sbit  ET0   = IE^1;  
+ 204      =3  sbit  EINT0 = IE^0;  
+ 205      =3  
+ 206      =3  
+ 207      =3  sbit  TF1 = TCON^7;  
+             -保布濉?”。
+ 208      =3  sbit  TR1 = TCON^6;  
+ 209      =3  sbit  TF0 = TCON^5;  
+             -保布濉?”。
+ 210      =3  sbit  TR0 = TCON^4;  
+ 211      =3  
+ 212      =3  
+ 213      =3  sbit  SM0 = SCON^7;  
+             -双工异步通信 11: 模式3，11位全双工异步通信
+ 214      =3  sbit  SM1 = SCON^6;  
+ 215      =3  sbit  SM2 = SCON^5;  
+             -锨肭?  1：收到一个完整的数据帧时，只有当RB8=1时才会置位RI产生中断请求
+ 216      =3  sbit  REN = SCON^4;  
+ 217      =3  sbit  TB8 = SCON^3;  
+ 218      =3  sbit  RB8 = SCON^2;  
+ 219      =3  sbit  TI  = SCON^1;  
+ 220      =3  sbit  RI  = SCON^0;  
+ 221      =3  
+ 222      =3  
+ 223      =3  
+ 230      =3  sbit  P07 = P0^7;
+ 231      =3  sbit  P06 = P0^6;
+ 232      =3  sbit  P05 = P0^5;
+ 233      =3  sbit  P04 = P0^4;
+ 234      =3  sbit  P03 = P0^3;
+ 235      =3  sbit  P02 = P0^2;
+ 236      =3  sbit  P01 = P0^1;
+ 237      =3  sbit  P00 = P0^0;
+ 238      =3  
+ 239      =3  
+ 240      =3  
+ 247      =3  sbit  P17 = P1^7;
+ 248      =3  sbit  P16 = P1^6;
+ 249      =3  sbit  P15 = P1^5;
+ 250      =3  sbit  P14 = P1^4;
+ 251      =3  sbit  P13 = P1^3;
+ 252      =3  sbit  P12 = P1^2;
+ 253      =3  sbit  P11 = P1^1;
+ 254      =3  sbit  P10 = P1^0;
+ 255      =3  
+ 256      =3  
+ 263      =3  sbit  P27 = P2^7;
+ 264      =3  sbit  P26 = P2^6;
+ 265      =3  sbit  P25 = P2^5;
+ 266      =3  sbit  P24 = P2^4;
+ 267      =3  sbit  P23 = P2^3;
+ 268      =3  sbit  P22 = P2^2;
+ 269      =3  sbit  P21 = P2^1;
+ 270      =3  sbit  P20 = P2^0;
+ 271      =3  
+ 272      =3  
+ 279      =3  sbit  P37 = P3^7;
+ 280      =3  sbit  P36 = P3^6;
+ 281      =3  sbit  P35 = P3^5;
+ 282      =3  sbit  P34 = P3^4;
+ 283      =3  sbit  P33 = P3^3;
+ 284      =3  sbit  P32 = P3^2;
+ 285      =3  sbit  P31 = P3^1;
+ 286      =3  sbit  P30 = P3^0;
+ 287      =3  
+ 288      =3  
+ 295      =3  sbit  P47 = P4^7;
+ 296      =3  sbit  P46 = P4^6;
+ 297      =3  sbit  P45 = P4^5;
+ 298      =3  sbit  P44 = P4^4;
+ 299      =3  sbit  P43 = P4^3;
+ 300      =3  sbit  P42 = P4^2;
+ 301      =3  sbit  P41 = P4^1;
+ 302      =3  sbit  P40 = P4^0;
+ 303      =3  
+ 304      =3  
+ 311      =3  sbit  P55 = P5^5;
+ 312      =3  sbit  P54 = P5^4;
+ 313      =3  sbit  P53 = P5^3;
+ 314      =3  sbit  P52 = P5^2;
+ 315      =3  sbit  P51 = P5^1;
+ 316      =3  sbit  P50 = P5^0;
+ 317      =3  
+ 318      =3                              
+             -        
+ 323      =3  #define  SC95F8616B_NIO_Init()   {P4CON|=0xC0,P5CON|=0x30;}                                               
+             -  
+ 324      =3  #define  SC95F8615B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xF0;}           
+             -  
+ 325      =3  #define  SC95F8613B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xFF;}           
+             -  
+ 326      =3  #define  SC95F8612B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P2CON|=0XF0,P3CON|=0xF0,P4CON|=0xF0,P5CON|=0xFF;
+             -} 
+ 327      =3  #endif
+  43      =2  #endif
+  44      =2  #ifdef SC95F7x1xB
+  47      =2  #ifdef SC95R751
+  50      =2  #ifdef SC95F7610B
+  53      =2  #ifdef SC95F7619B
+  56      =2  #ifdef SC95FS52x
+  59      =2  #ifdef SC95R602
+  62      =2  #ifdef SC95R605
+  65      =2  #ifdef SC95F8x7x
+  68      =2  #ifdef SC95F7x7x
+  71      =2  #ifdef SC95R503
+  74      =2  
+  75      =2  #define enableInterrupts()    EA=1       
+  76      =2  #define disableInterrupts()   EA=0       
+  77      =2  
+  78      =2  #define     __I     volatile const   
+  79      =2  #define     __O     volatile         
+  80      =2  #define     __IO    volatile         
+  81      =2  
+  82      =2  
+  83      =2  typedef   signed char     int8_t;
+  84      =2  typedef   signed short    int16_t;
+  85      =2  typedef   signed long     int32_t;
+  86      =2  
+  87      =2  
+  88      =2  typedef unsigned char     uint8_t;
+  89      =2  typedef unsigned short    uint16_t;
+  90      =2  typedef unsigned long     uint32_t;
+  91      =2  
+  92      =2  typedef int32_t  s32;
+  93      =2  typedef int16_t  s16;
+  94      =2  typedef int8_t   s8;
+  95      =2  
+  96      =2  typedef uint32_t  u32;
+  97      =2  typedef uint16_t  u16;
+  98      =2  typedef uint8_t   u8;
+  99      =2  
+ 100      =2  
+ 101      =2  typedef enum {FALSE = 0, TRUE = !FALSE} bool;
+ 102      =2  
+ 103      =2  typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus, BitStatus;
+ 104      =2  
+ 105      =2  typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
+ 106      =2  
+ 107      =2  typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
+ 108      =2  
+ 109      =2  typedef enum 
+ 110      =2  {
+ 111      =2    Status_ERROR          = 0x00U,
+ 112      =2    Status_OK                     = 0x01U,
+ 113      =2    Status_BUSY           = 0x02U,
+ 114      =2    Status_TIMEOUT        = 0x03U
+ 115      =2  } StatusTypeDef;
+ 116      =2  
+ 117      =2  typedef enum {LOW = 0, HIGH = !LOW} PriorityStatus;
+ 118      =2  
+ 119      =2  #define SET_BIT(SFR,BIT)                                ((SFR) |= (BIT))
+ 120      =2  
+ 121      =2  #define CLEAR_BIT(SFR,BIT)                      ((SFR) &= ~(BIT))
+ 122      =2  
+ 123      =2  #define READ_BIT(SFR, BIT)      ((SFR) & (BIT))
+ 124      =2  
+ 125      =2  #define CLEAR_REG(SFR)          ((SFR) = (0x0))
+ 126      =2  
+ 127      =2  #define WRITE_REG(SFR, VAL)     ((SFR) = (VAL))
+ 128      =2  
+ 129      =2  #endif
+  15      =1  
+  16      =1  typedef enum
+  17      =1  {
+  18      =1    TIM0_PRESSEL_FSYS_D12 = ((uint8_t)0x00), 
+  19      =1    TIM0_PRESSEL_FSYS_D1 = ((uint8_t)0x01)   
+  20      =1  } TIM0_PresSel_TypeDef;
+  21      =1  
+  22      =1  typedef enum
+  23      =1  {
+  24      =1    TIM0_MODE_TIMER = ((uint8_t)0x01),  
+  25      =1    TIM0_MODE_COUNTER = ((uint8_t)0x02) 
+  26      =1  } TIM0_CountMode_TypeDef;
+  27      =1  
+  28      =1  typedef enum
+  29      =1  {
+  30      =1    TIM0_WORK_MODE0 = ((uint8_t)0x00), 
+  31      =1    TIM0_WORK_MODE1 = ((uint8_t)0x01), 
+  32      =1    TIM0_WORK_MODE2 = ((uint8_t)0x02), 
+  33      =1    TIM0_WORK_MODE3 = ((uint8_t)0x03)  
+  34      =1  } TIM0_WorkMode_TypeDef;
+  35      =1  
+  36      =1  
+  37      =1  
+  44      =1  #define TIM0_GetFlagStatus() (TF0)
+  45      =1  
+  46      =1  
+  52      =1  #define TIM0_ClearFlag() (TF0 = 0)
+  53      =1  
+  54      =1  void TIM0_DeInit(void);
+  55      =1  void TIM0_TimeBaseInit(TIM0_PresSel_TypeDef TIM0_PrescalerSelection,
+  56      =1                         TIM0_CountMode_TypeDef TIM0_CountMode);
+  57      =1  void TIM0_WorkMode0Config(uint16_t TIM0_SetCounter);
+  58      =1  void TIM0_WorkMode1Config(uint16_t TIM0_SetCounter);
+  59      =1  void TIM0_WorkMode2Config(uint8_t TIM0_SetCounter);
+  60      =1  void TIM0_WorkMode3Config(uint8_t TIM0_SetCounter, uint8_t TIM1_SetCounter);
+  61      =1  void TIM0_Mode0SetReloadCounter(uint16_t TIM0_SetCounter);
+  62      =1  void TIM0_Mode1SetReloadCounter(uint16_t TIM0_SetCounter);
+  63      =1  void TIM0_SetTL0Counter(uint8_t TIM0_SetCounter);
+  64      =1  void TIM0_SetTH0Counter(uint8_t TIM0_SetCounter);
+  65      =1  void TIM0_Cmd(FunctionalState NewState);
+  66      =1  void TIM0_ITConfig(FunctionalState NewState, PriorityStatus Priority);
+  67      =1  void TIM0_WorkModeConfig(TIM0_WorkMode_TypeDef TIM0_WorkMode, uint16_t TIM0_SetCounter1,
+  68      =1                           uint16_t TIM0_SetCounter2);
+  69      =1  
+  70      =1  #endif
+  71      =1  
+  72      =1  
   12          
-  13          /**************************************************
-  14          *函数名称:void TIM0_DeInit(void)
-  15          *函数功能:TIMER0相关寄存器复位至缺省值
-  16          *入口参数:void
-  17          *出口参数:void
-  18          **************************************************/
+  13          
   19          void TIM0_DeInit(void)
   20          {
   21   1        TMOD &= 0XF0;
@@ -38,15 +481,7 @@ line level    source
   27   1        IPT0 = 0;
   28   1      }
   29          
-  30          /**************************************************
-  31          *函数名称:void TIM0_TimeBaseInit(TIM0_PresSel_TypeDef TIM0_PrescalerSelection, TIM0_CountMode_TypeDef TIM0
-             -_CountMode)
-  32          *函数功能:TIMER0基本设置配置函数
-  33          *入口参数:
-  34          TIM0_PresSel_TypeDef:TIM0_PrescalerSelection:预分频选择
-  35          TIM0_CountMode_TypeDef:TIM0_CountMode:计数/定时模式选择
-  36          *出口参数:void
-  37          **************************************************/
+  30          
   38          void TIM0_TimeBaseInit(TIM0_PresSel_TypeDef TIM0_PrescalerSelection,
   39                                 TIM0_CountMode_TypeDef TIM0_CountMode)
   40          {
@@ -59,11 +494,9 @@ line level    source
   47   2          TMCON |= 0X01;
   48   2        }
   49   1      
-  50   1        /************************************************************/
+  50   1        
   51   1        if (TIM0_CountMode == TIM0_MODE_TIMER)
   52   1        {
-C51 COMPILER V9.59.0.0   SC95F_TIMER0                                                      03/20/2024 20:54:40 PAGE 2   
-
   53   2          TMOD &= 0xFB;
   54   2        }
   55   1        else if (TIM0_CountMode == TIM0_MODE_COUNTER)
@@ -72,13 +505,7 @@ line level    source
   58   2        }
   59   1      }
   60          
-  61          /**************************************************
-  62          *函数名称:void TIM0_WorkMode0Config(uint16_t TIM0_SetCounter)
-  63          *函数功能:TIMER0工作模式0配置函数
-  64          *入口参数:
-  65          uint16_t:TIM0_SetCounter:配置计数初值
-  66          *出口参数:void
-  67          **************************************************/
+  61          
   68          void TIM0_WorkMode0Config(uint16_t TIM0_SetCounter)
   69          {
   70   1        TMOD &= 0XFC;
@@ -86,13 +513,7 @@ line level    source
   72   1        TH0 = (TIM0_SetCounter >> 5);
   73   1      }
   74          
-  75          /**************************************************
-  76          *函数名称:void TIM0_WorkMode1Config(uint16_t TIM0_SetCounter)
-  77          *函数功能:TIMER0工作模式1配置函数
-  78          *入口参数:
-  79          uint16_t:TIM0_SetCounter:配置计数初值
-  80          *出口参数:void
-  81          **************************************************/
+  75          
   82          void TIM0_WorkMode1Config(uint16_t TIM0_SetCounter)
   83          {
   84   1        TMOD &= 0XFC;
@@ -101,13 +522,7 @@ line level    source
   87   1        TH0 = TIM0_SetCounter / 256;
   88   1      }
   89          
-  90          /**************************************************
-  91          *函数名称:void TIM0_WorkMode2Config(uint8_t TIM0_SetCounter)
-  92          *函数功能:TIMER0工作模式2配置函数
-  93          *入口参数:
-  94          uint8_t:TIM0_SetCounter:配置计数初值
-  95          *出口参数:void
-  96          **************************************************/
+  90          
   97          void TIM0_WorkMode2Config(uint8_t TIM0_SetCounter)
   98          {
   99   1        TMOD &= 0XFC;
@@ -116,18 +531,7 @@ line level    source
  102   1        TH0 = TIM0_SetCounter;
  103   1      }
  104          
- 105          /**************************************************
- 106          *函数名称:void TIM0_WorkModeConfig(TIM0_WorkMode_TypeDef TIM0_WorkMode, uint16_t TIM0_SetCounter1, uint16_
-             -t TIM0_SetCounter2)
- 107          *函数功能:TIMER0工作模式配置函数
- 108          *入口参数:
- 109          TIM0_WorkMode:TypeDef TIM0_WorkMode:TIMER0工作模式选择
- 110          uint16_t:TIM0_SetCounter1:TIMER0计数初值配置1
- 111          uint16_t:TIM0_SetCounter2:TIMER0计数初值配置2
- 112          *出口参数:void
- 113          **************************************************/
-C51 COMPILER V9.59.0.0   SC95F_TIMER0                                                      03/20/2024 20:54:40 PAGE 3   
-
+ 105          
  114          void TIM0_WorkModeConfig(TIM0_WorkMode_TypeDef TIM0_WorkMode, uint16_t TIM0_SetCounter1,
  115                                   uint16_t TIM0_SetCounter2)
  116          {
@@ -154,14 +558,7 @@ line level    source
  137   2        }
  138   1      }
  139          
- 140          /**************************************************
- 141          *函数名称:void TIM0_WorkMode3Config(uint8_t TIM0_SetCounter, uint8_t TIM1_SetCounter)
- 142          *函数功能:TIMER0工作模式3配置函数
- 143          *入口参数:
- 144          uint8_t:TIM0_SetCounter:配置TIMER0_TL0计数初值
- 145          uint8_t:TIM1_SetCounter:配置TIMER0_TH0计数初值
- 146          *出口参数:void
- 147          **************************************************/
+ 140          
  148          void TIM0_WorkMode3Config(uint8_t TIM0_SetCounter, uint8_t TIM1_SetCounter)
  149          {
  150   1        TMOD |= 0X03;
@@ -169,41 +566,21 @@ line level    source
  152   1        TH0 = TIM1_SetCounter;
  153   1      }
  154          
- 155          /**************************************************
- 156          *函数名称:void TIM0_Mode0SetReloadCounter(uint16_t TIM0_SetCounter)
- 157          *函数功能:TIMER0工作模式0初值重载函数
- 158          *入口参数:
- 159          uint16_t:TIM0_SetCounter:配置TIMER0重载值
- 160          *出口参数:void
- 161          **************************************************/
+ 155          
  162          void TIM0_Mode0SetReloadCounter(uint16_t TIM0_SetCounter)
  163          {
  164   1        TL0 = (uint8_t)TIM0_SetCounter;
  165   1        TH0 = (TIM0_SetCounter >> 5);
  166   1      }
  167          
- 168          /**************************************************
- 169          *函数名称:void TIM0_Mode1SetReloadCounter(uint16_t TIM0_SetCounter)
- 170          *函数功能:TIMER0工作模式1初值重载函数
- 171          *入口参数:
- 172          uint16_t:TIM0_SetCounter:配置TIMER0重载值
- 173          *出口参数:void
- 174          **************************************************/
+ 168          
  175          void TIM0_Mode1SetReloadCounter(uint16_t TIM0_SetCounter)
-C51 COMPILER V9.59.0.0   SC95F_TIMER0                                                      03/20/2024 20:54:40 PAGE 4   
-
  176          {
  177   1        TL0 = TIM0_SetCounter % 256;
  178   1        TH0 = TIM0_SetCounter / 256;
  179   1      }
  180          
- 181          /*****************************************************
- 182          *函数名称:void TIM0_Cmd(FunctionalState NewState)
- 183          *函数功能:TIMER0功能开关函数
- 184          *入口参数:
- 185          FunctionalState:NewState:功能启动/关闭选择
- 186          *出口参数:void
- 187          *****************************************************/
+ 181          
  188          void TIM0_Cmd(FunctionalState NewState)
  189          {
  190   1        if (NewState == DISABLE)
@@ -216,52 +593,31 @@ line level    source
  197   2        }
  198   1      }
  199          
- 200          /**************************************************
- 201          *函数名称:void TIM0_SetTL0Counter(uint8_t TIM0_SetCounter)
- 202          *函数功能:TIMER0 TL0赋值函数
- 203          *入口参数:
- 204          uint8_t:TIM0_SetCounter:配置TL0
- 205          *出口参数:void
- 206          **************************************************/
+ 200          
  207          void TIM0_SetTL0Counter(uint8_t TIM0_SetCounter)
  208          {
  209   1        TL0 = TIM0_SetCounter;
  210   1      }
  211          
- 212          /**************************************************
- 213          *函数名称:void TIM0_SetTH0Counter(uint8_t TIM0_SetCounter)
- 214          *函数功能:TIMER0 TH0赋值函数
- 215          *入口参数:
- 216          uint8_t:TIM0_SetCounter:配置TH0
- 217          *出口参数:void
- 218          **************************************************/
+ 212          
  219          void TIM0_SetTH0Counter(uint8_t TIM0_SetCounter)
  220          {
  221   1        TH0 = TIM0_SetCounter;
  222   1      }
  223          
- 224          /*****************************************************
- 225          *函数名称:void TIM0_ITConfig(FunctionalState NewState, PriorityStatus Priority)
- 226          *函数功能:TIMER0中断初始化
- 227          *入口参数:
- 228          FunctionalState:NewState:中断使能/关闭选择
- 229          PriorityStatus:Priority:中断优先级选择
- 230          *出口参数:void
- 231          *****************************************************/
+ 224          
  232          void TIM0_ITConfig(FunctionalState NewState, PriorityStatus Priority)
  233          {
  234   1        if (NewState == DISABLE)
  235   1        {
  236   2          ET0 = 0;
  237   2        }
-C51 COMPILER V9.59.0.0   SC95F_TIMER0                                                      03/20/2024 20:54:40 PAGE 5   
-
  238   1        else
  239   1        {
  240   2          ET0 = 1;
  241   2        }
  242   1      
- 243   1        /************************************************************/
+ 243   1        
  244   1        if (Priority == LOW)
  245   1        {
  246   2          IPT0 = 0;
@@ -273,9 +629,609 @@ line level    source
  252   1      }
  253          
  254          
- 255          /******************* (C) COPYRIGHT 2020 SinOne Microelectronics *****END OF FILE****/
-
-
+ 255          
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+             ; FUNCTION TIM0_DeInit (BEGIN)
+                                           ; SOURCE LINE # 19
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 21
+0000 5389F0            ANL     TMOD,#0F0H
+                                           ; SOURCE LINE # 22
+0003 5388CD            ANL     TCON,#0CDH
+                                           ; SOURCE LINE # 23
+0006 538EFE            ANL     TMCON,#0FEH
+                                           ; SOURCE LINE # 24
+0009 E4                CLR     A
+000A F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 25
+000C F58A              MOV     TL0,A
+                                           ; SOURCE LINE # 26
+000E C2A9              CLR     ET0
+                                           ; SOURCE LINE # 27
+0010 C2B9              CLR     IPT0
+                                           ; SOURCE LINE # 28
+0012 22                RET     
+             ; FUNCTION TIM0_DeInit (END)
+             ; FUNCTION _TIM0_TimeBaseInit (BEGIN)
+                                           ; SOURCE LINE # 38
+;---- Variable 'TIM0_CountMode' assigned to Register 'R5' ----
+;---- Variable 'TIM0_PrescalerSelection' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 40
+                                           ; SOURCE LINE # 41
+0000 EF                MOV     A,R7
+0001 FB                MOV     R3,A
+0002 7A00              MOV     R2,#00H
+0004 7005              JNZ     ?C0002
+                                           ; SOURCE LINE # 42
+                                           ; SOURCE LINE # 43
+0006 538EFE            ANL     TMCON,#0FEH
+                                           ; SOURCE LINE # 44
+0009 8009              SJMP    ?C0003
+000B         ?C0002:
+                                           ; SOURCE LINE # 45
+000B EB                MOV     A,R3
+000C 6401              XRL     A,#01H
+000E 4A                ORL     A,R2
+000F 7003              JNZ     ?C0003
+                                           ; SOURCE LINE # 46
+                                           ; SOURCE LINE # 47
+0011 438E01            ORL     TMCON,#01H
+                                           ; SOURCE LINE # 48
+0014         ?C0003:
+                                           ; SOURCE LINE # 51
+0014 ED                MOV     A,R5
+0015 FF                MOV     R7,A
+0016 7E00              MOV     R6,#00H
+0018 6401              XRL     A,#01H
+001A 7004              JNZ     ?C0005
+                                           ; SOURCE LINE # 52
+                                           ; SOURCE LINE # 53
+001C 5389FB            ANL     TMOD,#0FBH
+                                           ; SOURCE LINE # 54
+001F 22                RET     
+0020         ?C0005:
+                                           ; SOURCE LINE # 55
+0020 EF                MOV     A,R7
+0021 6402              XRL     A,#02H
+0023 4E                ORL     A,R6
+0024 7003              JNZ     ?C0008
+                                           ; SOURCE LINE # 56
+                                           ; SOURCE LINE # 57
+0026 438904            ORL     TMOD,#04H
+                                           ; SOURCE LINE # 58
+                                           ; SOURCE LINE # 59
+0029         ?C0008:
+0029 22                RET     
+             ; FUNCTION _TIM0_TimeBaseInit (END)
+             ; FUNCTION _TIM0_WorkMode0Config (BEGIN)
+                                           ; SOURCE LINE # 68
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 69
+                                           ; SOURCE LINE # 70
+0000 5389FC            ANL     TMOD,#0FCH
+                                           ; SOURCE LINE # 71
+0003 8F8A              MOV     TL0,R7
+                                           ; SOURCE LINE # 72
+0005 EF                MOV     A,R7
+0006 7805              MOV     R0,#05H
+0008         ?C0032:
+0008 CE                XCH     A,R6
+0009 C3                CLR     C
+000A 13                RRC     A
+000B CE                XCH     A,R6
+000C 13                RRC     A
+000D D8F9              DJNZ    R0,?C0032
+000F F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 73
+0011 22                RET     
+             ; FUNCTION _TIM0_WorkMode0Config (END)
+             ; FUNCTION _TIM0_WorkMode1Config (BEGIN)
+                                           ; SOURCE LINE # 82
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 83
+                                           ; SOURCE LINE # 84
+0000 5389FC            ANL     TMOD,#0FCH
+                                           ; SOURCE LINE # 85
+0003 438901            ORL     TMOD,#01H
+                                           ; SOURCE LINE # 86
+0006 AD07              MOV     R5,AR7
+0008 8D8A              MOV     TL0,R5
+                                           ; SOURCE LINE # 87
+000A EE                MOV     A,R6
+000B F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 88
+000D 22                RET     
+             ; FUNCTION _TIM0_WorkMode1Config (END)
+             ; FUNCTION _TIM0_WorkMode2Config (BEGIN)
+                                           ; SOURCE LINE # 97
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 98
+                                           ; SOURCE LINE # 99
+0000 5389FC            ANL     TMOD,#0FCH
+                                           ; SOURCE LINE # 100
+0003 438902            ORL     TMOD,#02H
+                                           ; SOURCE LINE # 101
+0006 8F8A              MOV     TL0,R7
+                                           ; SOURCE LINE # 102
+0008 8F8C              MOV     TH0,R7
+                                           ; SOURCE LINE # 103
+000A 22                RET     
+             ; FUNCTION _TIM0_WorkMode2Config (END)
+             ; FUNCTION _TIM0_WorkModeConfig (BEGIN)
+                                           ; SOURCE LINE # 114
+0000 900000      R     MOV     DPTR,#TIM0_SetCounter1
+0003 EC                MOV     A,R4
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 ED                MOV     A,R5
+0007 F0                MOVX    @DPTR,A
+;---- Variable 'TIM0_WorkMode' assigned to Register 'R7' ----
+;---- Variable 'TIM0_SetCounter2' assigned to Register 'R2/R3' ----
+                                           ; SOURCE LINE # 116
+                                           ; SOURCE LINE # 117
+0008 EF                MOV     A,R7
+0009 14                DEC     A
+000A 6015              JZ      ?C0014
+000C 14                DEC     A
+000D 601D              JZ      ?C0015
+000F 14                DEC     A
+0010 6023              JZ      ?C0016
+0012 2403              ADD     A,#03H
+0014 702A              JNZ     ?C0018
+                                           ; SOURCE LINE # 118
+                                           ; SOURCE LINE # 119
+0016         ?C0013:
+                                           ; SOURCE LINE # 120
+0016 900000      R     MOV     DPTR,#TIM0_SetCounter1
+0019 E0                MOVX    A,@DPTR
+001A FE                MOV     R6,A
+001B A3                INC     DPTR
+001C E0                MOVX    A,@DPTR
+001D FF                MOV     R7,A
+001E 020000      R     LJMP    _TIM0_WorkMode0Config
+                                           ; SOURCE LINE # 121
+                                           ; SOURCE LINE # 123
+0021         ?C0014:
+                                           ; SOURCE LINE # 124
+0021 900000      R     MOV     DPTR,#TIM0_SetCounter1
+0024 E0                MOVX    A,@DPTR
+0025 FE                MOV     R6,A
+0026 A3                INC     DPTR
+0027 E0                MOVX    A,@DPTR
+0028 FF                MOV     R7,A
+0029 020000      R     LJMP    _TIM0_WorkMode1Config
+                                           ; SOURCE LINE # 125
+                                           ; SOURCE LINE # 127
+002C         ?C0015:
+                                           ; SOURCE LINE # 128
+002C 900000      R     MOV     DPTR,#TIM0_SetCounter1
+002F A3                INC     DPTR
+0030 E0                MOVX    A,@DPTR
+0031 FF                MOV     R7,A
+0032 020000      R     LJMP    _TIM0_WorkMode2Config
+                                           ; SOURCE LINE # 129
+                                           ; SOURCE LINE # 131
+0035         ?C0016:
+                                           ; SOURCE LINE # 132
+0035 900000      R     MOV     DPTR,#TIM0_SetCounter1
+0038 A3                INC     DPTR
+0039 E0                MOVX    A,@DPTR
+003A FF                MOV     R7,A
+003B AD03              MOV     R5,AR3
+003D 120000      R     LCALL   _TIM0_WorkMode3Config
+                                           ; SOURCE LINE # 133
+                                           ; SOURCE LINE # 135
+                                           ; SOURCE LINE # 136
+                                           ; SOURCE LINE # 137
+                                           ; SOURCE LINE # 138
+0040         ?C0018:
+0040 22                RET     
+             ; FUNCTION _TIM0_WorkModeConfig (END)
+             ; FUNCTION _TIM0_WorkMode3Config (BEGIN)
+                                           ; SOURCE LINE # 148
+;---- Variable 'TIM1_SetCounter' assigned to Register 'R5' ----
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 149
+                                           ; SOURCE LINE # 150
+0000 438903            ORL     TMOD,#03H
+                                           ; SOURCE LINE # 151
+0003 8F8A              MOV     TL0,R7
+                                           ; SOURCE LINE # 152
+0005 AF05              MOV     R7,AR5
+0007 8F8C              MOV     TH0,R7
+                                           ; SOURCE LINE # 153
+0009 22                RET     
+             ; FUNCTION _TIM0_WorkMode3Config (END)
+             ; FUNCTION _TIM0_Mode0SetReloadCounter (BEGIN)
+                                           ; SOURCE LINE # 162
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 163
+                                           ; SOURCE LINE # 164
+0000 8F8A              MOV     TL0,R7
+                                           ; SOURCE LINE # 165
+0002 EF                MOV     A,R7
+0003 7805              MOV     R0,#05H
+0005         ?C0033:
+0005 CE                XCH     A,R6
+0006 C3                CLR     C
+0007 13                RRC     A
+0008 CE                XCH     A,R6
+0009 13                RRC     A
+000A D8F9              DJNZ    R0,?C0033
+000C F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 166
+000E 22                RET     
+             ; FUNCTION _TIM0_Mode0SetReloadCounter (END)
+             ; FUNCTION _TIM0_Mode1SetReloadCounter (BEGIN)
+                                           ; SOURCE LINE # 175
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 176
+                                           ; SOURCE LINE # 177
+0000 AD07              MOV     R5,AR7
+0002 8D8A              MOV     TL0,R5
+                                           ; SOURCE LINE # 178
+0004 EE                MOV     A,R6
+0005 F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 179
+0007 22                RET     
+             ; FUNCTION _TIM0_Mode1SetReloadCounter (END)
+             ; FUNCTION _TIM0_Cmd (BEGIN)
+                                           ; SOURCE LINE # 188
+;---- Variable 'NewState' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 189
+                                           ; SOURCE LINE # 190
+0000 EF                MOV     A,R7
+0001 7003              JNZ     ?C0022
+                                           ; SOURCE LINE # 191
+                                           ; SOURCE LINE # 192
+0003 C28C              CLR     TR0
+                                           ; SOURCE LINE # 193
+0005 22                RET     
+0006         ?C0022:
+                                           ; SOURCE LINE # 195
+                                           ; SOURCE LINE # 196
+0006 D28C              SETB    TR0
+                                           ; SOURCE LINE # 197
+                                           ; SOURCE LINE # 198
+0008         ?C0024:
+0008 22                RET     
+             ; FUNCTION _TIM0_Cmd (END)
+             ; FUNCTION _TIM0_SetTL0Counter (BEGIN)
+                                           ; SOURCE LINE # 207
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 208
+                                           ; SOURCE LINE # 209
+0000 8F8A              MOV     TL0,R7
+                                           ; SOURCE LINE # 210
+0002 22                RET     
+             ; FUNCTION _TIM0_SetTL0Counter (END)
+             ; FUNCTION _TIM0_SetTH0Counter (BEGIN)
+                                           ; SOURCE LINE # 219
+;---- Variable 'TIM0_SetCounter' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 220
+                                           ; SOURCE LINE # 221
+0000 8F8C              MOV     TH0,R7
+                                           ; SOURCE LINE # 222
+0002 22                RET     
+             ; FUNCTION _TIM0_SetTH0Counter (END)
+             ; FUNCTION _TIM0_ITConfig (BEGIN)
+                                           ; SOURCE LINE # 232
+;---- Variable 'Priority' assigned to Register 'R5' ----
+;---- Variable 'NewState' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 233
+                                           ; SOURCE LINE # 234
+0000 EF                MOV     A,R7
+0001 7004              JNZ     ?C0027
+                                           ; SOURCE LINE # 235
+                                           ; SOURCE LINE # 236
+0003 C2A9              CLR     ET0
+                                           ; SOURCE LINE # 237
+0005 8002              SJMP    ?C0028
+0007         ?C0027:
+                                           ; SOURCE LINE # 239
+                                           ; SOURCE LINE # 240
+0007 D2A9              SETB    ET0
+                                           ; SOURCE LINE # 241
+0009         ?C0028:
+                                           ; SOURCE LINE # 244
+0009 ED                MOV     A,R5
+000A 7003              JNZ     ?C0029
+                                           ; SOURCE LINE # 245
+                                           ; SOURCE LINE # 246
+000C C2B9              CLR     IPT0
+                                           ; SOURCE LINE # 247
+000E 22                RET     
+000F         ?C0029:
+                                           ; SOURCE LINE # 249
+                                           ; SOURCE LINE # 250
+000F D2B9              SETB    IPT0
+                                           ; SOURCE LINE # 251
+                                           ; SOURCE LINE # 252
+0011         ?C0031:
+0011 22                RET     
+             ; FUNCTION _TIM0_ITConfig (END)
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+TRX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+OPREG. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FFH  1
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+Status_OK. . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EUART. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+TMCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008EH  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+_TIM0_WorkModeConfig . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_WorkMode. . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  TIM0_SetCounter1 . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  TIM0_SetCounter2 . . . . . . . . . .  * REG *  DATA   U_INT    0002H  2
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+P4 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
+FlagStatus . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+RESET. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+OTCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008FH  1
+P5 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
+TIM0_MODE_TIMER. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+RCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+PWMCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D2H  1
+TCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+PWMCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D3H  1
+int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+EXENX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+ERROR. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EADC . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AEH  1
+TXMOD. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C9H  1
+TXCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+DPH1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0085H  1
+EXA0 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E9H  1
+OPINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FEH  1
+EXA1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EAH  1
+_TIM0_Cmd. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+EXA2 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EBH  1
+EXA3 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ECH  1
+DPL1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0084H  1
+Status_TIMEOUT . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+CP . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+USXCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C4H  1
+USXCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C5H  1
+USXCON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C6H  1
+ErrorStatus. . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+USXCON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C7H  1
+OPERCON. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EFH  1
+P0PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009BH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+TIM0_PRESSEL_FSYS_D1 . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P1PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0092H  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+P2PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A2H  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+SUCCESS. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+P3PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B2H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+TXINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CEH  1
+P4PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C2H  1
+IPT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+P5PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DAH  1
+FunctionalState. . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IPT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+IPT2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+HIGH . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+_TIM0_TimeBaseInit . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_PrescalerSelection. . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  TIM0_CountMode . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+_TIM0_Mode0SetReloadCounter. . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+_TIM0_Mode1SetReloadCounter. . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+TIM0_CountMode_TypeDef . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+TIM0_MODE_COUNTER. . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+ITStatus . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPADE . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F4H  1
+P0VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009CH  1
+P1VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0094H  1
+P2VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A3H  1
+EXBH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EEH  1
+ENABLE . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+BitStatus. . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPADH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F3H  1
+P3VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B3H  1
+ADCCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ADH  1
+s8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+TX . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+EXBL . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EDH  1
+Status_BUSY. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPADL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F2H  1
+bool . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+P00. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0080H  1
+P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+P01. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0081H  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+P20. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A0H  1
+P11. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+P02. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0082H  1
+CMPCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B6H  1
+P30. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+P21. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A1H  1
+P12. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0092H  1
+P03. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0083H  1
+_TIM0_WorkMode0Config. . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+P40. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C0H  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+P31. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+P22. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A2H  1
+P13. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0093H  1
+P04. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0084H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+_TIM0_WorkMode1Config. . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+P50. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D8H  1
+P41. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C1H  1
+P32. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+P23. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
+P14. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0094H  1
+P05. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0085H  1
+IAPDAT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F5H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+_TIM0_WorkMode2Config. . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+P51. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D9H  1
+P42. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C2H  1
+P33. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+P24. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A4H  1
+P15. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0095H  1
+P06. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0086H  1
+IPINT0 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+_TIM0_WorkMode3Config. . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  TIM1_SetCounter. . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+P52. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DAH  1
+P43. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C3H  1
+P34. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+P25. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A5H  1
+P16. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0096H  1
+P07. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0087H  1
+IPINT1 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+P53. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DBH  1
+P44. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C4H  1
+P35. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+P26. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
+P17. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0097H  1
+CRCREG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FDH  1
+P54. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DCH  1
+P45. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C5H  1
+P36. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+P27. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
+P55. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DDH  1
+P46. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C6H  1
+P37. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+P47. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C7H  1
+TIM0_DeInit. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+EXFX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+DDRCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0093H  1
+StatusTypeDef. . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+TIM0_WorkMode_TypeDef. . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPCTL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F6H  1
+IE1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A9H  1
+IE2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AAH  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+TRUE . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CMPCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B7H  1
+IAPKEY . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F1H  1
+BTMCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FBH  1
+PWMCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D1H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+RCAPXH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+CRCINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FCH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+ADCCFG0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ABH  1
+IP1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B9H  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+ADCCFG1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ACH  1
+IP2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BAH  1
+ROMBNK . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DFH  1
+TIM0_PRESSEL_FSYS_D12. . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+ADCCFG2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B5H  1
+RCAPXL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+WDTCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CFH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+PWMDFR . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D6H  1
+PWMPDH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D5H  1
+TIM0_PresSel_TypeDef . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+PWMPDL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+IPUART . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+s32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+s16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+_TIM0_SetTH0Counter. . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+PWMFLT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D7H  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+_TIM0_SetTL0Counter. . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  TIM0_SetCounter. . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+EINT0. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+P0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009AH  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+EINT1. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IPADC. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BEH  1
+INT0F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B4H  1
+P1CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0091H  1
+INT1F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BCH  1
+P2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A1H  1
+INT2F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BEH  1
+P3CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B1H  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+P4CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C1H  1
+P5CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D9H  1
+ADCVH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AFH  1
+DPS. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0086H  1
+US0CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0095H  1
+US1CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A4H  1
+US0CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009DH  1
+ADCVL. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AEH  1
+EXADH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F7H  1
+SET. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+FALSE. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+US1CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A5H  1
+US0CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009EH  1
+US1CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A6H  1
+US0CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009FH  1
+US1CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A7H  1
+INT0R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BBH  1
+INT1R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BDH  1
+PriorityStatus . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+INT2R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BFH  1
+USXINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DCH  1
+LOW. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+TFX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+IOHCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0096H  1
+_TIM0_ITConfig . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  Priority . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+IOHCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0097H  1
+Status_ERROR . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+THX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+DISABLE. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+F1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D1H  1
+TIM0_WORK_MODE0. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+TIM0_WORK_MODE1. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+TLX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+TIM0_WORK_MODE2. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+TIM0_WORK_MODE3. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    235    ----
    CONSTANT SIZE    =   ----    ----
@@ -289,6 +1245,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
-
-
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

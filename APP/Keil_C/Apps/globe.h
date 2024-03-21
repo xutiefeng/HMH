@@ -332,13 +332,15 @@ u8  gLightAdjust = 0xc0;
 #define  _3S_Per20MS      50*3
 #define  _4S_Per20MS      50*4
 
+#define  _500MS_Per50MS  9
 #define  _10S_Per50MS  20*10
 #define  _5S_Per50MS   20*5
 #define  _3S_Per50MS   20*3
 #define  _2S_Per50MS   20*2
 #define  _1S_Per50MS   20*1
 #define  _30S_Per50MS  20*30
-
+#define  _1Min_Per50MS   20*60
+#define  _5Min_Per50MS   20*300
 
 #define  _90Min_Per100MS      10*60*90
 #define  _15Min_Per100MS      10*60*15

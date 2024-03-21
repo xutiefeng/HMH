@@ -1,39 +1,497 @@
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 1   
-
-
+C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/21/2024 20:54:13 PAGE 1   
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_GPIO
-OBJECT MODULE PLACED IN ..\Output\sc95f_gpio.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_gpio.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE I
-                    -NTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\
-                    -Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_gpio.lst) TABS(2) OBJECT(..\Output\sc95f_gpio.obj)
-
+OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_gpio.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\FWLib\SC95F_Lib\src\sc95f_gpio.c OMF2 INTVECTOR(0X2800) DEFINE(SC95F8
+                    -x1xB) LARGE INCDIR(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\inc;D:\tfxu\Project\AM901_0308\APP\K
+                    -eil_C\Project\..\User;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\IOT_DRIVER\XIAOMI;D:\tfxu\Project\AM901_0308\APP\
+                    -Keil_C\Project\..\Drivers;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C;D:\tfxu\Project\AM901_0308
+                    -\APP\Keil_C\Project\..\List\..\Apps;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Apps) BROWSE DEBUG OBJECTEXTEND OPT
+                    -IMIZE(8,SIZE) CODE NOCOND SYMBOLS LISTINCLUDE PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\List\sc95f_gpio.lst
+                    -) OBJECT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_gpio.obj)
 line level    source
-
-   1          //************************************************************
-   2          //  Copyright (c) 深圳市赛元微电子股份有限公司
-   3          //  文件名称:     sc95f_gpio.c
-   4          //  作者:         赛元应用团队
-   5          //  模块功能:     GPIO固件库函数C文件
-   6          //  最后更正日期: 2024年1月18日
-   7          //  版本:       V1.0002
-   8          //  说明:       该文件仅适用于SC95F系列芯片
-   9          //*************************************************************
+   1          
+   2          
+   3          
+   4          
+   5          
+   6          
+   7          
+   8          
+   9          
   10          
   11          #include "sc95f_gpio.h"
+   1      =1  
+   2      =1  
+   3      =1  
+   4      =1  
+   5      =1  
+   6      =1  
+   7      =1  
+   8      =1  
+   9      =1  
+  10      =1  
+  11      =1  #ifndef _sc95f_GPIO_H_
+  12      =1  #define _sc95f_GPIO_H_
+  13      =1  
+  14      =1  #include "sc95f.h"
+   1      =2  
+   2      =2  
+   3      =2  
+   4      =2  
+   5      =2  
+   6      =2  
+   7      =2  
+   8      =2  
+   9      =2  
+  10      =2  
+  11      =2  #ifndef _sc95f_H
+  12      =2  #define _sc95f_H
+  13      =2  
+  14      =2  #ifdef SC95F8x1x
+  17      =2  #ifdef SC95F7x1x
+  20      =2  #ifdef SC95F8x2x 
+  23      =2  #ifdef SC95F7x2x
+  26      =2  #ifdef SC95FWxx
+  29      =2  #ifdef SC95F8x3x
+  32      =2  #ifdef SC95F7x3x
+  35      =2  #ifdef SC95F8x6x
+  38      =2  #ifdef SC95F7x6x
+  41      =2  #ifdef SC95F8x1xB
+  42      =2    #include "SC95F8x1xB_C.H"
+   1      =3  
+  11      =3  #ifndef _SC95F861xB_H_
+  12      =3  #define _SC95F861xB_H_
+  13      =3  
+  14      =3  
+  15      =3  
+  16      =3  sfr   SP    = 0X81;  
+  17      =3  sfr   DPL   = 0X82;  
+  18      =3  sfr   DPH   = 0X83;  
+  19      =3  sfr   DPL1  = 0X84;  
+  20      =3  sfr   DPH1  = 0X85;  
+  21      =3  sfr   DPS   = 0X86;  
+  22      =3  sfr   PSW   = 0XD0;  
+  23      =3  sfr   ACC   = 0XE0;  
+  24      =3  sfr   EXA0  = 0XE9;  
+  25      =3  sfr   EXA1  = 0XEA;  
+  26      =3  sfr   EXA2  = 0XEB;  
+  27      =3  sfr   EXA3  = 0XEC;  
+  28      =3  sfr   EXBL  = 0XED;  
+  29      =3  sfr   EXBH  = 0XEE;  
+  30      =3  sfr   B     = 0XF0;  
+  31      =3  
+  32      =3  
+  33      =3  sfr   EXADH = 0XF7;  
+  34      =3  
+  35      =3  
+  36      =3  sfr   ROMBNK = 0XDF;  
+  37      =3  
+  38      =3  
+  39      =3  sfr   PCON = 0X87;  
+  40      =3  
+  41      =3  
+  42      =3  sfr   IE  = 0XA8;  
+  43      =3  sfr   IE1 = 0XA9;  
+  44      =3  sfr   IE2 = 0XAA;  
+  45      =3  sfr   IP  = 0XB8;  
+  46      =3  sfr   IP1 = 0XB9;  
+  47      =3  sfr   IP2 = 0XBA;  
+  48      =3  
+  49      =3  
+  50      =3  sfr   P0      = 0X80;  
+  51      =3  sfr   P1      = 0X90;  
+  52      =3  sfr       P1CON   = 0X91;  
+  53      =3  sfr   P1PH        = 0X92;  
+  54      =3  sfr   DDRCON  = 0X93;  
+  55      =3  sfr   P1VO    = 0X94;  
+  56      =3  sfr   IOHCON0 = 0X96;  
+  57      =3  sfr   IOHCON1 = 0X97;  
+  58      =3  sfr       P0CON   = 0X9A;  
+  59      =3  sfr       P0PH    = 0X9B;  
+  60      =3  sfr   P0VO    = 0X9C;  
+  61      =3  sfr   P2      = 0XA0;  
+  62      =3  sfr       P2CON   = 0XA1;  
+  63      =3  sfr   P2PH        = 0XA2;  
+  64      =3  sfr   P2VO    = 0XA3;  
+  65      =3  sfr   P3      = 0XB0;  
+  66      =3  sfr   P3CON   = 0XB1;  
+  67      =3  sfr   P3PH    = 0XB2;  
+  68      =3  sfr   P3VO    = 0XB3;  
+  69      =3  sfr   P4      = 0XC0;  
+  70      =3  sfr   P4CON   = 0XC1;  
+  71      =3  sfr   P4PH    = 0XC2;  
+  72      =3  sfr   P5      = 0XD8;  
+  73      =3  sfr   P5CON   = 0XD9;  
+  74      =3  sfr   P5PH    = 0XDA;  
+  75      =3  
+  76      =3  
+  77      =3  sfr   CMPCFG  = 0XB6;  
+  78      =3  sfr   CMPCON  = 0XB7;  
+  79      =3  
+  80      =3         
+  81      =3  sfr   TCON   = 0X88;  
+  82      =3  sfr   TMOD   = 0X89;  
+  83      =3  sfr   TL0    = 0X8A;  
+  84      =3  sfr   TL1    = 0X8B;  
+  85      =3  sfr   TH0    = 0X8C;  
+  86      =3  sfr   TH1    = 0X8D;  
+  87      =3  sfr   TMCON  = 0X8E;  
+  88      =3  sfr   TXCON  = 0XC8;  
+  89      =3  sfr   TXMOD  = 0XC9;  
+  90      =3  sfr   RCAPXL = 0XCA;  
+  91      =3  sfr   RCAPXH = 0XCB;  
+  92      =3  sfr   TLX    = 0XCC;  
+  93      =3  sfr   THX    = 0XCD;  
+  94      =3  sfr   TXINX  = 0XCE;  
+  95      =3  
+  96      =3  
+  97      =3  sfr       ADCCFG0 = 0XAB;  
+  98      =3  sfr       ADCCFG1 = 0XAC;  
+  99      =3  sfr   ADCCON  = 0XAD;  
+ 100      =3  sfr   ADCVL   = 0XAE;  
+ 101      =3  sfr   ADCVH   = 0XAF;  
+ 102      =3  sfr   ADCCFG2 = 0XB5;  
+ 103      =3  
+ 104      =3  
+ 105      =3  sfr   PWMCFG  = 0XD1;  
+ 106      =3  sfr   PWMCON0 = 0XD2;  
+ 107      =3  sfr   PWMCON1 = 0XD3;  
+ 108      =3  sfr   PWMPDL  = 0XD4;  
+ 109      =3  sfr   PWMPDH  = 0XD5;  
+ 110      =3  sfr   PWMDFR  = 0XD6;  
+ 111      =3  sfr   PWMFLT  = 0XD7;  
+ 112      =3  
+ 113      =3  
+ 114      =3  sfr   WDTCON = 0XCF;  
+ 115      =3  
+ 116      =3  
+ 117      =3  sfr       BTMCON = 0XFB;  
+ 118      =3  
+ 119      =3  
+ 120      =3  sfr   INT0F = 0XB4;  
+ 121      =3  sfr   INT0R = 0XBB;  
+ 122      =3  sfr   INT1F = 0XBC;  
+ 123      =3  sfr   INT1R = 0XBD;  
+ 124      =3  sfr   INT2F = 0XBE;  
+ 125      =3  sfr   INT2R = 0XBF;  
+ 126      =3  
+ 127      =3  
+ 128      =3  sfr   IAPKEY = 0XF1;  
+ 129      =3  sfr   IAPADL = 0XF2;  
+ 130      =3  sfr   IAPADH = 0XF3;  
+ 131      =3  sfr   IAPADE = 0XF4;  
+ 132      =3  sfr   IAPDAT = 0XF5;  
+ 133      =3  sfr   IAPCTL = 0XF6;  
+ 134      =3  
+ 135      =3  
+ 136      =3  sfr   OTCON = 0X8F;  
+ 137      =3  sfr   SCON  = 0X98;  
+ 138      =3  sfr   SBUF  = 0X99;  
+ 139      =3  
+ 140      =3  
+ 141      =3  sfr   US0CON0 = 0X95;  
+ 142      =3  sfr   US0CON1 = 0X9D;  
+ 143      =3  sfr   US0CON2 = 0X9E;  
+ 144      =3  sfr   US0CON3 = 0X9F;  
+ 145      =3  sfr   US1CON0 = 0XA4;  
+ 146      =3  sfr   US1CON1 = 0XA5;  
+ 147      =3  sfr   US1CON2 = 0XA6;  
+ 148      =3  sfr   US1CON3 = 0XA7;  
+ 149      =3  sfr   USXCON0 = 0XC4;  
+ 150      =3  sfr   USXCON1 = 0XC5;  
+ 151      =3  sfr   USXCON2 = 0XC6;  
+ 152      =3  sfr   USXCON3 = 0XC7;  
+ 153      =3  sfr   USXINX  = 0XDC;  
+ 154      =3  
+ 155      =3  
+ 156      =3  
+ 157      =3  sfr   OPINX = 0XFE;  
+ 158      =3  sfr   OPREG = 0XFF;  
+ 159      =3  
+ 160      =3  
+ 161      =3  sfr   OPERCON = 0XEF;  
+ 162      =3  sfr   CRCINX  = 0XFC;  
+ 163      =3  sfr   CRCREG  = 0XFD;  
+ 164      =3  
+ 165      =3  
+ 166      =3  
+ 167      =3  
+ 168      =3  sbit  CY  = PSW^7;  
+             -薪唬蛘呒醴ㄔ怂阕罡呶挥薪栉皇?
+ 169      =3  sbit  AC  = PSW^6;  
+             -?
+ 170      =3  sbit  F0  = PSW^5;  
+ 171      =3  sbit  RS1 = PSW^4;  
+ 172      =3  sbit  RS0 = PSW^3;  
+ 173      =3  sbit  OV  = PSW^2;  
+ 174      =3  sbit  F1  = PSW^1;  
+ 175      =3  sbit  P   = PSW^0;  
+ 176      =3  
+ 177      =3  
+ 178      =3  sbit  TFX   = TXCON^7;  
+ 179      =3  sbit  EXFX  = TXCON^6;  
+ 180      =3  sbit  RCLKX = TXCON^5;  
+ 181      =3  sbit  TCLKX = TXCON^4;  
+ 182      =3  sbit  EXENX = TXCON^3;  
+ 183      =3  sbit  TRX   = TXCON^2;  
+ 184      =3  sbit  TX    = TXCON^1;  
+ 185      =3  sbit  CP    = TXCON^0;  
+ 186      =3  
+ 187      =3  
+ 188      =3  sbit  IPADC  = IP^6;  
+             -热ㄊ?“高”
+ 189      =3  sbit  IPT2   = IP^5;  
+             -嫌畔热ㄊ?“高”
+ 190      =3  sbit  IPUART = IP^4;  
+             -先权是 “高”
+ 191      =3  sbit  IPT1   = IP^3;  
+             -嫌畔热ㄊ?“高”
+ 192      =3  sbit  IPINT1 = IP^2;  
+             -先权是 “高”
+ 193      =3  sbit  IPT0   = IP^1;  
+             -嫌畔热ㄊ?“高”
+ 194      =3  sbit  IPINT0 = IP^0;  
+             -高
+ 195      =3  
+ 196      =3  
+ 197      =3  sbit  EA    = IE^7;  
+ 198      =3  sbit  EADC  = IE^6;  
+ 199      =3  sbit  ET2   = IE^5;  
+ 200      =3  sbit  EUART = IE^4;  
+ 201      =3  sbit  ET1   = IE^3;  
+ 202      =3  sbit  EINT1 = IE^2;  
+ 203      =3  sbit  ET0   = IE^1;  
+ 204      =3  sbit  EINT0 = IE^0;  
+ 205      =3  
+ 206      =3  
+ 207      =3  sbit  TF1 = TCON^7;  
+             -保布濉?”。
+ 208      =3  sbit  TR1 = TCON^6;  
+ 209      =3  sbit  TF0 = TCON^5;  
+             -保布濉?”。
+ 210      =3  sbit  TR0 = TCON^4;  
+ 211      =3  
+ 212      =3  
+ 213      =3  sbit  SM0 = SCON^7;  
+             -双工异步通信 11: 模式3，11位全双工异步通信
+ 214      =3  sbit  SM1 = SCON^6;  
+ 215      =3  sbit  SM2 = SCON^5;  
+             -锨肭?  1：收到一个完整的数据帧时，只有当RB8=1时才会置位RI产生中断请求
+ 216      =3  sbit  REN = SCON^4;  
+ 217      =3  sbit  TB8 = SCON^3;  
+ 218      =3  sbit  RB8 = SCON^2;  
+ 219      =3  sbit  TI  = SCON^1;  
+ 220      =3  sbit  RI  = SCON^0;  
+ 221      =3  
+ 222      =3  
+ 223      =3  
+ 230      =3  sbit  P07 = P0^7;
+ 231      =3  sbit  P06 = P0^6;
+ 232      =3  sbit  P05 = P0^5;
+ 233      =3  sbit  P04 = P0^4;
+ 234      =3  sbit  P03 = P0^3;
+ 235      =3  sbit  P02 = P0^2;
+ 236      =3  sbit  P01 = P0^1;
+ 237      =3  sbit  P00 = P0^0;
+ 238      =3  
+ 239      =3  
+ 240      =3  
+ 247      =3  sbit  P17 = P1^7;
+ 248      =3  sbit  P16 = P1^6;
+ 249      =3  sbit  P15 = P1^5;
+ 250      =3  sbit  P14 = P1^4;
+ 251      =3  sbit  P13 = P1^3;
+ 252      =3  sbit  P12 = P1^2;
+ 253      =3  sbit  P11 = P1^1;
+ 254      =3  sbit  P10 = P1^0;
+ 255      =3  
+ 256      =3  
+ 263      =3  sbit  P27 = P2^7;
+ 264      =3  sbit  P26 = P2^6;
+ 265      =3  sbit  P25 = P2^5;
+ 266      =3  sbit  P24 = P2^4;
+ 267      =3  sbit  P23 = P2^3;
+ 268      =3  sbit  P22 = P2^2;
+ 269      =3  sbit  P21 = P2^1;
+ 270      =3  sbit  P20 = P2^0;
+ 271      =3  
+ 272      =3  
+ 279      =3  sbit  P37 = P3^7;
+ 280      =3  sbit  P36 = P3^6;
+ 281      =3  sbit  P35 = P3^5;
+ 282      =3  sbit  P34 = P3^4;
+ 283      =3  sbit  P33 = P3^3;
+ 284      =3  sbit  P32 = P3^2;
+ 285      =3  sbit  P31 = P3^1;
+ 286      =3  sbit  P30 = P3^0;
+ 287      =3  
+ 288      =3  
+ 295      =3  sbit  P47 = P4^7;
+ 296      =3  sbit  P46 = P4^6;
+ 297      =3  sbit  P45 = P4^5;
+ 298      =3  sbit  P44 = P4^4;
+ 299      =3  sbit  P43 = P4^3;
+ 300      =3  sbit  P42 = P4^2;
+ 301      =3  sbit  P41 = P4^1;
+ 302      =3  sbit  P40 = P4^0;
+ 303      =3  
+ 304      =3  
+ 311      =3  sbit  P55 = P5^5;
+ 312      =3  sbit  P54 = P5^4;
+ 313      =3  sbit  P53 = P5^3;
+ 314      =3  sbit  P52 = P5^2;
+ 315      =3  sbit  P51 = P5^1;
+ 316      =3  sbit  P50 = P5^0;
+ 317      =3  
+ 318      =3                              
+             -        
+ 323      =3  #define  SC95F8616B_NIO_Init()   {P4CON|=0xC0,P5CON|=0x30;}                                               
+             -  
+ 324      =3  #define  SC95F8615B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xF0;}           
+             -  
+ 325      =3  #define  SC95F8613B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xFF;}           
+             -  
+ 326      =3  #define  SC95F8612B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P2CON|=0XF0,P3CON|=0xF0,P4CON|=0xF0,P5CON|=0xFF;
+             -} 
+ 327      =3  #endif
+  43      =2  #endif
+  44      =2  #ifdef SC95F7x1xB
+  47      =2  #ifdef SC95R751
+  50      =2  #ifdef SC95F7610B
+  53      =2  #ifdef SC95F7619B
+  56      =2  #ifdef SC95FS52x
+  59      =2  #ifdef SC95R602
+  62      =2  #ifdef SC95R605
+  65      =2  #ifdef SC95F8x7x
+  68      =2  #ifdef SC95F7x7x
+  71      =2  #ifdef SC95R503
+  74      =2  
+  75      =2  #define enableInterrupts()    EA=1       
+  76      =2  #define disableInterrupts()   EA=0       
+  77      =2  
+  78      =2  #define     __I     volatile const   
+  79      =2  #define     __O     volatile         
+  80      =2  #define     __IO    volatile         
+  81      =2  
+  82      =2  
+  83      =2  typedef   signed char     int8_t;
+  84      =2  typedef   signed short    int16_t;
+  85      =2  typedef   signed long     int32_t;
+  86      =2  
+  87      =2  
+  88      =2  typedef unsigned char     uint8_t;
+  89      =2  typedef unsigned short    uint16_t;
+  90      =2  typedef unsigned long     uint32_t;
+  91      =2  
+  92      =2  typedef int32_t  s32;
+  93      =2  typedef int16_t  s16;
+  94      =2  typedef int8_t   s8;
+  95      =2  
+  96      =2  typedef uint32_t  u32;
+  97      =2  typedef uint16_t  u16;
+  98      =2  typedef uint8_t   u8;
+  99      =2  
+ 100      =2  
+ 101      =2  typedef enum {FALSE = 0, TRUE = !FALSE} bool;
+ 102      =2  
+ 103      =2  typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus, BitStatus;
+ 104      =2  
+ 105      =2  typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
+ 106      =2  
+ 107      =2  typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
+ 108      =2  
+ 109      =2  typedef enum 
+ 110      =2  {
+ 111      =2    Status_ERROR          = 0x00U,
+ 112      =2    Status_OK                     = 0x01U,
+ 113      =2    Status_BUSY           = 0x02U,
+ 114      =2    Status_TIMEOUT        = 0x03U
+ 115      =2  } StatusTypeDef;
+ 116      =2  
+ 117      =2  typedef enum {LOW = 0, HIGH = !LOW} PriorityStatus;
+ 118      =2  
+ 119      =2  #define SET_BIT(SFR,BIT)                                ((SFR) |= (BIT))
+ 120      =2  
+ 121      =2  #define CLEAR_BIT(SFR,BIT)                      ((SFR) &= ~(BIT))
+ 122      =2  
+ 123      =2  #define READ_BIT(SFR, BIT)      ((SFR) & (BIT))
+ 124      =2  
+ 125      =2  #define CLEAR_REG(SFR)          ((SFR) = (0x0))
+ 126      =2  
+ 127      =2  #define WRITE_REG(SFR, VAL)     ((SFR) = (VAL))
+ 128      =2  
+ 129      =2  #endif
+  15      =1  
+  16      =1  #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) || defined(SC95F8x3x) || defined(SC95F7x
+             -3x)\
+  17      =1                  || defined (SC95F8x6x) || defined (SC95F7x6x)  || defined (SC95F8x1xB) || defined (SC95F7x1xB) || define
+             -d (SC95R751)\
+  18      =1                  || defined (SC95F7610B) || defined (SC95R602)  || defined (SC95R605)
+  19      =1  typedef enum
+  20      =1  {
+  21      =1    GPIO0 = (uint8_t)0x00, 
+  22      =1    GPIO1 = (uint8_t)0x01, 
+  23      =1    GPIO2 = (uint8_t)0x02, 
+  24      =1    GPIO3 = (uint8_t)0x03, 
+  25      =1    GPIO4 = (uint8_t)0x04, 
+  26      =1    GPIO5 = (uint8_t)0x05  
+  27      =1  } GPIO_TypeDef;
+  28      =1  #elif defined (SC95F7619B)
+  46      =1  
+  47      =1  typedef enum
+  48      =1  {
+  49      =1    GPIO_MODE_IN_HI = (uint8_t)0x00, 
+  50      =1    GPIO_MODE_IN_PU = (uint8_t)0x01, 
+  51      =1    GPIO_MODE_OUT_PP = (uint8_t)0x02 
+  52      =1  } GPIO_Mode_TypeDef;
+  53      =1  
+  54      =1  typedef enum
+  55      =1  {
+  56      =1    GPIO_PIN_0 = ((uint8_t)0x01),    
+  57      =1    GPIO_PIN_1 = ((uint8_t)0x02),    
+  58      =1    GPIO_PIN_2 = ((uint8_t)0x04),    
+  59      =1    GPIO_PIN_3 = ((uint8_t)0x08),    
+  60      =1    GPIO_PIN_4 = ((uint8_t)0x10),    
+  61      =1    GPIO_PIN_5 = ((uint8_t)0x20),    
+  62      =1    GPIO_PIN_6 = ((uint8_t)0x40),    
+  63      =1    GPIO_PIN_7 = ((uint8_t)0x80),    
+  64      =1    GPIO_PIN_LNIB = ((uint8_t)0x0F), 
+  65      =1    GPIO_PIN_HNIB = ((uint8_t)0xF0), 
+  66      =1    GPIO_PIN_ALL = ((uint8_t)0xFF)   
+  67      =1  } GPIO_Pin_TypeDef;
+  68      =1  
+  69      =1  typedef enum
+  70      =1  {
+  71      =1    IOH_Grade_0 = ((uint8_t)0x00), 
+  72      =1    IOH_Grade_1 = ((uint8_t)0x01), 
+  73      =1    IOH_Grade_2 = ((uint8_t)0x02), 
+  74      =1    IOH_Grade_3 = ((uint8_t)0x03), 
+  75      =1  } GPIO_IOH_Grade_TypeDef;
+  76      =1  
+  77      =1  void GPIO_IOH_Config(GPIO_TypeDef GPIOx, GPIO_Pin_TypeDef PortPins, GPIO_IOH_Grade_TypeDef GPIO_IOH_Grade)
+             -;
+  78      =1  
+  79      =1  void GPIO_DeInit(void);
+  80      =1  void GPIO_Init(GPIO_TypeDef GPIOx, uint8_t PortPins, GPIO_Mode_TypeDef GPIO_Mode);
+  81      =1  void GPIO_Write(GPIO_TypeDef GPIOx, uint8_t PortVal);
+  82      =1  void GPIO_WriteHigh(GPIO_TypeDef GPIOx, uint8_t PortPins);
+  83      =1  void GPIO_WriteLow(GPIO_TypeDef GPIOx, uint8_t PortPins);
+  84      =1  void GPIO_TogglePin(GPIO_TypeDef GPIOx, uint8_t PortPins);
+  85      =1  uint8_t GPIO_ReadPort(GPIO_TypeDef GPIOx);
+  86      =1  uint8_t GPIO_ReadPin(GPIO_TypeDef GPIOx, uint8_t PortPins);
+  87      =1  
+  88      =1  #endif
+  89      =1  
+  90      =1  
   12          
-  13          /**************************************************
-  14          *函数名称:void GPIO_DeInit(void)
-  15          *函数功能:GPIO相关寄存器复位至缺省值
-  16          *入口参数:void
-  17          *出口参数:void
-  18          **************************************************/
+  13          
   19          void GPIO_DeInit(void)
   20          {
   21   1      #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) || defined(SC95F8x3x) || defined(SC95F7x
              -3x)\
-  22   1          || defined (SC95F8x6x) || defined (SC95F7x6x) || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined
+  22   1                      || defined (SC95F8x6x) || defined (SC95F7x6x) || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined
              - (SC95R751)\
-  23   1          || defined (SC95F7610B) || defined (SC95R602) || defined (SC95R605)
+  23   1                      || defined (SC95F7610B) || defined (SC95R602) || defined (SC95R605)
   24   1        P0CON = 0x00;
   25   1        P1CON = 0x00;
   26   1        P2CON = 0x00;
@@ -50,64 +508,32 @@ line level    source
   37   1      #endif
   38   1      
   39   1      #if defined(SC95F7619B)
-                P0CON = 0x00;
-                P1CON = 0x00;
-                P2CON = 0x00;
-                P4CON = 0x00;
-                P5CON = 0x00;
-                P0PH = 0x00;
-                P1PH = 0x00;
-                P2PH = 0x00;
-                P4PH = 0x00;
-                P5PH = 0x00;
-                P0 = P1 = P2 = P4 = P5 = 0;
-              #endif
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 2   
-
   52   1      
   53   1      #if defined(SC95F8x2x) || defined(SC95F7x2x) || defined(SC95FS52x) || defined(SC95F8x7x) || defined(SC95F7
              -x7x)|| defined(SC95R503)
-                P0CON = 0x00;
-                P1CON = 0x00;
-                P2CON = 0x00;
-                P5CON = 0x00;
-                P0PH = 0x00;
-                P1PH = 0x00;
-                P2PH = 0x00;
-                P5PH = 0x00;
-                P0 = P1 = P2 = P5 = 0;
-              #endif
   64   1      }
   65          
-  66          /**************************************************
-  67          *函数名称:void GPIO_Init(GPIO_TypeDef GPIOx, GPIO_Pin_TypeDef PortPins, GPIO_Mode_TypeDef GPIO_Mode)
-  68          *函数功能:GPIO口配置初始化
-  69          *入口参数:
-  70          GPIO_TypeDef:GPIOx:待操作的GPIO口
-  71          GPIO_Pin_TypeDef:PortPins:GPIO管脚Pxy（uint8_t作为入参，方便进行位或操作）
-  72          GPIO_Mode_TypeDef:GPIO_Mode:GPIO口模式（高阻输入、上拉输入、推挽输出）
-  73          *出口参数:void
-  74          **************************************************/
+  66          
   75          void GPIO_Init(GPIO_TypeDef GPIOx, uint8_t PortPins, GPIO_Mode_TypeDef GPIO_Mode)
   76          {
-  77   1        /* 选择需要操作的GPIO */
+  77   1        
   78   1        switch(GPIOx)
   79   1        {
   80   2          case GPIO0:
   81   2          {
   82   3            switch(GPIO_Mode)
   83   3            {
-  84   4              /* 配置IO为高阻输入模式 */
+  84   4              
   85   4              case GPIO_MODE_IN_HI:
   86   4                P0CON &= ~PortPins;
   87   4                P0PH &= ~PortPins;
   88   4                break;
-  89   4              /* 配置IO为上拉输入模式 */
+  89   4              
   90   4              case GPIO_MODE_IN_PU:
   91   4                P0CON &= ~PortPins;
   92   4                P0PH |= PortPins;
   93   4                break;
-  94   4              /* 配置IO为推挽输出模式 */
+  94   4              
   95   4              case GPIO_MODE_OUT_PP:
   96   4                P0CON |= PortPins;
   97   4                break;
@@ -120,19 +546,17 @@ line level    source
  104   2          {
  105   3            switch(GPIO_Mode)
  106   3            {
- 107   4              /* 配置IO为高阻输入模式 */
+ 107   4              
  108   4              case GPIO_MODE_IN_HI:
  109   4                P1CON &= ~PortPins;
  110   4                P1PH &= ~PortPins;
  111   4                break;
- 112   4              /* 配置IO为上拉输入模式 */
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 3   
-
+ 112   4              
  113   4              case GPIO_MODE_IN_PU:
  114   4                P1CON &= ~PortPins;
  115   4                P1PH |= PortPins;
  116   4                break;
- 117   4              /* 配置IO为推挽输出模式 */
+ 117   4              
  118   4              case GPIO_MODE_OUT_PP:
  119   4                P1CON |= PortPins;
  120   4                break;
@@ -145,17 +569,17 @@ line level    source
  127   2          {
  128   3            switch(GPIO_Mode)
  129   3            {
- 130   4              /* 配置IO为高阻输入模式 */
+ 130   4              
  131   4              case GPIO_MODE_IN_HI:
  132   4                P2CON &= ~PortPins;
  133   4                P2PH &= ~PortPins;
  134   4                break;
- 135   4              /* 配置IO为上拉输入模式 */
+ 135   4              
  136   4              case GPIO_MODE_IN_PU:
  137   4                P2CON &= ~PortPins;
  138   4                P2PH |= PortPins;
  139   4                break;
- 140   4              /* 配置IO为推挽输出模式 */
+ 140   4              
  141   4              case GPIO_MODE_OUT_PP:
  142   4                P2CON |= PortPins;
  143   4                break;
@@ -171,17 +595,17 @@ line level    source
  152   2          {
  153   3            switch(GPIO_Mode)
  154   3            {
- 155   4              /* 配置IO为高阻输入模式 */
+ 155   4              
  156   4              case GPIO_MODE_IN_HI:
  157   4                P3CON &= ~PortPins;
  158   4                P3PH &= ~PortPins;
  159   4                break;
- 160   4              /* 配置IO为上拉输入模式 */
+ 160   4              
  161   4              case GPIO_MODE_IN_PU:
  162   4                P3CON &= ~PortPins;
  163   4                P3PH |= PortPins;
  164   4                break;
- 165   4              /* 配置IO为推挽输出模式 */
+ 165   4              
  166   4              case GPIO_MODE_OUT_PP:
  167   4                P3CON |= PortPins;
  168   4                break;
@@ -190,24 +614,22 @@ line level    source
  171   4            }
  172   3          }
  173   2          break;
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 4   
-
  174   2      #endif
  175   2          case GPIO4:
  176   2          {
  177   3            switch(GPIO_Mode)
  178   3            {
- 179   4              /* 配置IO为高阻输入模式 */
+ 179   4              
  180   4              case GPIO_MODE_IN_HI:
  181   4                P4CON &= ~PortPins;
  182   4                P4PH &= ~PortPins;
  183   4                break;
- 184   4              /* 配置IO为上拉输入模式 */
+ 184   4              
  185   4              case GPIO_MODE_IN_PU:
  186   4                P4CON &= ~PortPins;
  187   4                P4PH |= PortPins;
  188   4                break;
- 189   4              /* 配置IO为推挽输出模式 */
+ 189   4              
  190   4              case GPIO_MODE_OUT_PP:
  191   4                P4CON |= PortPins;
  192   4                break;
@@ -221,17 +643,17 @@ line level    source
  200   2          {
  201   3            switch(GPIO_Mode)
  202   3            {
- 203   4              /* 配置IO为高阻输入模式 */
+ 203   4              
  204   4              case GPIO_MODE_IN_HI:
  205   4                P5CON &= ~PortPins;
  206   4                P5PH &= ~PortPins;
  207   4                break;
- 208   4              /* 配置IO为上拉输入模式 */
+ 208   4              
  209   4              case GPIO_MODE_IN_PU:
  210   4                P5CON &= ~PortPins;
  211   4                P5PH |= PortPins;
  212   4                break;
- 213   4              /* 配置IO为推挽输出模式 */
+ 213   4              
  214   4              case GPIO_MODE_OUT_PP:
  215   4                P5CON |= PortPins;
  216   4                break;
@@ -245,19 +667,10 @@ line level    source
  224   2        }
  225   1      }
  226          
- 227          /**************************************************
- 228          *函数名称:void GPIO_Write(GPIO_TypeDef GPIOx, uint8_t PortVal)
- 229          *函数功能:GPIO口赋值
- 230          *入口参数:
- 231          GPIO_TypeDef:GPIOx:待操作的GPIO口
- 232          uint8_t:PortVal:GPIO口的值
- 233          *出口参数:void
- 234          **************************************************/
+ 227          
  235          void GPIO_Write(GPIO_TypeDef GPIOx, uint8_t PortVal)
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 5   
-
  236          {
- 237   1        /* 选择需要操作的GPIO */
+ 237   1        
  238   1        switch(GPIOx)
  239   1        {
  240   2          case GPIO0:
@@ -288,17 +701,10 @@ line level    source
  264   2        }
  265   1      }
  266          
- 267          /**************************************************
- 268          *函数名称:void GPIO_WriteHigh(GPIO_TypeDef GPIOx, GPIO_Pin_TypeDef PortPins)
- 269          *函数功能:GPIO口管脚Pxy置位
- 270          *入口参数:
- 271          GPIO_TypeDef:GPIOx:待操作的GPIO口
- 272          GPIO_Pin_TypeDef:PortPins:选择GPIO口管脚Pxy（uint8_t作为入参，方便进行位或操作）
- 273          *出口参数:void
- 274          **************************************************/
+ 267          
  275          void GPIO_WriteHigh(GPIO_TypeDef GPIOx, uint8_t PortPins)
  276          {
- 277   1        /* 选择需要操作的GPIO */
+ 277   1        
  278   1        switch(GPIOx)
  279   1        {
  280   2          case GPIO0:
@@ -318,8 +724,6 @@ line level    source
  293   2            break;
  294   2      #endif
  295   2          case GPIO4:
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 6   
-
  296   2            P4 |= PortPins;
  297   2            break;
  298   2      #endif
@@ -331,17 +735,10 @@ line level    source
  304   2        }
  305   1      }
  306          
- 307          /**************************************************
- 308          *函数名称:void GPIO_WriteLow(GPIO_TypeDef GPIOx, GPIO_Pin_TypeDef PortPins)
- 309          *函数功能:GPIO口管脚Pxy复位
- 310          *入口参数:
- 311          GPIO_TypeDef:GPIOx:待操作的GPIO口
- 312          GPIO_Pin_TypeDef:PortPins:选择GPIO口管脚Pxy（uint8_t作为入参，方便进行位或操作）
- 313          *出口参数:void
- 314          **************************************************/
+ 307          
  315          void GPIO_WriteLow(GPIO_TypeDef GPIOx, uint8_t PortPins)
  316          {
- 317   1        /* 选择需要操作的GPIO */
+ 317   1        
  318   1        switch(GPIOx)
  319   1        {
  320   2          case GPIO0:
@@ -372,19 +769,10 @@ line level    source
  344   2        }
  345   1      }
  346          
- 347          /**************************************************
- 348          *函数名称:uint8_t GPIO_ReadPort(GPIO_TypeDef GPIOx)
- 349          *函数功能:读GPIO口Px的值
- 350          *入口参数:
- 351          GPIO_TypeDef:GPIOx:待操作的GPIO口
- 352          *出口参数:
- 353          uint8_t:返回Px的值
- 354          **************************************************/
+ 347          
  355          uint8_t GPIO_ReadPort(GPIO_TypeDef GPIOx)
  356          {
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 7   
-
- 357   1        /* 选择需要操作的GPIO */
+ 357   1        
  358   1        switch(GPIOx)
  359   1        {
  360   2          case GPIO0:
@@ -409,19 +797,11 @@ line level    source
  378   2        }
  379   1      }
  380          
- 381          /**************************************************
- 382          *函数名称:BitStatus GPIO_ReadPin(GPIO_TypeDef GPIOx, uint8_t PortPins)
- 383          *函数功能:读GPIO口管脚Pxy的值
- 384          *入口参数:
- 385          GPIO_TypeDef:GPIOx:待操作的GPIO口
- 386          GPIO_Pin_TypeDef:PortPins:选择GPIO口管脚Pxy
- 387          *出口参数:
- 388          BitStatus:返回Pxy的值
- 389          **************************************************/
+ 381          
  390          BitStatus GPIO_ReadPin(GPIO_TypeDef GPIOx, GPIO_Pin_TypeDef PortPins)
  391          {
  392   1        BitStatus TempBitstatus;
- 393   1        /* 选择需要操作的GPIO */
+ 393   1        
  394   1        switch(GPIOx)
  395   1        {
  396   2          case GPIO0:
@@ -446,8 +826,6 @@ line level    source
  414   2      #endif
  415   2          case GPIO5:
  416   2            TempBitstatus = (P5 & PortPins);
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 8   
-
  417   2            break;
  418   2          default:
  419   2            TempBitstatus = 0;
@@ -460,17 +838,10 @@ line level    source
  426   1          return RESET;
  427   1      }
  428          
- 429          /**************************************************
- 430          *函数名称:BitStatus GPIO_TogglePin(GPIO_TypeDef GPIOx, uint8_t PortPins)
- 431          *函数功能:翻转GPIO口管脚Pxy的值
- 432          *入口参数:
- 433          GPIO_TypeDef:GPIOx:待操作的GPIO口
- 434          GPIO_Pin_TypeDef:PortPins:选择GPIO口管脚Pxy（uint8_t作为入参，方便进行位或操作）
- 435          *出口参数:
- 436          **************************************************/
+ 429          
  437          void GPIO_TogglePin(GPIO_TypeDef GPIOx, uint8_t PortPins)
  438          {
- 439   1        /* 选择需要操作的GPIO */
+ 439   1        
  440   1        switch(GPIOx)
  441   1        {
  442   2          case GPIO0:
@@ -501,20 +872,10 @@ line level    source
  466   2        }
  467   1      }
  468          
- 469          /**************************************************
- 470          *函数名称:void GPIO_IOH_Config(GPIO_TypeDef GPIOx, uint8_t PortPins,GPIO_IOH_Grade_TypeDef GPIO_IOH_Grade)
- 471          *函数功能:设置GPIO口管脚IOH输出能力
- 472          *入口参数:
- 473          GPIO_TypeDef:GPIOx:待操作的GPIO口
- 474          GPIO_Pin_TypeDef:PortPins:选择GPIO口管脚Pxy
- 475          GPIO_IOH_Grade_TypeDef:GPIO_IOH_Grade:选择IOH的输出等级
- 476          *出口参数:void
- 477          **************************************************/
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 9   
-
+ 469          
  478          void GPIO_IOH_Config(GPIO_TypeDef GPIOx, GPIO_Pin_TypeDef PortPins, GPIO_IOH_Grade_TypeDef GPIO_IOH_Grade)
  479          {
- 480   1        /* 选择需要操作的GPIO */
+ 480   1        
  481   1        switch(GPIOx)
  482   1        {
  483   2          case GPIO0:
@@ -565,24 +926,1209 @@ line level    source
  527   2            break;
  528   2      #endif
  529   2      #else
-                  case GPIO5:
-                    if(PortPins == GPIO_PIN_LNIB)
-                    {
-                      IOHCON1 &= 0xCF;
-                      IOHCON1 |= GPIO_IOH_Grade << 4;
-                    }
-                    break;
-              #endif
  538   2          default:
-C51 COMPILER V9.59.0.0   SC95F_GPIO                                                        03/20/2024 20:54:41 PAGE 10  
-
  539   2            break;
  540   2        }
  541   1      }
  542          
- 543          /******************* (C) COPYRIGHT 2020 SinOne Microelectronics *****END OF FILE****/
-
-
+ 543          
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+             ; FUNCTION GPIO_DeInit (BEGIN)
+                                           ; SOURCE LINE # 19
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 24
+0000 E4                CLR     A
+0001 F59A              MOV     P0CON,A
+                                           ; SOURCE LINE # 25
+0003 F591              MOV     P1CON,A
+                                           ; SOURCE LINE # 26
+0005 F5A1              MOV     P2CON,A
+                                           ; SOURCE LINE # 27
+0007 F5B1              MOV     P3CON,A
+                                           ; SOURCE LINE # 28
+0009 F5C1              MOV     P4CON,A
+                                           ; SOURCE LINE # 29
+000B F5D9              MOV     P5CON,A
+                                           ; SOURCE LINE # 30
+000D F59B              MOV     P0PH,A
+                                           ; SOURCE LINE # 31
+000F F592              MOV     P1PH,A
+                                           ; SOURCE LINE # 32
+0011 F5A2              MOV     P2PH,A
+                                           ; SOURCE LINE # 33
+0013 F5B2              MOV     P3PH,A
+                                           ; SOURCE LINE # 34
+0015 F5C2              MOV     P4PH,A
+                                           ; SOURCE LINE # 35
+0017 F5DA              MOV     P5PH,A
+                                           ; SOURCE LINE # 36
+0019 F5D8              MOV     P5,A
+001B F5C0              MOV     P4,A
+001D F5B0              MOV     P3,A
+001F F5A0              MOV     P2,A
+0021 F590              MOV     P1,A
+0023 F580              MOV     P0,A
+                                           ; SOURCE LINE # 64
+0025 22                RET     
+             ; FUNCTION GPIO_DeInit (END)
+             ; FUNCTION _GPIO_Init (BEGIN)
+                                           ; SOURCE LINE # 75
+;---- Variable 'PortPins' assigned to Register 'R5' ----
+;---- Variable 'GPIO_Mode' assigned to Register 'R3' ----
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 76
+                                           ; SOURCE LINE # 78
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 603A              JZ      ?C0009
+0004 14                DEC     A
+0005 6058              JZ      ?C0015
+0007 14                DEC     A
+0008 6073              JZ      ?C0021
+000A 14                DEC     A
+000B 7003              JNZ     $ + 5H
+000D 020000      R     LJMP    ?C0027
+0010 14                DEC     A
+0011 7003              JNZ     $ + 5H
+0013 020000      R     LJMP    ?C0033
+0016 2405              ADD     A,#05H
+0018 6003              JZ      $ + 5H
+001A 020000      R     LJMP    ?C0040
+                                           ; SOURCE LINE # 79
+                                           ; SOURCE LINE # 80
+001D         ?C0003:
+                                           ; SOURCE LINE # 81
+                                           ; SOURCE LINE # 82
+001D EB                MOV     A,R3
+001E 14                DEC     A
+001F 6011              JZ      ?C0006
+0021 14                DEC     A
+0022 6016              JZ      ?C0007
+0024 2402              ADD     A,#02H
+0026 6003              JZ      $ + 5H
+0028 020000      R     LJMP    ?C0040
+                                           ; SOURCE LINE # 83
+                                           ; SOURCE LINE # 85
+002B         ?C0005:
+                                           ; SOURCE LINE # 86
+002B ED                MOV     A,R5
+002C F4                CPL     A
+002D 529A              ANL     P0CON,A
+                                           ; SOURCE LINE # 87
+002F 529B              ANL     P0PH,A
+                                           ; SOURCE LINE # 88
+0031 22                RET     
+                                           ; SOURCE LINE # 90
+0032         ?C0006:
+                                           ; SOURCE LINE # 91
+0032 ED                MOV     A,R5
+0033 F4                CPL     A
+0034 529A              ANL     P0CON,A
+                                           ; SOURCE LINE # 92
+0036 ED                MOV     A,R5
+0037 429B              ORL     P0PH,A
+                                           ; SOURCE LINE # 93
+0039 22                RET     
+                                           ; SOURCE LINE # 95
+003A         ?C0007:
+                                           ; SOURCE LINE # 96
+003A ED                MOV     A,R5
+003B 429A              ORL     P0CON,A
+                                           ; SOURCE LINE # 97
+003D 22                RET     
+                                           ; SOURCE LINE # 98
+                                           ; SOURCE LINE # 99
+                                           ; SOURCE LINE # 100
+                                           ; SOURCE LINE # 101
+                                           ; SOURCE LINE # 102
+                                           ; SOURCE LINE # 103
+003E         ?C0009:
+                                           ; SOURCE LINE # 104
+                                           ; SOURCE LINE # 105
+003E EB                MOV     A,R3
+003F 14                DEC     A
+0040 6011              JZ      ?C0012
+0042 14                DEC     A
+0043 6016              JZ      ?C0013
+0045 2402              ADD     A,#02H
+0047 6003              JZ      $ + 5H
+0049 020000      R     LJMP    ?C0040
+                                           ; SOURCE LINE # 106
+                                           ; SOURCE LINE # 108
+004C         ?C0011:
+                                           ; SOURCE LINE # 109
+004C ED                MOV     A,R5
+004D F4                CPL     A
+004E 5291              ANL     P1CON,A
+                                           ; SOURCE LINE # 110
+0050 5292              ANL     P1PH,A
+                                           ; SOURCE LINE # 111
+0052 22                RET     
+                                           ; SOURCE LINE # 113
+0053         ?C0012:
+                                           ; SOURCE LINE # 114
+0053 ED                MOV     A,R5
+0054 F4                CPL     A
+0055 5291              ANL     P1CON,A
+                                           ; SOURCE LINE # 115
+0057 ED                MOV     A,R5
+0058 4292              ORL     P1PH,A
+                                           ; SOURCE LINE # 116
+005A 22                RET     
+                                           ; SOURCE LINE # 118
+005B         ?C0013:
+                                           ; SOURCE LINE # 119
+005B ED                MOV     A,R5
+005C 4291              ORL     P1CON,A
+                                           ; SOURCE LINE # 120
+005E 22                RET     
+                                           ; SOURCE LINE # 121
+                                           ; SOURCE LINE # 122
+                                           ; SOURCE LINE # 123
+                                           ; SOURCE LINE # 124
+                                           ; SOURCE LINE # 125
+                                           ; SOURCE LINE # 126
+005F         ?C0015:
+                                           ; SOURCE LINE # 127
+                                           ; SOURCE LINE # 128
+005F EB                MOV     A,R3
+0060 14                DEC     A
+0061 600E              JZ      ?C0018
+0063 14                DEC     A
+0064 6013              JZ      ?C0019
+0066 2402              ADD     A,#02H
+0068 706C              JNZ     ?C0040
+                                           ; SOURCE LINE # 129
+                                           ; SOURCE LINE # 131
+006A         ?C0017:
+                                           ; SOURCE LINE # 132
+006A ED                MOV     A,R5
+006B F4                CPL     A
+006C 52A1              ANL     P2CON,A
+                                           ; SOURCE LINE # 133
+006E 52A2              ANL     P2PH,A
+                                           ; SOURCE LINE # 134
+0070 22                RET     
+                                           ; SOURCE LINE # 136
+0071         ?C0018:
+                                           ; SOURCE LINE # 137
+0071 ED                MOV     A,R5
+0072 F4                CPL     A
+0073 52A1              ANL     P2CON,A
+                                           ; SOURCE LINE # 138
+0075 ED                MOV     A,R5
+0076 42A2              ORL     P2PH,A
+                                           ; SOURCE LINE # 139
+0078 22                RET     
+                                           ; SOURCE LINE # 141
+0079         ?C0019:
+                                           ; SOURCE LINE # 142
+0079 ED                MOV     A,R5
+007A 42A1              ORL     P2CON,A
+                                           ; SOURCE LINE # 143
+007C 22                RET     
+                                           ; SOURCE LINE # 144
+                                           ; SOURCE LINE # 145
+                                           ; SOURCE LINE # 146
+                                           ; SOURCE LINE # 147
+                                           ; SOURCE LINE # 148
+                                           ; SOURCE LINE # 151
+007D         ?C0021:
+                                           ; SOURCE LINE # 152
+                                           ; SOURCE LINE # 153
+007D EB                MOV     A,R3
+007E 14                DEC     A
+007F 600E              JZ      ?C0024
+0081 14                DEC     A
+0082 6013              JZ      ?C0025
+0084 2402              ADD     A,#02H
+0086 704E              JNZ     ?C0040
+                                           ; SOURCE LINE # 154
+                                           ; SOURCE LINE # 156
+0088         ?C0023:
+                                           ; SOURCE LINE # 157
+0088 ED                MOV     A,R5
+0089 F4                CPL     A
+008A 52B1              ANL     P3CON,A
+                                           ; SOURCE LINE # 158
+008C 52B2              ANL     P3PH,A
+                                           ; SOURCE LINE # 159
+008E 22                RET     
+                                           ; SOURCE LINE # 161
+008F         ?C0024:
+                                           ; SOURCE LINE # 162
+008F ED                MOV     A,R5
+0090 F4                CPL     A
+0091 52B1              ANL     P3CON,A
+                                           ; SOURCE LINE # 163
+0093 ED                MOV     A,R5
+0094 42B2              ORL     P3PH,A
+                                           ; SOURCE LINE # 164
+0096 22                RET     
+                                           ; SOURCE LINE # 166
+0097         ?C0025:
+                                           ; SOURCE LINE # 167
+0097 ED                MOV     A,R5
+0098 42B1              ORL     P3CON,A
+                                           ; SOURCE LINE # 168
+009A 22                RET     
+                                           ; SOURCE LINE # 169
+                                           ; SOURCE LINE # 170
+                                           ; SOURCE LINE # 171
+                                           ; SOURCE LINE # 172
+                                           ; SOURCE LINE # 173
+                                           ; SOURCE LINE # 175
+009B         ?C0027:
+                                           ; SOURCE LINE # 176
+                                           ; SOURCE LINE # 177
+009B EB                MOV     A,R3
+009C 14                DEC     A
+009D 600E              JZ      ?C0030
+009F 14                DEC     A
+00A0 6013              JZ      ?C0031
+00A2 2402              ADD     A,#02H
+00A4 7030              JNZ     ?C0040
+                                           ; SOURCE LINE # 178
+                                           ; SOURCE LINE # 180
+00A6         ?C0029:
+                                           ; SOURCE LINE # 181
+00A6 ED                MOV     A,R5
+00A7 F4                CPL     A
+00A8 52C1              ANL     P4CON,A
+                                           ; SOURCE LINE # 182
+00AA 52C2              ANL     P4PH,A
+                                           ; SOURCE LINE # 183
+00AC 22                RET     
+                                           ; SOURCE LINE # 185
+00AD         ?C0030:
+                                           ; SOURCE LINE # 186
+00AD ED                MOV     A,R5
+00AE F4                CPL     A
+00AF 52C1              ANL     P4CON,A
+                                           ; SOURCE LINE # 187
+00B1 ED                MOV     A,R5
+00B2 42C2              ORL     P4PH,A
+                                           ; SOURCE LINE # 188
+00B4 22                RET     
+                                           ; SOURCE LINE # 190
+00B5         ?C0031:
+                                           ; SOURCE LINE # 191
+00B5 ED                MOV     A,R5
+00B6 42C1              ORL     P4CON,A
+                                           ; SOURCE LINE # 192
+00B8 22                RET     
+                                           ; SOURCE LINE # 193
+                                           ; SOURCE LINE # 194
+                                           ; SOURCE LINE # 195
+                                           ; SOURCE LINE # 196
+                                           ; SOURCE LINE # 197
+                                           ; SOURCE LINE # 199
+00B9         ?C0033:
+                                           ; SOURCE LINE # 200
+                                           ; SOURCE LINE # 201
+00B9 EB                MOV     A,R3
+00BA 14                DEC     A
+00BB 600E              JZ      ?C0036
+00BD 14                DEC     A
+00BE 6013              JZ      ?C0037
+00C0 2402              ADD     A,#02H
+00C2 7012              JNZ     ?C0040
+                                           ; SOURCE LINE # 202
+                                           ; SOURCE LINE # 204
+00C4         ?C0035:
+                                           ; SOURCE LINE # 205
+00C4 ED                MOV     A,R5
+00C5 F4                CPL     A
+00C6 52D9              ANL     P5CON,A
+                                           ; SOURCE LINE # 206
+00C8 52DA              ANL     P5PH,A
+                                           ; SOURCE LINE # 207
+00CA 22                RET     
+                                           ; SOURCE LINE # 209
+00CB         ?C0036:
+                                           ; SOURCE LINE # 210
+00CB ED                MOV     A,R5
+00CC F4                CPL     A
+00CD 52D9              ANL     P5CON,A
+                                           ; SOURCE LINE # 211
+00CF ED                MOV     A,R5
+00D0 42DA              ORL     P5PH,A
+                                           ; SOURCE LINE # 212
+00D2 22                RET     
+                                           ; SOURCE LINE # 214
+00D3         ?C0037:
+                                           ; SOURCE LINE # 215
+00D3 ED                MOV     A,R5
+00D4 42D9              ORL     P5CON,A
+                                           ; SOURCE LINE # 216
+                                           ; SOURCE LINE # 217
+                                           ; SOURCE LINE # 218
+                                           ; SOURCE LINE # 219
+                                           ; SOURCE LINE # 220
+                                           ; SOURCE LINE # 221
+                                           ; SOURCE LINE # 222
+                                           ; SOURCE LINE # 223
+                                           ; SOURCE LINE # 224
+                                           ; SOURCE LINE # 225
+00D6         ?C0040:
+00D6 22                RET     
+             ; FUNCTION _GPIO_Init (END)
+             ; FUNCTION _GPIO_Write (BEGIN)
+                                           ; SOURCE LINE # 235
+;---- Variable 'PortVal' assigned to Register 'R5' ----
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 236
+                                           ; SOURCE LINE # 238
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6013              JZ      ?C0043
+0004 14                DEC     A
+0005 6013              JZ      ?C0044
+0007 14                DEC     A
+0008 6013              JZ      ?C0045
+000A 14                DEC     A
+000B 6013              JZ      ?C0046
+000D 14                DEC     A
+000E 6013              JZ      ?C0047
+0010 2405              ADD     A,#05H
+0012 7013              JNZ     ?C0049
+                                           ; SOURCE LINE # 239
+                                           ; SOURCE LINE # 240
+0014         ?C0042:
+                                           ; SOURCE LINE # 241
+0014 8D80              MOV     P0,R5
+                                           ; SOURCE LINE # 242
+0016 22                RET     
+                                           ; SOURCE LINE # 243
+0017         ?C0043:
+                                           ; SOURCE LINE # 244
+0017 8D90              MOV     P1,R5
+                                           ; SOURCE LINE # 245
+0019 22                RET     
+                                           ; SOURCE LINE # 246
+001A         ?C0044:
+                                           ; SOURCE LINE # 247
+001A 8DA0              MOV     P2,R5
+                                           ; SOURCE LINE # 248
+001C 22                RET     
+                                           ; SOURCE LINE # 251
+001D         ?C0045:
+                                           ; SOURCE LINE # 252
+001D 8DB0              MOV     P3,R5
+                                           ; SOURCE LINE # 253
+001F 22                RET     
+                                           ; SOURCE LINE # 255
+0020         ?C0046:
+                                           ; SOURCE LINE # 256
+0020 8DC0              MOV     P4,R5
+                                           ; SOURCE LINE # 257
+0022 22                RET     
+                                           ; SOURCE LINE # 259
+0023         ?C0047:
+                                           ; SOURCE LINE # 260
+0023 AF05              MOV     R7,AR5
+0025 8FD8              MOV     P5,R7
+                                           ; SOURCE LINE # 261
+                                           ; SOURCE LINE # 262
+                                           ; SOURCE LINE # 263
+                                           ; SOURCE LINE # 264
+                                           ; SOURCE LINE # 265
+0027         ?C0049:
+0027 22                RET     
+             ; FUNCTION _GPIO_Write (END)
+             ; FUNCTION _GPIO_WriteHigh (BEGIN)
+                                           ; SOURCE LINE # 275
+;---- Variable 'PortPins' assigned to Register 'R5' ----
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 276
+                                           ; SOURCE LINE # 278
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6014              JZ      ?C0052
+0004 14                DEC     A
+0005 6015              JZ      ?C0053
+0007 14                DEC     A
+0008 6016              JZ      ?C0054
+000A 14                DEC     A
+000B 6017              JZ      ?C0055
+000D 14                DEC     A
+000E 6018              JZ      ?C0056
+0010 2405              ADD     A,#05H
+0012 7017              JNZ     ?C0058
+                                           ; SOURCE LINE # 279
+                                           ; SOURCE LINE # 280
+0014         ?C0051:
+                                           ; SOURCE LINE # 281
+0014 ED                MOV     A,R5
+0015 4280              ORL     P0,A
+                                           ; SOURCE LINE # 282
+0017 22                RET     
+                                           ; SOURCE LINE # 283
+0018         ?C0052:
+                                           ; SOURCE LINE # 284
+0018 ED                MOV     A,R5
+0019 4290              ORL     P1,A
+                                           ; SOURCE LINE # 285
+001B 22                RET     
+                                           ; SOURCE LINE # 286
+001C         ?C0053:
+                                           ; SOURCE LINE # 287
+001C ED                MOV     A,R5
+001D 42A0              ORL     P2,A
+                                           ; SOURCE LINE # 288
+001F 22                RET     
+                                           ; SOURCE LINE # 291
+0020         ?C0054:
+                                           ; SOURCE LINE # 292
+0020 ED                MOV     A,R5
+0021 42B0              ORL     P3,A
+                                           ; SOURCE LINE # 293
+0023 22                RET     
+                                           ; SOURCE LINE # 295
+0024         ?C0055:
+                                           ; SOURCE LINE # 296
+0024 ED                MOV     A,R5
+0025 42C0              ORL     P4,A
+                                           ; SOURCE LINE # 297
+0027 22                RET     
+                                           ; SOURCE LINE # 299
+0028         ?C0056:
+                                           ; SOURCE LINE # 300
+0028 ED                MOV     A,R5
+0029 42D8              ORL     P5,A
+                                           ; SOURCE LINE # 301
+                                           ; SOURCE LINE # 302
+                                           ; SOURCE LINE # 303
+                                           ; SOURCE LINE # 304
+                                           ; SOURCE LINE # 305
+002B         ?C0058:
+002B 22                RET     
+             ; FUNCTION _GPIO_WriteHigh (END)
+             ; FUNCTION _GPIO_WriteLow (BEGIN)
+                                           ; SOURCE LINE # 315
+;---- Variable 'PortPins' assigned to Register 'R5' ----
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 316
+                                           ; SOURCE LINE # 318
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6015              JZ      ?C0061
+0004 14                DEC     A
+0005 6017              JZ      ?C0062
+0007 14                DEC     A
+0008 6019              JZ      ?C0063
+000A 14                DEC     A
+000B 601B              JZ      ?C0064
+000D 14                DEC     A
+000E 601D              JZ      ?C0065
+0010 2405              ADD     A,#05H
+0012 701D              JNZ     ?C0067
+                                           ; SOURCE LINE # 319
+                                           ; SOURCE LINE # 320
+0014         ?C0060:
+                                           ; SOURCE LINE # 321
+0014 ED                MOV     A,R5
+0015 F4                CPL     A
+0016 5280              ANL     P0,A
+                                           ; SOURCE LINE # 322
+0018 22                RET     
+                                           ; SOURCE LINE # 323
+0019         ?C0061:
+                                           ; SOURCE LINE # 324
+0019 ED                MOV     A,R5
+001A F4                CPL     A
+001B 5290              ANL     P1,A
+                                           ; SOURCE LINE # 325
+001D 22                RET     
+                                           ; SOURCE LINE # 326
+001E         ?C0062:
+                                           ; SOURCE LINE # 327
+001E ED                MOV     A,R5
+001F F4                CPL     A
+0020 52A0              ANL     P2,A
+                                           ; SOURCE LINE # 328
+0022 22                RET     
+                                           ; SOURCE LINE # 331
+0023         ?C0063:
+                                           ; SOURCE LINE # 332
+0023 ED                MOV     A,R5
+0024 F4                CPL     A
+0025 52B0              ANL     P3,A
+                                           ; SOURCE LINE # 333
+0027 22                RET     
+                                           ; SOURCE LINE # 335
+0028         ?C0064:
+                                           ; SOURCE LINE # 336
+0028 ED                MOV     A,R5
+0029 F4                CPL     A
+002A 52C0              ANL     P4,A
+                                           ; SOURCE LINE # 337
+002C 22                RET     
+                                           ; SOURCE LINE # 339
+002D         ?C0065:
+                                           ; SOURCE LINE # 340
+002D ED                MOV     A,R5
+002E F4                CPL     A
+002F 52D8              ANL     P5,A
+                                           ; SOURCE LINE # 341
+                                           ; SOURCE LINE # 342
+                                           ; SOURCE LINE # 343
+                                           ; SOURCE LINE # 344
+                                           ; SOURCE LINE # 345
+0031         ?C0067:
+0031 22                RET     
+             ; FUNCTION _GPIO_WriteLow (END)
+             ; FUNCTION _GPIO_ReadPort (BEGIN)
+                                           ; SOURCE LINE # 355
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 356
+                                           ; SOURCE LINE # 358
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6013              JZ      ?C0071
+0004 14                DEC     A
+0005 6013              JZ      ?C0072
+0007 14                DEC     A
+0008 6013              JZ      ?C0073
+000A 14                DEC     A
+000B 6013              JZ      ?C0074
+000D 14                DEC     A
+000E 6013              JZ      ?C0075
+0010 2405              ADD     A,#05H
+0012 7012              JNZ     ?C0076
+                                           ; SOURCE LINE # 359
+                                           ; SOURCE LINE # 360
+0014         ?C0069:
+                                           ; SOURCE LINE # 361
+0014 AF80              MOV     R7,P0
+0016 22                RET     
+                                           ; SOURCE LINE # 362
+0017         ?C0071:
+                                           ; SOURCE LINE # 363
+0017 AF90              MOV     R7,P1
+0019 22                RET     
+                                           ; SOURCE LINE # 364
+001A         ?C0072:
+                                           ; SOURCE LINE # 365
+001A AFA0              MOV     R7,P2
+001C 22                RET     
+                                           ; SOURCE LINE # 368
+001D         ?C0073:
+                                           ; SOURCE LINE # 369
+001D AFB0              MOV     R7,P3
+001F 22                RET     
+                                           ; SOURCE LINE # 371
+0020         ?C0074:
+                                           ; SOURCE LINE # 372
+0020 AFC0              MOV     R7,P4
+0022 22                RET     
+                                           ; SOURCE LINE # 374
+0023         ?C0075:
+                                           ; SOURCE LINE # 375
+0023 AFD8              MOV     R7,P5
+0025 22                RET     
+                                           ; SOURCE LINE # 376
+0026         ?C0076:
+                                           ; SOURCE LINE # 377
+0026 7F00              MOV     R7,#00H
+                                           ; SOURCE LINE # 378
+                                           ; SOURCE LINE # 379
+0028         ?C0070:
+0028 22                RET     
+             ; FUNCTION _GPIO_ReadPort (END)
+             ; FUNCTION _GPIO_ReadPin (BEGIN)
+                                           ; SOURCE LINE # 390
+;---- Variable 'TempBitstatus' assigned to Register 'R6' ----
+;---- Variable 'PortPins' assigned to Register 'R5' ----
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 391
+                                           ; SOURCE LINE # 394
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6016              JZ      ?C0079
+0004 14                DEC     A
+0005 6019              JZ      ?C0080
+0007 14                DEC     A
+0008 601C              JZ      ?C0081
+000A 14                DEC     A
+000B 601F              JZ      ?C0082
+000D 14                DEC     A
+000E 6022              JZ      ?C0083
+0010 2405              ADD     A,#05H
+0012 7024              JNZ     ?C0084
+                                           ; SOURCE LINE # 395
+                                           ; SOURCE LINE # 396
+0014         ?C0078:
+                                           ; SOURCE LINE # 397
+0014 E580              MOV     A,P0
+0016 5D                ANL     A,R5
+0017 FE                MOV     R6,A
+                                           ; SOURCE LINE # 398
+0018 8020              SJMP    ?C0077
+                                           ; SOURCE LINE # 399
+001A         ?C0079:
+                                           ; SOURCE LINE # 400
+001A E590              MOV     A,P1
+001C 5D                ANL     A,R5
+001D FE                MOV     R6,A
+                                           ; SOURCE LINE # 401
+001E 801A              SJMP    ?C0077
+                                           ; SOURCE LINE # 402
+0020         ?C0080:
+                                           ; SOURCE LINE # 403
+0020 E5A0              MOV     A,P2
+0022 5D                ANL     A,R5
+0023 FE                MOV     R6,A
+                                           ; SOURCE LINE # 404
+0024 8014              SJMP    ?C0077
+                                           ; SOURCE LINE # 407
+0026         ?C0081:
+                                           ; SOURCE LINE # 408
+0026 E5B0              MOV     A,P3
+0028 5D                ANL     A,R5
+0029 FE                MOV     R6,A
+                                           ; SOURCE LINE # 409
+002A 800E              SJMP    ?C0077
+                                           ; SOURCE LINE # 411
+002C         ?C0082:
+                                           ; SOURCE LINE # 412
+002C E5C0              MOV     A,P4
+002E 5D                ANL     A,R5
+002F FE                MOV     R6,A
+                                           ; SOURCE LINE # 413
+0030 8008              SJMP    ?C0077
+                                           ; SOURCE LINE # 415
+0032         ?C0083:
+                                           ; SOURCE LINE # 416
+0032 E5D8              MOV     A,P5
+0034 5D                ANL     A,R5
+0035 FE                MOV     R6,A
+                                           ; SOURCE LINE # 417
+0036 8002              SJMP    ?C0077
+                                           ; SOURCE LINE # 418
+0038         ?C0084:
+                                           ; SOURCE LINE # 419
+0038 E4                CLR     A
+0039 FE                MOV     R6,A
+                                           ; SOURCE LINE # 420
+                                           ; SOURCE LINE # 421
+003A         ?C0077:
+                                           ; SOURCE LINE # 423
+003A EE                MOV     A,R6
+003B D3                SETB    C
+003C 9400              SUBB    A,#00H
+003E 7480              MOV     A,#080H
+0040 9480              SUBB    A,#080H
+0042 7F00              MOV     R7,#00H
+0044 4002              JC      ?C0085
+                                           ; SOURCE LINE # 424
+0046 7F01              MOV     R7,#01H
+0048         ?C0085:
+                                           ; SOURCE LINE # 426
+                                           ; SOURCE LINE # 427
+0048         ?C0086:
+0048 22                RET     
+             ; FUNCTION _GPIO_ReadPin (END)
+             ; FUNCTION _GPIO_TogglePin (BEGIN)
+                                           ; SOURCE LINE # 437
+;---- Variable 'PortPins' assigned to Register 'R5' ----
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 438
+                                           ; SOURCE LINE # 440
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6014              JZ      ?C0090
+0004 14                DEC     A
+0005 6015              JZ      ?C0091
+0007 14                DEC     A
+0008 6016              JZ      ?C0092
+000A 14                DEC     A
+000B 6017              JZ      ?C0093
+000D 14                DEC     A
+000E 6018              JZ      ?C0094
+0010 2405              ADD     A,#05H
+0012 7017              JNZ     ?C0096
+                                           ; SOURCE LINE # 441
+                                           ; SOURCE LINE # 442
+0014         ?C0089:
+                                           ; SOURCE LINE # 443
+0014 ED                MOV     A,R5
+0015 6280              XRL     P0,A
+                                           ; SOURCE LINE # 444
+0017 22                RET     
+                                           ; SOURCE LINE # 445
+0018         ?C0090:
+                                           ; SOURCE LINE # 446
+0018 ED                MOV     A,R5
+0019 6290              XRL     P1,A
+                                           ; SOURCE LINE # 447
+001B 22                RET     
+                                           ; SOURCE LINE # 448
+001C         ?C0091:
+                                           ; SOURCE LINE # 449
+001C ED                MOV     A,R5
+001D 62A0              XRL     P2,A
+                                           ; SOURCE LINE # 450
+001F 22                RET     
+                                           ; SOURCE LINE # 453
+0020         ?C0092:
+                                           ; SOURCE LINE # 454
+0020 ED                MOV     A,R5
+0021 62B0              XRL     P3,A
+                                           ; SOURCE LINE # 455
+0023 22                RET     
+                                           ; SOURCE LINE # 457
+0024         ?C0093:
+                                           ; SOURCE LINE # 458
+0024 ED                MOV     A,R5
+0025 62C0              XRL     P4,A
+                                           ; SOURCE LINE # 459
+0027 22                RET     
+                                           ; SOURCE LINE # 461
+0028         ?C0094:
+                                           ; SOURCE LINE # 462
+0028 ED                MOV     A,R5
+0029 62D8              XRL     P5,A
+                                           ; SOURCE LINE # 463
+                                           ; SOURCE LINE # 464
+                                           ; SOURCE LINE # 465
+                                           ; SOURCE LINE # 466
+                                           ; SOURCE LINE # 467
+002B         ?C0096:
+002B 22                RET     
+             ; FUNCTION _GPIO_TogglePin (END)
+             ; FUNCTION _GPIO_IOH_Config (BEGIN)
+                                           ; SOURCE LINE # 478
+;---- Variable 'GPIOx' assigned to Register 'R7' ----
+;---- Variable 'GPIO_IOH_Grade' assigned to Register 'R3' ----
+;---- Variable 'PortPins' assigned to Register 'R5' ----
+                                           ; SOURCE LINE # 479
+                                           ; SOURCE LINE # 481
+0000 EF                MOV     A,R7
+0001 14                DEC     A
+0002 6026              JZ      ?C0102
+0004 14                DEC     A
+0005 6043              JZ      ?C0106
+0007 14                DEC     A
+0008 605C              JZ      ?C0110
+000A 2403              ADD     A,#03H
+000C 7068              JNZ     ?C0113
+                                           ; SOURCE LINE # 482
+                                           ; SOURCE LINE # 483
+000E         ?C0098:
+                                           ; SOURCE LINE # 484
+000E ED                MOV     A,R5
+000F 640F              XRL     A,#0FH
+0011 7007              JNZ     ?C0099
+                                           ; SOURCE LINE # 485
+                                           ; SOURCE LINE # 486
+0013 5396FC            ANL     IOHCON0,#0FCH
+                                           ; SOURCE LINE # 487
+0016 EB                MOV     A,R3
+0017 4296              ORL     IOHCON0,A
+                                           ; SOURCE LINE # 488
+0019 22                RET     
+001A         ?C0099:
+                                           ; SOURCE LINE # 489
+001A ED                MOV     A,R5
+001B 64F0              XRL     A,#0F0H
+001D 7057              JNZ     ?C0113
+                                           ; SOURCE LINE # 490
+                                           ; SOURCE LINE # 491
+001F 5396F3            ANL     IOHCON0,#0F3H
+                                           ; SOURCE LINE # 492
+0022 EB                MOV     A,R3
+0023 25E0              ADD     A,ACC
+0025 25E0              ADD     A,ACC
+0027 4296              ORL     IOHCON0,A
+                                           ; SOURCE LINE # 493
+                                           ; SOURCE LINE # 494
+0029 22                RET     
+                                           ; SOURCE LINE # 495
+002A         ?C0102:
+                                           ; SOURCE LINE # 496
+002A ED                MOV     A,R5
+002B 640F              XRL     A,#0FH
+002D 700A              JNZ     ?C0103
+                                           ; SOURCE LINE # 497
+                                           ; SOURCE LINE # 498
+002F 5396CF            ANL     IOHCON0,#0CFH
+                                           ; SOURCE LINE # 499
+0032 EB                MOV     A,R3
+0033 C4                SWAP    A
+0034 54F0              ANL     A,#0F0H
+0036 4296              ORL     IOHCON0,A
+                                           ; SOURCE LINE # 500
+0038 22                RET     
+0039         ?C0103:
+                                           ; SOURCE LINE # 501
+0039 ED                MOV     A,R5
+003A 64F0              XRL     A,#0F0H
+003C 7038              JNZ     ?C0113
+                                           ; SOURCE LINE # 502
+                                           ; SOURCE LINE # 503
+003E 53963F            ANL     IOHCON0,#03FH
+                                           ; SOURCE LINE # 504
+0041 EB                MOV     A,R3
+0042 C4                SWAP    A
+0043 33                RLC     A
+0044 33                RLC     A
+0045 54C0              ANL     A,#0C0H
+0047 4296              ORL     IOHCON0,A
+                                           ; SOURCE LINE # 505
+                                           ; SOURCE LINE # 506
+0049 22                RET     
+                                           ; SOURCE LINE # 507
+004A         ?C0106:
+                                           ; SOURCE LINE # 508
+004A ED                MOV     A,R5
+004B 640F              XRL     A,#0FH
+004D 7007              JNZ     ?C0107
+                                           ; SOURCE LINE # 509
+                                           ; SOURCE LINE # 510
+004F 5397FC            ANL     IOHCON1,#0FCH
+                                           ; SOURCE LINE # 511
+0052 EB                MOV     A,R3
+0053 4297              ORL     IOHCON1,A
+                                           ; SOURCE LINE # 512
+0055 22                RET     
+0056         ?C0107:
+                                           ; SOURCE LINE # 513
+0056 ED                MOV     A,R5
+0057 64F0              XRL     A,#0F0H
+0059 701B              JNZ     ?C0113
+                                           ; SOURCE LINE # 514
+                                           ; SOURCE LINE # 515
+005B 5397F3            ANL     IOHCON1,#0F3H
+                                           ; SOURCE LINE # 516
+005E EB                MOV     A,R3
+005F 25E0              ADD     A,ACC
+0061 25E0              ADD     A,ACC
+0063 4297              ORL     IOHCON1,A
+                                           ; SOURCE LINE # 517
+                                           ; SOURCE LINE # 518
+0065 22                RET     
+                                           ; SOURCE LINE # 521
+0066         ?C0110:
+                                           ; SOURCE LINE # 522
+0066 ED                MOV     A,R5
+0067 640F              XRL     A,#0FH
+0069 700B              JNZ     ?C0113
+                                           ; SOURCE LINE # 523
+                                           ; SOURCE LINE # 524
+006B 5397CF            ANL     IOHCON1,#0CFH
+                                           ; SOURCE LINE # 525
+006E AF03              MOV     R7,AR3
+0070 EF                MOV     A,R7
+0071 C4                SWAP    A
+0072 54F0              ANL     A,#0F0H
+0074 4297              ORL     IOHCON1,A
+                                           ; SOURCE LINE # 526
+                                           ; SOURCE LINE # 527
+                                           ; SOURCE LINE # 538
+                                           ; SOURCE LINE # 539
+                                           ; SOURCE LINE # 540
+                                           ; SOURCE LINE # 541
+0076         ?C0113:
+0076 22                RET     
+             ; FUNCTION _GPIO_IOH_Config (END)
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+TRX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+OPREG. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FFH  1
+GPIO_PIN_LNIB. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+Status_OK. . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EUART. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+TMCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008EH  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+P4 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
+FlagStatus . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+RESET. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+OTCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008FH  1
+P5 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+RCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+PWMCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D2H  1
+TCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+PWMCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D3H  1
+GPIO_PIN_0 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+GPIO_PIN_1 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EXENX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+GPIO_PIN_2 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+GPIO_PIN_3 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+ERROR. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+GPIO_PIN_4 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+GPIO_PIN_5 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EADC . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AEH  1
+TXMOD. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C9H  1
+TXCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
+IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
+DPH1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0085H  1
+GPIO_PIN_6 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EXA0 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E9H  1
+GPIO_PIN_7 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+OPINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FEH  1
+EXA1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EAH  1
+EXA2 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EBH  1
+GPIO_MODE_OUT_PP . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EXA3 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ECH  1
+DPL1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0084H  1
+Status_TIMEOUT . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+CP . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+USXCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C4H  1
+USXCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C5H  1
+USXCON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C6H  1
+ErrorStatus. . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+USXCON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C7H  1
+OPERCON. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EFH  1
+P0PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009BH  1
+IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
+P1PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0092H  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+P2PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A2H  1
+SUCCESS. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+P3PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B2H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+TXINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CEH  1
+P4PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C2H  1
+IPT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+P5PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DAH  1
+_GPIO_Write. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  PortVal. . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+FunctionalState. . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IPT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+_GPIO_TogglePin. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  PortPins . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+IPT2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+GPIO_MODE_IN_HI. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+HIGH . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+_GPIO_WriteHigh. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  PortPins . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+ITStatus . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPADE . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F4H  1
+P0VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009CH  1
+_GPIO_Init . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  PortPins . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+  GPIO_Mode. . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0003H  1
+P1VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0094H  1
+P2VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A3H  1
+EXBH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EEH  1
+ENABLE . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+BitStatus. . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPADH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F3H  1
+P3VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B3H  1
+ADCCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ADH  1
+s8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+_GPIO_IOH_Config . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  PortPins . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+  GPIO_IOH_Grade . . . . . . . . . . .  * REG *  DATA   U_CHAR   0003H  1
+TX . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
+EXBL . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EDH  1
+Status_BUSY. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPADL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F2H  1
+GPIO_Mode_TypeDef. . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+bool . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+P00. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0080H  1
+P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
+P01. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0081H  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
+P20. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A0H  1
+P11. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
+P02. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0082H  1
+CMPCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B6H  1
+GPIO_PIN_ALL . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P30. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+P21. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A1H  1
+P12. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0092H  1
+P03. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0083H  1
+P40. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C0H  1
+P31. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+P22. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A2H  1
+P13. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0093H  1
+P04. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0084H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+GPIO_MODE_IN_PU. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P50. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D8H  1
+P41. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C1H  1
+P32. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+P23. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
+P14. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0094H  1
+P05. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0085H  1
+IAPDAT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F5H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
+P51. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D9H  1
+P42. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C2H  1
+P33. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+P24. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A4H  1
+P15. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0095H  1
+P06. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0086H  1
+IPINT0 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+_GPIO_ReadPort . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+IOH_Grade_0. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P52. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DAH  1
+P43. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C3H  1
+P34. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+P25. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A5H  1
+P16. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0096H  1
+P07. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0087H  1
+IPINT1 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+_GPIO_ReadPin. . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  PortPins . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+  TempBitstatus. . . . . . . . . . . .  * REG *  DATA   U_CHAR   0006H  1
+IOH_Grade_1. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P53. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DBH  1
+P44. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C4H  1
+P35. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+P26. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
+P17. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0097H  1
+CRCREG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FDH  1
+IOH_Grade_2. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P54. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DCH  1
+P45. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C5H  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+P36. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+P27. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
+IOH_Grade_3. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+P55. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DDH  1
+P46. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C6H  1
+P37. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+P47. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C7H  1
+EXFX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+DDRCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0093H  1
+StatusTypeDef. . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+IAPCTL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F6H  1
+IE1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A9H  1
+IE2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AAH  1
+TRUE . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
+CMPCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B7H  1
+IAPKEY . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F1H  1
+BTMCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FBH  1
+GPIO_TypeDef . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+PWMCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D1H  1
+ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
+RCAPXH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+CRCINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FCH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+ADCCFG0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ABH  1
+IP1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B9H  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+ADCCFG1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ACH  1
+IP2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BAH  1
+ROMBNK . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DFH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+ADCCFG2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B5H  1
+RCAPXL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+GPIO_IOH_Grade_TypeDef . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+GPIO_Pin_TypeDef . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+GPIO_DeInit. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+WDTCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CFH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+PWMDFR . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D6H  1
+PWMPDH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D5H  1
+_GPIO_WriteLow . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  GPIOx. . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  PortPins . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+PWMPDL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+IPUART . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+s32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+s16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+PWMFLT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D7H  1
+DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
+GPIO0. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
+GPIO1. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EINT0. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+P0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009AH  1
+GPIO2. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+EINT1. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IPADC. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BEH  1
+INT0F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B4H  1
+P1CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0091H  1
+GPIO3. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+INT1F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BCH  1
+P2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A1H  1
+GPIO4. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+INT2F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BEH  1
+P3CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B1H  1
+GPIO5. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+P4CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C1H  1
+P5CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D9H  1
+ADCVH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AFH  1
+DPS. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0086H  1
+US0CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0095H  1
+US1CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A4H  1
+US0CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009DH  1
+ADCVL. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AEH  1
+EXADH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F7H  1
+SET. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+FALSE. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+US1CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A5H  1
+US0CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009EH  1
+US1CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A6H  1
+US0CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009FH  1
+US1CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A7H  1
+INT0R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BBH  1
+INT1R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BDH  1
+PriorityStatus . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+INT2R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BFH  1
+USXINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DCH  1
+LOW. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+TFX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+IOHCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0096H  1
+IOHCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0097H  1
+Status_ERROR . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+THX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+DISABLE. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+F1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D1H  1
+TLX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
+PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
+GPIO_PIN_HNIB. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
+uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    664    ----
    CONSTANT SIZE    =   ----    ----
@@ -596,6 +2142,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
-
-
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

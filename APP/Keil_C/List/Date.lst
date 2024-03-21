@@ -1,27 +1,137 @@
-C51 COMPILER V9.59.0.0   DATE                                                              03/20/2024 20:54:40 PAGE 1   
-
-
+C51 COMPILER V9.59.0.0   DATE                                                              03/21/2024 20:54:13 PAGE 1   
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DATE
-OBJECT MODULE PLACED IN ..\Output\Date.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\Date.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECT
-                    -OR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;.
-                    -.\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\Date.lst) TABS(2) OBJECT(..\Output\Date.obj)
-
+OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\Date.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\Drivers\OTADriver\C\Date.c OMF2 INTVECTOR(0X2800) DEFINE(SC95F8x1xB) 
+                    -LARGE INCDIR(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\inc;D:\tfxu\Project\AM901_0308\APP\Keil_C\
+                    -Project\..\User;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\IOT_DRIVER\XIAOMI;D:\tfxu\Project\AM901_0308\APP\Keil_C
+                    -\Project\..\Drivers;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C;D:\tfxu\Project\AM901_0308\APP\K
+                    -eil_C\Project\..\List\..\Apps;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Apps) BROWSE DEBUG OBJECTEXTEND OPTIMIZE(
+                    -8,SIZE) CODE NOCOND SYMBOLS LISTINCLUDE PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\List\Date.lst) OBJECT(D:\
+                    -tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\Date.obj)
 line level    source
-
-   1          //************************************************************
-   2          //  Copyright (c) 深圳市赛元微电子有限公司
-   3          //  文件名称  : Date.c
-   4          //  模块功能  : 赛元BootLoader APP示例 C文件
-   5          //  更正日期  : 2021/4/21
-   6          //  版本    : V2.0
-   7          //************************************************************
+   1          
+   2          
+   3          
+   4          
+   5          
+   6          
+   7          
    8          #include "..\H\OTADriver.h"
-   9          //可设版本号或日期，HEX格式，不能含有A~F
-  10          //APP版本/日期设置，升级APP版本/日期需要大于旧APP版本/日期
+   1      =1  #ifndef _OTADriver_H_
+   2      =1  #define _OTADriver_H_
+   3      =1  
+   4      =1  
+   5      =1  #define UartSelect 0
+   6      =1  #define UartBaud 115200
+   7      =1  #define Fsoc X
+   8      =1  #define CheckMode 0
+   9      =1  #define Encryption 0
+  10      =1  #define EncryptionKeyH 0x181D050C
+  11      =1  #define EncryptionKeyL 0x000D1517
+  12      =1  #define FLASH_SIZE 0x10000
+  13      =1  #define BOOTLOAD_SPACE_SIZE 0x2800
+  14      =1  #define MEMORY_AREA_SPACE_SIZE 0x200
+  15      =1  #define PROJECT_SWITCH 0x01
+  16      =1  #define LDROM_MODE 0
+  17      =1  #define BACKUPS_MODE 1
+  18      =1  #define FORCE_UPDATA 0
+  19      =1  #define VERSION_DATE 0x20230414
+  20      =1  #define ISP_TIME_WINDOW 4
+  21      =1  #define DEBUG_WAITCH 1
+  22      =1  #define DEBUG_PLATFORM 1
+  23      =1  #define FIRMWARE_DOWMLOADER_MODE 1
+  24      =1  
+  25      =1  
+  26      =1  #if LDROM_MODE == 1 
+  30      =1  
+  31      =1  #define CUSTOMERADRESS  BeginAddr>=BOOTLOAD_SPACE_SIZE          
+  32      =1  #define INTERRUPT_ADDRESS_APP              BOOTLOAD_SPACE_SIZE          
+  33      =1  #define INTERRUPT_ADDRESS_BOOT           0x0100         
+  34      =1  #endif
+  35      =1  
+  36      =1  #if(CheckMode==1)
+  39      =1  #if(CheckMode==0)
+  40      =1  #define CommunicationLength1          64+3          
+  41      =1  #endif
+  42      =1  
+  43      =1  #if (LDROM_MODE == 0)
+  44      =1  #define BOOTLOAD_END_ADDRESS                            BOOTLOAD_SPACE_SIZE
+  45      =1  #else
+  48      =1  
+  49      =1  
+             -置应该为512B的倍数
+  50      =1  #if  (BACKUPS_MODE == 1)        
+  51      =1      #if((((FLASH_SIZE - BOOTLOAD_SPACE_SIZE - MEMORY_AREA_SPACE_SIZE)/2)&0xFFFE00)+BOOTLOAD_END_ADDRESS)<0
+             -x10000
+  52      =1          #define APP_SPACE_SIZE    (((FLASH_SIZE - BOOTLOAD_SPACE_SIZE - MEMORY_AREA_SPACE_SIZE)/2)&0xFFFE00
+             -)        
+  53      =1      #else
+  56      =1  #else
+  59      =1  
+  60      =1  
+  61      =1  #define     INITFLAG                                                 0XA55A0FF0          
+             -的APP
+  62      =1  #define APP_UPDATA_FLAG_NUMBER              0XAA,0X55,0X55,0XAA         
+             -耄畲?6Byte
+  63      =1  
+  64      =1  #define APP_STARTUP_DEVIATION_BEGIN_ADDRESS     BOOTLOAD_END_ADDRESS+0x100                                      
+             -偏移*地址,既APP程序Keil Option 中设置的STARTUP地址
+  65      =1  #define APP_INFO_DEVIATION_BEGIN_ADDRESS                        APP_STARTUP_DEVIATION_BEGIN_ADDRESS+0x100                       
+             -信息位置的*偏移*地址,既APP程序Keil Option 中设置的APP_INFO地址
+  66      =1  
+  67      =1  #define RUN_APP_BEGIN_ADDRESS                           BOOTLOAD_END_ADDRESS                                            
+  68      =1  #define RUN_APP_END_ADDRESS                             (RUN_APP_BEGIN_ADDRESS + APP_SPACE_SIZE)                        
+  69      =1  #define RUN_APP_STARTUP_ADDRESS                         (RUN_APP_BEGIN_ADDRESS+0X100L)                                  
+  70      =1  #define RUN_APP_INFO_ADDRESS                            (RUN_APP_BEGIN_ADDRESS+0X100L+0X100L)                   
+  71      =1  #define RUN_APP_MEMORY_INFO_ADRESS                      (RUN_APP_END_ADDRESS - 0x10)                                    
+  72      =1  
+  73      =1  
+  74      =1  #if  BACKUPS_MODE
+  75      =1      #define BACKUPS_APP_BEGIN_ADDRESS                   RUN_APP_END_ADDRESS                         
+             -鳤PP起始地址在运行区APP区后面
+  76      =1  #else
+  79      =1  #define BACKUPS_APP_END_ADDRESS                         (BACKUPS_APP_BEGIN_ADDRESS+ APP_SPACE_SIZE)             
+  80      =1  #define BACKUPS_APP_INFO_ADDRESS                                        (BACKUPS_APP_BEGIN_ADDRESS +0x100L + 0x100L)           
+             -                
+  81      =1  #define BACKUPS_APP_MEMORY_INFO_ADRESS                          (BACKUPS_APP_END_ADDRESS - 0x10)                          
+             -     
+  82      =1  
+  83      =1  #define MEMORY_AREA_BEGIN_ADDRESS                       BACKUPS_APP_END_ADDRESS                                                         
+  84      =1  #define MEMORY_AREA_END_ADDRESS                 (MEMORY_AREA_BEGIN_ADDRESS + MEMORY_AREA_SPACE_SIZE)
+  85      =1  
+  86      =1  
+  87      =1  
+  88      =1  
+  89      =1  
+  90      =1  
+  91      =1  #define CommunicationLength0             3                      
+  92      =1  #define CommunicationDataHeader                        0X55             
+  93      =1  #define CommunicationCommandHeader               0Xaa           
+  94      =1  #define CommunicationCommandEnd          0xEF           
+  95      =1  #define IAPMODEENTER                     0X01           
+  96      =1  #define IAPMODEEXIT                     0xff            
+  97      =1  #define IAPSUCCESS                                      0X02            
+  98      =1  #define IAPFAIL                                          0x03           
+  99      =1  #define IAPIDLE                                          0x00       
+ 100      =1  #define IAPWRITE                                         0X10           
+ 101      =1  #define IAPREALLY                                        0x11           
+ 102      =1  #define IAPADRESSERROR                           0X44           
+ 103      =1  
+ 104      =1  
+ 105      =1  
+ 106      =1  #define CHECKOK         0xaa            
+ 107      =1  #define CHECKFAIL   0x55                
+ 108      =1  
+ 109      =1  
+ 110      =1  
+ 111      =1  
+ 112      =1  #endif
+   9          
+  10          
   11          unsigned long code VersionDate = VERSION_DATE;
-
-
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+VersionDate. . . . . . . . . . . . . .  PUBLIC   CODE   U_LONG   0000H  4
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   ----    ----
    CONSTANT SIZE    =      4    ----
@@ -35,6 +145,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
-
-
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -215,6 +215,26 @@ void ACMPInterrupt()		interrupt 12
     if(CMPCON&0x20)     //ÅÐ¶ÏÄ£ÄâÆ÷Êä³ö×´Ì¬
     {
         EA =0;
+        GPIO_Init(GPIO0, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO0, GPIO_PIN_4,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO4, GPIO_PIN_3,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO4, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO4, GPIO_PIN_1,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_7,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_5,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_4,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_3,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_1,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO1, GPIO_PIN_0,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO1, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO1, GPIO_PIN_4,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO2, GPIO_PIN_5,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO2, GPIO_PIN_6,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO2, GPIO_PIN_7,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO0, GPIO_PIN_0,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO0, GPIO_PIN_1,GPIO_MODE_IN_HI);
+        
         WriteTempEeprom();
         EA =1;     	
     }

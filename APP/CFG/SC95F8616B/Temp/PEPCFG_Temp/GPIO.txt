@@ -1,6 +1,7 @@
 [PinNumber]1[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P0.2[/PinName]
 [PinNumber]3[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P0.4[/PinName]
 [PinNumber]4[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]1[/Iindex][PinName]P0.5[/PinName]
+[PinNumber]11[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P5.3[/PinName]
 [PinNumber]15[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P4.3[/PinName]
 [PinNumber]16[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P4.2[/PinName]
 [PinNumber]17[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P4.1[/PinName]

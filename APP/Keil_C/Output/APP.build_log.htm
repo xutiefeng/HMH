@@ -22,14 +22,15 @@ Dialog DLL:      TP51.DLL V2.60.0.0
  
 <h2>Project:</h2>
 D:\tfxu\Project\AM901_0308\APP\Keil_C\project\APP.uvproj
-Project File Date:  03/20/2024
+Project File Date:  03/21/2024
 
 <h2>Output:</h2>
 Rebuild Project 'APP' - Target '<APP>'
 compiling main.c...
-D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(45): warning C206: 'sysRest': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(194): warning C206: 'sysRuning': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(200): warning C206: 'WriteTempEeprom': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(43): warning C206: 'DevicePowerOnInit': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(46): warning C206: 'sysRest': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(193): warning C206: 'sysRuning': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(199): warning C206: 'WriteTempEeprom': missing function-prototype
 compiling SC_Init.c...
 compiling SC_it.c...
 D:\tfxu\Project\AM901_0308\APP\Keil_C\User\SC_it.c(40): warning C206: 'ADCollectProcess': missing function-prototype
@@ -42,9 +43,9 @@ compiling MIIO_OPERATE.C...
 compiling clib.c...
 compiling globe.c...
 compiling sysRun.c...
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(257): warning C206: 'KeySelect': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(258): warning C206: 'KeyRest': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(259): warning C206: 'KeyGaoYaSwitch': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(303): warning C206: 'KeySelect': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(304): warning C206: 'KeyRest': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(305): warning C206: 'KeyGaoYaSwitch': missing function-prototype
 compiling bsp_Led.c...
 compiling buzzer.c...
 D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\buzzer.c(146): warning C280: 'HisDuty': unreferenced local variable
@@ -97,6 +98,10 @@ linking...
     MODULE:  ..\Output\main.obj (MAIN)
    DEFINED:  ..\Output\bsp_eeprom.obj (BSP_EEPROM)
 *** WARNING L25: DATA TYPES DIFFERENT
+    SYMBOL:  DevicePowerOnInit
+    MODULE:  ..\Output\main.obj (MAIN)
+   DEFINED:  ..\Output\sysRun.obj (SYSRUN)
+*** WARNING L25: DATA TYPES DIFFERENT
     SYMBOL:  sysRuning
     MODULE:  ..\Output\main.obj (MAIN)
    DEFINED:  ..\Output\sysRun.obj (SYSRUN)
@@ -120,9 +125,9 @@ linking...
     SYMBOL:  KeyGaoYaSwitch
     MODULE:  ..\Output\sysRun.obj (SYSRUN)
    DEFINED:  ..\Output\key.obj (KEY)
-Program Size: data=29.4 xdata=2948 const=306 code=18913
+Program Size: data=29.4 xdata=2949 const=306 code=19104
 creating hex file from "..\Output\APP"...
-"..\Output\APP" - 0 Error(s), 27 Warning(s).
+"..\Output\APP" - 0 Error(s), 29 Warning(s).
 Build Time Elapsed:  00:00:03
 </pre>
 </body>

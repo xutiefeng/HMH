@@ -28,7 +28,7 @@
 
 #define FeiShuiFa_IO  P41
 #define KongShuiFa_IO P43
-
+#define HuiLiuFa_io   P53
 
 #define InputKey_io  P05   
 #define DLy_8616B() _nop_();\

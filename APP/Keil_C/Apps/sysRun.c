@@ -1,3 +1,4 @@
+
 //////min sys//////
 #include "globe.h"
 #include "clib.h"
@@ -9,7 +10,11 @@
 //#include "factory.h"
 //#include "FuncTab.h"
 #include "..\Apps\bsp_Led.h"
+#include "..\Apps\ioConfig.h"
 #include "string.h"
+
+#define CLOSE_ALL_LED()  gbFlagData[3].all=0;BlueLedFlag =0;RedLedtFlag =0
+#define OPEN_ALL_LED()   gbFlagData[3].all=0xff;BlueLedFlag =1;RedLedtFlag =1
 
 /*****************************************************
 *函数名称：void CMP_Init(uchar CMPIS, uchar CMPRF)
@@ -27,8 +32,8 @@ void CMP_Init(void)
 
 void sysRest(void)
 {
-  memset(gbFlagData,0,5);
-  memset(&gstFilte,0,sizeof(gstFilte));
+ 	 memset(gbFlagData,0,5);
+ 	 memset(&gstFilte,0,sizeof(gstFilte));
 	gstAM901.stFilter = &gstFilte;
 }
 
@@ -62,7 +67,6 @@ void FilterlifeTime(emFilter type)
 }
 
 
-
 /************************************************************************* 
 * 函数名称:	FilterSysRunTime
 * 功能说明:	用于滤芯寿命計數.单位秒
@@ -91,19 +95,56 @@ void FilterSysRunTime(void)
 }
 
 /************************************************************************* 
-* 函数名称:	FilterSysRunTime
-* 功能说明:	用于芯寿命計數
+* 函数名称:	DevicePowerOn
+* 功能说明:	设备上电初始化
 * 输    入: 无	
 * 输    出: 无
 *************************************************************************/
-void PumpSysRunTime(void)
+volatile  u8 sDPOCnt =0;nt =0;
+void DevicePowerOnInit(void)
 {
 	
+	Blueled_io = 1;
+	Redled_io = 1;
+	Chanel_IO1 = 1;
+	Chanel_IO2 = 1;
+	led1_io = 0;
+	led2_io = 0;
+	led3_io = 0;
+	led4_io = 0;
+	Buzzer2Flag = 1;
+	BuzzerProcess();
+	while(1)
+	{
+		if(Ev100MSFlag)
+		{
+			sDPOCnt++;
+			Ev100MSFlag =0;
+			
+			  
+		    if(sDPOCnt>= 30)
+			{
+				break;
+			}
+			else if(sDPOCnt>= 2)
+			{
+				gbFlagData[5].all = 0;
+			}				
+		}
+	}
+	Chanel_IO1 = 0;
+	Chanel_IO2 = 0;
+	led1_io = 0;
+	led2_io = 0;
+	led3_io = 0;
+	led4_io = 0;
+	Blueled_io = 0;
+	Redled_io = 0;
 }
 
 /************************************************************************* 
 * 函数名称:	FirstPowerOnProcess
-* 功能说明:	首次上电处理
+* 功能说明:	首次上电对设备清洗处理
 * 输    入: 无	
 * 输    出: 无
 *************************************************************************/
@@ -139,21 +180,23 @@ void FirstPowerOnProcess(void)
 *************************************************************************/
 
 
-
 void MakeWaterProcess(void)
 {		
 		static u8 sMWaterStep = 5;
-		static u8 sMWaterStepCnt = 0;
+		static u16 sMWaterStepCnt = 0;
+	
+		if(FirstPownOnFlag)//和首次上电是互斥关系
+		{
+				return;
+		}	
 		
 		if(KeySwitchFlag && !MakeWaterFlag)//检测到高压开关打开,若设备没有制水，则开始制水
 		{
 			sMWaterStep =   0;
-			MakeWaterFlag = 1;				
+			MakeWaterFlag = 1;	
+			HuiLiuFa_io = 0;
 		}
-		else if(!KeySwitchFlag && sMWaterStep ==2)//检测高压开关关闭， 并且设备正在制水，则关闭进水阀，0.5秒后关闭气泵
-		{
-			sMWaterStep = 3;//
-		}
+
 		
 	
 		
@@ -162,17 +205,14 @@ void MakeWaterProcess(void)
 				case 0:
 					JinShuiFa_io =1;
 					sMWaterStep =1;
-				
-					LED1_L =0;
-				  LED2_L =0;
-				 	LED3_L =0;
 					LED4_L =1;
 					PunpFlag = 1;
+					
 				break;
 				
 				case 1://0.5秒后打开增压泵
 					sMWaterStepCnt++;
-					if(sMWaterStepCnt >9)
+					if(sMWaterStepCnt > _500MS_Per50MS)
 					{
 						sMWaterStepCnt = 0;
 						Pump_io = 1;
@@ -181,7 +221,11 @@ void MakeWaterProcess(void)
 				break;
 				
 				case 2:
-					_nop_();
+					if(!KeySwitchFlag)//水满
+					{
+							sMWaterStep++;
+							LED4_L =0;
+					}
 				break;
 				
 				case 3:
@@ -189,28 +233,46 @@ void MakeWaterProcess(void)
 					sMWaterStepCnt = 0;
 					sMWaterStep++;
 					MakeWaterFlag = 0;
-					LED1_L =0;
-				  	LED2_L =0;
-				 	LED3_L =0;
-					LED4_L =0;
 				break;
 				
 				case 4:
 					sMWaterStepCnt++;
-					if(sMWaterStepCnt >9)
+					if(sMWaterStepCnt > _500MS_Per50MS)
 					{
 						sMWaterStepCnt = 0;
 						Pump_io = 0;
-						sMWaterStep++;
-							
+						sMWaterStep++;							
 					}
 				break;
 				
 				case 5:
-					 PunpFlag = 0;
-					_nop_();
+					  PunpFlag = 0;
+					  sMWaterStepCnt++;
+						if(sMWaterStepCnt >_5Min_Per50MS)
+						{
+								sMWaterStepCnt = 0;
+								sMWaterStep++;		
+								
+						}
 				break;
-				
+						
+				case 6:
+						if(sMWaterStepCnt >_1Min_Per50MS)
+						{
+								sMWaterStepCnt = 0;
+								sMWaterStep = 5;		
+								HuiLiuFa_io = 0;
+								Pump_io = 0;
+						}
+						else
+						{
+								HuiLiuFa_io = 1;
+								Pump_io = 1;
+						}
+						if(KeySwitchFlag )
+							HuiLiuFa_io = 0;
+				break;
+						
 				default:
 				break;
 				
@@ -242,7 +304,7 @@ void sysRuning(void)
 		break; 
 				
         case ev5MS:       
-			 BuzzerProcess();
+					BuzzerProcess();
 			 //ADCollectProcess();	//	
         break;  
     
@@ -254,10 +316,10 @@ void sysRuning(void)
 				
         case ev50MS:
         {
-			KeySelect();
-			KeyRest();
-			KeyGaoYaSwitch();
-			MakeWaterProcess();						
+						KeySelect();
+						KeyRest();
+						KeyGaoYaSwitch();
+						MakeWaterProcess();						
         }
         break;
 				

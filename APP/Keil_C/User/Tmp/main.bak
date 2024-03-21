@@ -31,6 +31,7 @@ uint8_t KEY_test;
 ******************************************************************************************************/
 void main(void)
 {	
+    
 #if(LDROM_MODE==0)
     SetInterruptAPP();
 #endif
@@ -39,17 +40,15 @@ void main(void)
     IcResourceInit();
     //<SinOne-Flag><36>/*<UserCodeEnd>*//*<SinOne-Tag><36>*/
 /*<UserCodeStart>*//*<SinOne-Tag><60>*/
+    DevicePowerOnInit();
     OTA_Init(IOT_Uart_Receiver,&IOT_Uart_DataBuf);
-    IOT_Init(0);
-    TouchKeyInit();
+    IOT_Init(0);    
     sysRest();
-		EEpromInit();
-		while(gstRDsysTick.tickCnt < 200)
-		{
-				;
-		}
-    CMP_Init();
     
+    EEpromInit();
+    
+    TouchKeyInit();
+    CMP_Init();
     //<SinOne-Flag><60>/*<UserCodeEnd>*//*<SinOne-Tag><60>*/
 /*<UserCodeStart>*//*<SinOne-Tag><4>*/
     /*****MainLoop*****/

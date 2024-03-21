@@ -6,7 +6,7 @@
 //BOOLEAN LPUART0_SenBuf(INT8U *pucDat, INT32U ulLen)
 void sysRuning(void);
 void sysRest(void);
-
+void DevicePowerOnInit(void);
 #define  BSP_UART_TxData     ;//SERCOM0_USART_Write
 
 #endif

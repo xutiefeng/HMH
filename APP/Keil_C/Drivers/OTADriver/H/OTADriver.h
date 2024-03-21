@@ -2,25 +2,25 @@
 #define _OTADriver_H_
 
 //<<<Use SPTML>>>
-#define UartSelect 0//UartSelect 
+#define UartSelect 0 //UartSelect 
 #define UartBaud 115200
 #define Fsoc X
-#define CheckMode 0//CheckMode 
-#define Encryption 0//Encryption 
+#define CheckMode 0 //CheckMode 
+#define Encryption 0 //Encryption 
 #define EncryptionKeyH 0x181D050C//EncryptionKeyH 
 #define EncryptionKeyL 0x000D1517//EncryptionKeyL 
-#define FLASH_SIZE 0x10000//FLASH_SIZE 
+#define FLASH_SIZE 0x10000 //FLASH_SIZE 
 #define BOOTLOAD_SPACE_SIZE 0x2800//BOOTLOAD_SPACE_SIZE 
 #define MEMORY_AREA_SPACE_SIZE 0x200//MEMORY_AREA_SPACE_SIZE 
-#define PROJECT_SWITCH 0x01//PROJECT_SWITCH 
-#define LDROM_MODE 0//LDROM_MODE 
-#define BACKUPS_MODE 1//BACKUPS_MODE 
-#define FORCE_UPDATA 0//FORCE_UPDATA 
-#define VERSION_DATE 0x20230414//VERSION_DATE 
-#define ISP_TIME_WINDOW 4//ISP_TIME_WINDOW 
-#define DEBUG_WAITCH 1//DEBUG_WAITCH 
-#define DEBUG_PLATFORM 1//DEBUG_PLATFORM 
-#define FIRMWARE_DOWMLOADER_MODE 1//FIRMWARE_DOWMLOADER_MODE 
+#define PROJECT_SWITCH 0x01 //PROJECT_SWITCH 
+#define LDROM_MODE 0 //LDROM_MODE 
+#define BACKUPS_MODE 1 //BACKUPS_MODE 
+#define FORCE_UPDATA 0 //FORCE_UPDATA 
+#define VERSION_DATE 0x20230414 //VERSION_DATE 
+#define ISP_TIME_WINDOW 4 //ISP_TIME_WINDOW 
+#define DEBUG_WAITCH 1 //DEBUG_WAITCH 
+#define DEBUG_PLATFORM 1 //DEBUG_PLATFORM 
+#define FIRMWARE_DOWMLOADER_MODE 1 //FIRMWARE_DOWMLOADER_MODE 
 //<<<end of SPTML>>>
 
 #if LDROM_MODE == 1 
