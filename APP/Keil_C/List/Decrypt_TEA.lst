@@ -1,0 +1,60 @@
+C51 COMPILER V9.59.0.0   DECRYPT_TEA                                                       03/20/2024 20:54:40 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DECRYPT_TEA
+OBJECT MODULE PLACED IN ..\Output\Decrypt_TEA.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\Decrypt_TEA.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE 
+                    -INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..
+                    -\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\Decrypt_TEA.lst) TABS(2) OBJECT(..\Output\Decrypt_TEA.obj)
+
+line level    source
+
+   1          //************************************************************
+   2          //  Copyright (c) 深圳市赛元微电子有限公司
+   3          //  文件名称    : Encryption_AES.c
+   4          //  模块功能    : 赛元95系列 解密 TEA方式 C文件
+   5          //  更正日期    : 2019/5/30
+   6          //  版本        : V1.0
+   7          //************************************************************
+   8          #include "..\H\Decrypt_TEA.H"
+   9          #include"..\H\OTADriver.h"
+  10          
+  11          #if(Encryption == 1)//如果数据加密了在此进行解密
+              union TeaChunckType idata TeaChunck;
+              
+              void decrypt()
+              {
+                unsigned char i;
+                unsigned int delta = 0x9e37;
+                unsigned int sum = delta << 5;
+              
+                for(i = 0; i < 32; i++)
+                {
+                  TeaChunck.Chunk16bit[1] -= ((TeaChunck.Chunk16bit[0] << 4) + Key_TEA[2]) ^ (TeaChunck.Chunk16bit[0] + 
+             --sum) ^ ((TeaChunck.Chunk16bit[0] >> 5) + Key_TEA[3]);
+                  TeaChunck.Chunk16bit[0] -= ((TeaChunck.Chunk16bit[1] << 4) + Key_TEA[0]) ^ (TeaChunck.Chunk16bit[1] + 
+             --sum) ^ ((TeaChunck.Chunk16bit[1] >> 5) + Key_TEA[1]);
+                  sum -= delta;
+                }
+              
+              }
+              
+              #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

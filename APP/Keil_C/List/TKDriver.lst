@@ -1,0 +1,440 @@
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/20/2024 20:54:40 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE TKDRIVER
+OBJECT MODULE PLACED IN ..\Output\TKDriver.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\TKDriver\C\TKDriver.C LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTV
+                    -ECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\App
+                    -s;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\TKDriver.lst) TABS(2) OBJECT(..\Output\TKDriver.obj)
+
+line level    source
+
+   1          //*************************************************************************************************
+   2          //  Copyright (c)   深圳市赛元微电子有限公司
+   3          //  文件名称  :  S_TouchKeyCFG.c
+   4          //  作者    : 
+   5          //  模块功能  :  触控键代码程序
+   6          //  版本    :
+   7          //  更改记录  :
+   8          //  注意事项  :  用户需要配置的文件在S_TouchKeyCFG.h中
+   9          //  库版本标记  : 
+  10          //************************************************************************************************
+  11          #include "S_TouchKeyCFG.h"
+  12          #include "TKDriver.h"
+  13          #include "stdio.h"
+  14          //*************************************************************************************
+  15          //    844 寄存器定义
+  16          //*************************************************************************************
+  17          /*PSW*/
+  18          sfr   TK_PSW      =   0xD0; //程序状态字
+  19          sbit  TK_CY   =   TK_PSW^7; //进位  
+  20          
+  21          //===========================================================================
+  22          //全局变量定义
+  23          unsigned  char  xdata   SOCAPI_TouchKeyStatus;          //API接口状态：bit7-一轮扫描完成标志  1:完成  0：未完成
+  24                                                //         bit6-通道触摸计数溢出标志 1:溢出  0:未溢出
+  25          //===============================================================================
+  26          //全局变量声明：该区域不可修改
+  27          unsigned  int   xdata   RawData [SOCAPI_SET_TOUCHKEY_TOTAL];      
+  28          unsigned  int   xdata   BaseLine[SOCAPI_SET_TOUCHKEY_TOTAL];
+  29          unsigned    int   xdata   FilterData[SOCAPI_SET_TOUCHKEY_TOTAL];
+  30                                  
+  31          unsigned  char    xdata   RestAreaCnt[SOCAPI_SET_TOUCHKEY_TOTAL];       
+  32          unsigned  char    xdata   TouchCnt[SOCAPI_SET_TOUCHKEY_TOTAL];        
+  33          unsigned  char    xdata   NoTouchCnt[SOCAPI_SET_TOUCHKEY_TOTAL];  
+  34                
+  35          unsigned  char  xdata   CurrentChannel[SOCAPI_SET_TOUCHKEY_TOTAL];  
+  36                         
+  37          unsigned    char    xdata       LowFingerDataCnt[SOCAPI_SET_TOUCHKEY_TOTAL];
+  38          
+  39          unsigned  char    xdata   FloatAreaCnt[SOCAPI_SET_TOUCHKEY_TOTAL]; 
+  40          
+  41          unsigned  char  xdata     BaseLineAdjusttmp[SOCAPI_SET_TOUCHKEY_TOTAL];   
+  42          
+  43          int                 xdata       DifferAccum[SOCAPI_SET_TOUCHKEY_TOTAL]; 
+  44          char              xdata   SetNoiseThreshold;
+  45          
+  46          unsigned  char  xdata   ConfirmTouchCnt;
+  47          unsigned  char  xdata   MultipleDealTpye = 0; 
+  48          
+  49          //自定义变量
+  50          unsigned  int   xdata       UpdateBaseLNum;             // 单键长按计数器
+  51          unsigned  int   xdata       MultipleLNum;           // 多按键干扰计数
+  52          
+  53          //外部变量接口
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/20/2024 20:54:40 PAGE 2   
+
+  54          extern  unsigned  char  data    CurrentChannelMax;    //当前选中的keysensor的个数
+  55          extern  bit  bMultiple; //多按键标志  
+  56          extern  bit  GetIsNeedUpdateBaseline(void);
+  57          extern  void SetNeedUpdateBaseline(void);
+  58          extern  unsigned long int SensorKeyFlag(void);
+  59          extern  void MultipleDeal(unsigned char CycleCnt);
+  60          extern  void TouchKey_Service(void);
+  61          
+  62          /***************弹簧库独有***************/
+  63          #define   SOCAPI_SET_CS_FUNCTION            1   //0:表示不进行CS测试,1: 表示进行CS测试,默认0
+  64          #define   SOCAPI_INHIBITION_ZONE              8   //抑制区间%，设置范围5-10，默认7,即（7*10）%=70% ，连水时加大该
+             -参数,对讲机设置小
+  65          #define   SOCAPI_MAX_KEY_MUTIPLE            300   //多少次干扰更新基线，默认300*5=1500
+  66          #define   SOCAPI_MAX_KEY_NUM_INVALID          3   //强制更新基线按键限制个数，默认3
+  67          /****************************************/
+  68          
+  69          #define     AppType               0
+  70          #define     IsDoubleKey           1       // 0 弹簧 1 隔空
+  71          #define     AirSeparationDistance       2      //0 单按键  1 双按键
+  72          #define     CONFIRMTOUCHCNT                 3      //按键确认次数
+  73          #define     INIT_AUTO_UPDATE_TIME       4
+  74          #define     SET_KEY_CONTI_TIME              5        //按键最长输出
+  75          #define     SET_SYNC_UPDATE         6
+  76          #define     SET_UPDATE_SPEED        7 
+  77          #define     AUTO_UPDATE_TIME            8
+  78          #define     FilteredKValue          9
+  79          #define     SET_ANTIJAM             10
+  80          #define     BAUD                    11
+  81          #define     DwellTime               12
+  82          #define     SaveTime              13
+  83          #define     NOISE                           16
+  84          
+  85          #define     SET_TOUCH_FREQ          0
+  86          #define     SET_RESOLUTION          1
+  87          #define     SET_GAIN_CFG          2
+  88          #define     SCANTIME            3
+  89          #define     SET_ICHA            4
+  90          #define     FINGER_THRESHOLD_H          6
+  91          #define     FINGER_THRESHOLD_L          7
+  92          
+  93          
+  94          //**********************************************************************************  
+  95          //                函数接口调用部分                  //
+  96          //**********************************************************************************
+  97          /**************************************************
+  98          *函数名称：unsigned int SetOneKeyPushResetTime(void) 
+  99          *函数功能：按键最长的输出时间
+ 100          *入口参数：void
+ 101          *出口参数：unsigned int SOCAPI_SET_KEY_CONTI_TIME
+ 102          *备注  ：这个返回值的设置， 是根据有多长时间启动TouchKeyRestart（）一次
+ 103          例如10ms 启动一次， 那SOCAPI_SET_KEY_CONTI_TIME*10ms，超过时间后此按键无效。
+ 104          **************************************************/
+ 105          unsigned int SetOneKeyPushResetTime(void)   
+ 106          {   
+ 107   1        return  TKCFG[SET_KEY_CONTI_TIME];
+ 108   1      }
+ 109          /**************************************************
+ 110          *函数名称：int  GetBaselineUpdateThreshold(void)
+ 111          *函数功能：更新速度 
+ 112          *入口参数：void
+ 113          *出口参数：int 
+ 114          *备注  ：
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/20/2024 20:54:40 PAGE 3   
+
+ 115          **************************************************/
+ 116          int  GetBaselineUpdateThreshold(void)
+ 117          {
+ 118   1        return TKCFG[SET_UPDATE_SPEED]; 
+ 119   1      }
+ 120          
+ 121          /**************************************************
+ 122          *函数名称：unsigned char GetInitAutoUpdateTime(void)
+ 123          *函数功能：初始化自动校准次数
+ 124          *入口参数：void
+ 125          *出口参数：unsigned  char 
+ 126          *备注  ：
+ 127          **************************************************/
+ 128          unsigned char GetInitAutoUpdateTime(void)
+ 129          {
+ 130   1        return  TKCFG[INIT_AUTO_UPDATE_TIME];
+ 131   1      }
+ 132          /**************************************************
+ 133          *函数名称：unsigned char GetCsFunction(void)
+ 134          *函数功能：进行CS 测试
+ 135          *入口参数：void
+ 136          *出口参数：char SOCAPI_SET_CS_FUNCTION
+ 137          *备注  ：
+ 138          **************************************************/
+ 139          char GetCsFunction(void)
+ 140          {
+ 141   1        return SOCAPI_SET_CS_FUNCTION; 
+ 142   1      }
+ 143          /**************************************************
+ 144          *函数名称：int  GetCurrFingerValue(unsigned char i)
+ 145          *函数功能：获取当前的finger 值
+ 146          *入口参数：unsigned char
+ 147          *出口参数：int 
+ 148          *备注  ：
+ 149          **************************************************/
+ 150          unsigned int   GetCurrFingerValue(unsigned char i)
+ 151          { 
+ 152   1        return  TKChannelCfg[i][FINGER_THRESHOLD_H]*256+TKChannelCfg[i][FINGER_THRESHOLD_L] ;
+ 153   1      }
+ 154          
+ 155          /**************************************************
+ 156          *函数名称：unsigned char  GetScanTimeValue(unsigned char i)
+ 157          *函数功能：获取当前通道的扫描时间
+ 158          *入口参数：unsigned char
+ 159          *出口参数：unsigned char 
+ 160          *备注  ：
+ 161          **************************************************/
+ 162          unsigned char  GetScanTimeValue(unsigned char i)
+ 163          { 
+ 164   1        return TKChannelCfg[i][SCANTIME];   //
+ 165   1      }
+ 166          /**************************************************
+ 167          *函数名称：unsigned char IsDoubleKeyOrSlideKey(void)
+ 168          *函数功能：检测是否是弹簧滑条或者双键
+ 169          *入口参数：void
+ 170          *出口参数：unsigned char 
+ 171          *备注  ：
+ 172          **************************************************/
+ 173          unsigned char IsDoubleKeyOrSlideKey(void)
+ 174          {
+ 175   1          return TKCFG[IsDoubleKey];
+ 176   1      }
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/20/2024 20:54:40 PAGE 4   
+
+ 177          /**************************************************
+ 178          *函数名称：unsigned char  GetBaseLineAdjustValue(unsigned char i)
+ 179          *函数功能：获取当前通道的基线调整
+ 180          j
+ 181          *入口参数：unsigned char
+ 182          *出口参数：unsigned char 
+ 183          *备注  ：
+ 184          **************************************************/
+ 185          unsigned char  GetBaseLineAdjustValue(unsigned char i)
+ 186          { 
+ 187   1           return BaseLineAdjusttmp[i]; 
+ 188   1      }
+ 189          /**************************************************
+ 190          *函数名称：unsigned char GetUpConfirmCnt(void)
+ 191          *函数功能：检测按键弹起次数
+ 192          *入口参数：void
+ 193          *出口参数：返回按键弹起确认次数 
+ 194          *备注  ：
+ 195          **************************************************/
+ 196          unsigned char GetUpConfirmCnt(void)
+ 197          {
+ 198   1        return ConfirmTouchCnt>>1;
+ 199   1      }
+ 200          /**************************************************
+ 201          *函数名称：unsigned char GetTKYzCnt(void)
+ 202          *函数功能：获取按键抑制确认次数
+ 203          *入口参数：void
+ 204          *出口参数：返回抑制次数 
+ 205          *备注  ：
+ 206          **************************************************/
+ 207          
+ 208          unsigned char GetTKYzCnt(void)
+ 209          {
+ 210   1        return (ConfirmTouchCnt/3);
+ 211   1      }
+ 212          
+ 213          /**************************************************
+ 214          *函数名称：int GetTKYzThreshold(unsigned char i)
+ 215          *函数功能：获取按键抑制区间
+ 216          *入口参数：unsigned char i
+ 217          *出口参数：返回抑制区间
+ 218          *备注  ：
+ 219          **************************************************/
+ 220          int GetTKYzThreshold(unsigned char i)
+ 221          { 
+ 222   1        unsigned int SetFingerThresholdtmp; 
+ 223   1        
+ 224   1        SetFingerThresholdtmp = GetCurrFingerValue(i); 
+ 225   1          SetFingerThresholdtmp = SetFingerThresholdtmp*SOCAPI_INHIBITION_ZONE/10;
+ 226   1      
+ 227   1        return SetFingerThresholdtmp;
+ 228   1      }
+ 229          /**************************************************
+ 230          *函数名称：void CurrentSensorChoose(void)
+ 231          *函数功能：当前通道选择
+ 232          *入口参数：void
+ 233          *出口参数：void
+ 234          *备注  ：
+ 235          **************************************************/
+ 236          void CurrentSensorChoose(void)
+ 237          {
+ 238   1        unsigned char  data i = 0;
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/20/2024 20:54:40 PAGE 5   
+
+ 239   1        unsigned char  data Ctk_Channel_mark = 0;
+ 240   1      
+ 241   1         /**************************************************/
+ 242   1        unsigned long int  data  CurrentSensorKey ;      
+ 243   1        
+ 244   1        CurrentSensorKey = SOCAPI_SET_TOUCHKEY_CHANNEL; 
+ 245   1          
+ 246   1        for(i=0;i<31;i++)
+ 247   1        {
+ 248   2          CurrentSensorKey=CurrentSensorKey>>1;
+ 249   2          if(TK_CY)
+ 250   2          {
+ 251   3            CurrentChannel[Ctk_Channel_mark] = i;           //选择触摸当前的通道
+ 252   3            Ctk_Channel_mark++;
+ 253   3            if(Ctk_Channel_mark >= SOCAPI_SET_TOUCHKEY_TOTAL)
+ 254   3              break;
+ 255   3          }   
+ 256   2        }
+ 257   1        CurrentChannelMax = Ctk_Channel_mark;             //当前选择的按键数 
+ 258   1      }
+ 259          
+ 260          /**************************************************
+ 261          *函数名称：unsigned char  GetCfgMsg(unsigned char i)
+ 262          *函数功能：获取Touch KEY 配置信息
+ 263          *入口参数：void
+ 264          *出口参数：int 
+ 265          *备注  ：
+ 266          **************************************************/
+ 267          unsigned char  GetCfgMsg(unsigned char i)
+ 268          {
+ 269   1        switch(i)
+ 270   1        { 
+ 271   2           case 0:  return TKChannelCfg[0][SET_TOUCH_FREQ];   //0
+ 272   2           case 1:  return TKChannelCfg[0][SET_RESOLUTION];   //1
+ 273   2           case 2:  return TKChannelCfg[0][SET_GAIN_CFG];     //2   
+ 274   2           case 3:  return GetBaseLineAdjustValue(0);//TKChannelCfg[0][SET_GAIN_CFG];
+ 275   2           case 4:  return TKCFG[SET_ANTIJAM];        //10    0
+ 276   2           default:return 0;    
+ 277   2        }
+ 278   1      }
+ 279          
+ 280          /**************************************************
+ 281          *函数名称：void CurrentSensorChoose(void)
+ 282          *函数功能：初始化TK寄存器
+ 283          *入口参数：void
+ 284          *出口参数：void
+ 285          *备注  ：
+ 286          **************************************************/
+ 287          void TouchKeyCFGInit(void)
+ 288          {
+ 289   1        unsigned char  data i;
+ 290   1        ConfirmTouchCnt = TKCFG[CONFIRMTOUCHCNT];
+ 291   1        SetNoiseThreshold = TKCFG[NOISE];
+ 292   1        CurrentSensorChoose(); 
+ 293   1         for(i=0;i<CurrentChannelMax;i++)
+ 294   1        {
+ 295   2          BaseLineAdjusttmp[i] =TKChannelCfg[i][SET_ICHA];; 
+ 296   2        } 
+ 297   1        UpdateBaseLNum = 0; 
+ 298   1      }
+ 299          
+ 300          /**************************************************
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/20/2024 20:54:40 PAGE 6   
+
+ 301          *函数名称：unsigned int TouchKeyScan(void)
+ 302          *函数功能：检测按键接口
+ 303          *入口参数：void
+ 304          *出口参数：按键通道， 返回的是一个int , 通道数
+ 305          *备注  ：1,  调用触控库检测函数SensorKeyFlag()
+ 306                 2,  分析得出16个通道，哪个通道有按下，按下bit 位设置为1，否则为0
+ 307                 3,  检测是否需要立即更新baseline:  大于MAX_KEY_RESET_BASELINE 个按键按下时立即更新baseline
+ 308                 4,  双键或者单键按下时， 时间大于SetOneKeyPushResetTime()结果时更新baseline 
+ 309          **************************************************/
+ 310          unsigned long int TouchKeyScan(void)
+ 311          {
+ 312   1        unsigned char data t;
+ 313   1          unsigned char data MultipleCnt = 0;//按键计数
+ 314   1        unsigned long int data Keyvalue ; 
+ 315   1        unsigned long int data KeyData = 0;   
+ 316   1        
+ 317   1        if(GetIsNeedUpdateBaseline() == 0)        //检测是否需要更新baseline 
+ 318   1        {
+ 319   2          Keyvalue = SensorKeyFlag();         //Sensor判断, 这里如果bMultiple = 1 表示中间有干扰   //分析按键，得出标准
+             -的16通道bit 位                                     
+ 320   2          for(t=0;t<CurrentChannelMax;t++)
+ 321   2          {
+ 322   3            Keyvalue = Keyvalue>>1;
+ 323   3            if(TK_CY)
+ 324   3            {
+ 325   4              KeyData |= ((unsigned long int)0x01 << (CurrentChannel[t]));              
+ 326   4              MultipleCnt++;              
+ 327   4            }
+ 328   3          }                
+ 329   2          if(MultipleCnt >= 2)                    //进入多按键处理
+ 330   2          {     
+ 331   3            bMultiple = 1;      
+ 332   3            if(MultipleCnt >= SOCAPI_MAX_KEY_NUM_INVALID)
+ 333   3            {
+ 334   4              SetNeedUpdateBaseline();              // 立即更新baseline ,例如亚克力板盖上去
+ 335   4            }
+ 336   3            else
+ 337   3            {         
+ 338   4              if(IsDoubleKeyOrSlideKey())
+ 339   4              {
+ 340   5                bMultiple = 0;
+ 341   5              }          
+ 342   4            }     
+ 343   3          }     
+ 344   2      
+ 345   2          if(bMultiple == 0)              //进入按键判断
+ 346   2          {   
+ 347   3            if(KeyData != 0x0)              //单个按键达到多长时间就update baseline ,松手检测
+ 348   3            {     
+ 349   4              UpdateBaseLNum++; 
+ 350   4            }
+ 351   3            else  
+ 352   3            {
+ 353   4              UpdateBaseLNum = 0;   
+ 354   4            } 
+ 355   3          } 
+ 356   2          else
+ 357   2          {   
+ 358   3              //考虑基线更新    
+ 359   3            MultipleLNum++; 
+ 360   3            KeyData = 0x00;
+ 361   3          }
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/20/2024 20:54:40 PAGE 7   
+
+ 362   2      
+ 363   2          if(UpdateBaseLNum > SetOneKeyPushResetTime())   //按键超出最长输出时间更新基线
+ 364   2          {
+ 365   3            SetNeedUpdateBaseline(); 
+ 366   3            UpdateBaseLNum = 0;
+ 367   3          }
+ 368   2              
+ 369   2          if(MultipleLNum >SOCAPI_MAX_KEY_MUTIPLE)      //干扰计数大于最大计数更新基线
+ 370   2          {
+ 371   3            SetNeedUpdateBaseline(); 
+ 372   3            MultipleDealTpye = 1; 
+ 373   3            MultipleLNum = 0;
+ 374   3          }  
+ 375   2        }     
+ 376   1        else
+ 377   1        {
+ 378   2          MultipleDeal(TKCFG[AUTO_UPDATE_TIME]);                    //基线复位处理
+ 379   2        }  
+ 380   1        
+ 381   1        return KeyData;
+ 382   1      }
+ 383          
+ 384          /**************************************************
+ 385          *函数名称：void CTK_ISR(void) interrupt 11
+ 386          *函数功能：触摸中断服务函数
+ 387          *入口参数：void
+ 388          *出口参数：void
+ 389          *备注  ：
+ 390          **************************************************/
+ 391          void CTK_ISR(void) interrupt  11
+ 392          {
+ 393   1         TouchKey_Service();
+ 394   1      }
+ 395          
+ 396          
+ 397          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    725    ----
+   CONSTANT SIZE    =     50    ----
+   XDATA SIZE       =     38    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      17
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

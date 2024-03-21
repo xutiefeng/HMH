@@ -1,0 +1,119 @@
+C51 COMPILER V9.59.0.0   CR_UTIL                                                           03/20/2024 20:54:39 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CR_UTIL
+OBJECT MODULE PLACED IN ..\Output\CR_util.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\IOT_DRIVER\XIAOMI\CR_util.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVEC
+                    -TOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;
+                    -..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\CR_util.lst) TABS(2) OBJECT(..\Output\CR_util.obj)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -**
+   2            ********************************************************************************************************
+             -****/
+   3          #include "IOTCONFIG_XIAOMI.H"
+   4          /******************************************************************************
+   5           * Name:    CRC-16/XMODEM       x16+x12+x5+1
+   6           * Poly:    0x1021
+   7           * Init:    0x0000
+   8           * Refin:   False
+   9           * Refout:  False
+  10           * Xorout:  0x0000
+  11           * Alias:   CRC-16/ZMODEM,CRC-16/ACORN
+  12           *****************************************************************************/
+  13           #define TABLE_SIZE 256
+  14          
+  15          static uint32_t crc_table[TABLE_SIZE];
+  16          static const uint32_t rcrc32 = 0xEDB88320;
+  17           
+  18           
+  19          u16 CRC16_Xmodem(u16 crc, u8 *Data, u32 length)
+  20          {
+  21   1          u8 i;
+  22   1          while (length--)
+  23   1          {
+  24   2              crc ^= (u16)(*Data++) << 8; // crc ^= (u16)(*data)<<8; data++;
+  25   2              for (i = 0; i < 8; ++i)
+  26   2              {
+  27   3                  if (crc & 0x8000)
+  28   3                      crc = (crc << 1) ^ 0x1021;
+  29   3                  else
+  30   3                      crc <<= 1;
+  31   3              }
+  32   2          }
+  33   1          return crc;
+  34   1      }
+  35          
+  36          //
+  37          u16 CheckSum16(u16 cs, u8 *Pdata, u32 length)
+  38          {
+  39   1          u8 i;
+  40   1          for (i = 0; i < length; i++)
+  41   1          {
+  42   2              cs += Pdata[i];
+  43   2          }
+  44   1      
+  45   1          return cs;
+  46   1      }
+  47          //
+  48          
+  49          
+  50          void soft_crc32_init(void)
+  51          {
+C51 COMPILER V9.59.0.0   CR_UTIL                                                           03/20/2024 20:54:39 PAGE 2   
+
+  52   1        uint32_t crc = 0;
+  53   1        unsigned char i;
+  54   1        uint32_t j;
+  55   1      
+  56   1        for (j = 0; j < TABLE_SIZE; j++) {
+  57   2          crc = 0;
+  58   2          for (i = 0x01; i != 0x00; i <<= 1) {
+  59   3            if ((crc & 0x00000001) != 0) {
+  60   4              crc >>= 1;
+  61   4              crc ^= rcrc32;
+  62   4            } else {
+  63   4              crc >>= 1;
+  64   4            }
+  65   3            if ((j & i) != 0)
+  66   3              crc ^= rcrc32;
+  67   3          }
+  68   2          crc_table[j] = crc;
+  69   2        }
+  70   1      }
+  71          
+  72          uint32_t CRC32_Xmodem(uint32_t crc,u8 *Data, u32 data_size )
+  73          {
+  74   1        u32  result = crc;
+  75   1        unsigned char crc_H8;
+  76   1        soft_crc32_init();
+  77   1        
+  78   1        while (data_size--) {
+  79   2          crc_H8 = (unsigned char)(result & 0x000000FF);
+  80   2          result >>= 8;
+  81   2          result ^= crc_table[crc_H8 ^ (*Data)];
+  82   2          Data++;
+  83   2        }
+  84   1      
+  85   1        return result;
+  86   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    592    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   1028      45
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

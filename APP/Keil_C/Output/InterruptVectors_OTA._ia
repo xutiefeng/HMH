@@ -1,0 +1,1 @@
+"..\Drivers\OTADriver\C\InterruptVectors_OTA.A51" SET (LARGE) DEBUG PRINT(..\List\InterruptVectors_OTA.lst) OBJECT(..\Output\InterruptVectors_OTA.obj) EP

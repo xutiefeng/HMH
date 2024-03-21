@@ -1,0 +1,108 @@
+C51 COMPILER V9.59.0.0   OTADRIVER_IAP                                                     03/20/2024 20:54:40 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE OTADRIVER_IAP
+OBJECT MODULE PLACED IN ..\Output\OTADriver_IAP.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\OTADriver_IAP.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWS
+                    -E INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\
+                    -..\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\OTADriver_IAP.lst) TABS(2) OBJECT(..\Output\OTADriver_IAP.obj)
+
+line level    source
+
+   1          #include "..\H\OTADriver_IAP.h"
+   2          #include "..\H\OTADriver_Statement.H"
+   3          /**************************************************
+   4          *函数名称：IAP_ReadOneByte
+   5          *函数功能：单字节读
+   6          *入口参数：IAP_IapAddr 读取地址
+   7          *出口参数：unsigned char 读取的值  
+   8          **************************************************/
+   9          unsigned char IAP_ReadOneByte(unsigned long IAP_IapAddr)
+  10          {
+  11   1        unsigned char IAP_IapData;
+  12   1        IAP_IapData=IAP_ReadByte(IAP_IapAddr,IAP_MEMTYPE_APROM);
+  13   1        return IAP_IapData;
+  14   1      }
+  15          
+  16          /*****************************************************
+  17          *函数名称: void IAP_ReadNByte(unsigned int IAP_IapAddr,int Length, void *BuffAddr)    
+  18          *函数功能: 读N字节IAP操作
+  19          *入口参数：IAP_IapAddr ：地址 Length :读取长度  BuffAddr 存储buff
+  20          *出口参数：void
+  21          *****************************************************/
+  22          void IAP_ReadNByte(unsigned long IAP_IapAddr,int Length, void *BuffAddr)
+  23          {
+  24   1        int i;
+  25   1        
+  26   1        for(i = 0; i < Length; i++)
+  27   1        {
+  28   2           *((char *)BuffAddr + i)= IAP_ReadOneByte(IAP_IapAddr + i);
+  29   2        }
+  30   1      }
+  31          
+  32          
+  33          /**************************************************
+  34          *函数名称：IAP_WriteOneByte
+  35          *函数功能：IAP 单字节写ROM
+  36          *入口参数：IAP_IapAddr 写入地址 Write_IAP_IapData 写入数据
+  37          *出口参数：unsigned char 1 ：写入真确 0：写入错误  
+  38          **************************************************/
+  39          unsigned char IAP_WriteOneByte(unsigned long IAP_IapAddr,unsigned char Write_IAP_IapData)//
+  40          {
+  41   1        return IAP_ProgramByte(IAP_IapAddr,Write_IAP_IapData,IAP_MEMTYPE_ROM,0xF0);
+  42   1      
+  43   1      }
+  44          
+  45          
+  46          /*****************************************************
+  47          *函数名称: unsigned char IAP_WriteNByte(unsigned int IAP_IapAddr, int Length, void* Write_IAP_IapData)
+  48          *函数功能: 写N字节
+  49          *入口参数：IAP_IapAddr 地址， Length 写长度，Write_IAP_IapData 数据BUFF
+  50          *出口参数：1 写入准确 0 失败  
+  51          *****************************************************/
+  52          unsigned char IAP_WriteNByte(unsigned long IAP_IapAddr, int Length, void* Write_IAP_IapData)//写N字节IAP操
+             -作
+C51 COMPILER V9.59.0.0   OTADRIVER_IAP                                                     03/20/2024 20:54:40 PAGE 2   
+
+  53          {
+  54   1        int i;
+  55   1        
+  56   1        for(i = 0; i < Length; i ++)
+  57   1        {
+  58   2          if(!IAP_WriteOneByte(IAP_IapAddr + i, *((unsigned char *)Write_IAP_IapData + i)))
+  59   2            return 0;
+  60   2        }
+  61   1        
+  62   1        return 1;
+  63   1      }
+  64          
+  65          /**************************************************
+  66          *函数名称：void IAP_Erase_512B(unsigned long IAP_IapAddr)
+  67          *函数功能：擦除一个块（512B）
+  68          *入口参数：unsigned long IAP_IapAddr 地址
+  69          *出口参数：void
+  70          *备注  ：
+  71          **************************************************/
+  72          void IAP_Erase_512B(unsigned long IAP_IapAddr)//
+  73          {
+  74   1        IAP_SectorErase(IAP_MEMTYPE_ROM,IAP_IapAddr,0xF0);
+  75   1      }
+  76          //#endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    251    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      31
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

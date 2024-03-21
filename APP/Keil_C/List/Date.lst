@@ -1,0 +1,40 @@
+C51 COMPILER V9.59.0.0   DATE                                                              03/20/2024 20:54:40 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DATE
+OBJECT MODULE PLACED IN ..\Output\Date.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\Date.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECT
+                    -OR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;.
+                    -.\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\Date.lst) TABS(2) OBJECT(..\Output\Date.obj)
+
+line level    source
+
+   1          //************************************************************
+   2          //  Copyright (c) 深圳市赛元微电子有限公司
+   3          //  文件名称  : Date.c
+   4          //  模块功能  : 赛元BootLoader APP示例 C文件
+   5          //  更正日期  : 2021/4/21
+   6          //  版本    : V2.0
+   7          //************************************************************
+   8          #include "..\H\OTADriver.h"
+   9          //可设版本号或日期，HEX格式，不能含有A~F
+  10          //APP版本/日期设置，升级APP版本/日期需要大于旧APP版本/日期
+  11          unsigned long code VersionDate = VERSION_DATE;
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =      4    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

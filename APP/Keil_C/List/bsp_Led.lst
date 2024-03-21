@@ -1,0 +1,141 @@
+C51 COMPILER V9.59.0.0   BSP_LED                                                           03/20/2024 20:54:39 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_LED
+OBJECT MODULE PLACED IN ..\Output\bsp_Led.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Apps\bsp_Led.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECTOR(0X2800) I
+                    -NCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) DEFI
+                    -NE(SC95F8x1xB) DEBUG PRINT(..\List\bsp_Led.lst) TABS(2) OBJECT(..\Output\bsp_Led.obj)
+
+line level    source
+
+   1          #include "..\Apps\bsp_Led.h"
+   2          #include "..\Apps\includeall.h"
+   3          
+   4          
+   5          
+   6          void LED_sCan(void)
+   7          { 
+   8   1        if(gbFlagData[3].all ==0 )
+   9   1        {
+  10   2          Chanel_IO1 = 0;
+  11   2          Chanel_IO2 = 0;
+  12   2          
+  13   2          return;
+  14   2        }
+  15   1        led1_io = 1;
+  16   1        led2_io = 1;
+  17   1        led3_io = 1;
+  18   1        led4_io = 1;
+  19   1        if(LED1_L || LED2_L || LED3_L || LED4_L )
+  20   1        {
+  21   2          Chanel_IO1 = 1;
+  22   2          
+  23   2          
+  24   2          
+  25   2          if(LED1_L)
+  26   2          {
+  27   3            led1_io = 0;
+  28   3          }
+  29   2          
+  30   2          if(LED2_L)
+  31   2          {
+  32   3            led2_io = 0;
+  33   3          }
+  34   2      
+  35   2           if(LED3_L)
+  36   2          {
+  37   3            led3_io = 0;
+  38   3          }
+  39   2          
+  40   2           if(LED4_L)
+  41   2          {
+  42   3            led4_io = 0;
+  43   3          }
+  44   2      
+  45   2        }
+  46   1        else
+  47   1        {
+  48   2          Chanel_IO1 = 0;
+  49   2        }
+  50   1        
+  51   1          if(LED1_R || LED2_R || LED3_R || LED4_R )
+  52   1        {
+  53   2          Chanel_IO2 = 1;
+C51 COMPILER V9.59.0.0   BSP_LED                                                           03/20/2024 20:54:39 PAGE 2   
+
+  54   2          //led4_io = 1;
+  55   2        
+  56   2          if(LED1_R)
+  57   2          {
+  58   3            led1_io = 0;
+  59   3          }
+  60   2          if(LED2_R)
+  61   2          {
+  62   3            led2_io = 0;
+  63   3          }
+  64   2          
+  65   2           if(LED3_R)
+  66   2          {
+  67   3            led3_io = 0;
+  68   3          }
+  69   2          
+  70   2           if(LED4_R)
+  71   2          {
+  72   3            led4_io = 0;
+  73   3          }
+  74   2        }
+  75   1        else
+  76   1        {
+  77   2          Chanel_IO2 = 0;
+  78   2        }
+  79   1        
+  80   1      }
+  81          
+  82            
+  83          void LED_Process(void)
+  84          {
+  85   1      
+  86   1        
+  87   1      //  if(SysRunFlag)
+  88   1        //  return;
+  89   1        
+  90   1        if(BlueLedFlag)
+  91   1        {
+  92   2          Blueled_io = 1;
+  93   2        }
+  94   1        else
+  95   1        {
+  96   2          Blueled_io = 0;
+  97   2        }
+  98   1        
+  99   1        if(RedLedtFlag)
+ 100   1        {
+ 101   2          Redled_io = 1;
+ 102   2        }
+ 103   1        else
+ 104   1        {
+ 105   2          Redled_io = 0;
+ 106   2        }
+ 107   1          
+ 108   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    167    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V9.59.0.0   BSP_LED                                                           03/20/2024 20:54:39 PAGE 3   
+
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

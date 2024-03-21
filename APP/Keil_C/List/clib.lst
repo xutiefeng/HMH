@@ -1,0 +1,211 @@
+C51 COMPILER V9.59.0.0   CLIB                                                              03/20/2024 20:54:39 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CLIB
+OBJECT MODULE PLACED IN ..\Output\clib.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Apps\clib.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECTOR(0X2800) INCD
+                    -IR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) DEFINE(
+                    -SC95F8x1xB) DEBUG PRINT(..\List\clib.lst) TABS(2) OBJECT(..\Output\clib.obj)
+
+line level    source
+
+   1          #include "clib.h"
+   2          
+   3          #define DIS_INTRUPT     {}//NVIC_INT_Enable()
+   4          #define EN_INTRUPT      {}//NVIC_INT_Disable()
+   5          
+   6          void PushEvent(Uchar event)
+   7          { 
+   8   1        Uchar temp;
+   9   1      
+  10   1        if(gstPushPop.WriteEventCount >= EVENT_BUFFER_LENGTH)
+  11   1        {
+  12   2          gstPushPop.WriteEventCount = 0;
+  13   2        }
+  14   1        for(temp = 0; temp <= gstPushPop.WriteEventCount; temp++)
+  15   1        {
+  16   2          if(event == gEventBuffer[temp] && event != ev20MS && event != ev50MS && event != ev100MS && event != ev1
+             -S && event != ev5MS)
+  17   2          {
+  18   3            return;
+  19   3          }
+  20   2        }
+  21   1        gEventBuffer[gstPushPop.WriteEventCount] = event;
+  22   1        gstPushPop.WriteEventCount++; 
+  23   1      }
+  24          
+  25          Uchar PopEvent(void)
+  26          {
+  27   1          Uchar event;
+  28   1          DIS_INTRUPT;
+  29   1          if(gstPushPop.ReadEventCount >= EVENT_BUFFER_LENGTH)
+  30   1          {
+  31   2              gstPushPop.ReadEventCount = 0;
+  32   2              event = gEventBuffer[gstPushPop.ReadEventCount];
+  33   2          }
+  34   1          else
+  35   1          { 
+  36   2            if(gstPushPop.ReadEventCount >= gstPushPop.WriteEventCount)
+  37   2            { 
+  38   3              gstPushPop.ReadEventCount = 0;
+  39   3              gstPushPop.WriteEventCount = 0;
+  40   3      
+  41   3              event = 0xff;
+  42   3            }
+  43   2            else
+  44   2            {
+  45   3              event = gEventBuffer[gstPushPop.ReadEventCount];
+  46   3              gEventBuffer[gstPushPop.ReadEventCount] = 0xff;
+  47   3              gstPushPop.ReadEventCount++;
+  48   3            }
+  49   2          }
+  50   1        EN_INTRUPT;
+  51   1          
+  52   1        return (event);
+C51 COMPILER V9.59.0.0   CLIB                                                              03/20/2024 20:54:39 PAGE 2   
+
+  53   1      }
+  54          /*********************************************************************************************************
+             -***************************************
+  55           * 描述：向串口注册字节接收回调函数       
+  56           * 参数：UARTPort      -- 串口
+  57                   evt           --信号量
+  58           *       pRxByteCBFunc -- 要注册的回调函数。    
+  59           * 返回：无
+  60           * 注意：无
+  61          **********************************************************************************************************
+             -***************************************/
+  62          void ClibInit(void)
+  63          {
+  64   1        //**********************************注册串口函数******************************************
+  65   1        //BSP_UART_RegRxByteCBFunc(BSP_USART0,PushEvent,evReceiveZhuoDu);//注册主控板和浊度传感器间的通信函数
+  66   1        //BSP_UART_RegRxByteCBFunc(BSP_USART1,PushEvent,evReceiveDisplay);//注册显示函数
+  67   1        //BSP_UART_RegRxByteCBFunc(BSP_USART2,PushEvent,evReceiveBMS);//注册主控板和BMS板的间的通信函数
+  68   1        //BSP_UART_RegRxByteCBFunc(BSP_USART3,PushEvent,evReceiveJiZhan);//注册主控板 和 基站板的间的通信函数
+  69   1        //**********************************注册定时器事件******************************************
+  70   1        //BSP_RegTickEvntFunc(PushEvent );
+  71   1      }
+  72          
+  73          void EventCollect(void) 
+  74          {
+  75   1        if(EvRecvFlag)
+  76   1        {
+  77   2            EvRecvFlag = 0;
+  78   2            PushEvent(evReceiveDisplay);
+  79   2        }
+  80   1        
+  81   1        if(Ev3MSFlag)
+  82   1        {
+  83   2          Ev3MSFlag = 0;
+  84   2          PushEvent(ev3MS);
+  85   2        }
+  86   1       
+  87   1        if(Ev5MSFlag)
+  88   1        {
+  89   2          Ev5MSFlag = 0;
+  90   2          PushEvent(ev5MS);
+  91   2        }
+  92   1          
+  93   1        if(Ev20MSFlag)
+  94   1        {
+  95   2          Ev20MSFlag = 0;
+  96   2          PushEvent(ev20MS);
+  97   2        }
+  98   1        if(Ev50MSFlag)
+  99   1        {
+ 100   2          Ev50MSFlag = 0;
+ 101   2          PushEvent(ev50MS);
+ 102   2        }
+ 103   1        if(Ev100MSFlag)
+ 104   1        {
+ 105   2          Ev100MSFlag = 0;
+ 106   2          PushEvent(ev100MS);
+ 107   2        }
+ 108   1        if(Ev1SFlag)
+ 109   1        {
+ 110   2          Ev1SFlag = 0;
+ 111   2          PushEvent(ev1S);
+ 112   2        }
+C51 COMPILER V9.59.0.0   CLIB                                                              03/20/2024 20:54:39 PAGE 3   
+
+ 113   1        
+ 114   1      #if 0
+                
+                if(EvReceiveControlFlag)
+                {
+                  EvReceiveControlFlag = 0;
+                  PushEvent(evReceiveControl);
+                }
+                if(EvReceiveCoreFlag)
+                {
+                  EvReceiveCoreFlag = 0;
+                  PushEvent(evReceiveCore);
+                }
+                if(Ev25MsFlag)
+                {
+                  Ev25MsFlag = 0;
+                  PushEvent(evTime25MS);
+                }
+                if(Ev50MsFlag)
+                {
+                  Ev50MsFlag = 0;
+                  PushEvent(evTime50MS);
+                }
+                if(Ev100MsFlag)
+                {
+                  Ev100MsFlag = 0;
+                  PushEvent(evTime100MS);
+                }
+                if(Ev500MsFlag)
+                {
+                  Ev500MsFlag = 0;
+                  PushEvent(evTime500MS);
+                }
+                if(Ev1SFlag)
+                {
+                  Ev1SFlag = 0;
+                  PushEvent(evTime1S);
+                }
+              #endif
+ 152   1      }
+ 153          
+ 154          
+ 155          
+ 156          
+ 157          
+ 158          
+ 159          
+ 160          
+ 161          
+ 162          
+ 163          
+ 164          
+ 165          
+ 166          
+ 167          
+ 168          
+ 169          
+ 170          
+ 171          
+ 172          
+ 173          
+
+C51 COMPILER V9.59.0.0   CLIB                                                              03/20/2024 20:54:39 PAGE 4   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    287    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

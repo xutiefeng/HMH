@@ -1,0 +1,1 @@
+"..\Drivers\OTADriver\C\Decrypt_TEA.c" LARGE OMF2 OPTIMIZE (8,SIZE) BROWSE INTVECTOR(0x2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) DEFINE (SC95F8x1xB) DEBUG PRINT(..\List\Decrypt_TEA.lst) TABS (2) OBJECT(..\Output\Decrypt_TEA.obj)

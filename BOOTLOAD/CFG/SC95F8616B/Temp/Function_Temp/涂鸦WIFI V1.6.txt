@@ -1,0 +1,9 @@
+#define WIFI_TUYA_ID ekkrs3ek8mylhv8i //WIFI_TUYA_ID 
+#define INTERNET_MODE 2 //INTERNET_MODE 
+#define WIFI_LENGH_MAX 350 //WIFI_LENGH_MAX 
+#define WIFI_RXD_INIT 0x0201 //WIFI_RXD_INIT 
+#define WIFI_RXD P20 //WIFI_RXD 
+#define WIFI_TXD_INIT 0x0202 //WIFI_TXD_INIT 
+#define WIFI_TXD P21 //WIFI_TXD 
+#define TY_WIFI_BaudRate 115200 //TY_WIFI_BaudRate 
+//definition write here

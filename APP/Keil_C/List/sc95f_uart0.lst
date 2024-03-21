@@ -1,0 +1,552 @@
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_UART0
+OBJECT MODULE PLACED IN ..\Output\sc95f_uart0.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_uart0.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE 
+                    -INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..
+                    -\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_uart0.lst) TABS(2) OBJECT(..\Output\sc95f_uart0.obj)
+
+line level    source
+
+   1          //************************************************************
+   2          //  Copyright (c) 深圳市赛元微电子股份有限公司
+   3          //  文件名称:     sc95f_uart0.c
+   4          //  作者:         赛元应用团队
+   5          //  模块功能:     BTM固件库函数C文件
+   6          //  最后更正日期: 2024年1月18日
+   7          //  版本:       V1.0002
+   8          //  说明:
+   9          //*************************************************************
+  10          
+  11          #include "sc95f_uart0.h"
+  12          
+  13          #if !defined (SC95R751)
+  14          /**************************************************
+  15          *函数名称:void UART0_DeInit(void)
+  16          *函数功能:UART0相关寄存器复位至缺省值
+  17          *入口参数:void
+  18          *出口参数:void
+  19          **************************************************/
+  20          void UART0_DeInit(void)
+  21          {
+  22   1        SCON = 0X00;
+  23   1        SBUF = 0X00;
+  24   1        PCON &= 0X7F;
+  25   1        IE &= 0XEF;
+  26   1        IP &= 0XEF;
+  27   1      }
+  28          
+  29          /**************************************************
+  30          *函数名称:void UART0_Init(uint32_t Uart0Fsys, uint32_t BaudRate, UART0_Mode_Typedef Mode,
+  31                         UART0_Clock_Typedef ClockMode, UART0_RX_Typedef RxMode)
+  32          *函数功能:UART0初始化配置函数
+  33          *入口参数:
+  34          uint32_t:Uart0Fsys:系统时钟频率
+  35          uint32_t:BaudRate:波特率
+  36          UART0_Mode_Typedef:Mode:UART0工作模式
+  37          UART0_Clock_Typedef:ClockMode:波特率时钟源（TIMER1/TIMER2）
+  38          UART0_RX_Typedef:RxMode:接收允许选择
+  39          *出口参数:void
+  40          **************************************************/
+  41          void UART0_Init(uint32_t Uart0Fsys, uint32_t BaudRate, UART0_Mode_Typedef Mode,
+  42                  UART0_Clock_Typedef ClockMode, UART0_RX_Typedef RxMode)
+  43          {
+  44   1        SCON = SCON & 0X2F | Mode | RxMode; //设置UART工作模式,设置接收允许位
+  45   1      
+  46   1        if(Mode == UART0_Mode_8B)     //UART工作模式为模式0:8位半双工同步通信模式
+  47   1        {
+  48   2        //模式0时钟来源于系统时钟或系统时钟12分频
+  49   2        if(BaudRate == UART0_BaudRate_FsysDIV12)
+  50   2        {
+  51   3          SCON &= 0XDF;
+  52   3        }
+  53   2        else if(BaudRate == UART0_BaudRate_FsysDIV4)
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 2   
+
+  54   2        {
+  55   3          SCON |= 0X20;
+  56   3        }
+  57   2        }
+  58   1        else//UART工作模式为模式1或者模式3
+  59   1        {
+  60   2        TXCON = (TXCON & 0xCF) | ClockMode; //设置波特率时钟源
+  61   2      
+  62   2        /* 使用定时器1作为波特率发生器 */
+  63   2        if(ClockMode == UART0_CLOCK_TIMER1)
+  64   2        {
+  65   3          TH1 = (Uart0Fsys / BaudRate) / 256;
+  66   3          TL1 = (Uart0Fsys / BaudRate) % 256;
+  67   3          TR1 = 0;
+  68   3        }
+  69   2        /* 使用定时器2作为波特率发生器 */
+  70   2        else if(ClockMode == UART0_CLOCK_TIMER2)
+  71   2        {
+  72   3          TXINX = 0X02;     //TIMx寄存器组指向定时器2
+  73   3          RCAPXH = (Uart0Fsys / BaudRate) / 256;
+  74   3          RCAPXL = (Uart0Fsys / BaudRate) % 256;
+  75   3          TRX = 1;
+  76   3        }
+  77   2        }
+  78   1      }
+  79          
+  80          /*****************************************************
+  81          *函数名称:void UART0_SendData8(uint8_t Data)
+  82          *函数功能:UART0发送8位数据
+  83          *入口参数:
+  84          uint8_t:Data:发送的数据
+  85          *出口参数:void
+  86          *****************************************************/
+  87          void UART0_SendData8(uint8_t Data)
+  88          {
+  89   1        SBUF = Data;
+  90   1      }
+  91          
+  92          /**************************************************
+  93          *函数名称:uint8_t UART0_ReceiveData8(void)
+  94          *函数功能:获得SBUF中的值
+  95          *入口参数:void
+  96          *出口参数:
+  97          uint8_t:接收的数据
+  98          **************************************************/
+  99          uint8_t UART0_ReceiveData8(void)
+ 100          {
+ 101   1        return SBUF;
+ 102   1      }
+ 103          
+ 104          /*****************************************************
+ 105          *函数名称:void UART0_SendData9(uint16_t Data)
+ 106          *函数功能:UART0发送9位数据
+ 107          *入口参数:
+ 108          uint16_t:Data:发送的数据
+ 109          *出口参数:void
+ 110          *****************************************************/
+ 111          void UART0_SendData9(uint16_t Data)
+ 112          {
+ 113   1        uint8_t Data_9Bit;
+ 114   1        Data_9Bit = (Data >> 8);
+ 115   1      
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 3   
+
+ 116   1        /* 第9位数据放在SCON寄存器的第3位 */
+ 117   1        if(Data_9Bit)
+ 118   1        {
+ 119   2        SCON |= 0X08;
+ 120   2        }
+ 121   1        else
+ 122   1        {
+ 123   2        SCON &= 0XF7;
+ 124   2        }
+ 125   1      
+ 126   1        SBUF = (uint8_t)Data;
+ 127   1      }
+ 128          
+ 129          /**************************************************
+ 130          *函数名称:uint16_t UART0_ReceiveData9(void)
+ 131          *函数功能:获得SBUF中的值及第九位的值
+ 132          *入口参数:void
+ 133          *出口参数:
+ 134          uint16_t:SBUF中的值及第九位的值
+ 135          **************************************************/
+ 136          uint16_t UART0_ReceiveData9(void)
+ 137          {
+ 138   1        uint16_t Data9;
+ 139   1        /* 第9位数据放在SCON寄存器的第3位 */
+ 140   1        Data9 = SBUF + ((uint16_t)(SCON & 0X04) << 6);
+ 141   1        SCON &= 0XFB;
+ 142   1        return Data9;
+ 143   1      }
+ 144          
+ 145          /*****************************************************
+ 146          *函数名称:void UART0_ITConfig(FunctionalState NewState, PriorityStatus Priority)
+ 147          *函数功能:UART0中断初始化
+ 148          *入口参数:
+ 149          FunctionalState:NewState:中断使能/关闭选择
+ 150          PriorityStatus:Priority:中断优先级选择
+ 151          *出口参数:void
+ 152          *****************************************************/
+ 153          void UART0_ITConfig(FunctionalState NewState, PriorityStatus Priority)
+ 154          {
+ 155   1        if(NewState == DISABLE)
+ 156   1        {
+ 157   2        EUART = 0;
+ 158   2        }
+ 159   1        else
+ 160   1        {
+ 161   2        EUART = 1;
+ 162   2        }
+ 163   1      
+ 164   1        //设置中断优先级
+ 165   1        if(Priority == LOW)
+ 166   1        {
+ 167   2        IPUART = 0;
+ 168   2        }
+ 169   1        else
+ 170   1        {
+ 171   2        IPUART = 1;
+ 172   2        }
+ 173   1      }
+ 174          
+ 175          /*****************************************************
+ 176          *函数名称:StatusTypeDef UART0_Transmit8(UART0_HandleInfoDef* UART_HANDLE, uint8_t *pData, uint8_t Size,uin
+             -t32_t Timeout)
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 4   
+
+ 177          *函数功能:UART在轮询模式下发送大量数据
+ 178          *入口参数:
+ 179          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 180          uint8_t *:pData:待发送数据
+ 181          uint16_t:Size:待发送的数据量
+ 182          uint32_t:Timeout:超时时间设置
+ 183          *出口参数:
+ 184          StatusTypeDef:函数执行状态
+ 185          *****************************************************/
+ 186          StatusTypeDef UART0_Transmit(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size, uint32_t Time
+             -out)
+ 187          {
+ 188   1        uint32_t TimeoutCnt;
+ 189   1        /* 检查一个发送进程是否正在进行 */
+ 190   1        if(UART_HANDLE->TxState == UART0_STATE_READY)
+ 191   1        {
+ 192   2        /* 待发送数据长度必须大于0，否则返回错误状态 */
+ 193   2        if(Size == 0U)
+ 194   2        {
+ 195   3          return  Status_ERROR;
+ 196   3        }
+ 197   2      
+ 198   2        UART_HANDLE->TxState = UART0_STATE_BUSY;      //发送进程忙碌中
+ 199   2        TI = 0; //发送前清除发送标志
+ 200   2        UART_HANDLE->pTxBuffPtr.Size_u8 = pData;      //指向待发送数据的地址
+ 201   2        UART_HANDLE->TxXferSize = Size;     //更新待发送的数据量
+ 202   2        UART_HANDLE->TxXferCount = 0;     //发送计数器清零
+ 203   2      
+ 204   2          while(UART_HANDLE->TxXferCount < UART_HANDLE->TxXferSize)//判断是否接收所有数据
+ 205   2          {
+ 206   3            if((((SCON & 0xC0))) == UART0_Mode_11B)
+ 207   3            {
+ 208   4              SCON &= ~0x08;
+ 209   4              SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5);//设置第9位校验位
+ 210   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
+ 211   4            }
+ 212   3            else
+ 213   3            {
+ 214   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
+ 215   4            }
+ 216   3            
+ 217   3            while(!TI) //等待发送完成
+ 218   3            {
+ 219   4              if(TimeoutCnt++ > Timeout)
+ 220   4              {
+ 221   5                UART_HANDLE->TxState = UART0_STATE_TIMEOUT;//发送超时
+ 222   5                return Status_TIMEOUT;
+ 223   5              }
+ 224   4              WDTCON |= 0x10;     //喂狗，防止等待时间过长，导致WDT复位
+ 225   4            }
+ 226   3            
+ 227   3            UART0_ClearFlag(UART0_FLAG_TI); //发送中断标志清除，写1/写0清零
+ 228   3            TimeoutCnt = 0;
+ 229   3          UART_HANDLE->TxXferCount ++;  //发送数据量计数
+ 230   3        }
+ 231   2      
+ 232   2        if(UART_HANDLE->TxXferCount == UART_HANDLE->TxXferSize)
+ 233   2        {
+ 234   3          UART_HANDLE->TxState = UART0_STATE_READY; //发送完成
+ 235   3          return Status_OK;
+ 236   3        }
+ 237   2        else
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 5   
+
+ 238   2        {
+ 239   3          UART_HANDLE->TxState = UART0_STATE_ERROR;//发生发送错误
+ 240   3          return Status_ERROR;
+ 241   3        }
+ 242   2        }
+ 243   1        else
+ 244   1        {
+ 245   2        return Status_BUSY;//返回忙碌状态
+ 246   2        }
+ 247   1      }
+ 248          
+ 249          /*****************************************************
+ 250          *函数名称:StatusTypeDef UART0_Transmit8_IT(UART0_HandleInfoDef *UART_HANDLE, uint8_t *pData, uint8_t Size)
+ 251          *函数功能:UART在中断模式下发送大量数据时，先在main函数中调用此函数
+ 252          *入口参数:
+ 253          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 254          uint8_t *:pData:待发送数据的首地址
+ 255          uint16_t:Size:待发送的数据量
+ 256          *出口参数:
+ 257          StatusTypeDef:函数执行状态
+ 258          *****************************************************/
+ 259          StatusTypeDef UART0_Transmit_IT(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size)
+ 260          {
+ 261   1        /* 检查一个发送进程是否正在进行 */
+ 262   1        if (UART_HANDLE->TxState == UART0_STATE_READY)
+ 263   1        {
+ 264   2          /* 没有开启UART0中断或发送数据量大小为0，返回错误 */
+ 265   2          if ((EUART == 0) || (Size == 0U))
+ 266   2          {
+ 267   3            return Status_ERROR;
+ 268   3          }
+ 269   2      
+ 270   2        UART_HANDLE->TxState = UART0_STATE_BUSY;      //发送进程忙碌中
+ 271   2        TI = 0; //发送前清除发送标志
+ 272   2        UART_HANDLE->pTxBuffPtr.Size_u8 = pData;      //指向待发送数据的地址
+ 273   2        UART_HANDLE->TxXferSize = Size;     //更新待发送的数据量
+ 274   2        UART_HANDLE->TxXferCount = 0;     //发送计数器清零
+ 275   2      
+ 276   2      
+ 277   2        /* 发送第1帧数据 */
+ 278   2        if((SCON & 0xC0) == UART0_Mode_11B)
+ 279   2        {
+ 280   3          SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5) & 0x08;//设置第9位校验位
+ 281   3          SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
+ 282   3        }
+ 283   2        else
+ 284   2        {
+ 285   3          SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
+ 286   3        }
+ 287   2        return Status_OK;
+ 288   2        }
+ 289   1        else
+ 290   1        {
+ 291   2        return Status_BUSY;//返回标志位
+ 292   2        }
+ 293   1      }
+ 294          
+ 295          /*****************************************************
+ 296          *函数名称:StatusTypeDef UART0_Transmit_IRQHandler(UART0_HandleInfoDef *UART_HANDLE)
+ 297          *函数功能:UART在中断模式下发送大量数据时，在中断服务函数中调用
+ 298          * 注：该函数调用前需要判断中断标志位是否置起
+ 299          *入口参数:
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 6   
+
+ 300          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 301          *出口参数:
+ 302          StatusTypeDef:函数执行状态
+ 303          *****************************************************/
+ 304          StatusTypeDef UART0_Transmit_IRQHandler(UART0_HandleInfoDef* UART_HANDLE)
+ 305          {
+ 306   1        /* 处于发送线程 */
+ 307   1        if (UART_HANDLE->TxState == UART0_STATE_BUSY)
+ 308   1        {
+ 309   2          UART_HANDLE->TxXferCount++;
+ 310   2          /* 判断上一次发送是否是最后一次 */
+ 311   2          if (UART_HANDLE->TxXferCount < UART_HANDLE->TxXferSize)
+ 312   2          {
+ 313   3            /* 待发送数据量未为0，继续发送 */
+ 314   3            if((SCON & 0xC0) == UART0_Mode_11B)
+ 315   3            {
+ 316   4              SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5) & 0x08;//设置第9位校验位
+ 317   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
+ 318   4            }
+ 319   3            else
+ 320   3            {
+ 321   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
+ 322   4            }
+ 323   3            return Status_BUSY;
+ 324   3          }
+ 325   2          else if (UART_HANDLE->TxXferCount == UART_HANDLE->TxXferSize)
+ 326   2          {
+ 327   3            /* 发送完成 */
+ 328   3            UART_HANDLE->TxState = UART0_STATE_READY;
+ 329   3            return Status_OK;
+ 330   3          }
+ 331   2          else
+ 332   2          {
+ 333   3            /* 发送数据量为0时还发送数据，返回错误 */
+ 334   3            UART_HANDLE->TxState = UART0_STATE_ERROR;
+ 335   3            return Status_ERROR;
+ 336   3          }
+ 337   2        }
+ 338   1        else
+ 339   1        {
+ 340   2          return Status_ERROR;
+ 341   2        }
+ 342   1      }
+ 343          
+ 344          /*****************************************************
+ 345          *函数名称:UART0_StatusTypeDef UART0_Receive8(UART0_HandleInfoDef* UART_HANDLE, uint8_t *pData, uint8_t Siz
+             -e, uint32_t Timeout)
+ 346          *函数功能:UART在轮询模式下接收大量数据
+ 347          *入口参数:
+ 348          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 349          uint8_t *:pData:接收数据的存放
+ 350          uint16_t:Size:待接收的数据量
+ 351          uint32_t:Timeout:超时时间设置
+ 352          *出口参数:
+ 353          StatusTypeDef:函数执行状态
+ 354          *****************************************************/
+ 355          StatusTypeDef UART0_Receive(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size, uint32_t Timeo
+             -ut)
+ 356          {
+ 357   1        uint32_t TimeoutCnt = 0;
+ 358   1        /* 检查接收进程正在运行 */
+ 359   1        if(UART_HANDLE->RxState == UART0_STATE_READY)
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 7   
+
+ 360   1        {
+ 361   2          /* 检查接收数据量大小和是否开启接收使能 */
+ 362   2          if((Size == 0U) || ((SCON & 0x10) != UART0_RX_ENABLE))
+ 363   2          {
+ 364   3            return  Status_ERROR;
+ 365   3          }
+ 366   2      
+ 367   2        UART_HANDLE->RxState = UART0_STATE_BUSY;      //状态更新为接收忙碌中
+ 368   2        RI = 0;      //接收前清除接收中断标志
+ 369   2        UART_HANDLE->pRxBuffPtr.Size_u8 = pData;      //指向待发送数据的地址
+ 370   2        UART_HANDLE->RxXferSize = Size;     //更新待发送的数据量
+ 371   2        UART_HANDLE->RxXferCount = 0;     //发送计数器清零
+ 372   2      
+ 373   2          while(UART_HANDLE->RxXferCount < UART_HANDLE->RxXferSize) //判断是否接收所有数据
+ 374   2          {
+ 375   3            if(RI) //判断接收标志位
+ 376   3            {
+ 377   4              if((SCON & 0xC0) == UART0_Mode_11B)
+ 378   4              {
+ 379   5                *(UART_HANDLE->pRxBuffPtr.Size_u16 + UART_HANDLE->RxXferCount) = SBUF + ((uint16_t)(SCON & 0X04)
+             - << 6); //接收数据
+ 380   5              }
+ 381   4              else
+ 382   4              {
+ 383   5                *(UART_HANDLE->pRxBuffPtr.Size_u8 + UART_HANDLE->RxXferCount) = SBUF;     //接收数据
+ 384   5              }
+ 385   4              RI = 0;     //接收标志位清零
+ 386   4          UART_HANDLE->RxXferCount++; //接收数据量计数加1
+ 387   4          TimeoutCnt = 0;//收到数据，超时计数清零
+ 388   4          }
+ 389   3          else
+ 390   3          {
+ 391   4          if(TimeoutCnt++ > Timeout)//计时溢出
+ 392   4          {
+ 393   5            UART_HANDLE->RxState = UART0_STATE_TIMEOUT;//发送超时
+ 394   5            return Status_TIMEOUT;
+ 395   5          }
+ 396   4              WDTCON |= 0x10;     //喂狗，防止等待时间过长，导致WDT复位
+ 397   4          }
+ 398   3        }
+ 399   2      
+ 400   2        if(UART_HANDLE->RxXferCount == UART_HANDLE->RxXferSize)
+ 401   2        {
+ 402   3          UART_HANDLE->RxState = UART0_STATE_READY; //接收完成
+ 403   3          return Status_OK;
+ 404   3        }
+ 405   2        else
+ 406   2        {
+ 407   3          UART_HANDLE->RxState = UART0_STATE_ERROR;//接收错误
+ 408   3          return Status_ERROR;
+ 409   3        }
+ 410   2        }
+ 411   1        else
+ 412   1        {
+ 413   2        return Status_BUSY;//返回标志位
+ 414   2        }
+ 415   1      }
+ 416          
+ 417          /*****************************************************
+ 418          *函数名称:StatusTypeDef UART0_Transmit_IT(UART0_HandleInfoDef *UART_HANDLE, uint8_t *pData, uint8_t Size)
+ 419          *函数功能:UART在中断模式下接收大量数据时，先在main函数中调用此函数
+ 420          *入口参数:
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 8   
+
+ 421          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 422          uint8_t *:pData:接收数据的存放区
+ 423          uint16_t:Size:待接收的数据量
+ 424          *出口参数:
+ 425          StatusTypeDef:函数执行状态
+ 426          *****************************************************/
+ 427          StatusTypeDef UART0_Receive_IT(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size)
+ 428          {
+ 429   1        /* 检查一个接收进程是否正在进行 */
+ 430   1        if (UART_HANDLE->RxState == UART0_STATE_READY)
+ 431   1        {
+ 432   2          /* 检查是否开启UART0中断或发送数据量大小为0或是否开启接收使能，返回错误 */
+ 433   2          if ((EUART == 0) || (Size == 0U) || ((SCON & 0x10) != UART0_RX_ENABLE))
+ 434   2          {
+ 435   3            return UART0_STATE_ERROR;
+ 436   3          }
+ 437   2      
+ 438   2        UART_HANDLE->RxState = UART0_STATE_BUSY;
+ 439   2        UART_HANDLE->pRxBuffPtr.Size_u8 = pData;      //指向接收数据的存放地址
+ 440   2        UART_HANDLE->RxXferSize = Size;     //更新待接收的数据量
+ 441   2        UART_HANDLE->RxXferCount = 0;     //发送计数器清零
+ 442   2      
+ 443   2        return Status_OK;
+ 444   2        }
+ 445   1        else
+ 446   1        {
+ 447   2        return Status_BUSY;//返回标志位
+ 448   2        }
+ 449   1      }
+ 450          
+ 451          /*****************************************************
+ 452          *函数名称:StatusTypeDef UART0_Receive8_IRQHandler(UART0_HandleInfoDef* UART_HANDLE)
+ 453          *函数功能:UART在中断模式下接收大量数据时，在中断服务函数中调用
+ 454          *入口参数:
+ 455          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 456          *出口参数:
+ 457          StatusTypeDef:函数执行状态
+ 458          *****************************************************/
+ 459          StatusTypeDef UART0_Receive_IRQHandler(UART0_HandleInfoDef* UART_HANDLE)
+ 460          {
+ 461   1        /* 检查一个接收进程是否正在进行 */
+ 462   1        if (UART_HANDLE->RxState == UART0_STATE_BUSY)
+ 463   1        {
+ 464   2          /* 处于接收线程，检查待接收数据量是否为0 */
+ 465   2          if (UART_HANDLE->RxXferCount < UART_HANDLE->RxXferSize)
+ 466   2          {
+ 467   3            if((SCON & 0xC0) == UART0_Mode_11B)
+ 468   3            {
+ 469   4              *(UART_HANDLE->pRxBuffPtr.Size_u16 + UART_HANDLE->RxXferCount) = SBUF + ((uint16_t)(SCON & 0X04) << 6)
+             -; //接收数据
+ 470   4            }
+ 471   3            else
+ 472   3            {
+ 473   4              *(UART_HANDLE->pRxBuffPtr.Size_u8 + UART_HANDLE->RxXferCount) = SBUF;     //接收数据
+ 474   4            }
+ 475   3            UART_HANDLE->RxXferCount++;
+ 476   3            /* 判断上一次发送是否是最后一次 */
+ 477   3            if (UART_HANDLE->RxXferCount == UART_HANDLE->RxXferSize)
+ 478   3            {
+ 479   4              /* 接收完成 */
+ 480   4              UART_HANDLE->RxState = UART0_STATE_READY;
+ 481   4              return Status_OK;
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/20/2024 20:54:40 PAGE 9   
+
+ 482   4            }
+ 483   3            return Status_BUSY;
+ 484   3            
+ 485   3          }
+ 486   2          else
+ 487   2          {
+ 488   3            /* 接收数据量为0时还接收数据，返回错误 */
+ 489   3            UART_HANDLE->RxState = UART0_STATE_ERROR;
+ 490   3            return Status_ERROR;
+ 491   3          }
+ 492   2        }
+ 493   1        else
+ 494   1        {
+ 495   2          return Status_BUSY;
+ 496   2        }
+ 497   1      }
+ 498          
+ 499          #endif
+ 500          
+ 501          /******************* (C) COPYRIGHT 2020 SinOne Microelectronics *****END OF FILE****/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1762    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      61
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

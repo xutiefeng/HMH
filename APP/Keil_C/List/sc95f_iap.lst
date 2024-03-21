@@ -1,0 +1,1165 @@
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_IAP
+OBJECT MODULE PLACED IN ..\Output\sc95f_iap.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_iap.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE IN
+                    -TVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\A
+                    -pps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_iap.lst) TABS(2) OBJECT(..\Output\sc95f_iap.obj)
+
+line level    source
+
+   1          //************************************************************
+   2          //  Copyright (c) 深圳市赛元微电子股份有限公司
+   3          //  文件名称:     sc95f_iap.c
+   4          //  作者:       赛元应用团队
+   5          //  模块功能:     IAP固件库函数H文件
+   6          //  最后更正日期: 2024年1月18日
+   7          //  版本:       V1.0002
+   8          // 说明:        该文件仅适用于SC95F系列芯片
+   9          //*************************************************************
+  10          #include "sc95f_iap.h"
+  11          
+  12          #if defined (SC95F8x6x) || defined (SC95F7x6x) || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined 
+             -(SC95R751)\
+  13              || defined (SC95F7610B) || defined (SC95F7619B) || defined (SC95R602)  || defined (SC95R605)  || defined
+             - (SC95F7x7x)\
+  14              || defined (SC95F8x7x)  || defined (SC95R503)
+  15          /* IAP固件库函数头文件 */
+  16          #include "IAP_Option_EW.h"
+  17          
+  18          /**************************************************
+  19          *函数名称:void IAP_SectorEraseOption(Address,Data,IAP_MemType)
+  20          *函数功能:IAP扇区擦除
+  21          *入口参数:uint32_t:Address:IAP操作地址
+  22          *         IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+  23          *出口参数:void
+  24          **************************************************/
+  25          #define IAP_SectorEraseOption(Address,IAP_MemType) \
+  26          do{\
+  27          if(IAP_MemType == IAP_MEMTYPE_ROM)\
+  28          {\
+  29            IAP_CodeSectorEraseOption(Address);\
+  30          }\
+  31          else if(IAP_MemType == IAP_MEMTYPE_EEPROM)\
+  32          {\
+  33            IAP_EEPROMSectorEraseOption(Address);\
+  34          }\
+  35          }while(0);
+  36          
+  37          /**************************************************
+  38          *函数名称:void IAP_ProgramByteOption(Address,Data,IAP_MemType)
+  39          *函数功能:IAP单Byte写入
+  40          *入口参数:uint32_t:Address:IAP操作地址
+  41          *         uint8_t:Data:写入的数据
+  42          *         IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+  43          *出口参数:void
+  44          **************************************************/
+  45          #define IAP_ProgramByteOption(Address,Data,IAP_MemType) \
+  46          do{\
+  47          if(IAP_MemType == IAP_MEMTYPE_ROM)\
+  48          {\
+  49            IAP_CodeProgramByteOption(Address,Data);\
+  50          }\
+  51          else if(IAP_MemType == IAP_MEMTYPE_EEPROM)\
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 2   
+
+  52          {\
+  53            IAP_EEPROMProgramByteOption(Address,Data);\
+  54          }\
+  55          }while(0);
+  56          
+  57          #endif
+  58          
+  59          /**************************************************
+  60          *函数名称:void IAP_DeInit(void)
+  61          *函数功能:IAP相关寄存器复位至缺省值
+  62          *入口参数:void
+  63          *出口参数:void
+  64          **************************************************/
+  65          void IAP_DeInit(void)
+  66          {
+  67   1        IAPKEY = 0X00;
+  68   1        IAPADL = 0X00;
+  69   1        IAPADH = 0X00;
+  70   1        IAPADE = 0X00;
+  71   1        IAPDAT = 0X00;
+  72   1        IAPCTL = 0X00;
+  73   1      }
+  74          
+  75          #if defined(SC95F8x3x) || defined(SC95F7x3x) || defined (SC95F8x6x) || defined (SC95F7x6x) || defined (SC9
+             -5R751)
+              /* 128KbFlash的IAP操作 */
+              /**************************************************
+              *函数名称:uint8_t IAP_ReadByte(uint16_t Address, IAP_MemType_TypeDef IAP_MemType)
+              *函数功能:IAP读一个字节
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              *出口参数:
+              uint8_t:读到的字节数据
+              **************************************************/
+              uint8_t IAP_ReadByte(uint32_t Address, IAP_MemType_TypeDef IAP_MemType)
+              {
+                uint8_t tmpbyte;
+                BitStatus tmpbit;
+                uint8_t xdata tmpROMBNK;
+                uint8_t tmpIAPADE;
+              
+                tmpbit = (BitStatus)EA;     //保存中断标志位状态
+                /* 保存当前IAP操作区域和Bank分区 */
+                tmpIAPADE = IAPADE;
+                tmpROMBNK = ROMBNK;
+              
+                /* 如果开启了总中断，需要关闭总中断，防止IAP操作出错 */
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+              
+                /* 逻辑地址转MCU地址 */
+                if(Address >= 0x10000)  //如果超过64K则需要操作Bank寄存器指向目标地址
+                {
+                  if(Address < 0x18000)
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x20;
+                    Address = (Address - 0x8000);
+                  }
+                  else if(Address < 0x20000)
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 3   
+
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x30;
+                    Address = (Address - 0x10000);
+                  }
+                  else
+                  {
+                    return 0x00;      //超出Flash Rom范围大小，返回0x00
+                  }
+                }
+                else
+                {
+                  ROMBNK = (ROMBNK & 0xCF) | 0x10;
+                }
+              
+                IAPADE = IAP_MemType;       //选择需要操作的IAP区域
+                tmpbyte = *((uint8_t code*)Address);      //读取地址中存储的数据
+              
+                /* 恢复原IAP操作区域和Bank分区 */
+                IAPADE = tmpIAPADE;
+                ROMBNK = tmpROMBNK;
+              
+                /* 恢复原中断总开关 */
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+              
+                return tmpbyte;     //返回读出的数据
+              }
+              
+              /**************************************************
+              *函数名称:uint8_t IAP_ReadByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_T
+             -ypeDef IAP_MemType)
+              *函数功能:IAP读取长度可设的字节数组
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              uint8_t:ArraySize:需要读取数组的长度
+              uint8_t *:ByteArray:存放读取数据的数组指针
+              *出口参数:
+              uint8_t:成功读取到的数据长度
+              **************************************************/
+              uint8_t IAP_ReadByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_TypeDef IAP
+             -_MemType)
+              {
+                BitStatus tmpbit;
+                uint8_t xdata tmpROMBNK;
+                uint8_t tmpIAPADE;
+                uint8_t tmpCnt;
+              
+                tmpbit = (BitStatus)EA;     //保存中断标志位状态
+                /* 保存当前IAP操作区域和Bank分区 */
+                tmpIAPADE = IAPADE;
+                tmpROMBNK = ROMBNK;
+              
+                /* 如果开启了总中断，需要关闭总中断，防止IAP操作出错 */
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+              
+                //逻辑地址转MCU地址
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 4   
+
+                if(Address >= 0x10000)  //如果超过64K则需要操作Bank寄存器指向目标地址
+                {
+                  if(Address < 0x18000)
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x20;
+                    Address = (Address - 0x8000);
+                  }
+                  else if(Address < 0x20000)
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x30;
+                    Address = (Address - 0x10000);
+                  }
+                  else
+                  {
+                    return 0x00;      //超出Flash Rom范围大小，返回0x00
+                  }
+                }
+                else
+                {
+                  ROMBNK = (ROMBNK & 0xCF) | 0x10;
+                }
+                IAPADE = IAP_MemType;       //选择需要操作的IAP区域
+              
+                tmpCnt = 0;
+                do
+                {
+                  /* 读取过程中发生地址溢出 */
+                  if(Address >= 0x10000)
+                  {
+                    Address = (Address - 0x8000);
+                    ROMBNK = ROMBNK + 0x10;
+                  }
+              
+                  ByteArray[tmpCnt] = *((uint8_t code*)Address);      //读取地址中存储的数据
+                  Address++;
+                }
+                while(++tmpCnt < ArraySize);
+              
+                /* 恢复原IAP操作区域和Bank分区 */
+                ROMBNK = tmpROMBNK;
+                IAPADE = tmpIAPADE;
+              
+                /* 恢复原中断总开关 */
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+              
+                return tmpCnt;
+              }
+              
+              #if defined(SC95F8x3x) || defined(SC95F7x3x)
+              /**************************************************
+              *函数名称:void IAP_ProgramByte(uint16_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType, uint8_t Wr
+             -iteTimeLimit)
+              *函数功能:IAP写入一个字节
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              uint8_t:Data:写入的数据
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              uint8_t:WriteTimeLimit:IAP操作时限（值需大于等于0x40）
+              *出口参数:
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 5   
+
+              ErrorStatus:写入成功/失败
+              **************************************************/
+              ErrorStatus IAP_ProgramByte(uint32_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType,
+                                          uint8_t WriteTimeLimit)
+              {
+                BitStatus tmpbit;
+                uint8_t xdata tmpROMBNK;
+                uint8_t tmpIAPADE;
+                uint8_t tmpData;
+              
+                /* UID区域不允许写操作 */
+                if((IAP_MemType == IAP_MEMTYPE_UID))
+                  return ERROR;
+              
+                tmpbit = (BitStatus)EA;
+                tmpIAPADE = IAPADE;
+                tmpROMBNK = ROMBNK;
+              
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+              
+                /* 逻辑地址转MCU地址 */
+                if(Address >= 0x10000)  //如果超过64K则需要操作Bank寄存器指向目标地址
+                {
+                  if(Address < 0x18000)
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x20;
+                    Address = (Address - 0x8000);
+                  }
+                  else if(Address < 0x20000)
+                  {
+              
+                    ROMBNK = (ROMBNK & 0xCF) | 0x30;
+                    Address = (Address - 0x10000);
+                  }
+                  else
+                  {
+                    return 0x00;      //超出Flash Rom范围大小，返回0x00
+                  }
+                }
+                else
+                {
+                  ROMBNK = (ROMBNK & 0xCF) | 0x10;
+                }
+              
+                IAPADE = IAP_MemType;
+                IAPDAT = Data;
+                IAPADH = (unsigned char)(Address >> 8);
+                IAPADL = (unsigned char)(Address);
+              
+                IAPKEY = WriteTimeLimit;
+                IAPCTL = 0x10;
+                IAPCTL |= 0x02;
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 6   
+
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+              
+                tmpData = *((uint8_t code*)Address);      //回读写入的数据
+              
+                ROMBNK = tmpROMBNK;
+                IAPADE = tmpIAPADE;
+                EA = tmpbit;
+              
+                /* 判断实际写入数据和理论数据是否一致*/
+                if(Data != tmpData)
+                  return ERROR;
+                else
+                  return SUCCESS;
+              }
+              
+              /**************************************************
+              *函数名称:uint8_t IAP_ProgramByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemTyp
+             -e_TypeDef IAP_MemType,uint8_t WriteTimeLimit)
+              *函数功能:IAP写入长度可设的字节数组
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              uint8_t:ArraySize:需要写入数组的长度
+              uint8_t*:ByteArray:写入数据的数组指针
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              uint8_t:WriteTimeLimit:IAP操作时限（值需大于等于0x40）
+              *出口参数:
+              uint8_t:数组中数据写入成功的长度
+              **************************************************/
+              uint8_t IAP_ProgramByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_TypeDef 
+             -IAP_MemType,
+                                           uint8_t WriteTimeLimit)
+              {
+                BitStatus tmpbit;
+                uint8_t xdata tmpROMBNK;
+                uint8_t tmpIAPADE;
+                uint8_t tmpCnt;
+              
+                /* UID区域不允许写操作 */
+                if((IAP_MemType == IAP_MEMTYPE_UID))
+                  return 0;
+              
+                tmpbit = (BitStatus)EA;
+                tmpIAPADE = IAPADE;
+                tmpROMBNK = ROMBNK;
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+              
+                //逻辑地址转MCU地址
+                if(Address >= 0x10000)  //如果超过64K则需要操作Bank寄存器指向目标地址
+                {
+                  if(Address < 0x18000)
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x20;
+                    Address = (Address - 0x8000);
+                  }
+                  else if(Address < 0x20000)
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 7   
+
+                  {
+              
+                    ROMBNK = (ROMBNK & 0xCF) | 0x30;
+                    Address = (Address - 0x10000);
+                  }
+                  else
+                  {
+                    return 0x00;      //超出Flash Rom范围大小，返回0x00
+                  }
+                }
+                else
+                {
+                  ROMBNK = (ROMBNK & 0xCF) | 0x10;
+                }
+              
+                IAPADE = IAP_MemType;
+              
+                tmpCnt = 0;
+                do
+                {
+                  /* 读取过程中发生地址溢出 */
+                  if(Address >= 0x10000)
+                  {
+                    Address = (Address - 0x8000);
+                    ROMBNK = ROMBNK + 0x10;
+                  }
+              
+                  IAPDAT = ByteArray[tmpCnt];
+                  IAPADH = (unsigned char)(Address >> 8);
+                  IAPADL = (unsigned char)(Address);
+                  IAPKEY = WriteTimeLimit;
+              
+                  IAPCTL = 0x10;
+                  IAPCTL |= 0x02;
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+              
+                  if(ByteArray[tmpCnt] != *((uint8_t code*)Address))
+                    break;
+                  Address++;
+                }
+                while(++tmpCnt < ArraySize);
+                ROMBNK = tmpROMBNK;
+                IAPADE = tmpIAPADE;
+                EA = tmpbit;
+              
+                return tmpCnt;
+              }
+              
+              /**************************************************
+              *函数名称:void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint32_t IAP_SectorEraseAddress,
+                                   uint8_t WriteTimeLimit)
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 8   
+
+              *函数功能:IAP扇区擦除
+              *入口参数:
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              uint32_t:IAP_SectorEraseAddress:IAP扇区擦除目标地址
+              uint8_t:WriteTimeLimit:IAP操作时限(值需大于等于0x40)
+              *出口参数:void
+              **************************************************/
+              void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint32_t IAP_SectorEraseAddress,
+                                   uint8_t WriteTimeLimit)
+              {
+                uint8_t tmpbit;
+                uint8_t xdata tmpROMBNK;
+                uint8_t tmpIAPADE;
+              
+                /* UID区域不允许扇区擦除操作 */
+                if((IAP_MemType == IAP_MEMTYPE_UID))
+                  return;
+              
+                tmpbit = (BitStatus)EA;
+                tmpIAPADE = IAPADE;
+                tmpROMBNK = ROMBNK;
+              
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+              
+                //逻辑地址转MCU地址
+                if(IAP_SectorEraseAddress >= 0x10000)  //如果超过64K则需要操作Bank寄存器指向目标地址
+                {
+                  if(IAP_SectorEraseAddress < 0x18000)
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x20;
+                    IAP_SectorEraseAddress = (IAP_SectorEraseAddress - 0x8000);
+                  }
+                  else if(IAP_SectorEraseAddress < 0x20000)
+                  {
+                    ROMBNK = (ROMBNK & 0xCF) | 0x30;
+                    IAP_SectorEraseAddress = (IAP_SectorEraseAddress - 0x10000);
+                  }
+                }
+                else
+                {
+                  ROMBNK = (ROMBNK & 0xCF) | 0x10;
+                }
+              
+                IAPADE = IAP_MemType;
+                IAPADH = (uint8_t)(IAP_SectorEraseAddress >> 8); //擦除IAP目标地址高位值
+                IAPADL = (uint8_t)IAP_SectorEraseAddress;        //擦除IAP目标地址低位值
+                IAPKEY = WriteTimeLimit;
+                IAPCTL = 0x20;
+                IAPCTL |= 0x02;
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 9   
+
+                _nop_();
+                _nop_();
+              
+                IAPADE = tmpIAPADE;
+                tmpROMBNK = ROMBNK;
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+              }
+              
+              #elif defined (SC95F8x6x) || defined (SC95F7x6x) || defined (SC95R751)
+              
+              /**************************************************
+              *函数名称:void IAP_ProgramByte(uint16_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType, uint8_t Wr
+             -iteTimeLimit)
+              *函数功能:IAP写入一个字节
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              uint8_t:Data:写入的数据
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象（ROM）
+              uint8_t:WriteTimeLimitIAP操作时限（值需大于等于0x40）
+              *出口参数:
+              ErrorStatus:写入成功/失败
+              **************************************************/
+              ErrorStatus IAP_ProgramByte(uint32_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType,
+                                          uint8_t WriteTimeLimit)
+              {
+                uint8_t tmpData ;
+                uint8_t tmpIAPADE;
+                BitStatus tmpbit;
+                
+                tmpIAPADE = IAPADE;
+                tmpbit = (BitStatus)EA;
+              
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+                
+                if(Address >= 0x20000)
+                {
+                  return 0x00;      //超出Flash Rom范围大小，返回0x00
+                }
+              
+                WriteTimeLimit = 0x00;  //该入参在95系列型号中无效
+                IAP_ProgramByteOption(Address, Data, IAP_MemType);
+                tmpData = IAP_ReadByte(Address, IAP_MemType);
+                
+                IAPADE = tmpIAPADE;
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+                
+                if(tmpData != Data)
+                  return ERROR;
+                else
+                  return SUCCESS;
+              }
+              
+              /**************************************************
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 10  
+
+              *函数名称:uint8_t IAP_ProgramByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemTyp
+             -e_TypeDef IAP_MemType,uint8_t WriteTimeLimit)
+              *函数功能:IAP写入长度可设的字节数组
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              uint8_t:ArraySize:需要写入数组的长度
+              uint8_t*:ByteArray:写入数据的数组指针
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              uint8_t:WriteTimeLimitIAP操作时限（值需大于等于0x40）
+              *出口参数:
+              uint8_t:数组中数据写入成功的长度
+              **************************************************/
+              uint8_t IAP_ProgramByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_TypeDef 
+             -IAP_MemType,
+                                           uint8_t WriteTimeLimit)
+              {
+                uint8_t tmpCnt ;
+                uint8_t tmpData;
+                uint32_t tmpAddress;
+                uint8_t tmpIAPADE;
+                BitStatus tmpbit;
+                
+                tmpIAPADE = IAPADE;
+                tmpbit = (BitStatus)EA;
+              
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+              
+                if(Address >= 0x20000)
+                {
+                  return 0x00;      //超出Flash Rom范围大小，返回0x00
+                }
+              
+                WriteTimeLimit = 0x00;  //该入参在95系列型号中无效
+              
+                tmpCnt = 0;
+                do
+                {
+                  tmpAddress = Address + tmpCnt;
+                  IAP_ProgramByteOption(tmpAddress, ByteArray[tmpCnt], IAP_MemType);
+                  tmpData = IAP_ReadByte(tmpAddress, IAP_MemType);
+                  if(tmpData != ByteArray[tmpCnt])
+                    break;
+                }
+                while(++tmpCnt < ArraySize);
+                
+                IAPADE = tmpIAPADE;
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+                return tmpCnt;
+              }
+              
+              /**************************************************
+              *函数名称:void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint32_t IAP_SectorEraseAddress,
+                                   uint8_t WriteTimeLimit)
+              *函数功能:IAP扇区擦除
+              *入口参数:
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象（ROM）
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 11  
+
+              uint32_t:IAP_SectorEraseAddress:IAP扇区擦除目标地址
+              uint8_t:WriteTimeLimit:IAP操作时限(值需大于等于0x40)
+              *出口参数:void
+              **************************************************/
+              void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint32_t IAP_SectorEraseAddress,
+                                   uint8_t WriteTimeLimit)
+              {
+                WriteTimeLimit = 0x00;  //该型号入参无效
+                IAP_SectorEraseOption(IAP_SectorEraseAddress, IAP_MemType);
+              }
+              
+              #endif
+              
+              #else
+ 615          /* 64Kb及以下Flash的IAP操作 */
+ 616          /**************************************************
+ 617          *函数名称:uint8_t IAP_ReadByte(uint16_t Address, IAP_MemType_TypeDef IAP_MemType)
+ 618          *函数功能:IAP读一个字节
+ 619          *入口参数:
+ 620          uint32_t:Address:IAP操作地址
+ 621          IAP_MemType_TypeDef:IAP_MemType:IAP操作对象（ROM、UID）
+ 622          *出口参数:
+ 623          uint8_t:读到的字节数据
+ 624          **************************************************/
+ 625          uint8_t IAP_ReadByte(uint32_t Address, IAP_MemType_TypeDef IAP_MemType)
+ 626          {
+ 627   1        uint8_t tmpbyte;
+ 628   1        BitStatus tmpbit;
+ 629   1        uint8_t tmpIAPADE;
+ 630   1        
+ 631   1        tmpIAPADE = IAPADE;
+ 632   1        tmpbit = (BitStatus)EA;
+ 633   1      
+ 634   1        if(tmpbit != RESET)
+ 635   1        {
+ 636   2          disableInterrupts();
+ 637   2        }
+ 638   1      
+ 639   1        IAPADE = IAP_MemType;
+ 640   1        tmpbyte = *((uint8_t code*)Address);
+ 641   1        IAPADE = tmpIAPADE;
+ 642   1      
+ 643   1        if(tmpbit != RESET)
+ 644   1        {
+ 645   2          enableInterrupts();
+ 646   2        }
+ 647   1      
+ 648   1        return tmpbyte;
+ 649   1      }
+ 650          
+ 651          /**************************************************
+ 652          *函数名称:uint8_t IAP_ReadByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_T
+             -ypeDef IAP_MemType)
+ 653          *函数功能:IAP读取长度可设的字节数组
+ 654          *入口参数:
+ 655          uint32_t:Address:IAP操作地址
+ 656          IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+ 657          uint8_t:ArraySize:需要读取数组的长度
+ 658          uint8_t *:ByteArray:存放读取数据的数组指针
+ 659          *出口参数:
+ 660          uint8_t：成功读取到的字节数组长度
+ 661          **************************************************/
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 12  
+
+ 662          uint8_t IAP_ReadByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_TypeDef IAP
+             -_MemType)
+ 663          {
+ 664   1        uint8_t tmpCnt;
+ 665   1        BitStatus tmpbit;
+ 666   1        uint8_t tmpIAPADE;
+ 667   1        
+ 668   1        tmpIAPADE = IAPADE;
+ 669   1        tmpbit = (BitStatus)EA;
+ 670   1      
+ 671   1        if(tmpbit != RESET)
+ 672   1        {
+ 673   2          disableInterrupts();
+ 674   2        }
+ 675   1      
+ 676   1        IAPADE = IAP_MemType;
+ 677   1      
+ 678   1        tmpCnt = 0;
+ 679   1        do
+ 680   1        {
+ 681   2          ByteArray[tmpCnt] = *((uint8_t code*)Address);
+ 682   2          Address++;
+ 683   2        }
+ 684   1        while(++tmpCnt < ArraySize);
+ 685   1      
+ 686   1        IAPADE = tmpIAPADE;
+ 687   1        if(tmpbit != RESET)
+ 688   1        {
+ 689   2          enableInterrupts();
+ 690   2        }
+ 691   1      
+ 692   1        return tmpCnt;
+ 693   1      }
+ 694          
+ 695          #if defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined (SC95F7610B) || defined (SC95F7619B) || define
+             -d (SC95R602) || defined (SC95R605)\
+ 696              || defined (SC95F7x7x) || defined (SC95F8x7x)|| defined (SC95R503)
+ 697          /**************************************************
+ 698          *函数名称:ErrorStatus IAP_ProgramByte(uint16_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType, uin
+             -t8_t WriteTimeLimit)
+ 699          *函数功能:IAP写入一个字节
+ 700          *入口参数:
+ 701          uint32_t:Address:IAP操作地址
+ 702          uint8_t:Data:写入的数据
+ 703          IAP_MemType_TypeDef:IAP_MemType:IAP操作对象（ROM）
+ 704          uint8_t:WriteTimeLimitIAP操作时限（值需大于等于0x40）
+ 705          *出口参数:void
+ 706          ErrorStatus:写入成功/失败
+ 707          **************************************************/
+ 708          ErrorStatus IAP_ProgramByte(uint32_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType,
+ 709                                      uint8_t WriteTimeLimit)
+ 710          {
+ 711   1        uint8_t tmpData;
+ 712   1        uint8_t tmpIAPADE;
+ 713   1        BitStatus tmpbit;
+ 714   1          /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 715   1      
+ 716   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 717   1      //  uint8_t tempPWMCON1 = PWMCON1;
+ 718   1      //  uint8_t tempPWMCON0 = PWMCON0;
+ 719   1      //#endif
+ 720   1        /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 13  
+
+ 721   1      
+ 722   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 723   1      //  if(!(PWMCON0 & 0x80))
+ 724   1      //  {
+ 725   1      //    PWMCON1 = 0x00;
+ 726   1      //    PWMCON0 |= 0x80;
+ 727   1      //  } 
+ 728   1      //#endif  
+ 729   1        tmpIAPADE = IAPADE;
+ 730   1        tmpbit = (BitStatus)EA;
+ 731   1      
+ 732   1        if(tmpbit != RESET)
+ 733   1        {
+ 734   2          disableInterrupts();
+ 735   2        }
+ 736   1        
+ 737   1        WriteTimeLimit = 0x00;  //该型号入参无效
+ 738   1        IAP_ProgramByteOption(Address, Data, IAP_MemType);
+ 739   1        tmpData = IAP_ReadByte(Address, IAP_MemType);
+ 740   1       /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 741   1        
+ 742   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 743   1      //  PWMCON1 = tempPWMCON1;
+ 744   1      //  PWMCON0 = tempPWMCON0;
+ 745   1      //#endif
+ 746   1        IAPADE = tmpIAPADE;
+ 747   1        if(tmpbit != RESET)
+ 748   1        {
+ 749   2          enableInterrupts();
+ 750   2        }
+ 751   1        
+ 752   1        if(tmpData != Data)
+ 753   1          return ERROR;
+ 754   1        else
+ 755   1          return SUCCESS;
+ 756   1      }
+ 757          
+ 758          /**************************************************
+ 759          *函数名称:uint8_t uint8_t IAP_ProgramByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IA
+             -P_MemType_TypeDef IAP_MemType,uint8_t WriteTimeLimit)
+ 760          *函数功能:IAP写入长度可设的字节数组
+ 761          *入口参数:
+ 762          uint32_t:Address:IAP操作地址
+ 763          uint8_t:ArraySize:需要写入数组的长度
+ 764          uint8_t*:ByteArray:写入数据的数组指针
+ 765          IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+ 766          uint8_t:WriteTimeLimitIAP操作时限（值需大于等于0x40）
+ 767          *出口参数:
+ 768          uint8_t:数组中数据写入成功的长度
+ 769          **************************************************/
+ 770          uint8_t IAP_ProgramByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_TypeDef 
+             -IAP_MemType,
+ 771                                       uint8_t WriteTimeLimit)
+ 772          {
+ 773   1        uint8_t tmpIAPADE;
+ 774   1        BitStatus tmpbit;
+ 775   1        uint8_t tmpCnt ;
+ 776   1        uint8_t tmpData;
+ 777   1        uint32_t tmpAddress;
+ 778   1       /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 779   1      
+ 780   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 14  
+
+ 781   1      //  uint8_t tempPWMCON1 = PWMCON1;
+ 782   1      //  uint8_t tempPWMCON0 = PWMCON0;
+ 783   1      //#endif
+ 784   1        /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 785   1      
+ 786   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 787   1      //  if(!(PWMCON0 & 0x80))
+ 788   1      //  {
+ 789   1      //    PWMCON1 = 0x00;
+ 790   1      //    PWMCON0 |= 0x80;
+ 791   1      //  } 
+ 792   1      //#endif
+ 793   1        
+ 794   1        tmpIAPADE = IAPADE;
+ 795   1        tmpbit = (BitStatus)EA;
+ 796   1      
+ 797   1        if(tmpbit != RESET)
+ 798   1        {
+ 799   2          disableInterrupts();
+ 800   2        }
+ 801   1        
+ 802   1        WriteTimeLimit = 0x00;  //该入参在95系列型号中无效
+ 803   1        tmpCnt = 0;
+ 804   1        do
+ 805   1        {
+ 806   2          tmpAddress = Address + tmpCnt;
+ 807   2          IAP_ProgramByteOption(tmpAddress, ByteArray[tmpCnt], IAP_MemType);
+ 808   2          tmpData = IAP_ReadByte(tmpAddress, IAP_MemType);
+ 809   2          if(tmpData != ByteArray[tmpCnt])
+ 810   2            break;
+ 811   2        }
+ 812   1        while(++tmpCnt < ArraySize);
+ 813   1          
+ 814   1        /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 815   1        
+ 816   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 817   1      //  PWMCON1 = tempPWMCON1;
+ 818   1      //  PWMCON0 = tempPWMCON0;
+ 819   1      //#endif
+ 820   1        
+ 821   1        
+ 822   1        IAPADE = tmpIAPADE;
+ 823   1        if(tmpbit != RESET)
+ 824   1        {
+ 825   2          enableInterrupts();
+ 826   2        }
+ 827   1        return tmpCnt;
+ 828   1      }
+ 829          
+ 830          /**************************************************
+ 831          *函数名称:void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint32_t IAP_SectorEraseAddress,
+ 832                               uint8_t WriteTimeLimit)
+ 833          *函数功能:IAP扇区擦除
+ 834          *入口参数:
+ 835          IAP_MemType_TypeDef:IAP_MemType:IAP操作对象（ROM）
+ 836          uint32_t:IAP_SectorEraseAddress:IAP扇区擦除目标地址
+ 837          uint8_t:WriteTimeLimit:IAP操作时限(值需大于等于0x40)
+ 838          *出口参数:void
+ 839          **************************************************/
+ 840          void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint32_t IAP_SectorEraseAddress,
+ 841                               uint8_t WriteTimeLimit)
+ 842          {
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 15  
+
+ 843   1        WriteTimeLimit = 0x00;  //该型号入参无效
+ 844   1          /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 845   1      
+ 846   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 847   1      //  uint8_t tempPWMCON1 = PWMCON1;
+ 848   1      //  uint8_t tempPWMCON0 = PWMCON0;
+ 849   1      //#endif  
+ 850   1        /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 851   1      
+ 852   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 853   1      //  if(!(PWMCON0 & 0x80))
+ 854   1      //  {
+ 855   1      //    PWMCON1 = 0x00;
+ 856   1      //    PWMCON0 |= 0x80;
+ 857   1      //  } 
+ 858   1      //#endif
+ 859   1        
+ 860   1        IAP_SectorEraseOption(IAP_SectorEraseAddress, IAP_MemType);
+ 861   1        /* SC95F8x7x/7x7x、SC95R503型号若使用外部晶振，在进行IAP操作时则需使能PWM0 */
+ 862   1        
+ 863   1      //#if defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
+ 864   1      //  PWMCON1 = tempPWMCON1;
+ 865   1      //  PWMCON0 = tempPWMCON0;
+ 866   1      //#endif  
+ 867   1      }
+ 868          #else
+              /**************************************************
+              *函数名称:void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint16_t IAP_SectorEraseAddress)
+              *函数功能:IAP扇区擦除
+              *入口参数:
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象（ROM）
+              uint32_t:IAP_SectorEraseAddress:IAP扇区擦除目标地址
+              uint8_t:WriteTimeLimit:IAP操作时限(值需大于等于0x40)
+              *出口参数:void
+              **************************************************/
+              void IAP_SectorErase(IAP_MemType_TypeDef IAP_MemType, uint32_t IAP_SectorEraseAddress,
+                                   uint8_t WriteTimeLimit)
+              {
+                uint8_t tmpIAPADE;
+                BitStatus tmpbit;
+                
+                tmpIAPADE = IAPADE;
+                tmpbit = (BitStatus)EA;
+              
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+                
+                /* UID区域不允许扇区擦除操作 */
+                if((IAP_MemType == IAP_MEMTYPE_UID))
+                  return;
+                
+                
+                IAPADE = IAP_MemType;
+                IAPADH = (uint8_t)(IAP_SectorEraseAddress >> 8); //擦除IAP目标地址高位值
+                IAPADL = (uint8_t)IAP_SectorEraseAddress;        //擦除IAP目标地址低位值
+                IAPKEY = WriteTimeLimit;
+                IAPCTL = 0x20;
+                IAPCTL |= 0x02;
+                _nop_();
+                _nop_();
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 16  
+
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                
+                IAPADE = tmpIAPADE;
+                
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+              }
+              
+              /**************************************************
+              *函数名称:void IAP_ProgramByte(uint16_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType, uint8_t Wr
+             -iteTimeLimit)
+              *函数功能:IAP写入一个字节
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              uint8_t:Data:写入的数据
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              uint8_t:WriteTimeLimit:IAP操作时限(值需大于等于0x40)
+              *出口参数:
+              ErrorStatus:写入成功/失败
+              **************************************************/
+              ErrorStatus IAP_ProgramByte(uint32_t Address, uint8_t Data, IAP_MemType_TypeDef IAP_MemType,
+                                          uint8_t WriteTimeLimit)
+              {
+                BitStatus tmpbit;
+                uint8_t TmpIAPADE;
+                uint8_t tmpData;
+              
+                /* UID区域不允许写操作 */
+                if((IAP_MemType == IAP_MEMTYPE_UID))
+                  return ERROR;
+              
+                tmpbit = (BitStatus)EA;
+                TmpIAPADE = IAPADE;
+              
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+                
+                IAPADE = IAP_MemType;
+                IAPDAT = Data;
+                IAPADH = (uint8_t)(Address >> 8);
+                IAPADL = (uint8_t)Address;
+                IAPKEY = WriteTimeLimit;
+                IAPCTL = 0x10;
+                IAPCTL |= 0x02;
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 17  
+
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                _nop_();
+                
+                tmpData = *((uint8_t code*)Address);      //回读写入的数据
+                IAPADE = TmpIAPADE;
+                
+              
+                /* 恢复原中断总开关 */
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+                /* 判断实际写入数据和理论数据是否一致*/
+                if(Data != tmpData)
+                  return ERROR;
+                else
+                  return SUCCESS;
+              }
+              
+              /**************************************************
+              *函数名称:void IAP_ProgramByte(uint16_t Address,,  uint8_t* ByteArray,uint8_t ArraySize, IAP_MemType_TypeD
+             -ef IAP_MemType, uint8_t WriteTimeLimit)
+              *函数功能:IAP写入长度可设的字节数组
+              *入口参数:
+              uint32_t:Address:IAP操作地址
+              uint8_t:ArraySize:需要写入数组的长度
+              uint8_t*:ByteArray:写入数据的数组指针
+              IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+              uint8_t:WriteTimeLimitIAP操作时限（值需大于等于0x40）
+              *出口参数:
+              uint8_t:数组中数据写入成功的长度
+              **************************************************/
+              uint8_t IAP_ProgramByteArray(uint32_t Address, uint8_t* ByteArray, uint8_t ArraySize, IAP_MemType_TypeDef 
+             -IAP_MemType,
+                                           uint8_t WriteTimeLimit)
+              {
+                BitStatus tmpbit;
+                uint8_t TmpIAPADE;
+                uint8_t tmpCnt;
+              
+                /* UID区域不允许写操作 */
+                if((IAP_MemType == IAP_MEMTYPE_UID))
+                  return 0;
+              
+                /* 获取总中断控制位，如果总中断控制位 */
+                tmpbit = (BitStatus)EA;
+                TmpIAPADE = IAPADE;
+              
+                if(tmpbit != RESET)
+                {
+                  disableInterrupts();
+                }
+              
+                IAPADE = IAP_MemType;
+              
+                tmpCnt = 0;
+                do
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 18  
+
+                {
+              
+                  IAPDAT = ByteArray[tmpCnt];
+                  IAPADH = (unsigned char)(Address >> 8);
+                  IAPADL = (unsigned char)(Address);
+                  IAPKEY = WriteTimeLimit;
+              
+                  IAPCTL = 0x10;
+                  IAPCTL |= 0x02;
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+                  _nop_();
+              
+                  if(ByteArray[tmpCnt] != *((uint8_t code*)Address))
+                    break;
+                  Address++;
+                }
+                while(++tmpCnt < ArraySize);
+                IAPADE = TmpIAPADE;
+                
+              
+                /* 恢复原中断总开关 */
+                if(tmpbit != RESET)
+                {
+                  enableInterrupts();
+                }
+                return tmpCnt;
+              }
+              
+              #endif
+1065          
+1066          #endif
+1067          
+1068          /**************************************************
+1069          *函数名称:void IAP_BootLoaderControl(IAP_BTLDType_TypeDef IAP_BTLDType)
+1070          *函数功能:MCU软件复位后的启动区域配置，可以选择为APROM/LDROM启动
+1071          *入口参数:
+1072          IAP_BTLDType_Ty peDef:IAP_BTLDType:软复位后的启动区域
+1073          *出口参数:void
+1074          **************************************************/
+1075          void IAP_BootLoaderControl(IAP_BTLDType_TypeDef IAP_BTLDType)
+1076          {
+1077   1        IAPCTL = (IAPCTL & 0xFB) | IAP_BTLDType;
+1078   1      }
+1079          
+1080          /******************* (C) COPYRIGHT 2022 SinOne Microelectronics *****END OF FILE****/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    567    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      49
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V9.59.0.0   SC95F_IAP                                                         03/20/2024 20:54:40 PAGE 19  
+
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

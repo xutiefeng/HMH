@@ -1,0 +1,322 @@
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/20/2024 20:54:39 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SYSRUN
+OBJECT MODULE PLACED IN ..\Output\sysRun.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Apps\sysRun.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECTOR(0X2800) IN
+                    -CDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) DEFIN
+                    -E(SC95F8x1xB) DEBUG PRINT(..\List\sysRun.lst) TABS(2) OBJECT(..\Output\sysRun.obj)
+
+line level    source
+
+   1          //////min sys//////
+   2          #include "globe.h"
+   3          #include "clib.h"
+   4          #include "sysRun.h"
+   5          //////min sys//////
+   6          
+   7          //#include "key.h"
+   8          //#include "bsp_Led.h"
+   9          //#include "factory.h"
+  10          //#include "FuncTab.h"
+  11          #include "..\Apps\bsp_Led.h"
+  12          #include "string.h"
+  13          
+  14          /*****************************************************
+  15          *函数名称：void CMP_Init(uchar CMPIS, uchar CMPRF)
+  16          *函数功能：模拟比较器初始化
+  17          *入口参数：CMPIS=正端通道，CMPRF=负端电压
+  18          *出口参数：void
+  19          *****************************************************/
+  20          void CMP_Init(void)
+  21          {
+  22   1        CMPCON = 0x86;   //开启模拟比较器电源 选择负端电压 vdd/3
+  23   1        CMPCFG = 0x18;//正端选择1.5v   ，从正端电压小于负端电压到正端电压大于负端电压 产生中断  
+  24   1          IE1 |= 0x20;
+  25   1      }
+  26          
+  27          
+  28          void sysRest(void)
+  29          {
+  30   1        memset(gbFlagData,0,5);
+  31   1        memset(&gstFilte,0,sizeof(gstFilte));
+  32   1        gstAM901.stFilter = &gstFilte;
+  33   1      }
+  34          
+  35          typedef enum
+  36          {
+  37            ROFilter,
+  38            MixFilter
+  39          }emFilter;
+  40          
+  41          
+  42          
+  43          
+  44          /************************************************************************* 
+  45          * 函数名称: FilterlifeTime
+  46          * 功能说明: 用于计算滤芯寿命剩余时间
+  47          * 输    入: 无  
+  48          * 输    出: 无
+  49          *************************************************************************/
+  50          void FilterlifeTime(emFilter type)
+  51          {
+  52   1        if( type  == ROFilter)
+  53   1        {
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/20/2024 20:54:39 PAGE 2   
+
+  54   2          
+  55   2          gstFilte.RO_FlowRateCnt++;
+  56   2        }
+  57   1        else
+  58   1        {
+  59   2          gstFilte.Mix_FlowRate++;
+  60   2        }
+  61   1      
+  62   1      }
+  63          
+  64          
+  65          
+  66          /************************************************************************* 
+  67          * 函数名称: FilterSysRunTime
+  68          * 功能说明: 用于滤芯寿命計數.单位秒
+  69          * 输    入: 无  
+  70          * 输    出: 无
+  71          *************************************************************************/
+  72          void FilterSysRunTime(void)
+  73          {
+  74   1        if(gstFilte.type == ROFilter) 
+  75   1        {
+  76   2          gstFilte.RO_DayCnt++;
+  77   2        }
+  78   1        else
+  79   1        {
+  80   2          gstFilte.Mix_DayCnt++;
+  81   2        }
+  82   1        
+  83   1        if(gstFilte.type == ROFilter && PunpFlag) 
+  84   1        {
+  85   2          gstFilte.RO_FlowRateCnt++;
+  86   2        }
+  87   1        else
+  88   1        {
+  89   2          gstFilte.Mix_FlowRate++;
+  90   2        }
+  91   1      }
+  92          
+  93          /************************************************************************* 
+  94          * 函数名称: FilterSysRunTime
+  95          * 功能说明: 用于芯寿命計數
+  96          * 输    入: 无  
+  97          * 输    出: 无
+  98          *************************************************************************/
+  99          void PumpSysRunTime(void)
+ 100          {
+ 101   1        
+ 102   1      }
+ 103          
+ 104          /************************************************************************* 
+ 105          * 函数名称: FirstPowerOnProcess
+ 106          * 功能说明: 首次上电处理
+ 107          * 输    入: 无  
+ 108          * 输    出: 无
+ 109          *************************************************************************/
+ 110          void FirstPowerOnProcess(void)
+ 111          {
+ 112   1          static u16 sTimeCnt = 0;
+ 113   1          if(!FirstPownOnFlag)
+ 114   1          {
+ 115   2              return;
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/20/2024 20:54:39 PAGE 3   
+
+ 116   2          } 
+ 117   1          sTimeCnt++;
+ 118   1          JinShuiFa_io = 1;
+ 119   1          Pump_io = 1;
+ 120   1          FeiShuiFa_IO = 1;
+ 121   1          KongShuiFa_IO = 1;
+ 122   1          
+ 123   1          if(sTimeCnt > _15Min_Per1S)
+ 124   1          {
+ 125   2              JinShuiFa_io = 0;
+ 126   2              Pump_io = 0;
+ 127   2              FeiShuiFa_IO = 0;
+ 128   2              KongShuiFa_IO = 0;
+ 129   2              FirstPownOnFlag =  1;
+ 130   2          }
+ 131   1              
+ 132   1          
+ 133   1      }
+ 134          /************************************************************************* 
+ 135          * 函数名称: makeWaterProcess
+ 136          * 功能说明: 制作纯水
+ 137          * 输    入: 无  
+ 138          * 输    出: 无
+ 139          *************************************************************************/
+ 140          
+ 141          
+ 142          
+ 143          void MakeWaterProcess(void)
+ 144          {   
+ 145   1          static u8 sMWaterStep = 5;
+ 146   1          static u8 sMWaterStepCnt = 0;
+ 147   1          
+ 148   1          if(KeySwitchFlag && !MakeWaterFlag)//检测到高压开关打开,若设备没有制水，则开始制水
+ 149   1          {
+ 150   2            sMWaterStep =   0;
+ 151   2            MakeWaterFlag = 1;        
+ 152   2          }
+ 153   1          else if(!KeySwitchFlag && sMWaterStep ==2)//检测高压开关关闭， 并且设备正在制水，则关闭进水阀，0.5秒后关
+             -闭气泵
+ 154   1          {
+ 155   2            sMWaterStep = 3;//
+ 156   2          }
+ 157   1          
+ 158   1        
+ 159   1          
+ 160   1          switch(sMWaterStep)
+ 161   1          {
+ 162   2              case 0:
+ 163   2                JinShuiFa_io =1;
+ 164   2                sMWaterStep =1;
+ 165   2              
+ 166   2                LED1_L =0;
+ 167   2                LED2_L =0;
+ 168   2                LED3_L =0;
+ 169   2                LED4_L =1;
+ 170   2                PunpFlag = 1;
+ 171   2              break;
+ 172   2              
+ 173   2              case 1://0.5秒后打开增压泵
+ 174   2                sMWaterStepCnt++;
+ 175   2                if(sMWaterStepCnt >9)
+ 176   2                {
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/20/2024 20:54:39 PAGE 4   
+
+ 177   3                  sMWaterStepCnt = 0;
+ 178   3                  Pump_io = 1;
+ 179   3                  sMWaterStep++;
+ 180   3                }     
+ 181   2              break;
+ 182   2              
+ 183   2              case 2:
+ 184   2                _nop_();
+ 185   2              break;
+ 186   2              
+ 187   2              case 3:
+ 188   2                JinShuiFa_io = 0;//关闭进水阀
+ 189   2                sMWaterStepCnt = 0;
+ 190   2                sMWaterStep++;
+ 191   2                MakeWaterFlag = 0;
+ 192   2                LED1_L =0;
+ 193   2                  LED2_L =0;
+ 194   2                LED3_L =0;
+ 195   2                LED4_L =0;
+ 196   2              break;
+ 197   2              
+ 198   2              case 4:
+ 199   2                sMWaterStepCnt++;
+ 200   2                if(sMWaterStepCnt >9)
+ 201   2                {
+ 202   3                  sMWaterStepCnt = 0;
+ 203   3                  Pump_io = 0;
+ 204   3                  sMWaterStep++;
+ 205   3                    
+ 206   3                }
+ 207   2              break;
+ 208   2              
+ 209   2              case 5:
+ 210   2                 PunpFlag = 0;
+ 211   2                _nop_();
+ 212   2              break;
+ 213   2              
+ 214   2              default:
+ 215   2              break;
+ 216   2              
+ 217   2              
+ 218   2            }
+ 219   1      }
+ 220          
+ 221          
+ 222          void JinShuiWorkProcess(void)
+ 223          {
+ 224   1          
+ 225   1      }
+ 226          
+ 227          /************************************************************************* 
+ 228          * 函数名称: sysRuning
+ 229          * 功能说明: 程序运行主体
+ 230          * 输    入: 无  
+ 231          * 输    出: 无
+ 232          *************************************************************************/
+ 233          void sysRuning(void)
+ 234          { 
+ 235   1      
+ 236   1        EventCollect();
+ 237   1          switch(PopEvent())
+ 238   1          {    
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/20/2024 20:54:39 PAGE 5   
+
+ 239   2      
+ 240   2          case ev3MS:
+ 241   2             LED_sCan();
+ 242   2          break; 
+ 243   2              
+ 244   2              case ev5MS:       
+ 245   2             BuzzerProcess();
+ 246   2             //ADCollectProcess();  //  
+ 247   2              break;  
+ 248   2          
+ 249   2              case ev20MS:
+ 250   2              {
+ 251   3                  
+ 252   3              }       
+ 253   2              break;
+ 254   2              
+ 255   2              case ev50MS:
+ 256   2              {
+ 257   3            KeySelect();
+*** WARNING C206 IN LINE 257 OF ..\Apps\sysRun.c: 'KeySelect': missing function-prototype
+ 258   3            KeyRest();
+*** WARNING C206 IN LINE 258 OF ..\Apps\sysRun.c: 'KeyRest': missing function-prototype
+ 259   3            KeyGaoYaSwitch();
+*** WARNING C206 IN LINE 259 OF ..\Apps\sysRun.c: 'KeyGaoYaSwitch': missing function-prototype
+ 260   3            MakeWaterProcess();           
+ 261   3              }
+ 262   2              break;
+ 263   2              
+ 264   2              case ev100MS:
+ 265   2              {
+ 266   3                  LED_Process();  
+ 267   3                  ////EepromProcess();   
+ 268   3              }
+ 269   2              break;
+ 270   2              
+ 271   2              case ev1S:
+ 272   2              {
+ 273   3                  FilterSysRunTime();//滤芯寿命计算
+ 274   3                  FirstPowerOnProcess();//首次上电冲洗15分钟
+ 275   3              }
+ 276   2              break;
+ 277   2         
+ 278   2              default:
+ 279   2              break;
+ 280   2          }
+ 281   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    446    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)
