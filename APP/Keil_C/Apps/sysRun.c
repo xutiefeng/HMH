@@ -382,10 +382,11 @@ void MakeWaterProcess(void)
 				break;
 						
 				case 6:
+						sMWaterStepCnt++;
 						if(sMWaterStepCnt >_1Min_Per50MS)//一分钟后关闭回流阀
 						{
 								sMWaterStepCnt = 0;
-								sMWaterStep = 5;		
+								sMWaterStep++;		
 								HuiLiuFa_io = 0;
 								Pump_io = 0;
 						}
