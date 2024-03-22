@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 19:31:54 PAGE 1   
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 20:40:39 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE TKDRIVER
@@ -62,7 +62,7 @@ line level    source
   51          unsigned  int   xdata       MultipleLNum;           // 多按键干扰计数
   52          
   53          //外部变量接口
-C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 19:31:54 PAGE 2   
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 20:40:39 PAGE 2   
 
   54          extern  unsigned  char  data    CurrentChannelMax;    //当前选中的keysensor的个数
   55          extern  bit  bMultiple; //多按键标志  
@@ -126,7 +126,7 @@ line level    source
  112          *入口参数：void
  113          *出口参数：int 
  114          *备注  ：
-C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 19:31:54 PAGE 3   
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 20:40:39 PAGE 3   
 
  115          **************************************************/
  116          int  GetBaselineUpdateThreshold(void)
@@ -190,7 +190,7 @@ line level    source
  174          {
  175   1          return TKCFG[IsDoubleKey];
  176   1      }
-C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 19:31:54 PAGE 4   
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 20:40:39 PAGE 4   
 
  177          /**************************************************
  178          *函数名称：unsigned char  GetBaseLineAdjustValue(unsigned char i)
@@ -254,7 +254,7 @@ line level    source
  236          void CurrentSensorChoose(void)
  237          {
  238   1        unsigned char  data i = 0;
-C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 19:31:54 PAGE 5   
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 20:40:39 PAGE 5   
 
  239   1        unsigned char  data Ctk_Channel_mark = 0;
  240   1      
@@ -318,7 +318,7 @@ line level    source
  298   1      }
  299          
  300          /**************************************************
-C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 19:31:54 PAGE 6   
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 20:40:39 PAGE 6   
 
  301          *函数名称：unsigned int TouchKeyScan(void)
  302          *函数功能：检测按键接口
@@ -382,7 +382,7 @@ line level    source
  359   3            MultipleLNum++; 
  360   3            KeyData = 0x00;
  361   3          }
-C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 19:31:54 PAGE 7   
+C51 COMPILER V9.59.0.0   TKDRIVER                                                          03/22/2024 20:40:39 PAGE 7   
 
  362   2      
  363   2          if(UpdateBaseLNum > SetOneKeyPushResetTime())   //按键超出最长输出时间更新基线
