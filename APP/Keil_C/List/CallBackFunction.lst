@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   CALLBACKFUNCTION                                                  03/21/2024 20:54:10 PAGE 1   
+C51 COMPILER V9.59.0.0   CALLBACKFUNCTION                                                  03/22/2024 16:29:16 PAGE 1   
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CALLBACKFUNCTION
 OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\CallBackFunction.obj
 COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\User\CallBackFunction.c OMF2 INTVECTOR(0X2800) DEFINE(SC95F8x1xB) LAR
@@ -4238,18 +4238,18 @@ line level    source
   13          
   14          void Customer_BTM_Dispose()
   15          {
-  16   1      /*<SinOne-Tag><776>*/
-  17   1      /*<SinOne-Tag><776>*/
+  16   1      /*<SinOne-Tag><804>*/
+  17   1      /*<SinOne-Tag><804>*/
   18   1      }
   19          void Customer_IntoLowPowerMode_Init()
   20          {
-  21   1      /*<SinOne-Tag><777>*/
-  22   1      /*<SinOne-Tag><777>*/
+  21   1      /*<SinOne-Tag><805>*/
+  22   1      /*<SinOne-Tag><805>*/
   23   1      }
   24          void Customer_QuitLowPowerMode_Init()
   25          {
-  26   1      /*<SinOne-Tag><778>*/
-  27   1      /*<SinOne-Tag><778>*/
+  26   1      /*<SinOne-Tag><806>*/
+  27   1      /*<SinOne-Tag><806>*/
   28   1      }
   29          
 ASSEMBLY LISTING OF GENERATED OBJECT CODE

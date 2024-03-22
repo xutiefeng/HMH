@@ -36,24 +36,27 @@ typedef struct
 			u32         All;
 	}buf;  
 	u32   type;
- 	u32   Mix_DayCnt;//按天计算
-	u32   RO_DayCnt;//按天计算
- 	u32	  Mix_FlowRate;//按流量计算
- 	u32	  RO_FlowRateCnt;//按流量计算
+ 	unsigned long     Mix_DayCnt;//按天计算
+	unsigned long     RO_DayCnt;//按天计算
+ 	unsigned long	  Mix_FlowRate;//按流量计算
+ 	unsigned long	  RO_FlowRateCnt;//按流量计算
  	
  	
 }ST_Filter;
 
 typedef struct
 {
+		
 		union
 		{
 			struct
 			{
-				u8 RunFlag 						:1;
-				u8 EepromBlok         :1;
+				u8 RunFlag 		       :1;
+				u8 EepromBlok          :1;
+				u8 DayResidualPercent  :7; 
+				u8 FlowResidualPercent :7;
 			}Bit;
-			u8         All;
+			u16         All;
 		}Run;		
 		
 		ST_Filter *stFilter;

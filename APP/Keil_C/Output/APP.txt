@@ -62,5 +62,5 @@ D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\BootLoad_UpdataFlagFill.
     MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
    DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\KEY.OBJ (KEY)
 
-Program Size: data=29.4 xdata=2952 const=306 code=19140
+Program Size: data=29.4 xdata=2962 const=306 code=19600
 LX51 RUN COMPLETE.  12 WARNING(S),  0 ERROR(S)

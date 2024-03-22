@@ -34,7 +34,7 @@ void sysRest(void)
 {
  	 memset(gbFlagData,0,5);
  	 memset(&gstFilte,0,sizeof(gstFilte));
-	gstAM901.stFilter = &gstFilte;
+	 gstAM901.stFilter = &gstFilte;
 }
 
 typedef enum
@@ -66,6 +66,49 @@ void FilterlifeTime(emFilter type)
 
 }
 
+void TimeReminder(void)
+{
+	u8  temp =gstAM901.Run.Bit.DayResidualPercent;
+	
+	if(gstAM901.Run.Bit.DayResidualPercen < temp)
+		temp = gstAM901.Run.Bit.DayResidualPercen;
+		
+	if( type  == ROFilter)
+	{
+		if(temp <1)//寿命到期
+		{
+		
+		}
+	
+		else if(temp <3)//寿命快到期
+		{
+			
+		}
+		else
+		{
+			
+		}
+	}
+	else
+	{
+			if(temp <3)//寿命到期
+			{
+			
+			}
+			
+			else if(temp <10)//寿命快到期
+			{
+			
+			}
+			else
+			{
+			
+			}
+	}
+		
+	
+}
+
 
 /************************************************************************* 
 * 函数名称:	FilterSysRunTime
@@ -75,24 +118,69 @@ void FilterlifeTime(emFilter type)
 *************************************************************************/
 void FilterSysRunTime(void)
 {
+	u16 temp;
 	if(gstFilte.type == ROFilter)	
 	{
-		gstFilte.RO_DayCnt++;
+	//	if(gstFilte.RO_DayCnt < 0x058FD400?)//3600*24*365
+		if(gstFilte.RO_DayCnt <0x01E13380 )	
+			gstFilte.RO_DayCnt++;
+			
+		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
+		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
+		temp =  gstFilte.RO_DayCnt/0x00015180;//gstFilte.RO_DayCnt*2.63/60
+			
+		gstAM901.Run.Bit.DayResidualPercent = 100*( (1080-temp)/1080);
 	}
 	else
 	{
-		gstFilte.Mix_DayCnt++;
+		
+		//if(gstFilte.Mix_DayCnt < ??0x01E13380)//83270(10/2.63)*60*1080)
+		if(gstFilte.Mix_DayCnt <0x01E13380 )
+			gstFilte.Mix_DayCnt++;
+			
+		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
+		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
+		temp =  gstFilte.Mix_DayCnt/0x00015180;//gstFilte.RO_DayCnt*2.63/60
+			
+		gstAM901.Run.Bit.DayResidualPercent = 100*( (365-temp)/365);
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	if(gstFilte.type == ROFilter && PunpFlag)	
 	{
-		gstFilte.RO_FlowRateCnt++;
+		if(gstFilte.RO_FlowRateCnt < 246388ul)//108000/(2.63/60)
+			gstFilte.RO_FlowRateCnt++;
+
+			
+			
+		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 2.63*60*10800 
+		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
+		temp =  gstFilte.RO_FlowRateCnt*0.04384;//2.63/60
+		
+		if(temp >10800ul )
+			temp = 10800ul;
+
+		gstAM901.Run.Bit.DayResidualPercent = 100*( (10800-temp)/10800);
 	}
-	else
+	else if(gstFilte.type == MixFilter && PunpFlag)
 	{
-		gstFilte.Mix_FlowRate++;
+		if(gstFilte.Mix_FlowRate < 82117ul)//3600/(2.63/60)
+			gstFilte.Mix_FlowRate++;
+			
+		if(temp >3600ul )
+			temp = 3600ul;
+
+			
+		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
+		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
+		temp =  gstFilte.Mix_FlowRate*0.04384;//gstFilte.RO_DayCnt*2.63/60
+			
+		gstAM901.Run.Bit.DayResidualPercent = 100*( (3600-temp)/3600);
 	}
 }
+
+
 
 /************************************************************************* 
 * 函数名称:	DevicePowerOn
@@ -112,12 +200,14 @@ void DevicePowerOnInit(void)
 	led2_io = 0;
 	led3_io = 0;
 	led4_io = 0;
-	Buzzer2Flag = 1;
-	BuzzerProcess();
+	//Buzzer2Flag = 1;
+	//BuzzerProcess();
+	PWM_IndependentModeConfig(PWM02,2000);
 	while(1)
 	{
 		if(Ev100MSFlag)
 		{
+			WDTCON |=0x10;
 			sDPOCnt++;
 			Ev100MSFlag =0;
 			
@@ -128,7 +218,7 @@ void DevicePowerOnInit(void)
 			}
 			else if(sDPOCnt>= 2)
 			{
-				gbFlagData[5].all = 0;
+				PWM_IndependentModeConfig(PWM02,0);
 			}				
 		}
 	}
@@ -185,7 +275,7 @@ void MakeWaterProcess(void)
 		static u8 sMWaterStep = 5;
 		static u16 sMWaterStepCnt = 0;
 	
-		if(FirstPownOnFlag)//和首次上电是互斥关系
+		if(FirstPownOnFlag)//和首次上电初始化是互斥关系
 		{
 				return;
 		}	
@@ -235,18 +325,19 @@ void MakeWaterProcess(void)
 					MakeWaterFlag = 0;
 				break;
 				
-				case 4:
+				case 4://0.5秒后关闭氣泵
 					sMWaterStepCnt++;
 					if(sMWaterStepCnt > _500MS_Per50MS)
 					{
 						sMWaterStepCnt = 0;
 						Pump_io = 0;
+						PunpFlag = 0;
 						sMWaterStep++;							
 					}
 				break;
 				
-				case 5:
-					  PunpFlag = 0;
+				case 5://连续五分钟检测到水满，打开回流阀
+					  
 					  sMWaterStepCnt++;
 						if(sMWaterStepCnt >_5Min_Per50MS)
 						{
@@ -257,7 +348,7 @@ void MakeWaterProcess(void)
 				break;
 						
 				case 6:
-						if(sMWaterStepCnt >_1Min_Per50MS)
+						if(sMWaterStepCnt >_1Min_Per50MS)//一分钟后关闭回流阀
 						{
 								sMWaterStepCnt = 0;
 								sMWaterStep = 5;		
@@ -267,7 +358,7 @@ void MakeWaterProcess(void)
 						else
 						{
 								HuiLiuFa_io = 1;
-								Pump_io = 1;
+								Pump_io = 1;//打开回流阀
 						}
 						if(KeySwitchFlag )
 							HuiLiuFa_io = 0;
@@ -326,6 +417,7 @@ void sysRuning(void)
         case ev100MS:
         {
 						LED_Process();	
+						TimeReminder();
             ////EepromProcess();   
         }
         break;

@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   GLOBE                                                             03/21/2024 20:54:11 PAGE 1   
+C51 COMPILER V9.59.0.0   GLOBE                                                             03/22/2024 16:29:17 PAGE 1   
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE GLOBE
 OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\globe.obj
 COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\Apps\globe.c OMF2 INTVECTOR(0X2800) DEFINE(SC95F8x1xB) LARGE INCDIR(D
@@ -4675,9 +4675,9 @@ ev3MS. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 ACMP_TRIGGER_RISE_FALL . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 UART0_Mode_8B. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 P00. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0080H  1
-ST_AM901 . . . . . . . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  4
-  Run. . . . . . . . . . . . . . . . .  MEMBER   -----  UNION    0000H  1
-  stFilter . . . . . . . . . . . . . .  MEMBER   -----  PTR      0001H  3
+ST_AM901 . . . . . . . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  6
+  Run. . . . . . . . . . . . . . . . .  MEMBER   -----  UNION    0000H  3
+  stFilter . . . . . . . . . . . . . .  MEMBER   -----  PTR      0003H  3
 DDIC_DMOD_TypeDef. . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
 USCI0_SPI_Mode_TypeDef . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
 PWM02PWM03 . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
@@ -4969,7 +4969,7 @@ USCI0_UART_Mode_8B . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 TIM2_FLAG_TF2. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 GPIO_TypeDef . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
 PWMCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D1H  1
-gstFilte . . . . . . . . . . . . . . .  PUBLIC   XDATA  STRUCT   001DH  12
+gstFilte . . . . . . . . . . . . . . .  PUBLIC   XDATA  STRUCT   001DH  20
 DDIC_PIN_X1. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 USCI5_SPI_FIRSTBIT_MSB . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 USCI4_SPI_FLAG_SPIF. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
@@ -5006,7 +5006,7 @@ TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
 ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
 ADCCFG0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ABH  1
 IP1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B9H  1
-gEventBuffer . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    0029H  20
+gEventBuffer . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    0031H  20
 BSP_UART_MAX . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 DDIC_PIN_X5. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 USCI5_SPI_FLAG_WCOL. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
@@ -5132,7 +5132,7 @@ PWM00. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 IAP_OPERATERANGE__LAST_1K_CODEREGION .  E_CONST  -----  U_CHAR   -----  1
 TIM1_PresSel_TypeDef . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
 RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
-gstRDsysTick . . . . . . . . . . . . .  PUBLIC   XDATA  STRUCT   003DH  14
+gstRDsysTick . . . . . . . . . . . . .  PUBLIC   XDATA  STRUCT   0045H  14
 ACMP_Channel_TypeDef . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
 ACMP_VREF_3D16VDD. . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 WDT_OverflowTime_125MS . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
@@ -5389,13 +5389,13 @@ USCI0_UART_Mode_11B. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 PriorityStatus . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
 INT2R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BFH  1
 BSP_WaterPump. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ST_Filter. . . . . . . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  12
+ST_Filter. . . . . . . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  20
   buf. . . . . . . . . . . . . . . . .  MEMBER   -----  UNION    0000H  2
   type . . . . . . . . . . . . . . . .  MEMBER   -----  U_INT    0002H  2
-  Mix_DayCnt . . . . . . . . . . . . .  MEMBER   -----  U_INT    0004H  2
-  RO_DayCnt. . . . . . . . . . . . . .  MEMBER   -----  U_INT    0006H  2
-  Mix_FlowRate . . . . . . . . . . . .  MEMBER   -----  U_INT    0008H  2
-  RO_FlowRateCnt . . . . . . . . . . .  MEMBER   -----  U_INT    000AH  2
+  Mix_DayCnt . . . . . . . . . . . . .  MEMBER   -----  U_LONG   0004H  4
+  RO_DayCnt. . . . . . . . . . . . . .  MEMBER   -----  U_LONG   0008H  4
+  Mix_FlowRate . . . . . . . . . . . .  MEMBER   -----  U_LONG   000CH  4
+  RO_FlowRateCnt . . . . . . . . . . .  MEMBER   -----  U_LONG   0010H  4
 USCI3_STATE_BUSY . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 USCI2_UART_Mode_10B. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 USCI1_UART_Mode_11B. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
@@ -5496,7 +5496,7 @@ USCI1_TransmissionMode_TypeDef . . . .  TYPEDEF  -----  U_CHAR   -----  1
 TIM1_WORK_MODE0. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 TIM0_WORK_MODE1. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 TLX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
-gstAM901 . . . . . . . . . . . . . . .  PUBLIC   XDATA  STRUCT   004BH  4
+gstAM901 . . . . . . . . . . . . . . .  PUBLIC   XDATA  STRUCT   0053H  6
 USCI5_TWI_SlaveReceivedaAddress. . . .  E_CONST  -----  U_CHAR   -----  1
 __USCI4_HandleInfoDef. . . . . . . . .  * TAG *  -----  STRUCT   -----  12
   pTxBuffPtr . . . . . . . . . . . . .  MEMBER   -----  UNION    0000H  3
@@ -5560,7 +5560,7 @@ TIM3_WORK_MODE3. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   ----    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     79    ----
+   XDATA SIZE       =     89    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

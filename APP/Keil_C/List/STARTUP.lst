@@ -1,4 +1,4 @@
-﻿A51 MACRO ASSEMBLER  STARTUP                                                              03/21/2024 20:54:14 PAGE     1
+﻿A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     1
 MACRO ASSEMBLER A51 V8.2.7.0
 OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\STARTUP.obj
 ASSEMBLER INVOKED BY: D:\Keil_v5\C51\bin\A51.EXE .\STARTUP.A51 SET(LARGE) DEBUG PRINT(D:\tfxu\Project\AM901_0308\APP\Kei
@@ -61,7 +61,7 @@ LOC  OBJ            LINE     SOURCE
                 +1                   
                 +1               
                 +1           
-A51 MACRO ASSEMBLER  STARTUP                                                              03/21/2024 20:54:14 PAGE     2
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     2
                 +1               
                 +1           
                 +1    60     
@@ -128,7 +128,7 @@ LOC  OBJ            LINE     SOURCE
                      121     ;  *** <<< Use Configuration Wizard in Context Menu >>> ***
                      122     ;------------------------------------------------------------------------------
                      123     ;  STARTUP.A51:  This code is executed after processor reset.
-A51 MACRO ASSEMBLER  STARTUP                                                              03/21/2024 20:54:14 PAGE     3
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     3
                      124     ;
                      125     ;  To translate this file use A51 with the following invocation:
                      126     ;
@@ -195,7 +195,7 @@ LOC  OBJ            LINE     SOURCE
                      187     ;
                      188     ; <h> Stack Space for reentrant functions in the COMPACT model.    
                      189     ;  <q> PBPSTACK: Enable COMPACT model reentrant stack
-A51 MACRO ASSEMBLER  STARTUP                                                              03/21/2024 20:54:14 PAGE     4
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     4
                      190     ;     <i> Stack space for reentrant functions in the COMPACT model.
   0000               191     PBPSTACK        EQU     0       ; set to 1 if compact reentrant is used.
                      192     ;
@@ -262,7 +262,7 @@ LOC  OBJ            LINE     SOURCE
                      253     IF XDATALEN <> 0
 0006 900000          254                     MOV     DPTR,#XDATASTART
 0009 7F00            255                     MOV     R7,#LOW (XDATALEN)
-A51 MACRO ASSEMBLER  STARTUP                                                              03/21/2024 20:54:14 PAGE     5
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     5
                      256       IF (LOW (XDATALEN)) <> 0
                                              MOV     R6,#(HIGH (XDATALEN)) +1
                                ELSE
@@ -315,7 +315,7 @@ LOC  OBJ            LINE     SOURCE
 0017 020000   F      317                     LJMP    ?C_START
                      318     
                      319                     END
-A51 MACRO ASSEMBLER  STARTUP                                                              03/21/2024 20:54:14 PAGE     6
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     6
 SYMBOL TABLE LISTING
 ------ ----- -------
 N A M E             T Y P E  V A L U E   ATTRIBUTES
