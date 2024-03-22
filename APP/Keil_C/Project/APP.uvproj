@@ -232,7 +232,7 @@
             <OnChipMemories>
               <RCB>
                 <Type>0</Type>
-                <StartAddress>0x0000</StartAddress>
+                <StartAddress>0x0</StartAddress>
                 <Size>0xffff</Size>
               </RCB>
               <RXB>
@@ -375,7 +375,6 @@
         </Target51>
       </TargetOption>
       <Groups>
-
         <Group>
           <GroupName>User</GroupName>
           <Files>
@@ -584,7 +583,7 @@
             </File>
           </Files>
         </Group>
-</Groups>
+      </Groups>
     </Target>
   </Targets>
 

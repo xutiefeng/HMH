@@ -68,42 +68,76 @@ void FilterlifeTime(emFilter type)
 
 void TimeReminder(void)
 {
+	static u8 sTimeReminderCnt =0;
 	u8  temp =gstAM901.Run.Bit.DayResidualPercent;
 	
-	if(gstAM901.Run.Bit.DayResidualPercen < temp)
-		temp = gstAM901.Run.Bit.DayResidualPercen;
+	if(gstAM901.Run.Bit.DayResidualPercent < temp)
+		temp = gstAM901.Run.Bit.DayResidualPercent;
 		
-	if( type  == ROFilter)
+	if( gstFilte.type  == ROFilter)
 	{
 		if(temp <1)//寿命到期
 		{
-		
+				LED2_R =1;
+				LED2_L =0;
 		}
 	
 		else if(temp <3)//寿命快到期
 		{
-			
+				if(sTimeReminderCnt < 5)
+				{
+						LED2_R =1;
+						LED2_L =0;
+				}
+				else
+				{
+						LED2_R =0;
+						LED2_L =0;
+				}
+				
+				sTimeReminderCnt++;
+				
+				if(sTimeReminderCnt >= 10)
+					sTimeReminderCnt = 0;
 		}
 		else
 		{
-			
+				LED2_R =0;
+				LED2_L =1;
 		}
 	}
 	else
 	{
-			if(temp <3)//寿命到期
-			{
-			
-			}
-			
-			else if(temp <10)//寿命快到期
-			{
-			
-			}
-			else
-			{
-			
-			}
+		if(temp < 3)//寿命到期
+		{
+				LED1_R =1;
+				LED1_L =0;
+
+		}
+	
+		else if(temp < 10)//寿命快到期
+		{
+				if(sTimeReminderCnt < 5)
+				{
+						LED1_R =1;
+						LED1_L =0;
+				}
+				else
+				{
+						LED1_R =0;
+						LED1_L =0;
+				}
+				
+				sTimeReminderCnt++;
+				
+				if(sTimeReminderCnt >= 10)
+					sTimeReminderCnt = 0;
+		}
+		else
+		{
+				LED1_R =0;
+				LED1_L =1;
+		}
 	}
 		
 	

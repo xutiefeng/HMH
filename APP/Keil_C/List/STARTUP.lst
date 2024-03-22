@@ -1,9 +1,13 @@
-﻿A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     1
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 18:56:14 PAGE     1
+
+
 MACRO ASSEMBLER A51 V8.2.7.0
-OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\STARTUP.obj
-ASSEMBLER INVOKED BY: D:\Keil_v5\C51\bin\A51.EXE .\STARTUP.A51 SET(LARGE) DEBUG PRINT(D:\tfxu\Project\AM901_0308\APP\Kei
-                      l_C\Project\..\List\STARTUP.lst) OBJECT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\STARTUP.obj) EP
+OBJECT MODULE PLACED IN ..\Output\STARTUP.obj
+ASSEMBLER INVOKED BY: D:\Keil_v5\C51\BIN\A51.EXE STARTUP.A51 SET(LARGE) DEBUG PRINT(..\List\STARTUP.lst) OBJECT(..\Outpu
+                      t\STARTUP.obj) EP
+
 LOC  OBJ            LINE     SOURCE
+
                        1             ;#include "..\DRIVERS\OTADriver\H\OTADriver.h"
                 +1     2     
                 +1     3     
@@ -61,7 +65,8 @@ LOC  OBJ            LINE     SOURCE
                 +1                   
                 +1               
                 +1           
-A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     2
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 18:56:14 PAGE     2
+
                 +1               
                 +1           
                 +1    60     
@@ -128,7 +133,8 @@ LOC  OBJ            LINE     SOURCE
                      121     ;  *** <<< Use Configuration Wizard in Context Menu >>> ***
                      122     ;------------------------------------------------------------------------------
                      123     ;  STARTUP.A51:  This code is executed after processor reset.
-A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     3
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 18:56:14 PAGE     3
+
                      124     ;
                      125     ;  To translate this file use A51 with the following invocation:
                      126     ;
@@ -195,7 +201,8 @@ LOC  OBJ            LINE     SOURCE
                      187     ;
                      188     ; <h> Stack Space for reentrant functions in the COMPACT model.    
                      189     ;  <q> PBPSTACK: Enable COMPACT model reentrant stack
-A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     4
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 18:56:14 PAGE     4
+
                      190     ;     <i> Stack space for reentrant functions in the COMPACT model.
   0000               191     PBPSTACK        EQU     0       ; set to 1 if compact reentrant is used.
                      192     ;
@@ -262,7 +269,8 @@ LOC  OBJ            LINE     SOURCE
                      253     IF XDATALEN <> 0
 0006 900000          254                     MOV     DPTR,#XDATASTART
 0009 7F00            255                     MOV     R7,#LOW (XDATALEN)
-A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     5
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 18:56:14 PAGE     5
+
                      256       IF (LOW (XDATALEN)) <> 0
                                              MOV     R6,#(HIGH (XDATALEN)) +1
                                ELSE
@@ -290,11 +298,13 @@ LOC  OBJ            LINE     SOURCE
                      280     
                      281     IF IBPSTACK <> 0
                              EXTRN DATA (?C_IBP)
+                             
                                              MOV     ?C_IBP,#LOW IBPSTACKTOP
                              ENDIF
                      286     
                      287     IF XBPSTACK <> 0
                              EXTRN DATA (?C_XBP)
+                             
                                              MOV     ?C_XBP,#HIGH XBPSTACKTOP
                                              MOV     ?C_XBP+1,#LOW XBPSTACKTOP
                              ENDIF
@@ -310,15 +320,29 @@ LOC  OBJ            LINE     SOURCE
                      302     ;<h> Code Banking
                      303     ; <q> Select Bank 0 for L51_BANK.A51 Mode 4
                      304     
+                             
+                             
+                                             
+                             
                      309     ;</h>
                      310     
+                                     
+                                     
+                                     
+                                     
+                                     
+                             
 0017 020000   F      317                     LJMP    ?C_START
                      318     
                      319                     END
-A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 16:29:19 PAGE     6
+A51 MACRO ASSEMBLER  STARTUP                                                              03/22/2024 18:56:14 PAGE     6
+
 SYMBOL TABLE LISTING
 ------ ----- -------
+
+
 N A M E             T Y P E  V A L U E   ATTRIBUTES
+
 ?C_C51STARTUP. . .  C SEG    001AH       REL=UNIT
 ?C_START . . . . .  C ADDR   -----       EXT
 ?C_STARTUP . . . .  C ADDR   0000H   A   
@@ -345,5 +369,9 @@ XBPSTACKTOP. . . .  N NUMB   0000H   A
 XDATALEN . . . . .  N NUMB   0100H   A   
 XDATALOOP. . . . .  C ADDR   000EH   R   SEG=?C_C51STARTUP
 XDATASTART . . . .  N NUMB   0000H   A   
+
+
 REGISTER BANK(S) USED: 0 
+
+
 ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

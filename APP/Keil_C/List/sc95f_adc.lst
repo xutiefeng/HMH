@@ -1,629 +1,31 @@
-C51 COMPILER V9.59.0.0   SC95F_ADC                                                         03/22/2024 16:29:18 PAGE 1   
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         03/22/2024 18:56:13 PAGE 1   
+
+
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_ADC
-OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_adc.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\FWLib\SC95F_Lib\src\sc95f_adc.c OMF2 INTVECTOR(0X2800) DEFINE(SC95F8x
-                    -1xB) LARGE INCDIR(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\inc;D:\tfxu\Project\AM901_0308\APP\Ke
-                    -il_C\Project\..\User;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\IOT_DRIVER\XIAOMI;D:\tfxu\Project\AM901_0308\APP\K
-                    -eil_C\Project\..\Drivers;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C;D:\tfxu\Project\AM901_0308\
-                    -APP\Keil_C\Project\..\List\..\Apps;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Apps) BROWSE DEBUG OBJECTEXTEND OPTI
-                    -MIZE(8,SIZE) CODE NOCOND SYMBOLS LISTINCLUDE PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\List\sc95f_adc.lst) 
-                    -OBJECT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_adc.obj)
+OBJECT MODULE PLACED IN ..\Output\sc95f_adc.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_adc.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE IN
+                    -TVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\A
+                    -pps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_adc.lst) TABS(2) OBJECT(..\Output\sc95f_adc.obj)
+
 line level    source
-   1          
-   2          
-   3          
-   4          
-   5          
-   6          
-   7          
-   8          
-   9          
+
+   1          //************************************************************
+   2          //  Copyright (c) 深圳市赛元微电子股份有限公司
+   3          //  文件名称:       sc95f_adc.c
+   4          //  作者:         赛元应用团队
+   5          //  模块功能:       ADC固件库函数C文件
+   6          //  最后更正日期: 2024年1月18日
+   7          //  版本:       V1.0002
+   8          //  说明:       该文件仅适用于SC95F系列芯片
+   9          //*************************************************************
   10          #include "sc95f_adc.h"
-   1      =1  
-   2      =1  
-   3      =1  
-   4      =1  
-   5      =1  
-   6      =1  
-   7      =1  
-   8      =1  
-   9      =1  
-  10      =1  
-  11      =1  #ifndef _sc95f_ADC_H_
-  12      =1  #define _sc95f_ADC_H_
-  13      =1  
-  14      =1  #include "sc95f.h"
-   1      =2  
-   2      =2  
-   3      =2  
-   4      =2  
-   5      =2  
-   6      =2  
-   7      =2  
-   8      =2  
-   9      =2  
-  10      =2  
-  11      =2  #ifndef _sc95f_H
-  12      =2  #define _sc95f_H
-  13      =2  
-  14      =2  #ifdef SC95F8x1x
-  17      =2  #ifdef SC95F7x1x
-  20      =2  #ifdef SC95F8x2x 
-  23      =2  #ifdef SC95F7x2x
-  26      =2  #ifdef SC95FWxx
-  29      =2  #ifdef SC95F8x3x
-  32      =2  #ifdef SC95F7x3x
-  35      =2  #ifdef SC95F8x6x
-  38      =2  #ifdef SC95F7x6x
-  41      =2  #ifdef SC95F8x1xB
-  42      =2    #include "SC95F8x1xB_C.H"
-   1      =3  
-  11      =3  #ifndef _SC95F861xB_H_
-  12      =3  #define _SC95F861xB_H_
-  13      =3  
-  14      =3  
-  15      =3  
-  16      =3  sfr   SP    = 0X81;  
-  17      =3  sfr   DPL   = 0X82;  
-  18      =3  sfr   DPH   = 0X83;  
-  19      =3  sfr   DPL1  = 0X84;  
-  20      =3  sfr   DPH1  = 0X85;  
-  21      =3  sfr   DPS   = 0X86;  
-  22      =3  sfr   PSW   = 0XD0;  
-  23      =3  sfr   ACC   = 0XE0;  
-  24      =3  sfr   EXA0  = 0XE9;  
-  25      =3  sfr   EXA1  = 0XEA;  
-  26      =3  sfr   EXA2  = 0XEB;  
-  27      =3  sfr   EXA3  = 0XEC;  
-  28      =3  sfr   EXBL  = 0XED;  
-  29      =3  sfr   EXBH  = 0XEE;  
-  30      =3  sfr   B     = 0XF0;  
-  31      =3  
-  32      =3  
-  33      =3  sfr   EXADH = 0XF7;  
-  34      =3  
-  35      =3  
-  36      =3  sfr   ROMBNK = 0XDF;  
-  37      =3  
-  38      =3  
-  39      =3  sfr   PCON = 0X87;  
-  40      =3  
-  41      =3  
-  42      =3  sfr   IE  = 0XA8;  
-  43      =3  sfr   IE1 = 0XA9;  
-  44      =3  sfr   IE2 = 0XAA;  
-  45      =3  sfr   IP  = 0XB8;  
-  46      =3  sfr   IP1 = 0XB9;  
-  47      =3  sfr   IP2 = 0XBA;  
-  48      =3  
-  49      =3  
-  50      =3  sfr   P0      = 0X80;  
-  51      =3  sfr   P1      = 0X90;  
-  52      =3  sfr       P1CON   = 0X91;  
-  53      =3  sfr   P1PH        = 0X92;  
-  54      =3  sfr   DDRCON  = 0X93;  
-  55      =3  sfr   P1VO    = 0X94;  
-  56      =3  sfr   IOHCON0 = 0X96;  
-  57      =3  sfr   IOHCON1 = 0X97;  
-  58      =3  sfr       P0CON   = 0X9A;  
-  59      =3  sfr       P0PH    = 0X9B;  
-  60      =3  sfr   P0VO    = 0X9C;  
-  61      =3  sfr   P2      = 0XA0;  
-  62      =3  sfr       P2CON   = 0XA1;  
-  63      =3  sfr   P2PH        = 0XA2;  
-  64      =3  sfr   P2VO    = 0XA3;  
-  65      =3  sfr   P3      = 0XB0;  
-  66      =3  sfr   P3CON   = 0XB1;  
-  67      =3  sfr   P3PH    = 0XB2;  
-  68      =3  sfr   P3VO    = 0XB3;  
-  69      =3  sfr   P4      = 0XC0;  
-  70      =3  sfr   P4CON   = 0XC1;  
-  71      =3  sfr   P4PH    = 0XC2;  
-  72      =3  sfr   P5      = 0XD8;  
-  73      =3  sfr   P5CON   = 0XD9;  
-  74      =3  sfr   P5PH    = 0XDA;  
-  75      =3  
-  76      =3  
-  77      =3  sfr   CMPCFG  = 0XB6;  
-  78      =3  sfr   CMPCON  = 0XB7;  
-  79      =3  
-  80      =3         
-  81      =3  sfr   TCON   = 0X88;  
-  82      =3  sfr   TMOD   = 0X89;  
-  83      =3  sfr   TL0    = 0X8A;  
-  84      =3  sfr   TL1    = 0X8B;  
-  85      =3  sfr   TH0    = 0X8C;  
-  86      =3  sfr   TH1    = 0X8D;  
-  87      =3  sfr   TMCON  = 0X8E;  
-  88      =3  sfr   TXCON  = 0XC8;  
-  89      =3  sfr   TXMOD  = 0XC9;  
-  90      =3  sfr   RCAPXL = 0XCA;  
-  91      =3  sfr   RCAPXH = 0XCB;  
-  92      =3  sfr   TLX    = 0XCC;  
-  93      =3  sfr   THX    = 0XCD;  
-  94      =3  sfr   TXINX  = 0XCE;  
-  95      =3  
-  96      =3  
-  97      =3  sfr       ADCCFG0 = 0XAB;  
-  98      =3  sfr       ADCCFG1 = 0XAC;  
-  99      =3  sfr   ADCCON  = 0XAD;  
- 100      =3  sfr   ADCVL   = 0XAE;  
- 101      =3  sfr   ADCVH   = 0XAF;  
- 102      =3  sfr   ADCCFG2 = 0XB5;  
- 103      =3  
- 104      =3  
- 105      =3  sfr   PWMCFG  = 0XD1;  
- 106      =3  sfr   PWMCON0 = 0XD2;  
- 107      =3  sfr   PWMCON1 = 0XD3;  
- 108      =3  sfr   PWMPDL  = 0XD4;  
- 109      =3  sfr   PWMPDH  = 0XD5;  
- 110      =3  sfr   PWMDFR  = 0XD6;  
- 111      =3  sfr   PWMFLT  = 0XD7;  
- 112      =3  
- 113      =3  
- 114      =3  sfr   WDTCON = 0XCF;  
- 115      =3  
- 116      =3  
- 117      =3  sfr       BTMCON = 0XFB;  
- 118      =3  
- 119      =3  
- 120      =3  sfr   INT0F = 0XB4;  
- 121      =3  sfr   INT0R = 0XBB;  
- 122      =3  sfr   INT1F = 0XBC;  
- 123      =3  sfr   INT1R = 0XBD;  
- 124      =3  sfr   INT2F = 0XBE;  
- 125      =3  sfr   INT2R = 0XBF;  
- 126      =3  
- 127      =3  
- 128      =3  sfr   IAPKEY = 0XF1;  
- 129      =3  sfr   IAPADL = 0XF2;  
- 130      =3  sfr   IAPADH = 0XF3;  
- 131      =3  sfr   IAPADE = 0XF4;  
- 132      =3  sfr   IAPDAT = 0XF5;  
- 133      =3  sfr   IAPCTL = 0XF6;  
- 134      =3  
- 135      =3  
- 136      =3  sfr   OTCON = 0X8F;  
- 137      =3  sfr   SCON  = 0X98;  
- 138      =3  sfr   SBUF  = 0X99;  
- 139      =3  
- 140      =3  
- 141      =3  sfr   US0CON0 = 0X95;  
- 142      =3  sfr   US0CON1 = 0X9D;  
- 143      =3  sfr   US0CON2 = 0X9E;  
- 144      =3  sfr   US0CON3 = 0X9F;  
- 145      =3  sfr   US1CON0 = 0XA4;  
- 146      =3  sfr   US1CON1 = 0XA5;  
- 147      =3  sfr   US1CON2 = 0XA6;  
- 148      =3  sfr   US1CON3 = 0XA7;  
- 149      =3  sfr   USXCON0 = 0XC4;  
- 150      =3  sfr   USXCON1 = 0XC5;  
- 151      =3  sfr   USXCON2 = 0XC6;  
- 152      =3  sfr   USXCON3 = 0XC7;  
- 153      =3  sfr   USXINX  = 0XDC;  
- 154      =3  
- 155      =3  
- 156      =3  
- 157      =3  sfr   OPINX = 0XFE;  
- 158      =3  sfr   OPREG = 0XFF;  
- 159      =3  
- 160      =3  
- 161      =3  sfr   OPERCON = 0XEF;  
- 162      =3  sfr   CRCINX  = 0XFC;  
- 163      =3  sfr   CRCREG  = 0XFD;  
- 164      =3  
- 165      =3  
- 166      =3  
- 167      =3  
- 168      =3  sbit  CY  = PSW^7;  
-             -薪唬蛘呒醴ㄔ怂阕罡呶挥薪栉皇?
- 169      =3  sbit  AC  = PSW^6;  
-             -?
- 170      =3  sbit  F0  = PSW^5;  
- 171      =3  sbit  RS1 = PSW^4;  
- 172      =3  sbit  RS0 = PSW^3;  
- 173      =3  sbit  OV  = PSW^2;  
- 174      =3  sbit  F1  = PSW^1;  
- 175      =3  sbit  P   = PSW^0;  
- 176      =3  
- 177      =3  
- 178      =3  sbit  TFX   = TXCON^7;  
- 179      =3  sbit  EXFX  = TXCON^6;  
- 180      =3  sbit  RCLKX = TXCON^5;  
- 181      =3  sbit  TCLKX = TXCON^4;  
- 182      =3  sbit  EXENX = TXCON^3;  
- 183      =3  sbit  TRX   = TXCON^2;  
- 184      =3  sbit  TX    = TXCON^1;  
- 185      =3  sbit  CP    = TXCON^0;  
- 186      =3  
- 187      =3  
- 188      =3  sbit  IPADC  = IP^6;  
-             -热ㄊ?“高”
- 189      =3  sbit  IPT2   = IP^5;  
-             -嫌畔热ㄊ?“高”
- 190      =3  sbit  IPUART = IP^4;  
-             -先权是 “高”
- 191      =3  sbit  IPT1   = IP^3;  
-             -嫌畔热ㄊ?“高”
- 192      =3  sbit  IPINT1 = IP^2;  
-             -先权是 “高”
- 193      =3  sbit  IPT0   = IP^1;  
-             -嫌畔热ㄊ?“高”
- 194      =3  sbit  IPINT0 = IP^0;  
-             -高
- 195      =3  
- 196      =3  
- 197      =3  sbit  EA    = IE^7;  
- 198      =3  sbit  EADC  = IE^6;  
- 199      =3  sbit  ET2   = IE^5;  
- 200      =3  sbit  EUART = IE^4;  
- 201      =3  sbit  ET1   = IE^3;  
- 202      =3  sbit  EINT1 = IE^2;  
- 203      =3  sbit  ET0   = IE^1;  
- 204      =3  sbit  EINT0 = IE^0;  
- 205      =3  
- 206      =3  
- 207      =3  sbit  TF1 = TCON^7;  
-             -保布濉?”。
- 208      =3  sbit  TR1 = TCON^6;  
- 209      =3  sbit  TF0 = TCON^5;  
-             -保布濉?”。
- 210      =3  sbit  TR0 = TCON^4;  
- 211      =3  
- 212      =3  
- 213      =3  sbit  SM0 = SCON^7;  
-             -双工异步通信 11: 模式3，11位全双工异步通信
- 214      =3  sbit  SM1 = SCON^6;  
- 215      =3  sbit  SM2 = SCON^5;  
-             -锨肭?  1：收到一个完整的数据帧时，只有当RB8=1时才会置位RI产生中断请求
- 216      =3  sbit  REN = SCON^4;  
- 217      =3  sbit  TB8 = SCON^3;  
- 218      =3  sbit  RB8 = SCON^2;  
- 219      =3  sbit  TI  = SCON^1;  
- 220      =3  sbit  RI  = SCON^0;  
- 221      =3  
- 222      =3  
- 223      =3  
- 230      =3  sbit  P07 = P0^7;
- 231      =3  sbit  P06 = P0^6;
- 232      =3  sbit  P05 = P0^5;
- 233      =3  sbit  P04 = P0^4;
- 234      =3  sbit  P03 = P0^3;
- 235      =3  sbit  P02 = P0^2;
- 236      =3  sbit  P01 = P0^1;
- 237      =3  sbit  P00 = P0^0;
- 238      =3  
- 239      =3  
- 240      =3  
- 247      =3  sbit  P17 = P1^7;
- 248      =3  sbit  P16 = P1^6;
- 249      =3  sbit  P15 = P1^5;
- 250      =3  sbit  P14 = P1^4;
- 251      =3  sbit  P13 = P1^3;
- 252      =3  sbit  P12 = P1^2;
- 253      =3  sbit  P11 = P1^1;
- 254      =3  sbit  P10 = P1^0;
- 255      =3  
- 256      =3  
- 263      =3  sbit  P27 = P2^7;
- 264      =3  sbit  P26 = P2^6;
- 265      =3  sbit  P25 = P2^5;
- 266      =3  sbit  P24 = P2^4;
- 267      =3  sbit  P23 = P2^3;
- 268      =3  sbit  P22 = P2^2;
- 269      =3  sbit  P21 = P2^1;
- 270      =3  sbit  P20 = P2^0;
- 271      =3  
- 272      =3  
- 279      =3  sbit  P37 = P3^7;
- 280      =3  sbit  P36 = P3^6;
- 281      =3  sbit  P35 = P3^5;
- 282      =3  sbit  P34 = P3^4;
- 283      =3  sbit  P33 = P3^3;
- 284      =3  sbit  P32 = P3^2;
- 285      =3  sbit  P31 = P3^1;
- 286      =3  sbit  P30 = P3^0;
- 287      =3  
- 288      =3  
- 295      =3  sbit  P47 = P4^7;
- 296      =3  sbit  P46 = P4^6;
- 297      =3  sbit  P45 = P4^5;
- 298      =3  sbit  P44 = P4^4;
- 299      =3  sbit  P43 = P4^3;
- 300      =3  sbit  P42 = P4^2;
- 301      =3  sbit  P41 = P4^1;
- 302      =3  sbit  P40 = P4^0;
- 303      =3  
- 304      =3  
- 311      =3  sbit  P55 = P5^5;
- 312      =3  sbit  P54 = P5^4;
- 313      =3  sbit  P53 = P5^3;
- 314      =3  sbit  P52 = P5^2;
- 315      =3  sbit  P51 = P5^1;
- 316      =3  sbit  P50 = P5^0;
- 317      =3  
- 318      =3                              
-             -        
- 323      =3  #define  SC95F8616B_NIO_Init()   {P4CON|=0xC0,P5CON|=0x30;}                                               
-             -  
- 324      =3  #define  SC95F8615B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xF0;}           
-             -  
- 325      =3  #define  SC95F8613B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xFF;}           
-             -  
- 326      =3  #define  SC95F8612B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P2CON|=0XF0,P3CON|=0xF0,P4CON|=0xF0,P5CON|=0xFF;
-             -} 
- 327      =3  #endif
-  43      =2  #endif
-  44      =2  #ifdef SC95F7x1xB
-  47      =2  #ifdef SC95R751
-  50      =2  #ifdef SC95F7610B
-  53      =2  #ifdef SC95F7619B
-  56      =2  #ifdef SC95FS52x
-  59      =2  #ifdef SC95R602
-  62      =2  #ifdef SC95R605
-  65      =2  #ifdef SC95F8x7x
-  68      =2  #ifdef SC95F7x7x
-  71      =2  #ifdef SC95R503
-  74      =2  
-  75      =2  #define enableInterrupts()    EA=1       
-  76      =2  #define disableInterrupts()   EA=0       
-  77      =2  
-  78      =2  #define     __I     volatile const   
-  79      =2  #define     __O     volatile         
-  80      =2  #define     __IO    volatile         
-  81      =2  
-  82      =2  
-  83      =2  typedef   signed char     int8_t;
-  84      =2  typedef   signed short    int16_t;
-  85      =2  typedef   signed long     int32_t;
-  86      =2  
-  87      =2  
-  88      =2  typedef unsigned char     uint8_t;
-  89      =2  typedef unsigned short    uint16_t;
-  90      =2  typedef unsigned long     uint32_t;
-  91      =2  
-  92      =2  typedef int32_t  s32;
-  93      =2  typedef int16_t  s16;
-  94      =2  typedef int8_t   s8;
-  95      =2  
-  96      =2  typedef uint32_t  u32;
-  97      =2  typedef uint16_t  u16;
-  98      =2  typedef uint8_t   u8;
-  99      =2  
- 100      =2  
- 101      =2  typedef enum {FALSE = 0, TRUE = !FALSE} bool;
- 102      =2  
- 103      =2  typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus, BitStatus;
- 104      =2  
- 105      =2  typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
- 106      =2  
- 107      =2  typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
- 108      =2  
- 109      =2  typedef enum 
- 110      =2  {
- 111      =2    Status_ERROR          = 0x00U,
- 112      =2    Status_OK                     = 0x01U,
- 113      =2    Status_BUSY           = 0x02U,
- 114      =2    Status_TIMEOUT        = 0x03U
- 115      =2  } StatusTypeDef;
- 116      =2  
- 117      =2  typedef enum {LOW = 0, HIGH = !LOW} PriorityStatus;
- 118      =2  
- 119      =2  #define SET_BIT(SFR,BIT)                                ((SFR) |= (BIT))
- 120      =2  
- 121      =2  #define CLEAR_BIT(SFR,BIT)                      ((SFR) &= ~(BIT))
- 122      =2  
- 123      =2  #define READ_BIT(SFR, BIT)      ((SFR) & (BIT))
- 124      =2  
- 125      =2  #define CLEAR_REG(SFR)          ((SFR) = (0x0))
- 126      =2  
- 127      =2  #define WRITE_REG(SFR, VAL)     ((SFR) = (VAL))
- 128      =2  
- 129      =2  #endif
-  15      =1  
-  16      =1  #include "sc95f_option.h"
-   1      =2  
-   2      =2  
-   3      =2  
-   4      =2  
-   5      =2  
-   6      =2  
-   7      =2  
-   8      =2  
-   9      =2  
-  10      =2  
-  11      =2  #ifndef _sc95f_OPTION_H_
-  12      =2  #define _sc95f_OPTION_H_
-  13      =2  
-  14      =2  #include "sc95f.h"
-   1      =3  
-   2      =3  
-   3      =3  
-   4      =3  
-   5      =3  
-   6      =3  
-   7      =3  
-   8      =3  
-   9      =3  
-  10      =3  
-  11      =3  #ifndef _sc95f_H
-  15      =2  
-  16      =2  
-  17      =2  typedef enum
-  18      =2  {
-  19      =2    SYSCLK_PRESSEL_FOSC_D1 = (uint8_t)0x00, 
-  20      =2    SYSCLK_PRESSEL_FOSC_D2 = (uint8_t)0x10, 
-  21      =2    SYSCLK_PRESSEL_FOSC_D4 = (uint8_t)0x20, 
-  22      =2    SYSCLK_PRESSEL_FOSC_D8 = (uint8_t)0x30  
-  23      =2  } SYSCLK_PresSel_TypeDef;
-  24      =2  
-  25      =2  
-  26      =2  typedef enum
-  27      =2  {
-  28      =2    LVR_INVALID = (uint8_t)0x04, 
-  29      =2    LVR_1_9V = (uint8_t)0x00,    
-  30      =2    LVR_2_9V = (uint8_t)0x01,    
-  31      =2    LVR_3_7V = (uint8_t)0x02,    
-  32      =2    LVR_4_3V = (uint8_t)0x03     
-  33      =2  } LVR_Config_TypeDef;
-  34      =2  
-  35      =2  
-  36      =2  #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx)
-  45      =2  #if defined(SC95F8x2x) || defined(SC95F7x2x) || defined(SC95F8x3x) || defined(SC95F7x3x) || defined (SC95F
-             -8x6x) || defined (SC95F7x6x)\
-  46      =2                  || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined (SC95R751) || defined (SC95F7610B) || defined
-             - (SC95F7619B) || defined(SC95FS52x)\
-  47      =2                  || defined (SC95R602)  || defined (SC95R605) || defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R
-             -503)
-  48      =2  typedef enum
-  49      =2  {
-  50      =2    IAP_OPERATERANGE__LAST_0K_CODEREGION = (uint8_t)0x00, 
-  51      =2    IAP_OPERATERANGE__LAST_1K_CODEREGION = (uint8_t)0x04, 
-  52      =2    IAP_OPERATERANGE__LAST_2K_CODEREGION = (uint8_t)0x08, 
-  53      =2    IAP_OPERATERANGE__ALL_CODEREGION = (uint8_t)0x0c      
-  54      =2  } IAP_OperateRange_TypeDef;
-  55      =2  #endif
-  56      =2  
-  57      =2  #if defined (SC95F8x6x) || defined (SC95F7x6x)  || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined
-             - (SC95R751)\
-  58      =2                  || defined (SC95F7610B) || defined (SC95F7619B) || defined (SC95R602)  || defined (SC95R605) || defined(
-             -SC95F8x7x) || defined(SC95F7x7x)\
-  59      =2      || defined(SC95R503)
-  60      =2  
-  61      =2  typedef enum
-  62      =2  {
-  63      =2    ADC_VREF_VDD = 0x00,    
-  64      =2    ADC_VREF_2_048V = 0x40,       
-  65      =2    ADC_VREF_1_024V = 0x80, 
-  66      =2    ADC_VREF_2_4V = 0xC0          
-  67      =2  } ADC_Vref_TypeDef;
-  68      =2  #else
-  77      =2  
-  78      =2  void OPTION_WDT_Cmd(FunctionalState NewState);
-  79      =2  void OPTION_XTIPLL_Cmd(FunctionalState NewState);
-  80      =2  void OPTION_SYSCLK_Init(SYSCLK_PresSel_TypeDef SYSCLK_PresSel);
-  81      =2  void OPTION_LVR_Init(LVR_Config_TypeDef LVR_Config);
-  82      =2  void OPTION_ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref);
-  83      =2  void OPTION_IAP_SetOperateRange(IAP_OperateRange_TypeDef IAP_OperateRange);
-  84      =2  void OPTION_JTG_Cmd(FunctionalState NewState);
-  85      =2  
-  86      =2  #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) ||  defined(SC95F8x2x) || defined(SC95F7
-             -x2x) || defined(SC95FS52x)\
-  87      =2      || defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
-  90      =2  
-  91      =2  #endif
-  17      =1  
-  18      =1  typedef enum
-  19      =1  {
-  20      =1    ADC_PRESSEL_3CLOCK = (uint8_t)0x10,  
-  21      =1    ADC_PRESSEL_6CLOCK = (uint8_t)0x14,  
-  22      =1    ADC_PRESSEL_16CLOCK = (uint8_t)0x18, 
-  23      =1    ADC_PRESSEL_32CLOCK = (uint8_t)0x1c  
-  24      =1  } ADC_PresSel_TypeDef;
-  25      =1  
-  26      =1  
-  27      =1  typedef enum
-  28      =1  {
-  29      =1    ADC_Cycle_Null = 0x00 
-  30      =1  } ADC_Cycle_TypeDef;
-  31      =1  
-  32      =1  
-  33      =1  typedef enum
-  34      =1  {
-  35      =1    ADC_SamplesNum_FourTimes = 0x04,                      
-  36      =1    ADC_SamplesNum_SixTimes = 0x06,                               
-  37      =1    ADC_SamplesNum_EightTimes = 0x08,                     
-  38      =1    ADC_SamplesNum_TenTimes = 0x0A,                               
-  39      =1  } ADC_SamplesNum_TypeDef;
-  40      =1  
-  41      =1  #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) || defined(SC95F8x3x) || defined(SC95F7x
-             -3x) || defined (SC95F8x6x) || defined (SC95F7x6x)\
-  42      =1                  || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined (SC95R602)  || defined (SC95R605)
-  43      =1  
-  44      =1  typedef enum
-  45      =1  {
-  46      =1    ADC_CHANNEL_0 = (uint8_t)0x00,     
-  47      =1    ADC_CHANNEL_1 = (uint8_t)0x01,     
-  48      =1    ADC_CHANNEL_2 = (uint8_t)0x02,     
-  49      =1    ADC_CHANNEL_3 = (uint8_t)0x03,     
-  50      =1    ADC_CHANNEL_4 = (uint8_t)0x04,     
-  51      =1    ADC_CHANNEL_5 = (uint8_t)0x05,     
-  52      =1    ADC_CHANNEL_6 = (uint8_t)0x06,     
-  53      =1    ADC_CHANNEL_7 = (uint8_t)0x07,     
-  54      =1    ADC_CHANNEL_8 = (uint8_t)0x08,     
-  55      =1    ADC_CHANNEL_9 = (uint8_t)0x09,     
-  56      =1    ADC_CHANNEL_10 = (uint8_t)0x0A,    
-  57      =1    ADC_CHANNEL_11 = (uint8_t)0x0B,    
-  58      =1    ADC_CHANNEL_12 = (uint8_t)0x0C,    
-  59      =1    ADC_CHANNEL_13 = (uint8_t)0x0D,    
-  60      =1    ADC_CHANNEL_14 = (uint8_t)0x0E,    
-  61      =1    ADC_CHANNEL_15 = (uint8_t)0x0F,    
-  62      =1    ADC_CHANNEL_VDD_D4 = (uint8_t)0x1f 
-  63      =1  } ADC_Channel_TypeDef;
-  64      =1  
-  65      =1  
-  66      =1  typedef enum
-  67      =1  {
-  68      =1    ADC_EAIN_0 = (uint16_t)0x0001,  
-  69      =1    ADC_EAIN_1 = (uint16_t)0x0002,  
-  70      =1    ADC_EAIN_2 = (uint16_t)0x0004,  
-  71      =1    ADC_EAIN_3 = (uint16_t)0x0008,  
-  72      =1    ADC_EAIN_4 = (uint16_t)0x0010,  
-  73      =1    ADC_EAIN_5 = (uint16_t)0x0020,  
-  74      =1    ADC_EAIN_6 = (uint16_t)0x0040,  
-  75      =1    ADC_EAIN_7 = (uint16_t)0x0080,  
-  76      =1    ADC_EAIN_8 = (uint16_t)0x0100,  
-  77      =1    ADC_EAIN_9 = (uint16_t)0x0200,  
-  78      =1    ADC_EAIN_10 = (uint16_t)0x0400, 
-  79      =1    ADC_EAIN_11 = (uint16_t)0x0800, 
-  80      =1    ADC_EAIN_12 = (uint16_t)0x1000, 
-  81      =1    ADC_EAIN_13 = (uint16_t)0x2000, 
-  82      =1    ADC_EAIN_14 = (uint16_t)0x4000, 
-  83      =1    ADC_EAIN_15 = (uint16_t)0x8000  
-  84      =1  } ADC_EAIN_TypeDef;
-  85      =1  #endif
-  86      =1  
-  87      =1  #if defined(SC95F8x7x) || defined(SC95F7x7x) || defined(SC95R503) 
- 123      =1  
- 124      =1  #if defined(SC95F8x2x) || defined(SC95F7x2x) || defined(SC95FS52x)
- 156      =1  
- 157      =1  #if defined(SC95R751)
- 191      =1  
- 192      =1  #if defined(SC95F7610B)
- 228      =1  
- 229      =1  
- 230      =1  #if defined(SC95F7619B)
- 265      =1  
- 266      =1  
- 272      =1  #define ADC_StartConversion() SET_BIT(ADCCON,0X40)
- 273      =1  
- 274      =1  
- 282      =1  #define ADC_ITConfig(NewState,Priority)                                                                         \
- 283      =1                                          do{                                                                                                                                     \
- 284      =1                                                          EADC = (bit)NewState;                                                                   \
- 285      =1                                                          IPADC = (bit)Priority;                                                                  \
- 286      =1                                          }while(0)
- 287      =1  
- 288      =1  
- 295      =1  #define ADC_GetFlagStatus() ((READ_BIT(ADCCON,0x20)) ? (SET):(RESET))
- 296      =1  
- 297      =1  
- 303      =1  #define ADC_ClearFlag() CLEAR_BIT(ADCCON,0x20)
- 304      =1  
- 305      =1  void ADC_DeInit(void);
- 306      =1  void ADC_Init(ADC_PresSel_TypeDef ADC_PrescalerSelection, ADC_Cycle_TypeDef ADC_Cycle);
- 307      =1  void ADC_ChannelConfig(ADC_Channel_TypeDef ADC_Channel, FunctionalState NewState);
- 308      =1  void ADC_EAINConfig(uint16_t ADC_EAIN_Select, FunctionalState NewState);
- 309      =1  void ADC_Cmd(FunctionalState NewState);
- 310      =1  uint16_t ADC_GetConversionValue(void);
- 311      =1  void ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref);
- 312      =1  uint16_t ADC_GetConversionAverageValue(ADC_SamplesNum_TypeDef ADC_SamplesNum);
- 313      =1  
- 314      =1  #endif
- 315      =1  
- 316      =1  
   11          
-  12          
+  12          /**************************************************
+  13          *函数名称:void ADC_DeInit(void)
+  14          *函数功能:ADC相关寄存器复位至缺省值
+  15          *入口参数:void
+  16          *出口参数:void
+  17          **************************************************/
   18          void ADC_DeInit(void)
   19          {
   20   1        ADCCON = 0x00;
@@ -636,69 +38,105 @@ line level    source
   27   1        IPADC = 0;
   28   1      }
   29          
-  30          
+  30          /**************************************************
+  31          *函数名称:void ADC_Init(ADC_PresSel_TypeDef ADC_PrescalerSelection,ADC_Cycle_TypeDef ADC_Cycle)
+  32          *函数功能:ADC初始化配置函数
+  33          *入口参数:
+  34          ADC_PresSel_TypeDef:ADC_PrescalerSelection:ADC预分频选择
+  35          ADC_Cycle_TypeDef:ADC_Cycle:采样时间选择
+  36          *出口参数:void
+  37          **************************************************/
   38          void ADC_Init(ADC_PresSel_TypeDef ADC_PrescalerSelection, ADC_Cycle_TypeDef ADC_Cycle)
   39          {
-  40   1        
+  40   1        /* 配置ADC采样时钟分频 */
   41   1        ADCCFG2 = ADC_PrescalerSelection;
-  42   1        
+  42   1        /* 该入参在95F系列无效 */
   43   1        ADC_Cycle = 0x00;
   44   1      }
   45          
-  46          
+  46          /**************************************************
+  47          *函数名称:void ADC_ChannelConfig(ADC_Channel_TypeDef ADC_Channel, FunctionalState NewState)
+  48          *函数功能:ADC输入口配置函数
+  49          *入口参数:
+  50          ADC_Channel_TypeDef:ADC_Channel:ADC输入口选择
+  51          FunctionalState:NewState:ADCx使能/关闭选择
+  52          *出口参数:void
+  53          **************************************************/
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         03/22/2024 18:56:13 PAGE 2   
+
   54          void ADC_ChannelConfig(ADC_Channel_TypeDef ADC_Channel, FunctionalState NewState)
   55          {
   56   1        uint16_t tmpreg;
   57   1      
-  58   1        
+  58   1        /* ADC采样通道选择外部通道，将对应的ADC输入口设置为模拟输入模式 */
   59   1        if(ADC_Channel < ADC_CHANNEL_VDD_D4)
   60   1        {
-  61   2          tmpreg = (0x0001 << ADC_Channel);                   
+  61   2          tmpreg = (0x0001 << ADC_Channel);     //通过移位得到ADCCFG寄存器·配置值
   62   2          if(NewState == DISABLE)
   63   2          {
-  64   3            
+  64   3            /* ADC输入口退出模拟输入模式 */
   65   3            ADCCFG0 &= (~(uint8_t)tmpreg);
   66   3            ADCCFG1 &= (~(uint8_t)(tmpreg >> 8));
   67   3          }
   68   2          else
   69   2          {
-  70   3            
+  70   3            /* ADC输入口设置为模拟输入模式 */
   71   3            ADCCFG0 |= ((uint8_t)tmpreg);
   72   3            ADCCFG1 |= ((uint8_t)(tmpreg >> 8));
   73   3          }
   74   2        }
   75   1      
-  76   1        
+  76   1        /* 配置ADC采样时钟分频 */
   77   1        ADCCON = (ADCCON & 0XE0) | ADC_Channel;
   78   1      }
   79          
-  80          
+  80          /**************************************************
+  81          *函数名称:void ADC_EAINConfig(ADC_EAIN_TypeDef ADC_Channel, FunctionalState NewState)
+  82          *函数功能:将对应的ADC输入口设置为模拟输入模式
+  83          *入口参数:
+  84          ADC_EAIN_TypeDef:ADC_EAIN_Select:选择需要设置的ADC口（uint16_t作为入参，方便进行位或操作）
+  85          FunctionalState:NewState:ADC通道使能/关闭选择
+  86          *出口参数:void
+  87          **************************************************/
   88          void ADC_EAINConfig(uint16_t ADC_EAIN_Select, FunctionalState NewState)
   89          {
   90   1        if(NewState == DISABLE)
   91   1        {
-  92   2          
+  92   2          /* ADC输入口退出模拟输入模式 */
   93   2          ADCCFG0 &= (~(uint8_t)ADC_EAIN_Select);
   94   2          ADCCFG1 &= (~(uint8_t)(ADC_EAIN_Select >> 8));
   95   2        }
   96   1        else
   97   1        {
-  98   2          
+  98   2          /* ADC输入口设置为模拟输入模式 */
   99   2          ADCCFG0 |= ((uint8_t)ADC_EAIN_Select);
  100   2          ADCCFG1 |= ((uint8_t)(ADC_EAIN_Select >> 8));
  101   2        }
  102   1      }
  103          
- 104          
+ 104          /*****************************************************
+ 105          *函数名称:uint16_t ADC_GetConversionValue(void)
+ 106          *函数功能:获得一次AD转换数据
+ 107          *入口参数:void
+ 108          *出口参数:uint16_t
+ 109          *****************************************************/
  110          uint16_t ADC_GetConversionValue(void)
  111          {
  112   1        return ((ADCVH << 4) + (ADCVL >> 4));
  113   1      }
  114          
- 115          
+ 115          /*****************************************************
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         03/22/2024 18:56:13 PAGE 3   
+
+ 116          *函数名称:void ADC_Cmd(FunctionalState NewState)
+ 117          *函数功能:ADC功能开关函数
+ 118          *入口参数:
+ 119          FunctionalState:NewState:功能启动/关闭选择
+ 120          *出口参数:void
+ 121          *****************************************************/
  122          void ADC_Cmd(FunctionalState NewState)
  123          {
- 124   1        
+ 124   1        /* 使能/失能ADC功能 */
  125   1        if(NewState == DISABLE)
  126   1        {
  127   2          ADCCON &= 0X7F;
@@ -709,7 +147,13 @@ line level    source
  132   2        }
  133   1      }
  134          
- 135          
+ 135          /*****************************************************
+ 136          *函数名称:void ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref)
+ 137          *函数功能:配置ADC的参考电压
+ 138          *入口参数:
+ 139          ADC_Vref_TypeDef:ADC_Vref:选择ADC参考电压
+ 140          *出口参数:void
+ 141          *****************************************************/
  142          void ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref)
  143          {
  144   1        OPINX = 0xC2;
@@ -717,872 +161,82 @@ line level    source
  146   1        if(ADC_Vref == ADC_VREF_2_048V)
  147   1        {
  148   2          OPREG &= 0x3f;
- 149   2          OPREG |= 0x40; 
+ 149   2          OPREG |= 0x40; //选择参考内部电压2.048V。
  150   2        }
  151   1      
  152   1        if(ADC_Vref == ADC_VREF_1_024V)
  153   1        {
  154   2          OPREG &= 0x3f;
- 155   2          OPREG |= 0x80; 
+ 155   2          OPREG |= 0x80; //选择参考内部电压1.024V。
  156   2        }
  157   1      
  158   1        if(ADC_Vref == ADC_VREF_VDD)
  159   1        {
- 160   2          OPREG &= 0x3f; 
+ 160   2          OPREG &= 0x3f; //选择参考电压VDD。
  161   2        }
  162   1      }
  163          
- 164          
+ 164          /*****************************************************
+ 165          *函数名称:uint16_t ADC_GetConversionAverageValue(ADC_SamplesNum_TypeDef ADC_SamplesNum)
+ 166          *函数功能:获取ADC得转换值平均值
+ 167          *       注:获取转换值平均值过程中会关闭ADC中断
+ 168          *入口参数:
+ 169          ADC_SamplesNum_TypeDef:ADC_SamplesNum:ADC采样的次数
+ 170          *出口参数:
+ 171          uint16_t:多次ADC采样的平均值
+ 172          *****************************************************/
  173          #include "sc95f_mdu.h"
-   1      =1  
-   2      =1  
-   3      =1  
-   4      =1  
-   5      =1  
-   6      =1  
-   7      =1  
-   8      =1  
-   9      =1  
-  10      =1  
-  11      =1  #ifndef _sc95f_MDU_H_
-  12      =1  #define _sc95f_MDU_H_
-  13      =1  
-  14      =1  #include "sc95f.h"
-   1      =2  
-   2      =2  
-   3      =2  
-   4      =2  
-   5      =2  
-   6      =2  
-   7      =2  
-   8      =2  
-   9      =2  
-  10      =2  
-  11      =2  #ifndef _sc95f_H
-  15      =1  
-  16      =1  typedef struct
-  17      =1  {
-  18      =1    uint8_t MDU_EXA3Reg; 
-  19      =1    uint8_t MDU_EXA2Reg; 
-  20      =1    uint8_t MDU_EXA1Reg; 
-  21      =1    uint8_t MDU_EXA0Reg; 
-  22      =1  } MDU_EXAxReg_Typedef;
-  23      =1  
-  24      =1  typedef union
-  25      =1  {
-  26      =1    MDU_EXAxReg_Typedef MDU_EXAxReg;
-  27      =1    uint32_t MDU_Temp;
-  28      =1  } MDU_Temp_Union;
-  29      =1  
-  30      =1  void MDU_DeInit(void);
-  31      =1  void MDU_MultiplicationConfig(uint16_t Multiplicand, uint16_t Multiplier);
-  32      =1  void MDU_DivisionConfig(uint32_t Dividend, uint16_t Divisor);
-  33      =1  void MDU_StartOperation(void);
-  34      =1  uint32_t MDU_GetProduct(void);
-  35      =1  uint32_t MDU_GetQuotient(void);
-  36      =1  uint16_t MDU_GetRemainder(void);
-  37      =1  
-  38      =1  #endif
-  39      =1  
-  40      =1  
  174          uint16_t ADC_GetConversionAverageValue(ADC_SamplesNum_TypeDef ADC_SamplesNum)
  175          {
  176   1        uint8_t tmpCnt;
  177   1        uint16_t tmpValueSum = 0, tmpValue;
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         03/22/2024 18:56:13 PAGE 4   
+
  178   1        uint16_t tmpValue_Max = 0, tmpValue_Min = 0xFFFF;
  179   1        bit tmpStaus = EADC;
  180   1        EADC = 0;
  181   1      
  182   1        for(tmpCnt = 0; tmpCnt < ADC_SamplesNum; tmpCnt ++)
  183   1        {
- 184   2          ADC_StartConversion();                      
- 185   2          while(!ADC_GetFlagStatus());                        
- 186   2          ADC_ClearFlag();                    
- 187   2          tmpValue = ADC_GetConversionValue();                        
+ 184   2          ADC_StartConversion();      //开启一次ADC转换
+ 185   2          while(!ADC_GetFlagStatus());      //等待ADC转换结束
+ 186   2          ADC_ClearFlag();      //清除ADC转换标志位
+ 187   2          tmpValue = ADC_GetConversionValue();      //获取单次转换值
  188   2      
- 189   2          
+ 189   2          /* 获取多次转换值中的最大值 */
  190   2          if(tmpValue > tmpValue_Max)
  191   2            tmpValue_Max = tmpValue;
- 192   2          
+ 192   2          /* 获取多次转换值中的最小值 */
  193   2          if(tmpValue < tmpValue_Min)
  194   2            tmpValue_Min = tmpValue;
  195   2      
- 196   2          tmpValueSum += tmpValue;
+ 196   2          tmpValueSum += tmpValue;//累加多次转换值的和
  197   2        }
  198   1      
- 199   1        
+ 199   1        /* 通过硬件乘除法器来计算平均值 */
  200   1        {
  201   2          OPERCON |= 0X40;
- 202   2          
+ 202   2          /* 被除数为16位数据 */
  203   2          tmpValueSum -= (tmpValue_Max + tmpValue_Min);
  204   2          EXA0 = tmpValueSum;
  205   2          EXA1 = tmpValueSum >> 8;
- 206   2          EXBL = ADC_SamplesNum - 2;                  
+ 206   2          EXBL = ADC_SamplesNum - 2;      //除数为8位数据
  207   2      
- 208   2          OPERCON |= 0x80;                            
- 209   2          while(OPERCON & 0x80);                      
+ 208   2          OPERCON |= 0x80;        //开始除法计算
+ 209   2          while(OPERCON & 0x80);      //等待计算完毕
  210   2      
- 211   2          
+ 211   2          //获取商
  212   2          tmpValue = (uint16_t)EXA0;
  213   2          tmpValue |= EXA1 << 8;
  214   2        }
  215   1      
- 216   1        EADC = tmpStaus;                      
- 217   1        return tmpValue;                      
+ 216   1        EADC = tmpStaus;      //恢复EADC
+ 217   1        return tmpValue;      //返回平均值
  218   1      }
  219          
- 220          
-ASSEMBLY LISTING OF GENERATED OBJECT CODE
-             ; FUNCTION ADC_DeInit (BEGIN)
-                                           ; SOURCE LINE # 18
-                                           ; SOURCE LINE # 19
-                                           ; SOURCE LINE # 20
-0000 E4                CLR     A
-0001 F5AD              MOV     ADCCON,A
-                                           ; SOURCE LINE # 21
-0003 F5AB              MOV     ADCCFG0,A
-                                           ; SOURCE LINE # 22
-0005 F5AC              MOV     ADCCFG1,A
-                                           ; SOURCE LINE # 23
-0007 F5B5              MOV     ADCCFG2,A
-                                           ; SOURCE LINE # 24
-0009 F5AE              MOV     ADCVL,A
-                                           ; SOURCE LINE # 25
-000B F5AF              MOV     ADCVH,A
-                                           ; SOURCE LINE # 26
-000D C2AE              CLR     EADC
-                                           ; SOURCE LINE # 27
-000F C2BE              CLR     IPADC
-                                           ; SOURCE LINE # 28
-0011 22                RET     
-             ; FUNCTION ADC_DeInit (END)
-             ; FUNCTION _ADC_Init (BEGIN)
-                                           ; SOURCE LINE # 38
-;---- Variable 'ADC_Cycle' assigned to Register 'R5' ----
-;---- Variable 'ADC_PrescalerSelection' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 39
-                                           ; SOURCE LINE # 41
-0000 8FB5              MOV     ADCCFG2,R7
-                                           ; SOURCE LINE # 43
-                                           ; SOURCE LINE # 44
-0002 22                RET     
-             ; FUNCTION _ADC_Init (END)
-             ; FUNCTION _ADC_ChannelConfig (BEGIN)
-                                           ; SOURCE LINE # 54
-;---- Variable 'ADC_Channel' assigned to Register 'R4' ----
-0000 AC07              MOV     R4,AR7
-;---- Variable 'NewState' assigned to Register 'R5' ----
-                                           ; SOURCE LINE # 55
-                                           ; SOURCE LINE # 59
-0002 EC                MOV     A,R4
-0003 C3                CLR     C
-0004 941F              SUBB    A,#01FH
-0006 7480              MOV     A,#080H
-0008 9480              SUBB    A,#080H
-000A 5024              JNC     ?C0003
-                                           ; SOURCE LINE # 60
-                                           ; SOURCE LINE # 61
-000C 7E00              MOV     R6,#00H
-000E 7401              MOV     A,#01H
-0010 A804              MOV     R0,AR4
-0012 08                INC     R0
-0013 8005              SJMP    ?C0031
-0015         ?C0030:
-0015 C3                CLR     C
-0016 33                RLC     A
-0017 CE                XCH     A,R6
-0018 33                RLC     A
-0019 CE                XCH     A,R6
-001A         ?C0031:
-001A D8F9              DJNZ    R0,?C0030
-001C FF                MOV     R7,A
-;---- Variable 'tmpreg' assigned to Register 'R6/R7' ----
-                                           ; SOURCE LINE # 62
-001D ED                MOV     A,R5
-001E 700A              JNZ     ?C0004
-                                           ; SOURCE LINE # 63
-                                           ; SOURCE LINE # 65
-0020 EF                MOV     A,R7
-0021 F4                CPL     A
-0022 52AB              ANL     ADCCFG0,A
-                                           ; SOURCE LINE # 66
-0024 EE                MOV     A,R6
-0025 F4                CPL     A
-0026 52AC              ANL     ADCCFG1,A
-                                           ; SOURCE LINE # 67
-0028 8006              SJMP    ?C0003
-002A         ?C0004:
-                                           ; SOURCE LINE # 69
-                                           ; SOURCE LINE # 71
-002A EF                MOV     A,R7
-002B 42AB              ORL     ADCCFG0,A
-                                           ; SOURCE LINE # 72
-002D EE                MOV     A,R6
-002E 42AC              ORL     ADCCFG1,A
-                                           ; SOURCE LINE # 73
-                                           ; SOURCE LINE # 74
-0030         ?C0003:
-                                           ; SOURCE LINE # 77
-0030 E5AD              MOV     A,ADCCON
-0032 54E0              ANL     A,#0E0H
-0034 4C                ORL     A,R4
-0035 F5AD              MOV     ADCCON,A
-                                           ; SOURCE LINE # 78
-0037 22                RET     
-             ; FUNCTION _ADC_ChannelConfig (END)
-             ; FUNCTION _ADC_EAINConfig (BEGIN)
-                                           ; SOURCE LINE # 88
-;---- Variable 'ADC_EAIN_Select' assigned to Register 'R6/R7' ----
-;---- Variable 'NewState' assigned to Register 'R5' ----
-                                           ; SOURCE LINE # 89
-                                           ; SOURCE LINE # 90
-0000 ED                MOV     A,R5
-0001 7009              JNZ     ?C0007
-                                           ; SOURCE LINE # 91
-                                           ; SOURCE LINE # 93
-0003 EF                MOV     A,R7
-0004 F4                CPL     A
-0005 52AB              ANL     ADCCFG0,A
-                                           ; SOURCE LINE # 94
-0007 EE                MOV     A,R6
-0008 F4                CPL     A
-0009 52AC              ANL     ADCCFG1,A
-                                           ; SOURCE LINE # 95
-000B 22                RET     
-000C         ?C0007:
-                                           ; SOURCE LINE # 97
-                                           ; SOURCE LINE # 99
-000C EF                MOV     A,R7
-000D 42AB              ORL     ADCCFG0,A
-                                           ; SOURCE LINE # 100
-000F EE                MOV     A,R6
-0010 42AC              ORL     ADCCFG1,A
-                                           ; SOURCE LINE # 101
-                                           ; SOURCE LINE # 102
-0012         ?C0009:
-0012 22                RET     
-             ; FUNCTION _ADC_EAINConfig (END)
-             ; FUNCTION ADC_GetConversionValue (BEGIN)
-                                           ; SOURCE LINE # 110
-                                           ; SOURCE LINE # 111
-                                           ; SOURCE LINE # 112
-0000 AFAF              MOV     R7,ADCVH
-0002 EF                MOV     A,R7
-0003 75F010            MOV     B,#010H
-0006 A4                MUL     AB
-0007 FF                MOV     R7,A
-0008 E5AE              MOV     A,ADCVL
-000A C4                SWAP    A
-000B 540F              ANL     A,#0FH
-000D 7C00              MOV     R4,#00H
-000F 2F                ADD     A,R7
-0010 FF                MOV     R7,A
-0011 EC                MOV     A,R4
-0012 35F0              ADDC    A,B
-0014 FE                MOV     R6,A
-                                           ; SOURCE LINE # 113
-0015 22                RET     
-             ; FUNCTION ADC_GetConversionValue (END)
-             ; FUNCTION _ADC_Cmd (BEGIN)
-                                           ; SOURCE LINE # 122
-;---- Variable 'NewState' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 123
-                                           ; SOURCE LINE # 125
-0000 EF                MOV     A,R7
-0001 7004              JNZ     ?C0011
-                                           ; SOURCE LINE # 126
-                                           ; SOURCE LINE # 127
-0003 53AD7F            ANL     ADCCON,#07FH
-                                           ; SOURCE LINE # 128
-0006 22                RET     
-0007         ?C0011:
-                                           ; SOURCE LINE # 130
-                                           ; SOURCE LINE # 131
-0007 43AD80            ORL     ADCCON,#080H
-                                           ; SOURCE LINE # 132
-                                           ; SOURCE LINE # 133
-000A         ?C0013:
-000A 22                RET     
-             ; FUNCTION _ADC_Cmd (END)
-             ; FUNCTION _ADC_VrefConfig (BEGIN)
-                                           ; SOURCE LINE # 142
-;---- Variable 'ADC_Vref' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 143
-                                           ; SOURCE LINE # 144
-0000 75FEC2            MOV     OPINX,#0C2H
-                                           ; SOURCE LINE # 146
-0003 EF                MOV     A,R7
-0004 FD                MOV     R5,A
-0005 7C00              MOV     R4,#00H
-0007 6440              XRL     A,#040H
-0009 7006              JNZ     ?C0014
-                                           ; SOURCE LINE # 147
-                                           ; SOURCE LINE # 148
-000B 53FF3F            ANL     OPREG,#03FH
-                                           ; SOURCE LINE # 149
-000E 43FF40            ORL     OPREG,#040H
-                                           ; SOURCE LINE # 150
-0011         ?C0014:
-                                           ; SOURCE LINE # 152
-0011 ED                MOV     A,R5
-0012 6480              XRL     A,#080H
-0014 4C                ORL     A,R4
-0015 7006              JNZ     ?C0015
-                                           ; SOURCE LINE # 153
-                                           ; SOURCE LINE # 154
-0017 53FF3F            ANL     OPREG,#03FH
-                                           ; SOURCE LINE # 155
-001A 43FF80            ORL     OPREG,#080H
-                                           ; SOURCE LINE # 156
-001D         ?C0015:
-                                           ; SOURCE LINE # 158
-001D ED                MOV     A,R5
-001E 4C                ORL     A,R4
-001F 7003              JNZ     ?C0017
-                                           ; SOURCE LINE # 159
-                                           ; SOURCE LINE # 160
-0021 53FF3F            ANL     OPREG,#03FH
-                                           ; SOURCE LINE # 161
-                                           ; SOURCE LINE # 162
-0024         ?C0017:
-0024 22                RET     
-             ; FUNCTION _ADC_VrefConfig (END)
-             ; FUNCTION _ADC_GetConversionAverageValue (BEGIN)
-                                           ; SOURCE LINE # 174
-;---- Variable 'ADC_SamplesNum' assigned to Register 'R1' ----
-0000 A907              MOV     R1,AR7
-                                           ; SOURCE LINE # 175
-                                           ; SOURCE LINE # 177
-0002 E4                CLR     A
-0003 900000      R     MOV     DPTR,#tmpValueSum
-0006 F0                MOVX    @DPTR,A
-0007 A3                INC     DPTR
-0008 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 178
-0009 900000      R     MOV     DPTR,#tmpValue_Max
-000C F0                MOVX    @DPTR,A
-000D A3                INC     DPTR
-000E F0                MOVX    @DPTR,A
-000F 74FF              MOV     A,#0FFH
-0011 A3                INC     DPTR
-0012 F0                MOVX    @DPTR,A
-0013 A3                INC     DPTR
-0014 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 179
-0015 A2AE              MOV     C,EADC
-0017 9200        R     MOV     tmpStaus,C
-                                           ; SOURCE LINE # 180
-0019 C2AE              CLR     EADC
-                                           ; SOURCE LINE # 182
-;---- Variable 'tmpCnt' assigned to Register 'R5' ----
-001B E4                CLR     A
-001C FD                MOV     R5,A
-001D         ?C0018:
-001D ED                MOV     A,R5
-001E C3                CLR     C
-001F 99                SUBB    A,R1
-0020 5061              JNC     ?C0019
-                                           ; SOURCE LINE # 183
-                                           ; SOURCE LINE # 184
-0022 43AD40            ORL     ADCCON,#040H
-0025         ?C0021:
-                                           ; SOURCE LINE # 185
-0025 E5AD              MOV     A,ADCCON
-0027 7F00              MOV     R7,#00H
-0029 30E502            JNB     ACC.5,?C0023
-002C 7F01              MOV     R7,#01H
-002E         ?C0023:
-002E         ?C0024:
-002E EF                MOV     A,R7
-002F 60F4              JZ      ?C0021
-                                           ; SOURCE LINE # 186
-0031 53ADDF            ANL     ADCCON,#0DFH
-                                           ; SOURCE LINE # 187
-0034 120000      R     LCALL   ADC_GetConversionValue
-0037 900000      R     MOV     DPTR,#tmpValue
-003A EE                MOV     A,R6
-003B F0                MOVX    @DPTR,A
-003C A3                INC     DPTR
-003D EF                MOV     A,R7
-003E F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 190
-003F C3                CLR     C
-0040 900000      R     MOV     DPTR,#tmpValue_Max+01H
-0043 E0                MOVX    A,@DPTR
-0044 9F                SUBB    A,R7
-0045 900000      R     MOV     DPTR,#tmpValue_Max
-0048 E0                MOVX    A,@DPTR
-0049 9E                SUBB    A,R6
-004A 500D              JNC     ?C0025
-                                           ; SOURCE LINE # 191
-004C 900000      R     MOV     DPTR,#tmpValue
-004F E0                MOVX    A,@DPTR
-0050 FF                MOV     R7,A
-0051 A3                INC     DPTR
-0052 E0                MOVX    A,@DPTR
-0053 A3                INC     DPTR
-0054 CF                XCH     A,R7
-0055 F0                MOVX    @DPTR,A
-0056 A3                INC     DPTR
-0057 EF                MOV     A,R7
-0058 F0                MOVX    @DPTR,A
-0059         ?C0025:
-                                           ; SOURCE LINE # 193
-0059 900000      R     MOV     DPTR,#tmpValue_Min
-005C E0                MOVX    A,@DPTR
-005D FE                MOV     R6,A
-005E A3                INC     DPTR
-005F E0                MOVX    A,@DPTR
-0060 FF                MOV     R7,A
-0061 900000      R     MOV     DPTR,#tmpValue
-0064 E0                MOVX    A,@DPTR
-0065 FA                MOV     R2,A
-0066 A3                INC     DPTR
-0067 E0                MOVX    A,@DPTR
-0068 FB                MOV     R3,A
-0069 C3                CLR     C
-006A 9F                SUBB    A,R7
-006B EA                MOV     A,R2
-006C 9E                SUBB    A,R6
-006D 5008              JNC     ?C0026
-                                           ; SOURCE LINE # 194
-006F 900000      R     MOV     DPTR,#tmpValue_Min
-0072 EA                MOV     A,R2
-0073 F0                MOVX    @DPTR,A
-0074 A3                INC     DPTR
-0075 EB                MOV     A,R3
-0076 F0                MOVX    @DPTR,A
-0077         ?C0026:
-                                           ; SOURCE LINE # 196
-0077 900000      R     MOV     DPTR,#tmpValueSum
-007A EA                MOV     A,R2
-007B 8BF0              MOV     B,R3
-007D 120000      E     LCALL   ?C?IILDX
-                                           ; SOURCE LINE # 197
-0080 0D                INC     R5
-0081 809A              SJMP    ?C0018
-0083         ?C0019:
-                                           ; SOURCE LINE # 200
-                                           ; SOURCE LINE # 201
-0083 43EF40            ORL     OPERCON,#040H
-                                           ; SOURCE LINE # 203
-0086 900000      R     MOV     DPTR,#tmpValue_Min
-0089 E0                MOVX    A,@DPTR
-008A FE                MOV     R6,A
-008B A3                INC     DPTR
-008C E0                MOVX    A,@DPTR
-008D FF                MOV     R7,A
-008E 900000      R     MOV     DPTR,#tmpValue_Max+01H
-0091 E0                MOVX    A,@DPTR
-0092 2F                ADD     A,R7
-0093 FF                MOV     R7,A
-0094 900000      R     MOV     DPTR,#tmpValue_Max
-0097 E0                MOVX    A,@DPTR
-0098 3E                ADDC    A,R6
-0099 FE                MOV     R6,A
-009A C3                CLR     C
-009B 900000      R     MOV     DPTR,#tmpValueSum+01H
-009E E0                MOVX    A,@DPTR
-009F 9F                SUBB    A,R7
-00A0 FF                MOV     R7,A
-00A1 900000      R     MOV     DPTR,#tmpValueSum
-00A4 E0                MOVX    A,@DPTR
-00A5 9E                SUBB    A,R6
-00A6 FE                MOV     R6,A
-00A7 F0                MOVX    @DPTR,A
-00A8 A3                INC     DPTR
-00A9 EF                MOV     A,R7
-00AA F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 204
-00AB F5E9              MOV     EXA0,A
-                                           ; SOURCE LINE # 205
-00AD EE                MOV     A,R6
-00AE F5EA              MOV     EXA1,A
-                                           ; SOURCE LINE # 206
-00B0 E9                MOV     A,R1
-00B1 24FE              ADD     A,#0FEH
-00B3 F5ED              MOV     EXBL,A
-                                           ; SOURCE LINE # 208
-00B5 43EF80            ORL     OPERCON,#080H
-00B8         ?C0027:
-                                           ; SOURCE LINE # 209
-00B8 E5EF              MOV     A,OPERCON
-00BA 20E7FB            JB      ACC.7,?C0027
-                                           ; SOURCE LINE # 212
-00BD AFE9              MOV     R7,EXA0
-00BF 900000      R     MOV     DPTR,#tmpValue
-00C2 E4                CLR     A
-00C3 F0                MOVX    @DPTR,A
-00C4 A3                INC     DPTR
-00C5 EF                MOV     A,R7
-00C6 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 213
-00C7 AFEA              MOV     R7,EXA1
-00C9 EF                MOV     A,R7
-00CA FE                MOV     R6,A
-00CB 900000      R     MOV     DPTR,#tmpValue
-00CE E0                MOVX    A,@DPTR
-00CF 4E                ORL     A,R6
-00D0 F0                MOVX    @DPTR,A
-00D1 A3                INC     DPTR
-00D2 E0                MOVX    A,@DPTR
-00D3 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 214
-                                           ; SOURCE LINE # 216
-00D4 A200        R     MOV     C,tmpStaus
-00D6 92AE              MOV     EADC,C
-                                           ; SOURCE LINE # 217
-00D8 900000      R     MOV     DPTR,#tmpValue
-00DB E0                MOVX    A,@DPTR
-00DC FE                MOV     R6,A
-00DD A3                INC     DPTR
-00DE E0                MOVX    A,@DPTR
-00DF FF                MOV     R7,A
-                                           ; SOURCE LINE # 218
-00E0 22                RET     
-             ; FUNCTION _ADC_GetConversionAverageValue (END)
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-ADC_PRESSEL_32CLOCK. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
-TRX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
-OPREG. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FFH  1
-P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
-ADC_PRESSEL_16CLOCK. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
-ADC_PresSel_TypeDef. . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
-Status_OK. . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-EUART. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
-TMCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008EH  1
-P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
-AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
-P4 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
-FlagStatus . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-RESET. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-OTCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008FH  1
-P5 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
-EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
-RCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
-int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
-PWMCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D2H  1
-TCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
-PWMCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D3H  1
-ADC_EAIN_10. . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
-ADC_EAIN_11. . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-EXENX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
-ADC_EAIN_12. . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-ADC_EAIN_13. . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-ERROR. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_EAIN_14. . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-ADC_EAIN_15. . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-EADC . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AEH  1
-TXMOD. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C9H  1
-TXCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
-IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
-DPH1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0085H  1
-EXA0 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E9H  1
-ADC_SamplesNum_EightTimes. . . . . . .  E_CONST  -----  U_CHAR   -----  1
-OPINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FEH  1
-EXA1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EAH  1
-EXA2 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EBH  1
-EXA3 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ECH  1
-DPL1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0084H  1
-Status_TIMEOUT . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-CP . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
-USXCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C4H  1
-USXCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C5H  1
-SYSCLK_PresSel_TypeDef . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-USXCON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C6H  1
-ErrorStatus. . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-USXCON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C7H  1
-IAP_OperateRange_TypeDef . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-_ADC_VrefConfig. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  ADC_Vref . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-OPERCON. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EFH  1
-P0PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009BH  1
-IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
-ADC_Cycle_Null . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P1PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0092H  1
-RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
-P2PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A2H  1
-SUCCESS. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
-P3PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B2H  1
-ADC_VREF_VDD . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-IAP_OPERATERANGE__ALL_CODEREGION . . .  E_CONST  -----  U_CHAR   -----  1
-TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
-TXINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CEH  1
-P4PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C2H  1
-IPT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
-P5PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DAH  1
-FunctionalState. . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IPT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
-IPT2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
-HIGH . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-_ADC_EAINConfig. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  ADC_EAIN_Select. . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
-  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
-SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
-OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
-ITStatus . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADE . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F4H  1
-P0VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009CH  1
-P1VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0094H  1
-P2VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A3H  1
-EXBH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EEH  1
-ENABLE . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-BitStatus. . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F3H  1
-P3VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B3H  1
-ADCCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ADH  1
-s8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
-TX . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
-EXBL . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EDH  1
-Status_BUSY. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F2H  1
-bool . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P00. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0080H  1
-P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
-P01. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0081H  1
-SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
-PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
-ADC_Cycle_TypeDef. . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P20. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A0H  1
-P11. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
-P02. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0082H  1
-CMPCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B6H  1
-P30. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
-P21. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A1H  1
-P12. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0092H  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-P03. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0083H  1
-P40. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C0H  1
-P31. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
-P22. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A2H  1
-P13. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0093H  1
-P04. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0084H  1
-SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
-ADC_CHANNEL_0. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P50. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D8H  1
-P41. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C1H  1
-P32. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
-P23. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
-P14. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0094H  1
-P05. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0085H  1
-IAPDAT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F5H  1
-TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
-TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
-ADC_CHANNEL_1. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P51. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D9H  1
-P42. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C2H  1
-P33. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
-P24. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A4H  1
-P15. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0095H  1
-P06. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0086H  1
-IPINT0 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
-ADC_CHANNEL_2. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P52. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DAH  1
-P43. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C3H  1
-P34. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
-P25. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A5H  1
-P16. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0096H  1
-P07. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0087H  1
-IPINT1 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
-ADC_CHANNEL_3. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P53. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DBH  1
-P44. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C4H  1
-P35. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
-P26. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
-P17. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0097H  1
-CRCREG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FDH  1
-ADC_CHANNEL_4. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P54. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DCH  1
-P45. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C5H  1
-P36. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
-P27. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
-_ADC_GetConversionAverageValue . . . .  PUBLIC   CODE   PROC     0000H  -----
-  ADC_SamplesNum . . . . . . . . . . .  * REG *  DATA   U_CHAR   0001H  1
-  tmpCnt . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
-  tmpValueSum. . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
-  tmpValue . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0002H  2
-  tmpValue_Max . . . . . . . . . . . .  AUTO     XDATA  U_INT    0004H  2
-  tmpValue_Min . . . . . . . . . . . .  AUTO     XDATA  U_INT    0006H  2
-  tmpStaus . . . . . . . . . . . . . .  AUTO     DATA   BIT      0000H  1
-ADC_CHANNEL_5. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_SamplesNum_FourTimes . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P55. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DDH  1
-P46. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C6H  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-P37. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
-ADC_CHANNEL_6. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P47. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C7H  1
-ADC_CHANNEL_7. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_VREF_1_024V. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-EXFX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
-DDRCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0093H  1
-ADC_CHANNEL_VDD_D4 . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_CHANNEL_8. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-_ADC_Cmd . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-ADC_CHANNEL_9. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-StatusTypeDef. . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-_ADC_Init. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  ADC_PrescalerSelection . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-  ADC_Cycle. . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
-IAPCTL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F6H  1
-IE1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A9H  1
-SYSCLK_PRESSEL_FOSC_D1 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-IE2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AAH  1
-_ADC_ChannelConfig . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  ADC_Channel. . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0004H  1
-  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
-  tmpreg . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
-SYSCLK_PRESSEL_FOSC_D2 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-TRUE . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
-CMPCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B7H  1
-ADC_VREF_2_048V. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-SYSCLK_PRESSEL_FOSC_D4 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_SamplesNum_TenTimes. . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-LVR_Config_TypeDef . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPKEY . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F1H  1
-BTMCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FBH  1
-PWMCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D1H  1
-SYSCLK_PRESSEL_FOSC_D8 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
-RCAPXH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
-ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
-CRCINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FCH  1
-TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
-ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
-ADCCFG0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ABH  1
-IP1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B9H  1
-ADC_SamplesNum_TypeDef . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
-ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
-ADCCFG1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ACH  1
-IP2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BAH  1
-ROMBNK . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DFH  1
-MDU_Temp_Union . . . . . . . . . . . .  TYPEDEF  -----  UNION    -----  4
-  MDU_EXAxReg. . . . . . . . . . . . .  MEMBER   -----  STRUCT   0000H  4
-  MDU_Temp . . . . . . . . . . . . . .  MEMBER   -----  U_LONG   0000H  4
-ADC_PRESSEL_3CLOCK . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
-ADCCFG2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B5H  1
-RCAPXL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
-TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
-TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
-ADC_PRESSEL_6CLOCK . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
-SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
-TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
-ADC_SamplesNum_SixTimes. . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
-WDTCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CFH  1
-TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
-SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
-PWMDFR . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D6H  1
-PWMPDH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D5H  1
-ADC_Vref_TypeDef . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAP_OPERATERANGE__LAST_0K_CODEREGION .  E_CONST  -----  U_CHAR   -----  1
-IAP_OPERATERANGE__LAST_1K_CODEREGION .  E_CONST  -----  U_CHAR   -----  1
-RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
-IAP_OPERATERANGE__LAST_2K_CODEREGION .  E_CONST  -----  U_CHAR   -----  1
-TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
-RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
-PWMPDL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D4H  1
-ADC_EAIN_0 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
-IPUART . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
-ADC_EAIN_1 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-s32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
-ADC_EAIN_2 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
-ADC_EAIN_3 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-ADC_VREF_2_4V. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
-s16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
-ADC_EAIN_4 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-ADC_EAIN_5 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
-PWMFLT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D7H  1
-DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
-ADC_EAIN_TypeDef . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
-ADC_EAIN_6 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-ADC_EAIN_7 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-ADC_EAIN_8 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-LVR_INVALID. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_EAIN_9 . . . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
-DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
-EINT0. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
-P0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009AH  1
-EINT1. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
-IPADC. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BEH  1
-INT0F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B4H  1
-P1CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0091H  1
-INT1F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BCH  1
-P2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A1H  1
-INT2F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BEH  1
-P3CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B1H  1
-REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-P4CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C1H  1
-ADC_CHANNEL_10 . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P5CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D9H  1
-ADC_CHANNEL_11 . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADCVH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AFH  1
-DPS. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0086H  1
-ADC_CHANNEL_12 . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_DeInit . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-ADC_CHANNEL_13 . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADC_CHANNEL_14 . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-US0CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0095H  1
-ADC_CHANNEL_15 . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-US1CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A4H  1
-US0CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009DH  1
-ADCVL. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AEH  1
-EXADH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F7H  1
-SET. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-FALSE. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-US1CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A5H  1
-US0CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009EH  1
-US1CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A6H  1
-US0CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009FH  1
-US1CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A7H  1
-INT0R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BBH  1
-INT1R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BDH  1
-PriorityStatus . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-INT2R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BFH  1
-USXINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DCH  1
-LVR_4_3V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-LOW. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-TFX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
-IOHCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0096H  1
-IOHCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0097H  1
-Status_ERROR . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-THX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
-MDU_EXAxReg_Typedef. . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  4
-  MDU_EXA3Reg. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0000H  1
-  MDU_EXA2Reg. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0001H  1
-  MDU_EXA1Reg. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0002H  1
-  MDU_EXA0Reg. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0003H  1
-LVR_3_7V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-LVR_1_9V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
-LVR_2_9V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-DISABLE. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-F1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D1H  1
-TLX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
-ADC_GetConversionValue . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
-ADC_Channel_TypeDef. . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+ 220          /******************* (C) C.OPYRIGHT 2022 SinOne Microelectronics *****END OF FILE****/
+
+
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    391    ----
    CONSTANT SIZE    =   ----    ----
@@ -1596,4 +250,6 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
+
+
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

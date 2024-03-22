@@ -1,516 +1,33 @@
-C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 16:29:19 PAGE 1   
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 1   
+
+
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_UART0
-OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_uart0.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\FWLib\SC95F_Lib\src\sc95f_uart0.c OMF2 INTVECTOR(0X2800) DEFINE(SC95F
-                    -8x1xB) LARGE INCDIR(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\inc;D:\tfxu\Project\AM901_0308\APP\
-                    -Keil_C\Project\..\User;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\IOT_DRIVER\XIAOMI;D:\tfxu\Project\AM901_0308\APP
-                    -\Keil_C\Project\..\Drivers;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C;D:\tfxu\Project\AM901_030
-                    -8\APP\Keil_C\Project\..\List\..\Apps;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Apps) BROWSE DEBUG OBJECTEXTEND OP
-                    -TIMIZE(8,SIZE) CODE NOCOND SYMBOLS LISTINCLUDE PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\List\sc95f_uart0.l
-                    -st) OBJECT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_uart0.obj)
+OBJECT MODULE PLACED IN ..\Output\sc95f_uart0.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_uart0.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE 
+                    -INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..
+                    -\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_uart0.lst) TABS(2) OBJECT(..\Output\sc95f_uart0.obj)
+
 line level    source
-   1          
-   2          
-   3          
-   4          
-   5          
-   6          
-   7          
-   8          
-   9          
+
+   1          //************************************************************
+   2          //  Copyright (c) 深圳市赛元微电子股份有限公司
+   3          //  文件名称:     sc95f_uart0.c
+   4          //  作者:         赛元应用团队
+   5          //  模块功能:     BTM固件库函数C文件
+   6          //  最后更正日期: 2024年1月18日
+   7          //  版本:       V1.0002
+   8          //  说明:
+   9          //*************************************************************
   10          
   11          #include "sc95f_uart0.h"
-   1      =1  
-   2      =1  
-   3      =1  
-   4      =1  
-   5      =1  
-   6      =1  
-   7      =1  
-   8      =1  
-   9      =1  
-  10      =1  #ifndef _sc95f_UART0_H_
-  11      =1  #define _sc95f_UART0_H_
-  12      =1  
-  13      =1  #include "sc95f.h"
-   1      =2  
-   2      =2  
-   3      =2  
-   4      =2  
-   5      =2  
-   6      =2  
-   7      =2  
-   8      =2  
-   9      =2  
-  10      =2  
-  11      =2  #ifndef _sc95f_H
-  12      =2  #define _sc95f_H
-  13      =2  
-  14      =2  #ifdef SC95F8x1x
-  17      =2  #ifdef SC95F7x1x
-  20      =2  #ifdef SC95F8x2x 
-  23      =2  #ifdef SC95F7x2x
-  26      =2  #ifdef SC95FWxx
-  29      =2  #ifdef SC95F8x3x
-  32      =2  #ifdef SC95F7x3x
-  35      =2  #ifdef SC95F8x6x
-  38      =2  #ifdef SC95F7x6x
-  41      =2  #ifdef SC95F8x1xB
-  42      =2    #include "SC95F8x1xB_C.H"
-   1      =3  
-  11      =3  #ifndef _SC95F861xB_H_
-  12      =3  #define _SC95F861xB_H_
-  13      =3  
-  14      =3  
-  15      =3  
-  16      =3  sfr   SP    = 0X81;  
-  17      =3  sfr   DPL   = 0X82;  
-  18      =3  sfr   DPH   = 0X83;  
-  19      =3  sfr   DPL1  = 0X84;  
-  20      =3  sfr   DPH1  = 0X85;  
-  21      =3  sfr   DPS   = 0X86;  
-  22      =3  sfr   PSW   = 0XD0;  
-  23      =3  sfr   ACC   = 0XE0;  
-  24      =3  sfr   EXA0  = 0XE9;  
-  25      =3  sfr   EXA1  = 0XEA;  
-  26      =3  sfr   EXA2  = 0XEB;  
-  27      =3  sfr   EXA3  = 0XEC;  
-  28      =3  sfr   EXBL  = 0XED;  
-  29      =3  sfr   EXBH  = 0XEE;  
-  30      =3  sfr   B     = 0XF0;  
-  31      =3  
-  32      =3  
-  33      =3  sfr   EXADH = 0XF7;  
-  34      =3  
-  35      =3  
-  36      =3  sfr   ROMBNK = 0XDF;  
-  37      =3  
-  38      =3  
-  39      =3  sfr   PCON = 0X87;  
-  40      =3  
-  41      =3  
-  42      =3  sfr   IE  = 0XA8;  
-  43      =3  sfr   IE1 = 0XA9;  
-  44      =3  sfr   IE2 = 0XAA;  
-  45      =3  sfr   IP  = 0XB8;  
-  46      =3  sfr   IP1 = 0XB9;  
-  47      =3  sfr   IP2 = 0XBA;  
-  48      =3  
-  49      =3  
-  50      =3  sfr   P0      = 0X80;  
-  51      =3  sfr   P1      = 0X90;  
-  52      =3  sfr       P1CON   = 0X91;  
-  53      =3  sfr   P1PH        = 0X92;  
-  54      =3  sfr   DDRCON  = 0X93;  
-  55      =3  sfr   P1VO    = 0X94;  
-  56      =3  sfr   IOHCON0 = 0X96;  
-  57      =3  sfr   IOHCON1 = 0X97;  
-  58      =3  sfr       P0CON   = 0X9A;  
-  59      =3  sfr       P0PH    = 0X9B;  
-  60      =3  sfr   P0VO    = 0X9C;  
-  61      =3  sfr   P2      = 0XA0;  
-  62      =3  sfr       P2CON   = 0XA1;  
-  63      =3  sfr   P2PH        = 0XA2;  
-  64      =3  sfr   P2VO    = 0XA3;  
-  65      =3  sfr   P3      = 0XB0;  
-  66      =3  sfr   P3CON   = 0XB1;  
-  67      =3  sfr   P3PH    = 0XB2;  
-  68      =3  sfr   P3VO    = 0XB3;  
-  69      =3  sfr   P4      = 0XC0;  
-  70      =3  sfr   P4CON   = 0XC1;  
-  71      =3  sfr   P4PH    = 0XC2;  
-  72      =3  sfr   P5      = 0XD8;  
-  73      =3  sfr   P5CON   = 0XD9;  
-  74      =3  sfr   P5PH    = 0XDA;  
-  75      =3  
-  76      =3  
-  77      =3  sfr   CMPCFG  = 0XB6;  
-  78      =3  sfr   CMPCON  = 0XB7;  
-  79      =3  
-  80      =3         
-  81      =3  sfr   TCON   = 0X88;  
-  82      =3  sfr   TMOD   = 0X89;  
-  83      =3  sfr   TL0    = 0X8A;  
-  84      =3  sfr   TL1    = 0X8B;  
-  85      =3  sfr   TH0    = 0X8C;  
-  86      =3  sfr   TH1    = 0X8D;  
-  87      =3  sfr   TMCON  = 0X8E;  
-  88      =3  sfr   TXCON  = 0XC8;  
-  89      =3  sfr   TXMOD  = 0XC9;  
-  90      =3  sfr   RCAPXL = 0XCA;  
-  91      =3  sfr   RCAPXH = 0XCB;  
-  92      =3  sfr   TLX    = 0XCC;  
-  93      =3  sfr   THX    = 0XCD;  
-  94      =3  sfr   TXINX  = 0XCE;  
-  95      =3  
-  96      =3  
-  97      =3  sfr       ADCCFG0 = 0XAB;  
-  98      =3  sfr       ADCCFG1 = 0XAC;  
-  99      =3  sfr   ADCCON  = 0XAD;  
- 100      =3  sfr   ADCVL   = 0XAE;  
- 101      =3  sfr   ADCVH   = 0XAF;  
- 102      =3  sfr   ADCCFG2 = 0XB5;  
- 103      =3  
- 104      =3  
- 105      =3  sfr   PWMCFG  = 0XD1;  
- 106      =3  sfr   PWMCON0 = 0XD2;  
- 107      =3  sfr   PWMCON1 = 0XD3;  
- 108      =3  sfr   PWMPDL  = 0XD4;  
- 109      =3  sfr   PWMPDH  = 0XD5;  
- 110      =3  sfr   PWMDFR  = 0XD6;  
- 111      =3  sfr   PWMFLT  = 0XD7;  
- 112      =3  
- 113      =3  
- 114      =3  sfr   WDTCON = 0XCF;  
- 115      =3  
- 116      =3  
- 117      =3  sfr       BTMCON = 0XFB;  
- 118      =3  
- 119      =3  
- 120      =3  sfr   INT0F = 0XB4;  
- 121      =3  sfr   INT0R = 0XBB;  
- 122      =3  sfr   INT1F = 0XBC;  
- 123      =3  sfr   INT1R = 0XBD;  
- 124      =3  sfr   INT2F = 0XBE;  
- 125      =3  sfr   INT2R = 0XBF;  
- 126      =3  
- 127      =3  
- 128      =3  sfr   IAPKEY = 0XF1;  
- 129      =3  sfr   IAPADL = 0XF2;  
- 130      =3  sfr   IAPADH = 0XF3;  
- 131      =3  sfr   IAPADE = 0XF4;  
- 132      =3  sfr   IAPDAT = 0XF5;  
- 133      =3  sfr   IAPCTL = 0XF6;  
- 134      =3  
- 135      =3  
- 136      =3  sfr   OTCON = 0X8F;  
- 137      =3  sfr   SCON  = 0X98;  
- 138      =3  sfr   SBUF  = 0X99;  
- 139      =3  
- 140      =3  
- 141      =3  sfr   US0CON0 = 0X95;  
- 142      =3  sfr   US0CON1 = 0X9D;  
- 143      =3  sfr   US0CON2 = 0X9E;  
- 144      =3  sfr   US0CON3 = 0X9F;  
- 145      =3  sfr   US1CON0 = 0XA4;  
- 146      =3  sfr   US1CON1 = 0XA5;  
- 147      =3  sfr   US1CON2 = 0XA6;  
- 148      =3  sfr   US1CON3 = 0XA7;  
- 149      =3  sfr   USXCON0 = 0XC4;  
- 150      =3  sfr   USXCON1 = 0XC5;  
- 151      =3  sfr   USXCON2 = 0XC6;  
- 152      =3  sfr   USXCON3 = 0XC7;  
- 153      =3  sfr   USXINX  = 0XDC;  
- 154      =3  
- 155      =3  
- 156      =3  
- 157      =3  sfr   OPINX = 0XFE;  
- 158      =3  sfr   OPREG = 0XFF;  
- 159      =3  
- 160      =3  
- 161      =3  sfr   OPERCON = 0XEF;  
- 162      =3  sfr   CRCINX  = 0XFC;  
- 163      =3  sfr   CRCREG  = 0XFD;  
- 164      =3  
- 165      =3  
- 166      =3  
- 167      =3  
- 168      =3  sbit  CY  = PSW^7;  
-             -薪唬蛘呒醴ㄔ怂阕罡呶挥薪栉皇?
- 169      =3  sbit  AC  = PSW^6;  
-             -?
- 170      =3  sbit  F0  = PSW^5;  
- 171      =3  sbit  RS1 = PSW^4;  
- 172      =3  sbit  RS0 = PSW^3;  
- 173      =3  sbit  OV  = PSW^2;  
- 174      =3  sbit  F1  = PSW^1;  
- 175      =3  sbit  P   = PSW^0;  
- 176      =3  
- 177      =3  
- 178      =3  sbit  TFX   = TXCON^7;  
- 179      =3  sbit  EXFX  = TXCON^6;  
- 180      =3  sbit  RCLKX = TXCON^5;  
- 181      =3  sbit  TCLKX = TXCON^4;  
- 182      =3  sbit  EXENX = TXCON^3;  
- 183      =3  sbit  TRX   = TXCON^2;  
- 184      =3  sbit  TX    = TXCON^1;  
- 185      =3  sbit  CP    = TXCON^0;  
- 186      =3  
- 187      =3  
- 188      =3  sbit  IPADC  = IP^6;  
-             -热ㄊ?“高”
- 189      =3  sbit  IPT2   = IP^5;  
-             -嫌畔热ㄊ?“高”
- 190      =3  sbit  IPUART = IP^4;  
-             -先权是 “高”
- 191      =3  sbit  IPT1   = IP^3;  
-             -嫌畔热ㄊ?“高”
- 192      =3  sbit  IPINT1 = IP^2;  
-             -先权是 “高”
- 193      =3  sbit  IPT0   = IP^1;  
-             -嫌畔热ㄊ?“高”
- 194      =3  sbit  IPINT0 = IP^0;  
-             -高
- 195      =3  
- 196      =3  
- 197      =3  sbit  EA    = IE^7;  
- 198      =3  sbit  EADC  = IE^6;  
- 199      =3  sbit  ET2   = IE^5;  
- 200      =3  sbit  EUART = IE^4;  
- 201      =3  sbit  ET1   = IE^3;  
- 202      =3  sbit  EINT1 = IE^2;  
- 203      =3  sbit  ET0   = IE^1;  
- 204      =3  sbit  EINT0 = IE^0;  
- 205      =3  
- 206      =3  
- 207      =3  sbit  TF1 = TCON^7;  
-             -保布濉?”。
- 208      =3  sbit  TR1 = TCON^6;  
- 209      =3  sbit  TF0 = TCON^5;  
-             -保布濉?”。
- 210      =3  sbit  TR0 = TCON^4;  
- 211      =3  
- 212      =3  
- 213      =3  sbit  SM0 = SCON^7;  
-             -双工异步通信 11: 模式3，11位全双工异步通信
- 214      =3  sbit  SM1 = SCON^6;  
- 215      =3  sbit  SM2 = SCON^5;  
-             -锨肭?  1：收到一个完整的数据帧时，只有当RB8=1时才会置位RI产生中断请求
- 216      =3  sbit  REN = SCON^4;  
- 217      =3  sbit  TB8 = SCON^3;  
- 218      =3  sbit  RB8 = SCON^2;  
- 219      =3  sbit  TI  = SCON^1;  
- 220      =3  sbit  RI  = SCON^0;  
- 221      =3  
- 222      =3  
- 223      =3  
- 230      =3  sbit  P07 = P0^7;
- 231      =3  sbit  P06 = P0^6;
- 232      =3  sbit  P05 = P0^5;
- 233      =3  sbit  P04 = P0^4;
- 234      =3  sbit  P03 = P0^3;
- 235      =3  sbit  P02 = P0^2;
- 236      =3  sbit  P01 = P0^1;
- 237      =3  sbit  P00 = P0^0;
- 238      =3  
- 239      =3  
- 240      =3  
- 247      =3  sbit  P17 = P1^7;
- 248      =3  sbit  P16 = P1^6;
- 249      =3  sbit  P15 = P1^5;
- 250      =3  sbit  P14 = P1^4;
- 251      =3  sbit  P13 = P1^3;
- 252      =3  sbit  P12 = P1^2;
- 253      =3  sbit  P11 = P1^1;
- 254      =3  sbit  P10 = P1^0;
- 255      =3  
- 256      =3  
- 263      =3  sbit  P27 = P2^7;
- 264      =3  sbit  P26 = P2^6;
- 265      =3  sbit  P25 = P2^5;
- 266      =3  sbit  P24 = P2^4;
- 267      =3  sbit  P23 = P2^3;
- 268      =3  sbit  P22 = P2^2;
- 269      =3  sbit  P21 = P2^1;
- 270      =3  sbit  P20 = P2^0;
- 271      =3  
- 272      =3  
- 279      =3  sbit  P37 = P3^7;
- 280      =3  sbit  P36 = P3^6;
- 281      =3  sbit  P35 = P3^5;
- 282      =3  sbit  P34 = P3^4;
- 283      =3  sbit  P33 = P3^3;
- 284      =3  sbit  P32 = P3^2;
- 285      =3  sbit  P31 = P3^1;
- 286      =3  sbit  P30 = P3^0;
- 287      =3  
- 288      =3  
- 295      =3  sbit  P47 = P4^7;
- 296      =3  sbit  P46 = P4^6;
- 297      =3  sbit  P45 = P4^5;
- 298      =3  sbit  P44 = P4^4;
- 299      =3  sbit  P43 = P4^3;
- 300      =3  sbit  P42 = P4^2;
- 301      =3  sbit  P41 = P4^1;
- 302      =3  sbit  P40 = P4^0;
- 303      =3  
- 304      =3  
- 311      =3  sbit  P55 = P5^5;
- 312      =3  sbit  P54 = P5^4;
- 313      =3  sbit  P53 = P5^3;
- 314      =3  sbit  P52 = P5^2;
- 315      =3  sbit  P51 = P5^1;
- 316      =3  sbit  P50 = P5^0;
- 317      =3  
- 318      =3                              
-             -        
- 323      =3  #define  SC95F8616B_NIO_Init()   {P4CON|=0xC0,P5CON|=0x30;}                                               
-             -  
- 324      =3  #define  SC95F8615B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xF0;}           
-             -  
- 325      =3  #define  SC95F8613B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xFF;}           
-             -  
- 326      =3  #define  SC95F8612B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P2CON|=0XF0,P3CON|=0xF0,P4CON|=0xF0,P5CON|=0xFF;
-             -} 
- 327      =3  #endif
-  43      =2  #endif
-  44      =2  #ifdef SC95F7x1xB
-  47      =2  #ifdef SC95R751
-  50      =2  #ifdef SC95F7610B
-  53      =2  #ifdef SC95F7619B
-  56      =2  #ifdef SC95FS52x
-  59      =2  #ifdef SC95R602
-  62      =2  #ifdef SC95R605
-  65      =2  #ifdef SC95F8x7x
-  68      =2  #ifdef SC95F7x7x
-  71      =2  #ifdef SC95R503
-  74      =2  
-  75      =2  #define enableInterrupts()    EA=1       
-  76      =2  #define disableInterrupts()   EA=0       
-  77      =2  
-  78      =2  #define     __I     volatile const   
-  79      =2  #define     __O     volatile         
-  80      =2  #define     __IO    volatile         
-  81      =2  
-  82      =2  
-  83      =2  typedef   signed char     int8_t;
-  84      =2  typedef   signed short    int16_t;
-  85      =2  typedef   signed long     int32_t;
-  86      =2  
-  87      =2  
-  88      =2  typedef unsigned char     uint8_t;
-  89      =2  typedef unsigned short    uint16_t;
-  90      =2  typedef unsigned long     uint32_t;
-  91      =2  
-  92      =2  typedef int32_t  s32;
-  93      =2  typedef int16_t  s16;
-  94      =2  typedef int8_t   s8;
-  95      =2  
-  96      =2  typedef uint32_t  u32;
-  97      =2  typedef uint16_t  u16;
-  98      =2  typedef uint8_t   u8;
-  99      =2  
- 100      =2  
- 101      =2  typedef enum {FALSE = 0, TRUE = !FALSE} bool;
- 102      =2  
- 103      =2  typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus, BitStatus;
- 104      =2  
- 105      =2  typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
- 106      =2  
- 107      =2  typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
- 108      =2  
- 109      =2  typedef enum 
- 110      =2  {
- 111      =2    Status_ERROR          = 0x00U,
- 112      =2    Status_OK                     = 0x01U,
- 113      =2    Status_BUSY           = 0x02U,
- 114      =2    Status_TIMEOUT        = 0x03U
- 115      =2  } StatusTypeDef;
- 116      =2  
- 117      =2  typedef enum {LOW = 0, HIGH = !LOW} PriorityStatus;
- 118      =2  
- 119      =2  #define SET_BIT(SFR,BIT)                                ((SFR) |= (BIT))
- 120      =2  
- 121      =2  #define CLEAR_BIT(SFR,BIT)                      ((SFR) &= ~(BIT))
- 122      =2  
- 123      =2  #define READ_BIT(SFR, BIT)      ((SFR) & (BIT))
- 124      =2  
- 125      =2  #define CLEAR_REG(SFR)          ((SFR) = (0x0))
- 126      =2  
- 127      =2  #define WRITE_REG(SFR, VAL)     ((SFR) = (VAL))
- 128      =2  
- 129      =2  #endif
-  14      =1  
-  15      =1  #if !defined (SC95R751)
-  16      =1  
-  17      =1  #define UART0_BaudRate_FsysDIV12 0X00 
-  18      =1  #define UART0_BaudRate_FsysDIV4 0X01  
-  19      =1  
-  20      =1  typedef enum
-  21      =1  {
-  22      =1    UART0_CLOCK_TIMER1 = (uint8_t)0X00, 
-  23      =1    UART0_CLOCK_TIMER2 = (uint8_t)0X30  
-  24      =1  } UART0_Clock_Typedef;
-  25      =1  
-  26      =1  typedef enum
-  27      =1  {
-  28      =1    UART0_Mode_8B = 0X00,  
-  29      =1    UART0_Mode_10B = 0X40, 
-  30      =1    UART0_Mode_11B = 0XC0  
-  31      =1  } UART0_Mode_Typedef;
-  32      =1  
-  33      =1  typedef enum
-  34      =1  {
-  35      =1    UART0_RX_ENABLE = 0x10, 
-  36      =1    UART0_RX_DISABLE = 0x00 
-  37      =1  } UART0_RX_Typedef;
-  38      =1  
-  39      =1  typedef enum
-  40      =1  {
-  41      =1    UART0_FLAG_RI = 0X01, 
-  42      =1    UART0_FLAG_TI = 0X02  
-  43      =1  } UART0_Flag_Typedef;
-  44      =1  
-  45      =1  typedef enum
-  46      =1  {
-  47      =1    UART0_STATE_READY = 0x00,   
-  48      =1    UART0_STATE_BUSY = 0x01,    
-  49      =1    UART0_STATE_ERROR = 0x02,   
-  50      =1    UART0_STATE_TIMEOUT = 0x03  
-  51      =1  } UART0_StatusTypeDef;
-  52      =1  
-  53      =1  typedef struct __UART0_HandleInfoDef
-  54      =1  {
-  55      =1    union
-  56      =1    {
-  57      =1      uint8_t* Size_u8;             
-  58      =1      uint16_t* Size_u16;           
-  59      =1    } pTxBuffPtr;                                                                         
-  60      =1    uint8_t TxXferSize;             
-  61      =1    uint8_t TxXferCount;            
-  62      =1    union
-  63      =1    {
-  64      =1      uint8_t* Size_u8;              
-  65      =1      uint16_t* Size_u16;           
-  66      =1    } pRxBuffPtr;                                                                         
-  67      =1    uint8_t RxXferSize;              
-  68      =1    uint8_t RxXferCount;              
-  69      =1    UART0_StatusTypeDef TxState;      
-  70      =1    UART0_StatusTypeDef RxState;      
-  71      =1  } UART0_HandleInfoDef;
-  72      =1  
-  73      =1  
-  74      =1  
-  82      =1  #define UART0_GetFlagStatus(UART0_Flag) ((UART0_Flag == UART0_FLAG_TI) ? (TI):(RI))
-  83      =1  
-  84      =1  
-  91      =1  #define UART0_ClearFlag(UART0_Flag) CLEAR_BIT(SCON,UART0_Flag)
-  92      =1  
-  93      =1  void UART0_DeInit(void);
-  94      =1  void UART0_Init(uint32_t Uart0Fsys, uint32_t BaudRate, UART0_Mode_Typedef Mode,
-  95      =1                  UART0_Clock_Typedef ClockMode, UART0_RX_Typedef RxMode);
-  96      =1  void UART0_SendData8(uint8_t Data);
-  97      =1  uint8_t UART0_ReceiveData8(void);
-  98      =1  void UART0_SendData9(uint16_t Data);
-  99      =1  uint16_t UART0_ReceiveData9(void);
- 100      =1  void UART0_ITConfig(FunctionalState NewState, PriorityStatus Priority);
- 101      =1  
- 102      =1  StatusTypeDef UART0_Transmit(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size, uint32_t Time
-             -out);
- 103      =1  StatusTypeDef UART0_Transmit_IT(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size);
- 104      =1  StatusTypeDef UART0_Transmit_IRQHandler(UART0_HandleInfoDef* UART_HANDLE);
- 105      =1  
- 106      =1  StatusTypeDef UART0_Receive(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size, uint32_t Timeo
-             -ut);
- 107      =1  StatusTypeDef UART0_Receive_IT(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size);
- 108      =1  StatusTypeDef UART0_Receive_IRQHandler(UART0_HandleInfoDef* UART_HANDLE);
- 109      =1  
- 110      =1  #endif
- 111      =1  #endif
- 112      =1  
   12          
   13          #if !defined (SC95R751)
-  14          
+  14          /**************************************************
+  15          *函数名称:void UART0_DeInit(void)
+  16          *函数功能:UART0相关寄存器复位至缺省值
+  17          *入口参数:void
+  18          *出口参数:void
+  19          **************************************************/
   20          void UART0_DeInit(void)
   21          {
   22   1        SCON = 0X00;
@@ -520,136 +37,195 @@ line level    source
   26   1        IP &= 0XEF;
   27   1      }
   28          
-  29          
+  29          /**************************************************
+  30          *函数名称:void UART0_Init(uint32_t Uart0Fsys, uint32_t BaudRate, UART0_Mode_Typedef Mode,
+  31                         UART0_Clock_Typedef ClockMode, UART0_RX_Typedef RxMode)
+  32          *函数功能:UART0初始化配置函数
+  33          *入口参数:
+  34          uint32_t:Uart0Fsys:系统时钟频率
+  35          uint32_t:BaudRate:波特率
+  36          UART0_Mode_Typedef:Mode:UART0工作模式
+  37          UART0_Clock_Typedef:ClockMode:波特率时钟源（TIMER1/TIMER2）
+  38          UART0_RX_Typedef:RxMode:接收允许选择
+  39          *出口参数:void
+  40          **************************************************/
   41          void UART0_Init(uint32_t Uart0Fsys, uint32_t BaudRate, UART0_Mode_Typedef Mode,
-  42                                          UART0_Clock_Typedef ClockMode, UART0_RX_Typedef RxMode)
+  42                  UART0_Clock_Typedef ClockMode, UART0_RX_Typedef RxMode)
   43          {
-  44   1        SCON = SCON & 0X2F | Mode | RxMode; 
+  44   1        SCON = SCON & 0X2F | Mode | RxMode; //设置UART工作模式,设置接收允许位
   45   1      
-  46   1        if(Mode == UART0_Mode_8B)                     
+  46   1        if(Mode == UART0_Mode_8B)     //UART工作模式为模式0:8位半双工同步通信模式
   47   1        {
-  48   2              
-  49   2              if(BaudRate == UART0_BaudRate_FsysDIV12)
-  50   2              {
-  51   3                SCON &= 0XDF;
-  52   3              }
-  53   2              else if(BaudRate == UART0_BaudRate_FsysDIV4)
-  54   2              {
-  55   3                SCON |= 0X20;
-  56   3              }
+  48   2        //模式0时钟来源于系统时钟或系统时钟12分频
+  49   2        if(BaudRate == UART0_BaudRate_FsysDIV12)
+  50   2        {
+  51   3          SCON &= 0XDF;
+  52   3        }
+  53   2        else if(BaudRate == UART0_BaudRate_FsysDIV4)
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 2   
+
+  54   2        {
+  55   3          SCON |= 0X20;
+  56   3        }
   57   2        }
-  58   1        else
+  58   1        else//UART工作模式为模式1或者模式3
   59   1        {
-  60   2              TXCON = (TXCON & 0xCF) | ClockMode; 
+  60   2        TXCON = (TXCON & 0xCF) | ClockMode; //设置波特率时钟源
   61   2      
-  62   2              
-  63   2              if(ClockMode == UART0_CLOCK_TIMER1)
-  64   2              {
-  65   3                TH1 = (Uart0Fsys / BaudRate) / 256;
-  66   3                TL1 = (Uart0Fsys / BaudRate) % 256;
-  67   3                TR1 = 0;
-  68   3              }
-  69   2              
-  70   2              else if(ClockMode == UART0_CLOCK_TIMER2)
-  71   2              {
-  72   3                TXINX = 0X02;                 
-  73   3                RCAPXH = (Uart0Fsys / BaudRate) / 256;
-  74   3                RCAPXL = (Uart0Fsys / BaudRate) % 256;
-  75   3                TRX = 1;
-  76   3              }
+  62   2        /* 使用定时器1作为波特率发生器 */
+  63   2        if(ClockMode == UART0_CLOCK_TIMER1)
+  64   2        {
+  65   3          TH1 = (Uart0Fsys / BaudRate) / 256;
+  66   3          TL1 = (Uart0Fsys / BaudRate) % 256;
+  67   3          TR1 = 0;
+  68   3        }
+  69   2        /* 使用定时器2作为波特率发生器 */
+  70   2        else if(ClockMode == UART0_CLOCK_TIMER2)
+  71   2        {
+  72   3          TXINX = 0X02;     //TIMx寄存器组指向定时器2
+  73   3          RCAPXH = (Uart0Fsys / BaudRate) / 256;
+  74   3          RCAPXL = (Uart0Fsys / BaudRate) % 256;
+  75   3          TRX = 1;
+  76   3        }
   77   2        }
   78   1      }
   79          
-  80          
+  80          /*****************************************************
+  81          *函数名称:void UART0_SendData8(uint8_t Data)
+  82          *函数功能:UART0发送8位数据
+  83          *入口参数:
+  84          uint8_t:Data:发送的数据
+  85          *出口参数:void
+  86          *****************************************************/
   87          void UART0_SendData8(uint8_t Data)
   88          {
   89   1        SBUF = Data;
   90   1      }
   91          
-  92          
+  92          /**************************************************
+  93          *函数名称:uint8_t UART0_ReceiveData8(void)
+  94          *函数功能:获得SBUF中的值
+  95          *入口参数:void
+  96          *出口参数:
+  97          uint8_t:接收的数据
+  98          **************************************************/
   99          uint8_t UART0_ReceiveData8(void)
  100          {
  101   1        return SBUF;
  102   1      }
  103          
- 104          
+ 104          /*****************************************************
+ 105          *函数名称:void UART0_SendData9(uint16_t Data)
+ 106          *函数功能:UART0发送9位数据
+ 107          *入口参数:
+ 108          uint16_t:Data:发送的数据
+ 109          *出口参数:void
+ 110          *****************************************************/
  111          void UART0_SendData9(uint16_t Data)
  112          {
  113   1        uint8_t Data_9Bit;
  114   1        Data_9Bit = (Data >> 8);
  115   1      
- 116   1        
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 3   
+
+ 116   1        /* 第9位数据放在SCON寄存器的第3位 */
  117   1        if(Data_9Bit)
  118   1        {
- 119   2              SCON |= 0X08;
+ 119   2        SCON |= 0X08;
  120   2        }
  121   1        else
  122   1        {
- 123   2              SCON &= 0XF7;
+ 123   2        SCON &= 0XF7;
  124   2        }
  125   1      
  126   1        SBUF = (uint8_t)Data;
  127   1      }
  128          
- 129          
+ 129          /**************************************************
+ 130          *函数名称:uint16_t UART0_ReceiveData9(void)
+ 131          *函数功能:获得SBUF中的值及第九位的值
+ 132          *入口参数:void
+ 133          *出口参数:
+ 134          uint16_t:SBUF中的值及第九位的值
+ 135          **************************************************/
  136          uint16_t UART0_ReceiveData9(void)
  137          {
  138   1        uint16_t Data9;
- 139   1        
+ 139   1        /* 第9位数据放在SCON寄存器的第3位 */
  140   1        Data9 = SBUF + ((uint16_t)(SCON & 0X04) << 6);
  141   1        SCON &= 0XFB;
  142   1        return Data9;
  143   1      }
  144          
- 145          
+ 145          /*****************************************************
+ 146          *函数名称:void UART0_ITConfig(FunctionalState NewState, PriorityStatus Priority)
+ 147          *函数功能:UART0中断初始化
+ 148          *入口参数:
+ 149          FunctionalState:NewState:中断使能/关闭选择
+ 150          PriorityStatus:Priority:中断优先级选择
+ 151          *出口参数:void
+ 152          *****************************************************/
  153          void UART0_ITConfig(FunctionalState NewState, PriorityStatus Priority)
  154          {
  155   1        if(NewState == DISABLE)
  156   1        {
- 157   2              EUART = 0;
+ 157   2        EUART = 0;
  158   2        }
  159   1        else
  160   1        {
- 161   2              EUART = 1;
+ 161   2        EUART = 1;
  162   2        }
  163   1      
- 164   1        
+ 164   1        //设置中断优先级
  165   1        if(Priority == LOW)
  166   1        {
- 167   2              IPUART = 0;
+ 167   2        IPUART = 0;
  168   2        }
  169   1        else
  170   1        {
- 171   2              IPUART = 1;
+ 171   2        IPUART = 1;
  172   2        }
  173   1      }
  174          
- 175          
+ 175          /*****************************************************
+ 176          *函数名称:StatusTypeDef UART0_Transmit8(UART0_HandleInfoDef* UART_HANDLE, uint8_t *pData, uint8_t Size,uin
+             -t32_t Timeout)
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 4   
+
+ 177          *函数功能:UART在轮询模式下发送大量数据
+ 178          *入口参数:
+ 179          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 180          uint8_t *:pData:待发送数据
+ 181          uint16_t:Size:待发送的数据量
+ 182          uint32_t:Timeout:超时时间设置
+ 183          *出口参数:
+ 184          StatusTypeDef:函数执行状态
+ 185          *****************************************************/
  186          StatusTypeDef UART0_Transmit(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size, uint32_t Time
              -out)
  187          {
  188   1        uint32_t TimeoutCnt;
- 189   1        
+ 189   1        /* 检查一个发送进程是否正在进行 */
  190   1        if(UART_HANDLE->TxState == UART0_STATE_READY)
  191   1        {
- 192   2              
- 193   2              if(Size == 0U)
- 194   2              {
- 195   3                return  Status_ERROR;
- 196   3              }
+ 192   2        /* 待发送数据长度必须大于0，否则返回错误状态 */
+ 193   2        if(Size == 0U)
+ 194   2        {
+ 195   3          return  Status_ERROR;
+ 196   3        }
  197   2      
- 198   2              UART_HANDLE->TxState = UART0_STATE_BUSY;                        
- 199   2              TI = 0; 
- 200   2              UART_HANDLE->pTxBuffPtr.Size_u8 = pData;                        
- 201   2              UART_HANDLE->TxXferSize = Size;                 
- 202   2              UART_HANDLE->TxXferCount = 0;                   
+ 198   2        UART_HANDLE->TxState = UART0_STATE_BUSY;      //发送进程忙碌中
+ 199   2        TI = 0; //发送前清除发送标志
+ 200   2        UART_HANDLE->pTxBuffPtr.Size_u8 = pData;      //指向待发送数据的地址
+ 201   2        UART_HANDLE->TxXferSize = Size;     //更新待发送的数据量
+ 202   2        UART_HANDLE->TxXferCount = 0;     //发送计数器清零
  203   2      
- 204   2          while(UART_HANDLE->TxXferCount < UART_HANDLE->TxXferSize)
+ 204   2          while(UART_HANDLE->TxXferCount < UART_HANDLE->TxXferSize)//判断是否接收所有数据
  205   2          {
  206   3            if((((SCON & 0xC0))) == UART0_Mode_11B)
  207   3            {
  208   4              SCON &= ~0x08;
- 209   4              SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5);
+ 209   4              SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5);//设置第9位校验位
  210   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
  211   4            }
  212   3            else
@@ -657,1729 +233,307 @@ line level    source
  214   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
  215   4            }
  216   3            
- 217   3            while(!TI) 
+ 217   3            while(!TI) //等待发送完成
  218   3            {
  219   4              if(TimeoutCnt++ > Timeout)
  220   4              {
- 221   5                UART_HANDLE->TxState = UART0_STATE_TIMEOUT;
+ 221   5                UART_HANDLE->TxState = UART0_STATE_TIMEOUT;//发送超时
  222   5                return Status_TIMEOUT;
  223   5              }
- 224   4              WDTCON |= 0x10;                 
+ 224   4              WDTCON |= 0x10;     //喂狗，防止等待时间过长，导致WDT复位
  225   4            }
- 226   3                              
- 227   3            UART0_ClearFlag(UART0_FLAG_TI); 
- 228   3                              TimeoutCnt = 0;
- 229   3                UART_HANDLE->TxXferCount ++;  
- 230   3              }
+ 226   3            
+ 227   3            UART0_ClearFlag(UART0_FLAG_TI); //发送中断标志清除，写1/写0清零
+ 228   3            TimeoutCnt = 0;
+ 229   3          UART_HANDLE->TxXferCount ++;  //发送数据量计数
+ 230   3        }
  231   2      
- 232   2              if(UART_HANDLE->TxXferCount == UART_HANDLE->TxXferSize)
- 233   2              {
- 234   3                UART_HANDLE->TxState = UART0_STATE_READY;     
- 235   3                return Status_OK;
- 236   3              }
- 237   2              else
- 238   2              {
- 239   3                UART_HANDLE->TxState = UART0_STATE_ERROR;
- 240   3                return Status_ERROR;
- 241   3              }
+ 232   2        if(UART_HANDLE->TxXferCount == UART_HANDLE->TxXferSize)
+ 233   2        {
+ 234   3          UART_HANDLE->TxState = UART0_STATE_READY; //发送完成
+ 235   3          return Status_OK;
+ 236   3        }
+ 237   2        else
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 5   
+
+ 238   2        {
+ 239   3          UART_HANDLE->TxState = UART0_STATE_ERROR;//发生发送错误
+ 240   3          return Status_ERROR;
+ 241   3        }
  242   2        }
  243   1        else
  244   1        {
- 245   2              return Status_BUSY;
+ 245   2        return Status_BUSY;//返回忙碌状态
  246   2        }
  247   1      }
  248          
- 249          
+ 249          /*****************************************************
+ 250          *函数名称:StatusTypeDef UART0_Transmit8_IT(UART0_HandleInfoDef *UART_HANDLE, uint8_t *pData, uint8_t Size)
+ 251          *函数功能:UART在中断模式下发送大量数据时，先在main函数中调用此函数
+ 252          *入口参数:
+ 253          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 254          uint8_t *:pData:待发送数据的首地址
+ 255          uint16_t:Size:待发送的数据量
+ 256          *出口参数:
+ 257          StatusTypeDef:函数执行状态
+ 258          *****************************************************/
  259          StatusTypeDef UART0_Transmit_IT(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size)
  260          {
- 261   1              
- 262   1              if (UART_HANDLE->TxState == UART0_STATE_READY)
- 263   1              {
- 264   2                      
- 265   2                      if ((EUART == 0) || (Size == 0U))
- 266   2                      {
- 267   3                              return Status_ERROR;
- 268   3                      }
+ 261   1        /* 检查一个发送进程是否正在进行 */
+ 262   1        if (UART_HANDLE->TxState == UART0_STATE_READY)
+ 263   1        {
+ 264   2          /* 没有开启UART0中断或发送数据量大小为0，返回错误 */
+ 265   2          if ((EUART == 0) || (Size == 0U))
+ 266   2          {
+ 267   3            return Status_ERROR;
+ 268   3          }
  269   2      
- 270   2              UART_HANDLE->TxState = UART0_STATE_BUSY;                        
- 271   2              TI = 0; 
- 272   2              UART_HANDLE->pTxBuffPtr.Size_u8 = pData;                        
- 273   2              UART_HANDLE->TxXferSize = Size;                 
- 274   2              UART_HANDLE->TxXferCount = 0;                   
+ 270   2        UART_HANDLE->TxState = UART0_STATE_BUSY;      //发送进程忙碌中
+ 271   2        TI = 0; //发送前清除发送标志
+ 272   2        UART_HANDLE->pTxBuffPtr.Size_u8 = pData;      //指向待发送数据的地址
+ 273   2        UART_HANDLE->TxXferSize = Size;     //更新待发送的数据量
+ 274   2        UART_HANDLE->TxXferCount = 0;     //发送计数器清零
  275   2      
  276   2      
- 277   2              
- 278   2              if((SCON & 0xC0) == UART0_Mode_11B)
- 279   2              {
- 280   3                SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5) & 0x08;
- 281   3                SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
- 282   3              }
- 283   2              else
- 284   2              {
- 285   3                SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
- 286   3              }
- 287   2              return Status_OK;
+ 277   2        /* 发送第1帧数据 */
+ 278   2        if((SCON & 0xC0) == UART0_Mode_11B)
+ 279   2        {
+ 280   3          SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5) & 0x08;//设置第9位校验位
+ 281   3          SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
+ 282   3        }
+ 283   2        else
+ 284   2        {
+ 285   3          SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
+ 286   3        }
+ 287   2        return Status_OK;
  288   2        }
  289   1        else
  290   1        {
- 291   2              return Status_BUSY;
+ 291   2        return Status_BUSY;//返回标志位
  292   2        }
  293   1      }
  294          
- 295          
+ 295          /*****************************************************
+ 296          *函数名称:StatusTypeDef UART0_Transmit_IRQHandler(UART0_HandleInfoDef *UART_HANDLE)
+ 297          *函数功能:UART在中断模式下发送大量数据时，在中断服务函数中调用
+ 298          * 注：该函数调用前需要判断中断标志位是否置起
+ 299          *入口参数:
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 6   
+
+ 300          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 301          *出口参数:
+ 302          StatusTypeDef:函数执行状态
+ 303          *****************************************************/
  304          StatusTypeDef UART0_Transmit_IRQHandler(UART0_HandleInfoDef* UART_HANDLE)
  305          {
- 306   1              
- 307   1              if (UART_HANDLE->TxState == UART0_STATE_BUSY)
- 308   1              {
- 309   2                      UART_HANDLE->TxXferCount++;
- 310   2                      
- 311   2                      if (UART_HANDLE->TxXferCount < UART_HANDLE->TxXferSize)
- 312   2                      {
- 313   3                              
- 314   3                              if((SCON & 0xC0) == UART0_Mode_11B)
- 315   3                              {
- 316   4                                      SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5) & 0x08;
- 317   4                                      SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
- 318   4                              }
- 319   3                              else
- 320   3                              {
- 321   4                                      SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
- 322   4                              }
- 323   3                              return Status_BUSY;
- 324   3                      }
- 325   2                      else if (UART_HANDLE->TxXferCount == UART_HANDLE->TxXferSize)
- 326   2                      {
- 327   3                              
- 328   3                              UART_HANDLE->TxState = UART0_STATE_READY;
- 329   3                              return Status_OK;
- 330   3                      }
- 331   2                      else
- 332   2                      {
- 333   3                              
- 334   3                              UART_HANDLE->TxState = UART0_STATE_ERROR;
- 335   3                              return Status_ERROR;
- 336   3                      }
- 337   2              }
- 338   1              else
- 339   1              {
- 340   2                      return Status_ERROR;
- 341   2              }
+ 306   1        /* 处于发送线程 */
+ 307   1        if (UART_HANDLE->TxState == UART0_STATE_BUSY)
+ 308   1        {
+ 309   2          UART_HANDLE->TxXferCount++;
+ 310   2          /* 判断上一次发送是否是最后一次 */
+ 311   2          if (UART_HANDLE->TxXferCount < UART_HANDLE->TxXferSize)
+ 312   2          {
+ 313   3            /* 待发送数据量未为0，继续发送 */
+ 314   3            if((SCON & 0xC0) == UART0_Mode_11B)
+ 315   3            {
+ 316   4              SCON |= (*(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount) >> 5) & 0x08;//设置第9位校验位
+ 317   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u16 + UART_HANDLE->TxXferCount);
+ 318   4            }
+ 319   3            else
+ 320   3            {
+ 321   4              SBUF = *(UART_HANDLE->pTxBuffPtr.Size_u8 + UART_HANDLE->TxXferCount);
+ 322   4            }
+ 323   3            return Status_BUSY;
+ 324   3          }
+ 325   2          else if (UART_HANDLE->TxXferCount == UART_HANDLE->TxXferSize)
+ 326   2          {
+ 327   3            /* 发送完成 */
+ 328   3            UART_HANDLE->TxState = UART0_STATE_READY;
+ 329   3            return Status_OK;
+ 330   3          }
+ 331   2          else
+ 332   2          {
+ 333   3            /* 发送数据量为0时还发送数据，返回错误 */
+ 334   3            UART_HANDLE->TxState = UART0_STATE_ERROR;
+ 335   3            return Status_ERROR;
+ 336   3          }
+ 337   2        }
+ 338   1        else
+ 339   1        {
+ 340   2          return Status_ERROR;
+ 341   2        }
  342   1      }
  343          
- 344          
+ 344          /*****************************************************
+ 345          *函数名称:UART0_StatusTypeDef UART0_Receive8(UART0_HandleInfoDef* UART_HANDLE, uint8_t *pData, uint8_t Siz
+             -e, uint32_t Timeout)
+ 346          *函数功能:UART在轮询模式下接收大量数据
+ 347          *入口参数:
+ 348          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 349          uint8_t *:pData:接收数据的存放
+ 350          uint16_t:Size:待接收的数据量
+ 351          uint32_t:Timeout:超时时间设置
+ 352          *出口参数:
+ 353          StatusTypeDef:函数执行状态
+ 354          *****************************************************/
  355          StatusTypeDef UART0_Receive(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size, uint32_t Timeo
              -ut)
  356          {
  357   1        uint32_t TimeoutCnt = 0;
- 358   1        
+ 358   1        /* 检查接收进程正在运行 */
  359   1        if(UART_HANDLE->RxState == UART0_STATE_READY)
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 7   
+
  360   1        {
- 361   2          
+ 361   2          /* 检查接收数据量大小和是否开启接收使能 */
  362   2          if((Size == 0U) || ((SCON & 0x10) != UART0_RX_ENABLE))
  363   2          {
  364   3            return  Status_ERROR;
  365   3          }
  366   2      
- 367   2              UART_HANDLE->RxState = UART0_STATE_BUSY;                        
- 368   2              RI = 0;                  
- 369   2              UART_HANDLE->pRxBuffPtr.Size_u8 = pData;                        
- 370   2              UART_HANDLE->RxXferSize = Size;                 
- 371   2              UART_HANDLE->RxXferCount = 0;                   
+ 367   2        UART_HANDLE->RxState = UART0_STATE_BUSY;      //状态更新为接收忙碌中
+ 368   2        RI = 0;      //接收前清除接收中断标志
+ 369   2        UART_HANDLE->pRxBuffPtr.Size_u8 = pData;      //指向待发送数据的地址
+ 370   2        UART_HANDLE->RxXferSize = Size;     //更新待发送的数据量
+ 371   2        UART_HANDLE->RxXferCount = 0;     //发送计数器清零
  372   2      
- 373   2          while(UART_HANDLE->RxXferCount < UART_HANDLE->RxXferSize) 
+ 373   2          while(UART_HANDLE->RxXferCount < UART_HANDLE->RxXferSize) //判断是否接收所有数据
  374   2          {
- 375   3            if(RI) 
+ 375   3            if(RI) //判断接收标志位
  376   3            {
  377   4              if((SCON & 0xC0) == UART0_Mode_11B)
  378   4              {
  379   5                *(UART_HANDLE->pRxBuffPtr.Size_u16 + UART_HANDLE->RxXferCount) = SBUF + ((uint16_t)(SCON & 0X04)
-             - << 6); 
+             - << 6); //接收数据
  380   5              }
  381   4              else
  382   4              {
- 383   5                *(UART_HANDLE->pRxBuffPtr.Size_u8 + UART_HANDLE->RxXferCount) = SBUF;                 
+ 383   5                *(UART_HANDLE->pRxBuffPtr.Size_u8 + UART_HANDLE->RxXferCount) = SBUF;     //接收数据
  384   5              }
- 385   4                                      RI = 0;                 
- 386   4                      UART_HANDLE->RxXferCount++;     
- 387   4                      TimeoutCnt = 0;
- 388   4                }
- 389   3                else
- 390   3                {
- 391   4                      if(TimeoutCnt++ > Timeout)
- 392   4                      {
- 393   5                        UART_HANDLE->RxState = UART0_STATE_TIMEOUT;
- 394   5                        return Status_TIMEOUT;
- 395   5                      }
- 396   4                                      WDTCON |= 0x10;                 
- 397   4                }
- 398   3              }
+ 385   4              RI = 0;     //接收标志位清零
+ 386   4          UART_HANDLE->RxXferCount++; //接收数据量计数加1
+ 387   4          TimeoutCnt = 0;//收到数据，超时计数清零
+ 388   4          }
+ 389   3          else
+ 390   3          {
+ 391   4          if(TimeoutCnt++ > Timeout)//计时溢出
+ 392   4          {
+ 393   5            UART_HANDLE->RxState = UART0_STATE_TIMEOUT;//发送超时
+ 394   5            return Status_TIMEOUT;
+ 395   5          }
+ 396   4              WDTCON |= 0x10;     //喂狗，防止等待时间过长，导致WDT复位
+ 397   4          }
+ 398   3        }
  399   2      
- 400   2              if(UART_HANDLE->RxXferCount == UART_HANDLE->RxXferSize)
- 401   2              {
- 402   3                UART_HANDLE->RxState = UART0_STATE_READY;     
- 403   3                return Status_OK;
- 404   3              }
- 405   2              else
- 406   2              {
- 407   3                UART_HANDLE->RxState = UART0_STATE_ERROR;
- 408   3                return Status_ERROR;
- 409   3              }
+ 400   2        if(UART_HANDLE->RxXferCount == UART_HANDLE->RxXferSize)
+ 401   2        {
+ 402   3          UART_HANDLE->RxState = UART0_STATE_READY; //接收完成
+ 403   3          return Status_OK;
+ 404   3        }
+ 405   2        else
+ 406   2        {
+ 407   3          UART_HANDLE->RxState = UART0_STATE_ERROR;//接收错误
+ 408   3          return Status_ERROR;
+ 409   3        }
  410   2        }
  411   1        else
  412   1        {
- 413   2              return Status_BUSY;
+ 413   2        return Status_BUSY;//返回标志位
  414   2        }
  415   1      }
  416          
- 417          
+ 417          /*****************************************************
+ 418          *函数名称:StatusTypeDef UART0_Transmit_IT(UART0_HandleInfoDef *UART_HANDLE, uint8_t *pData, uint8_t Size)
+ 419          *函数功能:UART在中断模式下接收大量数据时，先在main函数中调用此函数
+ 420          *入口参数:
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 8   
+
+ 421          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 422          uint8_t *:pData:接收数据的存放区
+ 423          uint16_t:Size:待接收的数据量
+ 424          *出口参数:
+ 425          StatusTypeDef:函数执行状态
+ 426          *****************************************************/
  427          StatusTypeDef UART0_Receive_IT(UART0_HandleInfoDef* UART_HANDLE, uint8_t* pData, uint8_t Size)
  428          {
- 429   1              
- 430   1              if (UART_HANDLE->RxState == UART0_STATE_READY)
- 431   1              {
- 432   2                      
- 433   2                      if ((EUART == 0) || (Size == 0U) || ((SCON & 0x10) != UART0_RX_ENABLE))
- 434   2                      {
- 435   3                              return UART0_STATE_ERROR;
- 436   3                      }
+ 429   1        /* 检查一个接收进程是否正在进行 */
+ 430   1        if (UART_HANDLE->RxState == UART0_STATE_READY)
+ 431   1        {
+ 432   2          /* 检查是否开启UART0中断或发送数据量大小为0或是否开启接收使能，返回错误 */
+ 433   2          if ((EUART == 0) || (Size == 0U) || ((SCON & 0x10) != UART0_RX_ENABLE))
+ 434   2          {
+ 435   3            return UART0_STATE_ERROR;
+ 436   3          }
  437   2      
- 438   2              UART_HANDLE->RxState = UART0_STATE_BUSY;
- 439   2              UART_HANDLE->pRxBuffPtr.Size_u8 = pData;                        
- 440   2              UART_HANDLE->RxXferSize = Size;                 
- 441   2              UART_HANDLE->RxXferCount = 0;                   
+ 438   2        UART_HANDLE->RxState = UART0_STATE_BUSY;
+ 439   2        UART_HANDLE->pRxBuffPtr.Size_u8 = pData;      //指向接收数据的存放地址
+ 440   2        UART_HANDLE->RxXferSize = Size;     //更新待接收的数据量
+ 441   2        UART_HANDLE->RxXferCount = 0;     //发送计数器清零
  442   2      
- 443   2              return Status_OK;
+ 443   2        return Status_OK;
  444   2        }
  445   1        else
  446   1        {
- 447   2              return Status_BUSY;
+ 447   2        return Status_BUSY;//返回标志位
  448   2        }
  449   1      }
  450          
- 451          
+ 451          /*****************************************************
+ 452          *函数名称:StatusTypeDef UART0_Receive8_IRQHandler(UART0_HandleInfoDef* UART_HANDLE)
+ 453          *函数功能:UART在中断模式下接收大量数据时，在中断服务函数中调用
+ 454          *入口参数:
+ 455          UART0_HandleInfoDef*:UART_HANDLE:指向包含指定UART模块的配置信息结构体的指针
+ 456          *出口参数:
+ 457          StatusTypeDef:函数执行状态
+ 458          *****************************************************/
  459          StatusTypeDef UART0_Receive_IRQHandler(UART0_HandleInfoDef* UART_HANDLE)
  460          {
- 461   1              
- 462   1              if (UART_HANDLE->RxState == UART0_STATE_BUSY)
- 463   1              {
- 464   2                      
- 465   2                      if (UART_HANDLE->RxXferCount < UART_HANDLE->RxXferSize)
- 466   2                      {
- 467   3                              if((SCON & 0xC0) == UART0_Mode_11B)
- 468   3                              {
- 469   4                                      *(UART_HANDLE->pRxBuffPtr.Size_u16 + UART_HANDLE->RxXferCount) = SBUF + ((uint16_t)(SCON & 0X04) << 6)
-             -; 
- 470   4                              }
- 471   3                              else
- 472   3                              {
- 473   4                                      *(UART_HANDLE->pRxBuffPtr.Size_u8 + UART_HANDLE->RxXferCount) = SBUF;                   
- 474   4                              }
- 475   3                              UART_HANDLE->RxXferCount++;
- 476   3                              
- 477   3                              if (UART_HANDLE->RxXferCount == UART_HANDLE->RxXferSize)
- 478   3                              {
- 479   4                                      
- 480   4                                      UART_HANDLE->RxState = UART0_STATE_READY;
- 481   4                                      return Status_OK;
- 482   4                              }
- 483   3                              return Status_BUSY;
- 484   3                              
- 485   3                      }
- 486   2                      else
- 487   2                      {
- 488   3                              
- 489   3                              UART_HANDLE->RxState = UART0_STATE_ERROR;
- 490   3                              return Status_ERROR;
- 491   3                      }
- 492   2              }
- 493   1              else
- 494   1              {
- 495   2                      return Status_BUSY;
- 496   2              }
+ 461   1        /* 检查一个接收进程是否正在进行 */
+ 462   1        if (UART_HANDLE->RxState == UART0_STATE_BUSY)
+ 463   1        {
+ 464   2          /* 处于接收线程，检查待接收数据量是否为0 */
+ 465   2          if (UART_HANDLE->RxXferCount < UART_HANDLE->RxXferSize)
+ 466   2          {
+ 467   3            if((SCON & 0xC0) == UART0_Mode_11B)
+ 468   3            {
+ 469   4              *(UART_HANDLE->pRxBuffPtr.Size_u16 + UART_HANDLE->RxXferCount) = SBUF + ((uint16_t)(SCON & 0X04) << 6)
+             -; //接收数据
+ 470   4            }
+ 471   3            else
+ 472   3            {
+ 473   4              *(UART_HANDLE->pRxBuffPtr.Size_u8 + UART_HANDLE->RxXferCount) = SBUF;     //接收数据
+ 474   4            }
+ 475   3            UART_HANDLE->RxXferCount++;
+ 476   3            /* 判断上一次发送是否是最后一次 */
+ 477   3            if (UART_HANDLE->RxXferCount == UART_HANDLE->RxXferSize)
+ 478   3            {
+ 479   4              /* 接收完成 */
+ 480   4              UART_HANDLE->RxState = UART0_STATE_READY;
+ 481   4              return Status_OK;
+C51 COMPILER V9.59.0.0   SC95F_UART0                                                       03/22/2024 18:56:14 PAGE 9   
+
+ 482   4            }
+ 483   3            return Status_BUSY;
+ 484   3            
+ 485   3          }
+ 486   2          else
+ 487   2          {
+ 488   3            /* 接收数据量为0时还接收数据，返回错误 */
+ 489   3            UART_HANDLE->RxState = UART0_STATE_ERROR;
+ 490   3            return Status_ERROR;
+ 491   3          }
+ 492   2        }
+ 493   1        else
+ 494   1        {
+ 495   2          return Status_BUSY;
+ 496   2        }
  497   1      }
  498          
  499          #endif
  500          
- 501          
-ASSEMBLY LISTING OF GENERATED OBJECT CODE
-             ; FUNCTION UART0_DeInit (BEGIN)
-                                           ; SOURCE LINE # 20
-                                           ; SOURCE LINE # 21
-                                           ; SOURCE LINE # 22
-0000 E4                CLR     A
-0001 F598              MOV     SCON,A
-                                           ; SOURCE LINE # 23
-0003 F599              MOV     SBUF,A
-                                           ; SOURCE LINE # 24
-0005 53877F            ANL     PCON,#07FH
-                                           ; SOURCE LINE # 25
-0008 53A8EF            ANL     IE,#0EFH
-                                           ; SOURCE LINE # 26
-000B 53B8EF            ANL     IP,#0EFH
-                                           ; SOURCE LINE # 27
-000E 22                RET     
-             ; FUNCTION UART0_DeInit (END)
-             ; FUNCTION _UART0_Init (BEGIN)
-                                           ; SOURCE LINE # 41
-0000 900000      R     MOV     DPTR,#Uart0Fsys
-0003 120000      E     LCALL   ?C?LSTXDATA
-                                           ; SOURCE LINE # 43
-                                           ; SOURCE LINE # 44
-0006 E598              MOV     A,SCON
-0008 542F              ANL     A,#02FH
-000A FF                MOV     R7,A
-000B 900000      R     MOV     DPTR,#Mode
-000E E0                MOVX    A,@DPTR
-000F FE                MOV     R6,A
-0010 4F                ORL     A,R7
-0011 FF                MOV     R7,A
-0012 900000      R     MOV     DPTR,#RxMode
-0015 E0                MOVX    A,@DPTR
-0016 4F                ORL     A,R7
-0017 F598              MOV     SCON,A
-                                           ; SOURCE LINE # 46
-0019 EE                MOV     A,R6
-001A 702A              JNZ     ?C0002
-                                           ; SOURCE LINE # 47
-                                           ; SOURCE LINE # 49
-001C FF                MOV     R7,A
-001D FE                MOV     R6,A
-001E FD                MOV     R5,A
-001F FC                MOV     R4,A
-0020 900000      R     MOV     DPTR,#BaudRate
-0023 120000      E     LCALL   ?C?LLDXDATA0
-0026 C3                CLR     C
-0027 120000      E     LCALL   ?C?ULCMP
-002A 7004              JNZ     ?C0003
-                                           ; SOURCE LINE # 50
-                                           ; SOURCE LINE # 51
-002C 5398DF            ANL     SCON,#0DFH
-                                           ; SOURCE LINE # 52
-002F 22                RET     
-0030         ?C0003:
-                                           ; SOURCE LINE # 53
-0030 E4                CLR     A
-0031 7F01              MOV     R7,#01H
-0033 FE                MOV     R6,A
-0034 FD                MOV     R5,A
-0035 FC                MOV     R4,A
-0036 900000      R     MOV     DPTR,#BaudRate
-0039 120000      E     LCALL   ?C?LLDXDATA0
-003C C3                CLR     C
-003D 120000      E     LCALL   ?C?ULCMP
-0040 707A              JNZ     ?C0010
-                                           ; SOURCE LINE # 54
-                                           ; SOURCE LINE # 55
-0042 439820            ORL     SCON,#020H
-                                           ; SOURCE LINE # 56
-                                           ; SOURCE LINE # 57
-0045 22                RET     
-0046         ?C0002:
-                                           ; SOURCE LINE # 59
-                                           ; SOURCE LINE # 60
-0046 E5C8              MOV     A,TXCON
-0048 54CF              ANL     A,#0CFH
-004A FF                MOV     R7,A
-004B 900000      R     MOV     DPTR,#ClockMode
-004E E0                MOVX    A,@DPTR
-004F FE                MOV     R6,A
-0050 4F                ORL     A,R7
-0051 F5C8              MOV     TXCON,A
-                                           ; SOURCE LINE # 63
-0053 EE                MOV     A,R6
-0054 702E              JNZ     ?C0007
-                                           ; SOURCE LINE # 64
-                                           ; SOURCE LINE # 65
-0056 900000      R     MOV     DPTR,#BaudRate
-0059 120000      E     LCALL   ?C?LLDXDATA0
-005C 900000      R     MOV     DPTR,#Uart0Fsys
-005F 120000      E     LCALL   ?C?LLDXDATA
-0062 120000      E     LCALL   ?C?ULDIV
-0065 E4                CLR     A
-0066 FB                MOV     R3,A
-0067 7A01              MOV     R2,#01H
-0069 F9                MOV     R1,A
-006A F8                MOV     R0,A
-006B 120000      E     LCALL   ?C?ULDIV
-006E 8F8D              MOV     TH1,R7
-                                           ; SOURCE LINE # 66
-0070 900000      R     MOV     DPTR,#BaudRate
-0073 120000      E     LCALL   ?C?LLDXDATA0
-0076 900000      R     MOV     DPTR,#Uart0Fsys
-0079 120000      E     LCALL   ?C?LLDXDATA
-007C 120000      E     LCALL   ?C?ULDIV
-007F 8F8B              MOV     TL1,R7
-                                           ; SOURCE LINE # 67
-0081 C28E              CLR     TR1
-                                           ; SOURCE LINE # 68
-0083 22                RET     
-0084         ?C0007:
-                                           ; SOURCE LINE # 70
-0084 900000      R     MOV     DPTR,#ClockMode
-0087 E0                MOVX    A,@DPTR
-0088 6430              XRL     A,#030H
-008A 7030              JNZ     ?C0010
-                                           ; SOURCE LINE # 71
-                                           ; SOURCE LINE # 72
-008C 75CE02            MOV     TXINX,#02H
-                                           ; SOURCE LINE # 73
-008F 900000      R     MOV     DPTR,#BaudRate
-0092 120000      E     LCALL   ?C?LLDXDATA0
-0095 900000      R     MOV     DPTR,#Uart0Fsys
-0098 120000      E     LCALL   ?C?LLDXDATA
-009B 120000      E     LCALL   ?C?ULDIV
-009E E4                CLR     A
-009F FB                MOV     R3,A
-00A0 7A01              MOV     R2,#01H
-00A2 F9                MOV     R1,A
-00A3 F8                MOV     R0,A
-00A4 120000      E     LCALL   ?C?ULDIV
-00A7 8FCB              MOV     RCAPXH,R7
-                                           ; SOURCE LINE # 74
-00A9 900000      R     MOV     DPTR,#BaudRate
-00AC 120000      E     LCALL   ?C?LLDXDATA0
-00AF 900000      R     MOV     DPTR,#Uart0Fsys
-00B2 120000      E     LCALL   ?C?LLDXDATA
-00B5 120000      E     LCALL   ?C?ULDIV
-00B8 8FCA              MOV     RCAPXL,R7
-                                           ; SOURCE LINE # 75
-00BA D2CA              SETB    TRX
-                                           ; SOURCE LINE # 76
-                                           ; SOURCE LINE # 77
-                                           ; SOURCE LINE # 78
-00BC         ?C0010:
-00BC 22                RET     
-             ; FUNCTION _UART0_Init (END)
-             ; FUNCTION _UART0_SendData8 (BEGIN)
-                                           ; SOURCE LINE # 87
-;---- Variable 'Data' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 88
-                                           ; SOURCE LINE # 89
-0000 8F99              MOV     SBUF,R7
-                                           ; SOURCE LINE # 90
-0002 22                RET     
-             ; FUNCTION _UART0_SendData8 (END)
-             ; FUNCTION UART0_ReceiveData8 (BEGIN)
-                                           ; SOURCE LINE # 99
-                                           ; SOURCE LINE # 100
-                                           ; SOURCE LINE # 101
-0000 AF99              MOV     R7,SBUF
-                                           ; SOURCE LINE # 102
-0002 22                RET     
-             ; FUNCTION UART0_ReceiveData8 (END)
-             ; FUNCTION _UART0_SendData9 (BEGIN)
-                                           ; SOURCE LINE # 111
-;---- Variable 'Data' assigned to Register 'R4/R5' ----
-0000 AD07              MOV     R5,AR7
-0002 AC06              MOV     R4,AR6
-                                           ; SOURCE LINE # 112
-                                           ; SOURCE LINE # 114
-0004 EC                MOV     A,R4
-;---- Variable 'Data_9Bit' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 117
-0005 6005              JZ      ?C0013
-                                           ; SOURCE LINE # 118
-                                           ; SOURCE LINE # 119
-0007 439808            ORL     SCON,#08H
-                                           ; SOURCE LINE # 120
-000A 8003              SJMP    ?C0014
-000C         ?C0013:
-                                           ; SOURCE LINE # 122
-                                           ; SOURCE LINE # 123
-000C 5398F7            ANL     SCON,#0F7H
-                                           ; SOURCE LINE # 124
-000F         ?C0014:
-                                           ; SOURCE LINE # 126
-000F AF05              MOV     R7,AR5
-0011 8F99              MOV     SBUF,R7
-                                           ; SOURCE LINE # 127
-0013 22                RET     
-             ; FUNCTION _UART0_SendData9 (END)
-             ; FUNCTION UART0_ReceiveData9 (BEGIN)
-                                           ; SOURCE LINE # 136
-                                           ; SOURCE LINE # 137
-                                           ; SOURCE LINE # 140
-0000 E598              MOV     A,SCON
-0002 5404              ANL     A,#04H
-0004 75F040            MOV     B,#040H
-0007 A4                MUL     AB
-0008 AD99              MOV     R5,SBUF
-000A 7C00              MOV     R4,#00H
-000C 2D                ADD     A,R5
-000D FF                MOV     R7,A
-000E EC                MOV     A,R4
-000F 35F0              ADDC    A,B
-0011 FE                MOV     R6,A
-;---- Variable 'Data9' assigned to Register 'R6/R7' ----
-                                           ; SOURCE LINE # 141
-0012 5398FB            ANL     SCON,#0FBH
-                                           ; SOURCE LINE # 142
-                                           ; SOURCE LINE # 143
-0015 22                RET     
-             ; FUNCTION UART0_ReceiveData9 (END)
-             ; FUNCTION _UART0_ITConfig (BEGIN)
-                                           ; SOURCE LINE # 153
-;---- Variable 'Priority' assigned to Register 'R5' ----
-;---- Variable 'NewState' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 154
-                                           ; SOURCE LINE # 155
-0000 EF                MOV     A,R7
-0001 7004              JNZ     ?C0017
-                                           ; SOURCE LINE # 156
-                                           ; SOURCE LINE # 157
-0003 C2AC              CLR     EUART
-                                           ; SOURCE LINE # 158
-0005 8002              SJMP    ?C0018
-0007         ?C0017:
-                                           ; SOURCE LINE # 160
-                                           ; SOURCE LINE # 161
-0007 D2AC              SETB    EUART
-                                           ; SOURCE LINE # 162
-0009         ?C0018:
-                                           ; SOURCE LINE # 165
-0009 ED                MOV     A,R5
-000A 7003              JNZ     ?C0019
-                                           ; SOURCE LINE # 166
-                                           ; SOURCE LINE # 167
-000C C2BC              CLR     IPUART
-                                           ; SOURCE LINE # 168
-000E 22                RET     
-000F         ?C0019:
-                                           ; SOURCE LINE # 170
-                                           ; SOURCE LINE # 171
-000F D2BC              SETB    IPUART
-                                           ; SOURCE LINE # 172
-                                           ; SOURCE LINE # 173
-0011         ?C0021:
-0011 22                RET     
-             ; FUNCTION _UART0_ITConfig (END)
-             ; FUNCTION _UART0_Transmit (BEGIN)
-                                           ; SOURCE LINE # 186
-0000 900000      R     MOV     DPTR,#UART_HANDLE
-0003 120000      E     LCALL   ?C?PSTXDATA
-                                           ; SOURCE LINE # 187
-                                           ; SOURCE LINE # 190
-0006 90000A            MOV     DPTR,#0AH
-0009 120000      E     LCALL   ?C?CLDOPTR
-000C 6003              JZ      $ + 5H
-000E 020000      R     LJMP    ?C0022
-                                           ; SOURCE LINE # 191
-                                           ; SOURCE LINE # 193
-0011 900000      R     MOV     DPTR,#Size
-0014 E0                MOVX    A,@DPTR
-0015 7002              JNZ     ?C0023
-                                           ; SOURCE LINE # 194
-                                           ; SOURCE LINE # 195
-0017 FF                MOV     R7,A
-0018 22                RET     
-                                           ; SOURCE LINE # 196
-0019         ?C0023:
-                                           ; SOURCE LINE # 198
-0019 900000      R     MOV     DPTR,#UART_HANDLE
-001C 120000      E     LCALL   ?C?PLDXDATA
-001F 90000A            MOV     DPTR,#0AH
-0022 7401              MOV     A,#01H
-0024 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 199
-0027 C299              CLR     TI
-                                           ; SOURCE LINE # 200
-0029 900000      R     MOV     DPTR,#pData
-002C 120000      E     LCALL   ?C?PLDXDATA
-002F C003              PUSH    AR3
-0031 C002              PUSH    AR2
-0033 C001              PUSH    AR1
-0035 900000      R     MOV     DPTR,#UART_HANDLE
-0038 120000      E     LCALL   ?C?PLDXDATA
-003B 120000      E     LCALL   ?C?PSTPTR
-                                           ; SOURCE LINE # 201
-003E 900000      R     MOV     DPTR,#Size
-0041 E0                MOVX    A,@DPTR
-0042 FF                MOV     R7,A
-0043 900000      R     MOV     DPTR,#UART_HANDLE
-0046 120000      E     LCALL   ?C?PLDXDATA
-0049 900003            MOV     DPTR,#03H
-004C EF                MOV     A,R7
-004D 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 202
-0050 900004            MOV     DPTR,#04H
-0053 E4                CLR     A
-0054 120000      E     LCALL   ?C?CSTOPTR
-0057         ?C0025:
-                                           ; SOURCE LINE # 204
-0057 900000      R     MOV     DPTR,#UART_HANDLE
-005A 120000      E     LCALL   ?C?PLDXDATA
-005D 900003            MOV     DPTR,#03H
-0060 120000      E     LCALL   ?C?CLDOPTR
-0063 FF                MOV     R7,A
-0064 900004            MOV     DPTR,#04H
-0067 120000      E     LCALL   ?C?CLDOPTR
-006A C3                CLR     C
-006B 9F                SUBB    A,R7
-006C 4003              JC      $ + 5H
-006E 020000      R     LJMP    ?C0026
-                                           ; SOURCE LINE # 205
-                                           ; SOURCE LINE # 206
-0071 E598              MOV     A,SCON
-0073 54C0              ANL     A,#0C0H
-0075 64C0              XRL     A,#0C0H
-0077 7044              JNZ     ?C0027
-                                           ; SOURCE LINE # 207
-                                           ; SOURCE LINE # 208
-0079 5398F7            ANL     SCON,#0F7H
-                                           ; SOURCE LINE # 209
-007C 900000      R     MOV     DPTR,#UART_HANDLE
-007F 120000      E     LCALL   ?C?PLDXDATA
-0082 120000      E     LCALL   ?C?PLDPTR
-0085 C003              PUSH    AR3
-0087 C002              PUSH    AR2
-0089 C001              PUSH    AR1
-008B 900000      R     MOV     DPTR,#UART_HANDLE
-008E 120000      E     LCALL   ?C?PLDXDATA
-0091 900004            MOV     DPTR,#04H
-0094 120000      E     LCALL   ?C?CLDOPTR
-0097 75F002            MOV     B,#02H
-009A A4                MUL     AB
-009B F582              MOV     DPL,A
-009D 85F083            MOV     DPH,B
-00A0 D001              POP     AR1
-00A2 D002              POP     AR2
-00A4 D003              POP     AR3
-00A6 120000      E     LCALL   ?C?ILDOPTR
-00A9 FD                MOV     R5,A
-00AA ACF0              MOV     R4,B
-00AC AE04              MOV     R6,AR4
-00AE 7805              MOV     R0,#05H
-00B0         ?C0078:
-00B0 CE                XCH     A,R6
-00B1 C3                CLR     C
-00B2 13                RRC     A
-00B3 CE                XCH     A,R6
-00B4 13                RRC     A
-00B5 D8F9              DJNZ    R0,?C0078
-00B7 4298              ORL     SCON,A
-                                           ; SOURCE LINE # 210
-00B9 8D99              MOV     SBUF,R5
-                                           ; SOURCE LINE # 211
-00BB 801A              SJMP    ?C0029
-00BD         ?C0027:
-                                           ; SOURCE LINE # 213
-                                           ; SOURCE LINE # 214
-00BD 900000      R     MOV     DPTR,#UART_HANDLE
-00C0 120000      E     LCALL   ?C?PLDXDATA
-00C3 900004            MOV     DPTR,#04H
-00C6 120000      E     LCALL   ?C?CLDOPTR
-00C9 FF                MOV     R7,A
-00CA 120000      E     LCALL   ?C?PLDPTR
-00CD 8F82              MOV     DPL,R7
-00CF 758300            MOV     DPH,#00H
-00D2 120000      E     LCALL   ?C?CLDOPTR
-00D5 F599              MOV     SBUF,A
-                                           ; SOURCE LINE # 215
-00D7         ?C0029:
-                                           ; SOURCE LINE # 217
-00D7 209928            JB      TI,?C0030
-                                           ; SOURCE LINE # 218
-                                           ; SOURCE LINE # 219
-00DA 900000      R     MOV     DPTR,#TimeoutCnt
-00DD 120000      E     LCALL   ?C?LLDIXDATA1
-00E0 900000      R     MOV     DPTR,#Timeout
-00E3 120000      E     LCALL   ?C?LLDXDATA0
-00E6 C3                CLR     C
-00E7 120000      E     LCALL   ?C?ULCMP
-00EA 5011              JNC     ?C0031
-                                           ; SOURCE LINE # 220
-                                           ; SOURCE LINE # 221
-00EC 900000      R     MOV     DPTR,#UART_HANDLE
-00EF 120000      E     LCALL   ?C?PLDXDATA
-00F2 90000A            MOV     DPTR,#0AH
-00F5 7403              MOV     A,#03H
-00F7 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 222
-00FA 7F03              MOV     R7,#03H
-00FC 22                RET     
-                                           ; SOURCE LINE # 223
-00FD         ?C0031:
-                                           ; SOURCE LINE # 224
-00FD 43CF10            ORL     WDTCON,#010H
-                                           ; SOURCE LINE # 225
-0100 80D5              SJMP    ?C0029
-0102         ?C0030:
-                                           ; SOURCE LINE # 227
-0102 5398FD            ANL     SCON,#0FDH
-                                           ; SOURCE LINE # 228
-0105 900000      R     MOV     DPTR,#TimeoutCnt
-0108 120000      E     LCALL   ?C?LSTKXDATA
-010B 00                DB      00H
-010C 00                DB      00H
-010D 00                DB      00H
-010E 00                DB      00H
-                                           ; SOURCE LINE # 229
-010F 900000      R     MOV     DPTR,#UART_HANDLE
-0112 120000      E     LCALL   ?C?PLDXDATA
-0115 900004            MOV     DPTR,#04H
-0118 7401              MOV     A,#01H
-011A 120000      E     LCALL   ?C?CILDOPTR
-                                           ; SOURCE LINE # 230
-011D 020000      R     LJMP    ?C0025
-0120         ?C0026:
-                                           ; SOURCE LINE # 232
-0120 900000      R     MOV     DPTR,#UART_HANDLE
-0123 120000      E     LCALL   ?C?PLDXDATA
-0126 900003            MOV     DPTR,#03H
-0129 120000      E     LCALL   ?C?CLDOPTR
-012C FF                MOV     R7,A
-012D 900004            MOV     DPTR,#04H
-0130 120000      E     LCALL   ?C?CLDOPTR
-0133 900000      R     MOV     DPTR,#UART_HANDLE
-0136 B5070D            CJNE    A,AR7,?C0032
-                                           ; SOURCE LINE # 233
-                                           ; SOURCE LINE # 234
-0139 120000      E     LCALL   ?C?PLDXDATA
-013C 90000A            MOV     DPTR,#0AH
-013F E4                CLR     A
-0140 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 235
-0143 7F01              MOV     R7,#01H
-0145 22                RET     
-                                           ; SOURCE LINE # 236
-0146         ?C0032:
-                                           ; SOURCE LINE # 238
-                                           ; SOURCE LINE # 239
-0146 120000      E     LCALL   ?C?PLDXDATA
-0149 90000A            MOV     DPTR,#0AH
-014C 7402              MOV     A,#02H
-014E 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 240
-0151 7F00              MOV     R7,#00H
-0153 22                RET     
-                                           ; SOURCE LINE # 241
-                                           ; SOURCE LINE # 242
-0154         ?C0022:
-                                           ; SOURCE LINE # 244
-                                           ; SOURCE LINE # 245
-0154 7F02              MOV     R7,#02H
-                                           ; SOURCE LINE # 246
-                                           ; SOURCE LINE # 247
-0156         ?C0024:
-0156 22                RET     
-             ; FUNCTION _UART0_Transmit (END)
-             ; FUNCTION _UART0_Transmit_IT (BEGIN)
-                                           ; SOURCE LINE # 259
-0000 900000      R     MOV     DPTR,#UART_HANDLE
-0003 120000      E     LCALL   ?C?PSTXDATA
-                                           ; SOURCE LINE # 260
-                                           ; SOURCE LINE # 262
-0006 900000      R     MOV     DPTR,#UART_HANDLE
-0009 120000      E     LCALL   ?C?PLDXDATA
-000C 90000A            MOV     DPTR,#0AH
-000F 120000      E     LCALL   ?C?CLDOPTR
-0012 6003              JZ      $ + 5H
-0014 020000      R     LJMP    ?C0035
-                                           ; SOURCE LINE # 263
-                                           ; SOURCE LINE # 265
-0017 30AC06            JNB     EUART,?C0037
-001A 900000      R     MOV     DPTR,#Size
-001D E0                MOVX    A,@DPTR
-001E 7003              JNZ     ?C0036
-0020         ?C0037:
-                                           ; SOURCE LINE # 266
-                                           ; SOURCE LINE # 267
-0020 7F00              MOV     R7,#00H
-0022 22                RET     
-                                           ; SOURCE LINE # 268
-0023         ?C0036:
-                                           ; SOURCE LINE # 270
-0023 900000      R     MOV     DPTR,#UART_HANDLE
-0026 120000      E     LCALL   ?C?PLDXDATA
-0029 90000A            MOV     DPTR,#0AH
-002C 7401              MOV     A,#01H
-002E 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 271
-0031 C299              CLR     TI
-                                           ; SOURCE LINE # 272
-0033 900000      R     MOV     DPTR,#pData
-0036 120000      E     LCALL   ?C?PLDXDATA
-0039 C003              PUSH    AR3
-003B C002              PUSH    AR2
-003D C001              PUSH    AR1
-003F 900000      R     MOV     DPTR,#UART_HANDLE
-0042 120000      E     LCALL   ?C?PLDXDATA
-0045 120000      E     LCALL   ?C?PSTPTR
-                                           ; SOURCE LINE # 273
-0048 900000      R     MOV     DPTR,#Size
-004B E0                MOVX    A,@DPTR
-004C FF                MOV     R7,A
-004D 900000      R     MOV     DPTR,#UART_HANDLE
-0050 120000      E     LCALL   ?C?PLDXDATA
-0053 900003            MOV     DPTR,#03H
-0056 EF                MOV     A,R7
-0057 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 274
-005A 900004            MOV     DPTR,#04H
-005D E4                CLR     A
-005E 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 278
-0061 E598              MOV     A,SCON
-0063 54C0              ANL     A,#0C0H
-0065 64C0              XRL     A,#0C0H
-0067 7043              JNZ     ?C0039
-                                           ; SOURCE LINE # 279
-                                           ; SOURCE LINE # 280
-0069 900000      R     MOV     DPTR,#UART_HANDLE
-006C 120000      E     LCALL   ?C?PLDXDATA
-006F 120000      E     LCALL   ?C?PLDPTR
-0072 C003              PUSH    AR3
-0074 C002              PUSH    AR2
-0076 C001              PUSH    AR1
-0078 900000      R     MOV     DPTR,#UART_HANDLE
-007B 120000      E     LCALL   ?C?PLDXDATA
-007E 900004            MOV     DPTR,#04H
-0081 120000      E     LCALL   ?C?CLDOPTR
-0084 75F002            MOV     B,#02H
-0087 A4                MUL     AB
-0088 F582              MOV     DPL,A
-008A 85F083            MOV     DPH,B
-008D D001              POP     AR1
-008F D002              POP     AR2
-0091 D003              POP     AR3
-0093 120000      E     LCALL   ?C?ILDOPTR
-0096 FD                MOV     R5,A
-0097 ACF0              MOV     R4,B
-0099 AE04              MOV     R6,AR4
-009B 7805              MOV     R0,#05H
-009D         ?C0079:
-009D CE                XCH     A,R6
-009E C3                CLR     C
-009F 13                RRC     A
-00A0 CE                XCH     A,R6
-00A1 13                RRC     A
-00A2 D8F9              DJNZ    R0,?C0079
-00A4 5408              ANL     A,#08H
-00A6 4298              ORL     SCON,A
-                                           ; SOURCE LINE # 281
-00A8 8D99              MOV     SBUF,R5
-                                           ; SOURCE LINE # 282
-00AA 801A              SJMP    ?C0040
-00AC         ?C0039:
-                                           ; SOURCE LINE # 284
-                                           ; SOURCE LINE # 285
-00AC 900000      R     MOV     DPTR,#UART_HANDLE
-00AF 120000      E     LCALL   ?C?PLDXDATA
-00B2 900004            MOV     DPTR,#04H
-00B5 120000      E     LCALL   ?C?CLDOPTR
-00B8 FF                MOV     R7,A
-00B9 120000      E     LCALL   ?C?PLDPTR
-00BC 8F82              MOV     DPL,R7
-00BE 758300            MOV     DPH,#00H
-00C1 120000      E     LCALL   ?C?CLDOPTR
-00C4 F599              MOV     SBUF,A
-                                           ; SOURCE LINE # 286
-00C6         ?C0040:
-                                           ; SOURCE LINE # 287
-00C6 7F01              MOV     R7,#01H
-00C8 22                RET     
-                                           ; SOURCE LINE # 288
-00C9         ?C0035:
-                                           ; SOURCE LINE # 290
-                                           ; SOURCE LINE # 291
-00C9 7F02              MOV     R7,#02H
-                                           ; SOURCE LINE # 292
-                                           ; SOURCE LINE # 293
-00CB         ?C0038:
-00CB 22                RET     
-             ; FUNCTION _UART0_Transmit_IT (END)
-             ; FUNCTION _UART0_Transmit_IRQHandler (BEGIN)
-                                           ; SOURCE LINE # 304
-0000 900000      R     MOV     DPTR,#UART_HANDLE
-0003 120000      E     LCALL   ?C?PSTXDATA
-                                           ; SOURCE LINE # 305
-                                           ; SOURCE LINE # 307
-0006 900000      R     MOV     DPTR,#UART_HANDLE
-0009 120000      E     LCALL   ?C?PLDXDATA
-000C 90000A            MOV     DPTR,#0AH
-000F 120000      E     LCALL   ?C?CLDOPTR
-0012 6401              XRL     A,#01H
-0014 6003              JZ      $ + 5H
-0016 020000      R     LJMP    ?C0042
-                                           ; SOURCE LINE # 308
-                                           ; SOURCE LINE # 309
-0019 900004            MOV     DPTR,#04H
-001C 04                INC     A
-001D 120000      E     LCALL   ?C?CILDOPTR
-                                           ; SOURCE LINE # 311
-0020 900003            MOV     DPTR,#03H
-0023 120000      E     LCALL   ?C?CLDOPTR
-0026 FF                MOV     R7,A
-0027 900004            MOV     DPTR,#04H
-002A 120000      E     LCALL   ?C?CLDOPTR
-002D C3                CLR     C
-002E 9F                SUBB    A,R7
-002F 5068              JNC     ?C0043
-                                           ; SOURCE LINE # 312
-                                           ; SOURCE LINE # 314
-0031 E598              MOV     A,SCON
-0033 54C0              ANL     A,#0C0H
-0035 64C0              XRL     A,#0C0H
-0037 7043              JNZ     ?C0044
-                                           ; SOURCE LINE # 315
-                                           ; SOURCE LINE # 316
-0039 900000      R     MOV     DPTR,#UART_HANDLE
-003C 120000      E     LCALL   ?C?PLDXDATA
-003F 120000      E     LCALL   ?C?PLDPTR
-0042 C003              PUSH    AR3
-0044 C002              PUSH    AR2
-0046 C001              PUSH    AR1
-0048 900000      R     MOV     DPTR,#UART_HANDLE
-004B 120000      E     LCALL   ?C?PLDXDATA
-004E 900004            MOV     DPTR,#04H
-0051 120000      E     LCALL   ?C?CLDOPTR
-0054 75F002            MOV     B,#02H
-0057 A4                MUL     AB
-0058 F582              MOV     DPL,A
-005A 85F083            MOV     DPH,B
-005D D001              POP     AR1
-005F D002              POP     AR2
-0061 D003              POP     AR3
-0063 120000      E     LCALL   ?C?ILDOPTR
-0066 FD                MOV     R5,A
-0067 ACF0              MOV     R4,B
-0069 AE04              MOV     R6,AR4
-006B 7805              MOV     R0,#05H
-006D         ?C0080:
-006D CE                XCH     A,R6
-006E C3                CLR     C
-006F 13                RRC     A
-0070 CE                XCH     A,R6
-0071 13                RRC     A
-0072 D8F9              DJNZ    R0,?C0080
-0074 5408              ANL     A,#08H
-0076 4298              ORL     SCON,A
-                                           ; SOURCE LINE # 317
-0078 8D99              MOV     SBUF,R5
-                                           ; SOURCE LINE # 318
-007A 801A              SJMP    ?C0045
-007C         ?C0044:
-                                           ; SOURCE LINE # 320
-                                           ; SOURCE LINE # 321
-007C 900000      R     MOV     DPTR,#UART_HANDLE
-007F 120000      E     LCALL   ?C?PLDXDATA
-0082 900004            MOV     DPTR,#04H
-0085 120000      E     LCALL   ?C?CLDOPTR
-0088 FF                MOV     R7,A
-0089 120000      E     LCALL   ?C?PLDPTR
-008C 8F82              MOV     DPL,R7
-008E 758300            MOV     DPH,#00H
-0091 120000      E     LCALL   ?C?CLDOPTR
-0094 F599              MOV     SBUF,A
-                                           ; SOURCE LINE # 322
-0096         ?C0045:
-                                           ; SOURCE LINE # 323
-0096 7F02              MOV     R7,#02H
-0098 22                RET     
-                                           ; SOURCE LINE # 324
-0099         ?C0043:
-                                           ; SOURCE LINE # 325
-0099 900000      R     MOV     DPTR,#UART_HANDLE
-009C 120000      E     LCALL   ?C?PLDXDATA
-009F 900003            MOV     DPTR,#03H
-00A2 120000      E     LCALL   ?C?CLDOPTR
-00A5 FF                MOV     R7,A
-00A6 900004            MOV     DPTR,#04H
-00A9 120000      E     LCALL   ?C?CLDOPTR
-00AC 900000      R     MOV     DPTR,#UART_HANDLE
-00AF B5070D            CJNE    A,AR7,?C0048
-                                           ; SOURCE LINE # 326
-                                           ; SOURCE LINE # 328
-00B2 120000      E     LCALL   ?C?PLDXDATA
-00B5 90000A            MOV     DPTR,#0AH
-00B8 E4                CLR     A
-00B9 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 329
-00BC 7F01              MOV     R7,#01H
-00BE 22                RET     
-                                           ; SOURCE LINE # 330
-00BF         ?C0048:
-                                           ; SOURCE LINE # 332
-                                           ; SOURCE LINE # 334
-00BF 120000      E     LCALL   ?C?PLDXDATA
-00C2 90000A            MOV     DPTR,#0AH
-00C5 7402              MOV     A,#02H
-00C7 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 335
-00CA 7F00              MOV     R7,#00H
-00CC 22                RET     
-                                           ; SOURCE LINE # 336
-                                           ; SOURCE LINE # 337
-00CD         ?C0042:
-                                           ; SOURCE LINE # 339
-                                           ; SOURCE LINE # 340
-00CD 7F00              MOV     R7,#00H
-                                           ; SOURCE LINE # 341
-                                           ; SOURCE LINE # 342
-00CF         ?C0046:
-00CF 22                RET     
-             ; FUNCTION _UART0_Transmit_IRQHandler (END)
-             ; FUNCTION _UART0_Receive (BEGIN)
-                                           ; SOURCE LINE # 355
-0000 900000      R     MOV     DPTR,#UART_HANDLE
-0003 120000      E     LCALL   ?C?PSTXDATA
-                                           ; SOURCE LINE # 356
-                                           ; SOURCE LINE # 357
-0006 900000      R     MOV     DPTR,#TimeoutCnt
-0009 120000      E     LCALL   ?C?LSTKXDATA
-000C 00                DB      00H
-000D 00                DB      00H
-000E 00                DB      00H
-000F 00                DB      00H
-                                           ; SOURCE LINE # 359
-0010 900000      R     MOV     DPTR,#UART_HANDLE
-0013 120000      E     LCALL   ?C?PLDXDATA
-0016 90000B            MOV     DPTR,#0BH
-0019 120000      E     LCALL   ?C?CLDOPTR
-001C 6003              JZ      $ + 5H
-001E 020000      R     LJMP    ?C0051
-                                           ; SOURCE LINE # 360
-                                           ; SOURCE LINE # 362
-0021 900000      R     MOV     DPTR,#Size
-0024 E0                MOVX    A,@DPTR
-0025 FE                MOV     R6,A
-0026 6008              JZ      ?C0053
-0028 E598              MOV     A,SCON
-002A 5410              ANL     A,#010H
-002C 6410              XRL     A,#010H
-002E 6003              JZ      ?C0052
-0030         ?C0053:
-                                           ; SOURCE LINE # 363
-                                           ; SOURCE LINE # 364
-0030 7F00              MOV     R7,#00H
-0032 22                RET     
-                                           ; SOURCE LINE # 365
-0033         ?C0052:
-                                           ; SOURCE LINE # 367
-0033 900000      R     MOV     DPTR,#UART_HANDLE
-0036 120000      E     LCALL   ?C?PLDXDATA
-0039 90000B            MOV     DPTR,#0BH
-003C 7401              MOV     A,#01H
-003E 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 368
-0041 C298              CLR     RI
-                                           ; SOURCE LINE # 369
-0043 900000      R     MOV     DPTR,#pData
-0046 120000      E     LCALL   ?C?PLDXDATA
-0049 C003              PUSH    AR3
-004B C002              PUSH    AR2
-004D C001              PUSH    AR1
-004F 900000      R     MOV     DPTR,#UART_HANDLE
-0052 120000      E     LCALL   ?C?PLDXDATA
-0055 900005            MOV     DPTR,#05H
-0058 120000      E     LCALL   ?C?PSTOPTR
-                                           ; SOURCE LINE # 370
-005B 900000      R     MOV     DPTR,#UART_HANDLE
-005E 120000      E     LCALL   ?C?PLDXDATA
-0061 900008            MOV     DPTR,#08H
-0064 EE                MOV     A,R6
-0065 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 371
-0068 900009            MOV     DPTR,#09H
-006B E4                CLR     A
-006C 120000      E     LCALL   ?C?CSTOPTR
-006F         ?C0055:
-                                           ; SOURCE LINE # 373
-006F 900000      R     MOV     DPTR,#UART_HANDLE
-0072 120000      E     LCALL   ?C?PLDXDATA
-0075 900008            MOV     DPTR,#08H
-0078 120000      E     LCALL   ?C?CLDOPTR
-007B FF                MOV     R7,A
-007C 900009            MOV     DPTR,#09H
-007F 120000      E     LCALL   ?C?CLDOPTR
-0082 C3                CLR     C
-0083 9F                SUBB    A,R7
-0084 4003              JC      $ + 5H
-0086 020000      R     LJMP    ?C0056
-                                           ; SOURCE LINE # 374
-                                           ; SOURCE LINE # 375
-0089 209803            JB      RI,$ + 6H
-008C 020000      R     LJMP    ?C0057
-                                           ; SOURCE LINE # 376
-                                           ; SOURCE LINE # 377
-008F E598              MOV     A,SCON
-0091 54C0              ANL     A,#0C0H
-0093 64C0              XRL     A,#0C0H
-0095 7047              JNZ     ?C0058
-                                           ; SOURCE LINE # 378
-                                           ; SOURCE LINE # 379
-0097 E598              MOV     A,SCON
-0099 5404              ANL     A,#04H
-009B 75F040            MOV     B,#040H
-009E A4                MUL     AB
-009F AD99              MOV     R5,SBUF
-00A1 7C00              MOV     R4,#00H
-00A3 2D                ADD     A,R5
-00A4 FF                MOV     R7,A
-00A5 EC                MOV     A,R4
-00A6 35F0              ADDC    A,B
-00A8 FE                MOV     R6,A
-00A9 900000      R     MOV     DPTR,#UART_HANDLE
-00AC 120000      E     LCALL   ?C?PLDXDATA
-00AF 900005            MOV     DPTR,#05H
-00B2 120000      E     LCALL   ?C?PLDOPTR
-00B5 C003              PUSH    AR3
-00B7 C002              PUSH    AR2
-00B9 C001              PUSH    AR1
-00BB 900000      R     MOV     DPTR,#UART_HANDLE
-00BE 120000      E     LCALL   ?C?PLDXDATA
-00C1 900009            MOV     DPTR,#09H
-00C4 120000      E     LCALL   ?C?CLDOPTR
-00C7 75F002            MOV     B,#02H
-00CA A4                MUL     AB
-00CB F582              MOV     DPL,A
-00CD 85F083            MOV     DPH,B
-00D0 D001              POP     AR1
-00D2 D002              POP     AR2
-00D4 D003              POP     AR3
-00D6 EE                MOV     A,R6
-00D7 8FF0              MOV     B,R7
-00D9 120000      E     LCALL   ?C?ISTOPTR
-                                           ; SOURCE LINE # 380
-00DC 802E              SJMP    ?C0059
-00DE         ?C0058:
-                                           ; SOURCE LINE # 382
-                                           ; SOURCE LINE # 383
-00DE 900000      R     MOV     DPTR,#UART_HANDLE
-00E1 120000      E     LCALL   ?C?PLDXDATA
-00E4 900005            MOV     DPTR,#05H
-00E7 120000      E     LCALL   ?C?PLDOPTR
-00EA C003              PUSH    AR3
-00EC C002              PUSH    AR2
-00EE C001              PUSH    AR1
-00F0 900000      R     MOV     DPTR,#UART_HANDLE
-00F3 120000      E     LCALL   ?C?PLDXDATA
-00F6 900009            MOV     DPTR,#09H
-00F9 120000      E     LCALL   ?C?CLDOPTR
-00FC D001              POP     AR1
-00FE D002              POP     AR2
-0100 D003              POP     AR3
-0102 F582              MOV     DPL,A
-0104 758300            MOV     DPH,#00H
-0107 E599              MOV     A,SBUF
-0109 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 384
-010C         ?C0059:
-                                           ; SOURCE LINE # 385
-010C C298              CLR     RI
-                                           ; SOURCE LINE # 386
-010E 900000      R     MOV     DPTR,#UART_HANDLE
-0111 120000      E     LCALL   ?C?PLDXDATA
-0114 900009            MOV     DPTR,#09H
-0117 7401              MOV     A,#01H
-0119 120000      E     LCALL   ?C?CILDOPTR
-                                           ; SOURCE LINE # 387
-011C 900000      R     MOV     DPTR,#TimeoutCnt
-011F 120000      E     LCALL   ?C?LSTKXDATA
-0122 00                DB      00H
-0123 00                DB      00H
-0124 00                DB      00H
-0125 00                DB      00H
-                                           ; SOURCE LINE # 388
-0126 020000      R     LJMP    ?C0055
-0129         ?C0057:
-                                           ; SOURCE LINE # 390
-                                           ; SOURCE LINE # 391
-0129 900000      R     MOV     DPTR,#TimeoutCnt
-012C 120000      E     LCALL   ?C?LLDIXDATA1
-012F 900000      R     MOV     DPTR,#Timeout
-0132 120000      E     LCALL   ?C?LLDXDATA0
-0135 C3                CLR     C
-0136 120000      E     LCALL   ?C?ULCMP
-0139 5011              JNC     ?C0061
-                                           ; SOURCE LINE # 392
-                                           ; SOURCE LINE # 393
-013B 900000      R     MOV     DPTR,#UART_HANDLE
-013E 120000      E     LCALL   ?C?PLDXDATA
-0141 90000B            MOV     DPTR,#0BH
-0144 7403              MOV     A,#03H
-0146 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 394
-0149 7F03              MOV     R7,#03H
-014B 22                RET     
-                                           ; SOURCE LINE # 395
-014C         ?C0061:
-                                           ; SOURCE LINE # 396
-014C 43CF10            ORL     WDTCON,#010H
-                                           ; SOURCE LINE # 397
-                                           ; SOURCE LINE # 398
-014F 020000      R     LJMP    ?C0055
-0152         ?C0056:
-                                           ; SOURCE LINE # 400
-0152 900000      R     MOV     DPTR,#UART_HANDLE
-0155 120000      E     LCALL   ?C?PLDXDATA
-0158 900008            MOV     DPTR,#08H
-015B 120000      E     LCALL   ?C?CLDOPTR
-015E FF                MOV     R7,A
-015F 900009            MOV     DPTR,#09H
-0162 120000      E     LCALL   ?C?CLDOPTR
-0165 900000      R     MOV     DPTR,#UART_HANDLE
-0168 B5070D            CJNE    A,AR7,?C0062
-                                           ; SOURCE LINE # 401
-                                           ; SOURCE LINE # 402
-016B 120000      E     LCALL   ?C?PLDXDATA
-016E 90000B            MOV     DPTR,#0BH
-0171 E4                CLR     A
-0172 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 403
-0175 7F01              MOV     R7,#01H
-0177 22                RET     
-                                           ; SOURCE LINE # 404
-0178         ?C0062:
-                                           ; SOURCE LINE # 406
-                                           ; SOURCE LINE # 407
-0178 120000      E     LCALL   ?C?PLDXDATA
-017B 90000B            MOV     DPTR,#0BH
-017E 7402              MOV     A,#02H
-0180 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 408
-0183 7F00              MOV     R7,#00H
-0185 22                RET     
-                                           ; SOURCE LINE # 409
-                                           ; SOURCE LINE # 410
-0186         ?C0051:
-                                           ; SOURCE LINE # 412
-                                           ; SOURCE LINE # 413
-0186 7F02              MOV     R7,#02H
-                                           ; SOURCE LINE # 414
-                                           ; SOURCE LINE # 415
-0188         ?C0054:
-0188 22                RET     
-             ; FUNCTION _UART0_Receive (END)
-             ; FUNCTION _UART0_Receive_IT (BEGIN)
-                                           ; SOURCE LINE # 427
-0000 900000      R     MOV     DPTR,#UART_HANDLE
-0003 120000      E     LCALL   ?C?PSTXDATA
-                                           ; SOURCE LINE # 428
-                                           ; SOURCE LINE # 430
-0006 900000      R     MOV     DPTR,#UART_HANDLE
-0009 120000      E     LCALL   ?C?PLDXDATA
-000C 90000B            MOV     DPTR,#0BH
-000F 120000      E     LCALL   ?C?CLDOPTR
-0012 7052              JNZ     ?C0065
-                                           ; SOURCE LINE # 431
-                                           ; SOURCE LINE # 433
-0014 30AC0F            JNB     EUART,?C0067
-0017 900000      R     MOV     DPTR,#Size
-001A E0                MOVX    A,@DPTR
-001B FE                MOV     R6,A
-001C 6008              JZ      ?C0067
-001E E598              MOV     A,SCON
-0020 5410              ANL     A,#010H
-0022 6410              XRL     A,#010H
-0024 6003              JZ      ?C0066
-0026         ?C0067:
-                                           ; SOURCE LINE # 434
-                                           ; SOURCE LINE # 435
-0026 7F02              MOV     R7,#02H
-0028 22                RET     
-                                           ; SOURCE LINE # 436
-0029         ?C0066:
-                                           ; SOURCE LINE # 438
-0029 900000      R     MOV     DPTR,#UART_HANDLE
-002C 120000      E     LCALL   ?C?PLDXDATA
-002F 90000B            MOV     DPTR,#0BH
-0032 7401              MOV     A,#01H
-0034 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 439
-0037 900000      R     MOV     DPTR,#pData
-003A 120000      E     LCALL   ?C?PLDXDATA
-003D C003              PUSH    AR3
-003F C002              PUSH    AR2
-0041 C001              PUSH    AR1
-0043 900000      R     MOV     DPTR,#UART_HANDLE
-0046 120000      E     LCALL   ?C?PLDXDATA
-0049 900005            MOV     DPTR,#05H
-004C 120000      E     LCALL   ?C?PSTOPTR
-                                           ; SOURCE LINE # 440
-004F 900000      R     MOV     DPTR,#UART_HANDLE
-0052 120000      E     LCALL   ?C?PLDXDATA
-0055 900008            MOV     DPTR,#08H
-0058 EE                MOV     A,R6
-0059 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 441
-005C 900009            MOV     DPTR,#09H
-005F E4                CLR     A
-0060 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 443
-0063 7F01              MOV     R7,#01H
-0065 22                RET     
-                                           ; SOURCE LINE # 444
-0066         ?C0065:
-                                           ; SOURCE LINE # 446
-                                           ; SOURCE LINE # 447
-0066 7F02              MOV     R7,#02H
-                                           ; SOURCE LINE # 448
-                                           ; SOURCE LINE # 449
-0068         ?C0068:
-0068 22                RET     
-             ; FUNCTION _UART0_Receive_IT (END)
-             ; FUNCTION _UART0_Receive_IRQHandler (BEGIN)
-                                           ; SOURCE LINE # 459
-0000 900000      R     MOV     DPTR,#UART_HANDLE
-0003 120000      E     LCALL   ?C?PSTXDATA
-                                           ; SOURCE LINE # 460
-                                           ; SOURCE LINE # 462
-0006 900000      R     MOV     DPTR,#UART_HANDLE
-0009 120000      E     LCALL   ?C?PLDXDATA
-000C 90000B            MOV     DPTR,#0BH
-000F 120000      E     LCALL   ?C?CLDOPTR
-0012 6401              XRL     A,#01H
-0014 6003              JZ      $ + 5H
-0016 020000      R     LJMP    ?C0070
-                                           ; SOURCE LINE # 463
-                                           ; SOURCE LINE # 465
-0019 900008            MOV     DPTR,#08H
-001C 120000      E     LCALL   ?C?CLDOPTR
-001F FF                MOV     R7,A
-0020 900009            MOV     DPTR,#09H
-0023 120000      E     LCALL   ?C?CLDOPTR
-0026 C3                CLR     C
-0027 9F                SUBB    A,R7
-0028 4003              JC      $ + 5H
-002A 020000      R     LJMP    ?C0071
-                                           ; SOURCE LINE # 466
-                                           ; SOURCE LINE # 467
-002D E598              MOV     A,SCON
-002F 54C0              ANL     A,#0C0H
-0031 64C0              XRL     A,#0C0H
-0033 7047              JNZ     ?C0072
-                                           ; SOURCE LINE # 468
-                                           ; SOURCE LINE # 469
-0035 E598              MOV     A,SCON
-0037 5404              ANL     A,#04H
-0039 75F040            MOV     B,#040H
-003C A4                MUL     AB
-003D AD99              MOV     R5,SBUF
-003F 7C00              MOV     R4,#00H
-0041 2D                ADD     A,R5
-0042 FF                MOV     R7,A
-0043 EC                MOV     A,R4
-0044 35F0              ADDC    A,B
-0046 FE                MOV     R6,A
-0047 900000      R     MOV     DPTR,#UART_HANDLE
-004A 120000      E     LCALL   ?C?PLDXDATA
-004D 900005            MOV     DPTR,#05H
-0050 120000      E     LCALL   ?C?PLDOPTR
-0053 C003              PUSH    AR3
-0055 C002              PUSH    AR2
-0057 C001              PUSH    AR1
-0059 900000      R     MOV     DPTR,#UART_HANDLE
-005C 120000      E     LCALL   ?C?PLDXDATA
-005F 900009            MOV     DPTR,#09H
-0062 120000      E     LCALL   ?C?CLDOPTR
-0065 75F002            MOV     B,#02H
-0068 A4                MUL     AB
-0069 F582              MOV     DPL,A
-006B 85F083            MOV     DPH,B
-006E D001              POP     AR1
-0070 D002              POP     AR2
-0072 D003              POP     AR3
-0074 EE                MOV     A,R6
-0075 8FF0              MOV     B,R7
-0077 120000      E     LCALL   ?C?ISTOPTR
-                                           ; SOURCE LINE # 470
-007A 802E              SJMP    ?C0073
-007C         ?C0072:
-                                           ; SOURCE LINE # 472
-                                           ; SOURCE LINE # 473
-007C 900000      R     MOV     DPTR,#UART_HANDLE
-007F 120000      E     LCALL   ?C?PLDXDATA
-0082 900005            MOV     DPTR,#05H
-0085 120000      E     LCALL   ?C?PLDOPTR
-0088 C003              PUSH    AR3
-008A C002              PUSH    AR2
-008C C001              PUSH    AR1
-008E 900000      R     MOV     DPTR,#UART_HANDLE
-0091 120000      E     LCALL   ?C?PLDXDATA
-0094 900009            MOV     DPTR,#09H
-0097 120000      E     LCALL   ?C?CLDOPTR
-009A D001              POP     AR1
-009C D002              POP     AR2
-009E D003              POP     AR3
-00A0 F582              MOV     DPL,A
-00A2 758300            MOV     DPH,#00H
-00A5 E599              MOV     A,SBUF
-00A7 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 474
-00AA         ?C0073:
-                                           ; SOURCE LINE # 475
-00AA 900000      R     MOV     DPTR,#UART_HANDLE
-00AD 120000      E     LCALL   ?C?PLDXDATA
-00B0 900009            MOV     DPTR,#09H
-00B3 7401              MOV     A,#01H
-00B5 120000      E     LCALL   ?C?CILDOPTR
-                                           ; SOURCE LINE # 477
-00B8 900008            MOV     DPTR,#08H
-00BB 120000      E     LCALL   ?C?CLDOPTR
-00BE FF                MOV     R7,A
-00BF 900009            MOV     DPTR,#09H
-00C2 120000      E     LCALL   ?C?CLDOPTR
-00C5 B50710            CJNE    A,AR7,?C0074
-                                           ; SOURCE LINE # 478
-                                           ; SOURCE LINE # 480
-00C8 900000      R     MOV     DPTR,#UART_HANDLE
-00CB 120000      E     LCALL   ?C?PLDXDATA
-00CE 90000B            MOV     DPTR,#0BH
-00D1 E4                CLR     A
-00D2 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 481
-00D5 7F01              MOV     R7,#01H
-00D7 22                RET     
-                                           ; SOURCE LINE # 482
-00D8         ?C0074:
-                                           ; SOURCE LINE # 483
-00D8 7F02              MOV     R7,#02H
-00DA 22                RET     
-                                           ; SOURCE LINE # 485
-00DB         ?C0071:
-                                           ; SOURCE LINE # 487
-                                           ; SOURCE LINE # 489
-00DB 900000      R     MOV     DPTR,#UART_HANDLE
-00DE 120000      E     LCALL   ?C?PLDXDATA
-00E1 90000B            MOV     DPTR,#0BH
-00E4 7402              MOV     A,#02H
-00E6 120000      E     LCALL   ?C?CSTOPTR
-                                           ; SOURCE LINE # 490
-00E9 7F00              MOV     R7,#00H
-00EB 22                RET     
-                                           ; SOURCE LINE # 491
-                                           ; SOURCE LINE # 492
-00EC         ?C0070:
-                                           ; SOURCE LINE # 494
-                                           ; SOURCE LINE # 495
-00EC 7F02              MOV     R7,#02H
-                                           ; SOURCE LINE # 496
-                                           ; SOURCE LINE # 497
-00EE         ?C0075:
-00EE 22                RET     
-             ; FUNCTION _UART0_Receive_IRQHandler (END)
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
-TRX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
-OPREG. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FFH  1
-P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
-UART0_Flag_Typedef . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
-P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
-UART0_RX_ENABLE. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-Status_OK. . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-EUART. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
-TMCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008EH  1
-P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
-AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
-P4 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
-FlagStatus . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-RESET. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-OTCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008FH  1
-P5 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
-EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
-RCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
-int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
-PWMCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D2H  1
-TCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
-PWMCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D3H  1
-int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
-EXENX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
-UART0_Mode_Typedef . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-ERROR. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-UART0_StatusTypeDef. . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-EADC . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AEH  1
-TXMOD. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C9H  1
-TXCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
-IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
-DPH1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0085H  1
-UART0_DeInit . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-EXA0 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E9H  1
-_UART0_SendData8 . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  Data . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-OPINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FEH  1
-EXA1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EAH  1
-_UART0_SendData9 . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  Data . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
-  Data_9Bit. . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-EXA2 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EBH  1
-EXA3 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ECH  1
-DPL1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0084H  1
-Status_TIMEOUT . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-CP . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
-USXCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C4H  1
-_UART0_Receive_IT. . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  UART_HANDLE. . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
-  pData. . . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0003H  3
-  Size . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0006H  1
-USXCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C5H  1
-USXCON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C6H  1
-_UART0_Receive . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  UART_HANDLE. . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-  pData. . . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0003H  3
-  Size . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0006H  1
-  Timeout. . . . . . . . . . . . . . .  AUTO     XDATA  U_LONG   0007H  4
-  TimeoutCnt . . . . . . . . . . . . .  AUTO     XDATA  U_LONG   000BH  4
-ErrorStatus. . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-USXCON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C7H  1
-OPERCON. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EFH  1
-P0PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009BH  1
-IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
-P1PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0092H  1
-RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
-P2PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A2H  1
-SUCCESS. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
-P3PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B2H  1
-TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
-TXINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CEH  1
-P4PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C2H  1
-IPT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
-P5PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DAH  1
-FunctionalState. . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IPT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
-IPT2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
-HIGH . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
-_UART0_Transmit_IT . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  UART_HANDLE. . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
-  pData. . . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0003H  3
-  Size . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0006H  1
-OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
-_UART0_Transmit. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  UART_HANDLE. . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
-  pData. . . . . . . . . . . . . . . .  AUTO     XDATA  PTR      0003H  3
-  Size . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0006H  1
-  Timeout. . . . . . . . . . . . . . .  AUTO     XDATA  U_LONG   0007H  4
-  TimeoutCnt . . . . . . . . . . . . .  AUTO     XDATA  U_LONG   000BH  4
-ITStatus . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADE . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F4H  1
-P0VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009CH  1
-_UART0_Receive_IRQHandler. . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  UART_HANDLE. . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
-P1VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0094H  1
-P2VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A3H  1
-EXBH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EEH  1
-UART0_STATE_READY. . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ENABLE . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-BitStatus. . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F3H  1
-P3VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B3H  1
-ADCCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ADH  1
-s8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
-TX . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
-EXBL . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EDH  1
-Status_BUSY. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F2H  1
-bool . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-UART0_RX_Typedef . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-UART0_Mode_8B. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-P00. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0080H  1
-P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
-P01. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0081H  1
-SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
-PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
-P20. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A0H  1
-P11. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
-P02. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0082H  1
-CMPCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B6H  1
-P30. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
-P21. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A1H  1
-P12. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0092H  1
-P03. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0083H  1
-P40. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C0H  1
-P31. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
-P22. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A2H  1
-P13. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0093H  1
-P04. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0084H  1
-SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
-P50. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D8H  1
-P41. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C1H  1
-P32. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
-P23. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
-P14. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0094H  1
-P05. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0085H  1
-IAPDAT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F5H  1
-TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
-TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
-P51. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D9H  1
-P42. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C2H  1
-P33. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
-P24. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A4H  1
-P15. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0095H  1
-P06. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0086H  1
-IPINT0 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
-_UART0_Transmit_IRQHandler . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  UART_HANDLE. . . . . . . . . . . . .  AUTO     XDATA  PTR      0000H  3
-P52. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DAH  1
-P43. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C3H  1
-P34. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
-P25. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A5H  1
-P16. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0096H  1
-P07. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0087H  1
-IPINT1 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
-P53. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DBH  1
-P44. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C4H  1
-P35. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
-P26. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
-P17. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0097H  1
-CRCREG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FDH  1
-P54. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DCH  1
-P45. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C5H  1
-P36. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
-P27. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
-P55. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DDH  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-P46. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C6H  1
-P37. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
-P47. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C7H  1
-EXFX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
-DDRCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0093H  1
-UART0_HandleInfoDef. . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  12
-  pTxBuffPtr . . . . . . . . . . . . .  MEMBER   -----  UNION    0000H  3
-  TxXferSize . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0003H  1
-  TxXferCount. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0004H  1
-  pRxBuffPtr . . . . . . . . . . . . .  MEMBER   -----  UNION    0005H  3
-  RxXferSize . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0008H  1
-  RxXferCount. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0009H  1
-  TxState. . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   000AH  1
-  RxState. . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   000BH  1
-UART0_STATE_ERROR. . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-StatusTypeDef. . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPCTL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F6H  1
-IE1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A9H  1
-IE2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AAH  1
-TRUE . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
-CMPCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B7H  1
-IAPKEY . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F1H  1
-BTMCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FBH  1
-_UART0_ITConfig. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-  Priority . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
-PWMCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D1H  1
-ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
-RCAPXH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
-ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
-CRCINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FCH  1
-TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
-ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
-ADCCFG0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ABH  1
-IP1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B9H  1
-UART0_ReceiveData8 . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
-ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
-ADCCFG1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ACH  1
-IP2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BAH  1
-ROMBNK . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DFH  1
-UART0_ReceiveData9 . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  Data9. . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
-RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
-ADCCFG2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B5H  1
-RCAPXL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
-TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
-TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
-TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
-uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
-UART0_RX_DISABLE . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
-TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
-UART0_CLOCK_TIMER1 . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-WDTCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CFH  1
-TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
-UART0_CLOCK_TIMER2 . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
-PWMDFR . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D6H  1
-PWMPDH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D5H  1
-RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
-TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
-RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
-PWMPDL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D4H  1
-TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
-IPUART . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
-s32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
-UART0_Mode_10B . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
-UART0_Mode_11B . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
-s16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
-UART0_STATE_TIMEOUT. . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
-PWMFLT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D7H  1
-DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
-DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
-EINT0. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
-P0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009AH  1
-EINT1. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
-IPADC. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BEH  1
-INT0F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B4H  1
-P1CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0091H  1
-INT1F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BCH  1
-P2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A1H  1
-_UART0_Init. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  Uart0Fsys. . . . . . . . . . . . . .  AUTO     XDATA  U_LONG   0000H  4
-  BaudRate . . . . . . . . . . . . . .  AUTO     XDATA  U_LONG   0004H  4
-  Mode . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0008H  1
-  ClockMode. . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0009H  1
-  RxMode . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   000AH  1
-INT2F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BEH  1
-P3CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B1H  1
-UART0_FLAG_RI. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
-P4CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C1H  1
-P5CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D9H  1
-UART0_FLAG_TI. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ADCVH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AFH  1
-DPS. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0086H  1
-US0CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0095H  1
-US1CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A4H  1
-US0CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009DH  1
-ADCVL. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AEH  1
-EXADH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F7H  1
-SET. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-FALSE. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-US1CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A5H  1
-US0CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009EH  1
-US1CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A6H  1
-US0CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009FH  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-US1CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A7H  1
-INT0R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BBH  1
-INT1R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BDH  1
-PriorityStatus . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-INT2R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BFH  1
-USXINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DCH  1
-LOW. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-TFX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
-IOHCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0096H  1
-UART0_Clock_Typedef. . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IOHCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0097H  1
-Status_ERROR . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-THX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
-F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
-UART0_STATE_BUSY . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-DISABLE. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-F1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D1H  1
-TLX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
-PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
-uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
-__UART0_HandleInfoDef. . . . . . . . .  * TAG *  -----  STRUCT   -----  12
-  pTxBuffPtr . . . . . . . . . . . . .  MEMBER   -----  UNION    0000H  3
-  TxXferSize . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0003H  1
-  TxXferCount. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0004H  1
-  pRxBuffPtr . . . . . . . . . . . . .  MEMBER   -----  UNION    0005H  3
-  RxXferSize . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0008H  1
-  RxXferCount. . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0009H  1
-  TxState. . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   000AH  1
-  RxState. . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   000BH  1
+ 501          /******************* (C) COPYRIGHT 2020 SinOne Microelectronics *****END OF FILE****/
+
+
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   1762    ----
    CONSTANT SIZE    =   ----    ----
@@ -2393,4 +547,6 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
+
+
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,493 +1,33 @@
-C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/22/2024 16:29:19 PAGE 1   
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/22/2024 18:56:14 PAGE 1   
+
+
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_OPTION
-OBJECT MODULE PLACED IN D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_option.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\bin\C51.exe ..\FWLib\SC95F_Lib\src\sc95f_option.c OMF2 INTVECTOR(0X2800) DEFINE(SC95
-                    -F8x1xB) LARGE INCDIR(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\inc;D:\tfxu\Project\AM901_0308\APP
-                    -\Keil_C\Project\..\User;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\IOT_DRIVER\XIAOMI;D:\tfxu\Project\AM901_0308\AP
-                    -P\Keil_C\Project\..\Drivers;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C;D:\tfxu\Project\AM901_03
-                    -08\APP\Keil_C\Project\..\List\..\Apps;D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Apps) BROWSE DEBUG OBJECTEXTEND O
-                    -PTIMIZE(8,SIZE) CODE NOCOND SYMBOLS LISTINCLUDE PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\List\sc95f_option
-                    -.lst) OBJECT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_option.obj)
+OBJECT MODULE PLACED IN ..\Output\sc95f_option.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_option.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE
+                    - INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\.
+                    -.\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_option.lst) TABS(2) OBJECT(..\Output\sc95f_option.obj)
+
 line level    source
-   1          
-   2          
-   3          
-   4          
-   5          
-   6          
-   7          
-   8          
-   9          
+
+   1          //************************************************************
+   2          //  Copyright (c) 深圳市赛元微电子股份有限公司
+   3          //  文件名称:     sc95f_option.c
+   4          //  作者    :
+   5          //  模块功能:     Customer Option寄存器配置C文件
+   6          //  最后更正日期: 2024年1月18日
+   7          //  版本:       V1.0002
+   8          //  说明:该文件仅适用于SC95F系列芯片
+   9          //*************************************************************
   10          
   11          #include "sc95f_option.h"
-   1      =1  
-   2      =1  
-   3      =1  
-   4      =1  
-   5      =1  
-   6      =1  
-   7      =1  
-   8      =1  
-   9      =1  
-  10      =1  
-  11      =1  #ifndef _sc95f_OPTION_H_
-  12      =1  #define _sc95f_OPTION_H_
-  13      =1  
-  14      =1  #include "sc95f.h"
-   1      =2  
-   2      =2  
-   3      =2  
-   4      =2  
-   5      =2  
-   6      =2  
-   7      =2  
-   8      =2  
-   9      =2  
-  10      =2  
-  11      =2  #ifndef _sc95f_H
-  12      =2  #define _sc95f_H
-  13      =2  
-  14      =2  #ifdef SC95F8x1x
-  17      =2  #ifdef SC95F7x1x
-  20      =2  #ifdef SC95F8x2x 
-  23      =2  #ifdef SC95F7x2x
-  26      =2  #ifdef SC95FWxx
-  29      =2  #ifdef SC95F8x3x
-  32      =2  #ifdef SC95F7x3x
-  35      =2  #ifdef SC95F8x6x
-  38      =2  #ifdef SC95F7x6x
-  41      =2  #ifdef SC95F8x1xB
-  42      =2    #include "SC95F8x1xB_C.H"
-   1      =3  
-  11      =3  #ifndef _SC95F861xB_H_
-  12      =3  #define _SC95F861xB_H_
-  13      =3  
-  14      =3  
-  15      =3  
-  16      =3  sfr   SP    = 0X81;  
-  17      =3  sfr   DPL   = 0X82;  
-  18      =3  sfr   DPH   = 0X83;  
-  19      =3  sfr   DPL1  = 0X84;  
-  20      =3  sfr   DPH1  = 0X85;  
-  21      =3  sfr   DPS   = 0X86;  
-  22      =3  sfr   PSW   = 0XD0;  
-  23      =3  sfr   ACC   = 0XE0;  
-  24      =3  sfr   EXA0  = 0XE9;  
-  25      =3  sfr   EXA1  = 0XEA;  
-  26      =3  sfr   EXA2  = 0XEB;  
-  27      =3  sfr   EXA3  = 0XEC;  
-  28      =3  sfr   EXBL  = 0XED;  
-  29      =3  sfr   EXBH  = 0XEE;  
-  30      =3  sfr   B     = 0XF0;  
-  31      =3  
-  32      =3  
-  33      =3  sfr   EXADH = 0XF7;  
-  34      =3  
-  35      =3  
-  36      =3  sfr   ROMBNK = 0XDF;  
-  37      =3  
-  38      =3  
-  39      =3  sfr   PCON = 0X87;  
-  40      =3  
-  41      =3  
-  42      =3  sfr   IE  = 0XA8;  
-  43      =3  sfr   IE1 = 0XA9;  
-  44      =3  sfr   IE2 = 0XAA;  
-  45      =3  sfr   IP  = 0XB8;  
-  46      =3  sfr   IP1 = 0XB9;  
-  47      =3  sfr   IP2 = 0XBA;  
-  48      =3  
-  49      =3  
-  50      =3  sfr   P0      = 0X80;  
-  51      =3  sfr   P1      = 0X90;  
-  52      =3  sfr       P1CON   = 0X91;  
-  53      =3  sfr   P1PH        = 0X92;  
-  54      =3  sfr   DDRCON  = 0X93;  
-  55      =3  sfr   P1VO    = 0X94;  
-  56      =3  sfr   IOHCON0 = 0X96;  
-  57      =3  sfr   IOHCON1 = 0X97;  
-  58      =3  sfr       P0CON   = 0X9A;  
-  59      =3  sfr       P0PH    = 0X9B;  
-  60      =3  sfr   P0VO    = 0X9C;  
-  61      =3  sfr   P2      = 0XA0;  
-  62      =3  sfr       P2CON   = 0XA1;  
-  63      =3  sfr   P2PH        = 0XA2;  
-  64      =3  sfr   P2VO    = 0XA3;  
-  65      =3  sfr   P3      = 0XB0;  
-  66      =3  sfr   P3CON   = 0XB1;  
-  67      =3  sfr   P3PH    = 0XB2;  
-  68      =3  sfr   P3VO    = 0XB3;  
-  69      =3  sfr   P4      = 0XC0;  
-  70      =3  sfr   P4CON   = 0XC1;  
-  71      =3  sfr   P4PH    = 0XC2;  
-  72      =3  sfr   P5      = 0XD8;  
-  73      =3  sfr   P5CON   = 0XD9;  
-  74      =3  sfr   P5PH    = 0XDA;  
-  75      =3  
-  76      =3  
-  77      =3  sfr   CMPCFG  = 0XB6;  
-  78      =3  sfr   CMPCON  = 0XB7;  
-  79      =3  
-  80      =3         
-  81      =3  sfr   TCON   = 0X88;  
-  82      =3  sfr   TMOD   = 0X89;  
-  83      =3  sfr   TL0    = 0X8A;  
-  84      =3  sfr   TL1    = 0X8B;  
-  85      =3  sfr   TH0    = 0X8C;  
-  86      =3  sfr   TH1    = 0X8D;  
-  87      =3  sfr   TMCON  = 0X8E;  
-  88      =3  sfr   TXCON  = 0XC8;  
-  89      =3  sfr   TXMOD  = 0XC9;  
-  90      =3  sfr   RCAPXL = 0XCA;  
-  91      =3  sfr   RCAPXH = 0XCB;  
-  92      =3  sfr   TLX    = 0XCC;  
-  93      =3  sfr   THX    = 0XCD;  
-  94      =3  sfr   TXINX  = 0XCE;  
-  95      =3  
-  96      =3  
-  97      =3  sfr       ADCCFG0 = 0XAB;  
-  98      =3  sfr       ADCCFG1 = 0XAC;  
-  99      =3  sfr   ADCCON  = 0XAD;  
- 100      =3  sfr   ADCVL   = 0XAE;  
- 101      =3  sfr   ADCVH   = 0XAF;  
- 102      =3  sfr   ADCCFG2 = 0XB5;  
- 103      =3  
- 104      =3  
- 105      =3  sfr   PWMCFG  = 0XD1;  
- 106      =3  sfr   PWMCON0 = 0XD2;  
- 107      =3  sfr   PWMCON1 = 0XD3;  
- 108      =3  sfr   PWMPDL  = 0XD4;  
- 109      =3  sfr   PWMPDH  = 0XD5;  
- 110      =3  sfr   PWMDFR  = 0XD6;  
- 111      =3  sfr   PWMFLT  = 0XD7;  
- 112      =3  
- 113      =3  
- 114      =3  sfr   WDTCON = 0XCF;  
- 115      =3  
- 116      =3  
- 117      =3  sfr       BTMCON = 0XFB;  
- 118      =3  
- 119      =3  
- 120      =3  sfr   INT0F = 0XB4;  
- 121      =3  sfr   INT0R = 0XBB;  
- 122      =3  sfr   INT1F = 0XBC;  
- 123      =3  sfr   INT1R = 0XBD;  
- 124      =3  sfr   INT2F = 0XBE;  
- 125      =3  sfr   INT2R = 0XBF;  
- 126      =3  
- 127      =3  
- 128      =3  sfr   IAPKEY = 0XF1;  
- 129      =3  sfr   IAPADL = 0XF2;  
- 130      =3  sfr   IAPADH = 0XF3;  
- 131      =3  sfr   IAPADE = 0XF4;  
- 132      =3  sfr   IAPDAT = 0XF5;  
- 133      =3  sfr   IAPCTL = 0XF6;  
- 134      =3  
- 135      =3  
- 136      =3  sfr   OTCON = 0X8F;  
- 137      =3  sfr   SCON  = 0X98;  
- 138      =3  sfr   SBUF  = 0X99;  
- 139      =3  
- 140      =3  
- 141      =3  sfr   US0CON0 = 0X95;  
- 142      =3  sfr   US0CON1 = 0X9D;  
- 143      =3  sfr   US0CON2 = 0X9E;  
- 144      =3  sfr   US0CON3 = 0X9F;  
- 145      =3  sfr   US1CON0 = 0XA4;  
- 146      =3  sfr   US1CON1 = 0XA5;  
- 147      =3  sfr   US1CON2 = 0XA6;  
- 148      =3  sfr   US1CON3 = 0XA7;  
- 149      =3  sfr   USXCON0 = 0XC4;  
- 150      =3  sfr   USXCON1 = 0XC5;  
- 151      =3  sfr   USXCON2 = 0XC6;  
- 152      =3  sfr   USXCON3 = 0XC7;  
- 153      =3  sfr   USXINX  = 0XDC;  
- 154      =3  
- 155      =3  
- 156      =3  
- 157      =3  sfr   OPINX = 0XFE;  
- 158      =3  sfr   OPREG = 0XFF;  
- 159      =3  
- 160      =3  
- 161      =3  sfr   OPERCON = 0XEF;  
- 162      =3  sfr   CRCINX  = 0XFC;  
- 163      =3  sfr   CRCREG  = 0XFD;  
- 164      =3  
- 165      =3  
- 166      =3  
- 167      =3  
- 168      =3  sbit  CY  = PSW^7;  
-             -薪唬蛘呒醴ㄔ怂阕罡呶挥薪栉皇?
- 169      =3  sbit  AC  = PSW^6;  
-             -?
- 170      =3  sbit  F0  = PSW^5;  
- 171      =3  sbit  RS1 = PSW^4;  
- 172      =3  sbit  RS0 = PSW^3;  
- 173      =3  sbit  OV  = PSW^2;  
- 174      =3  sbit  F1  = PSW^1;  
- 175      =3  sbit  P   = PSW^0;  
- 176      =3  
- 177      =3  
- 178      =3  sbit  TFX   = TXCON^7;  
- 179      =3  sbit  EXFX  = TXCON^6;  
- 180      =3  sbit  RCLKX = TXCON^5;  
- 181      =3  sbit  TCLKX = TXCON^4;  
- 182      =3  sbit  EXENX = TXCON^3;  
- 183      =3  sbit  TRX   = TXCON^2;  
- 184      =3  sbit  TX    = TXCON^1;  
- 185      =3  sbit  CP    = TXCON^0;  
- 186      =3  
- 187      =3  
- 188      =3  sbit  IPADC  = IP^6;  
-             -热ㄊ?“高”
- 189      =3  sbit  IPT2   = IP^5;  
-             -嫌畔热ㄊ?“高”
- 190      =3  sbit  IPUART = IP^4;  
-             -先权是 “高”
- 191      =3  sbit  IPT1   = IP^3;  
-             -嫌畔热ㄊ?“高”
- 192      =3  sbit  IPINT1 = IP^2;  
-             -先权是 “高”
- 193      =3  sbit  IPT0   = IP^1;  
-             -嫌畔热ㄊ?“高”
- 194      =3  sbit  IPINT0 = IP^0;  
-             -高
- 195      =3  
- 196      =3  
- 197      =3  sbit  EA    = IE^7;  
- 198      =3  sbit  EADC  = IE^6;  
- 199      =3  sbit  ET2   = IE^5;  
- 200      =3  sbit  EUART = IE^4;  
- 201      =3  sbit  ET1   = IE^3;  
- 202      =3  sbit  EINT1 = IE^2;  
- 203      =3  sbit  ET0   = IE^1;  
- 204      =3  sbit  EINT0 = IE^0;  
- 205      =3  
- 206      =3  
- 207      =3  sbit  TF1 = TCON^7;  
-             -保布濉?”。
- 208      =3  sbit  TR1 = TCON^6;  
- 209      =3  sbit  TF0 = TCON^5;  
-             -保布濉?”。
- 210      =3  sbit  TR0 = TCON^4;  
- 211      =3  
- 212      =3  
- 213      =3  sbit  SM0 = SCON^7;  
-             -双工异步通信 11: 模式3，11位全双工异步通信
- 214      =3  sbit  SM1 = SCON^6;  
- 215      =3  sbit  SM2 = SCON^5;  
-             -锨肭?  1：收到一个完整的数据帧时，只有当RB8=1时才会置位RI产生中断请求
- 216      =3  sbit  REN = SCON^4;  
- 217      =3  sbit  TB8 = SCON^3;  
- 218      =3  sbit  RB8 = SCON^2;  
- 219      =3  sbit  TI  = SCON^1;  
- 220      =3  sbit  RI  = SCON^0;  
- 221      =3  
- 222      =3  
- 223      =3  
- 230      =3  sbit  P07 = P0^7;
- 231      =3  sbit  P06 = P0^6;
- 232      =3  sbit  P05 = P0^5;
- 233      =3  sbit  P04 = P0^4;
- 234      =3  sbit  P03 = P0^3;
- 235      =3  sbit  P02 = P0^2;
- 236      =3  sbit  P01 = P0^1;
- 237      =3  sbit  P00 = P0^0;
- 238      =3  
- 239      =3  
- 240      =3  
- 247      =3  sbit  P17 = P1^7;
- 248      =3  sbit  P16 = P1^6;
- 249      =3  sbit  P15 = P1^5;
- 250      =3  sbit  P14 = P1^4;
- 251      =3  sbit  P13 = P1^3;
- 252      =3  sbit  P12 = P1^2;
- 253      =3  sbit  P11 = P1^1;
- 254      =3  sbit  P10 = P1^0;
- 255      =3  
- 256      =3  
- 263      =3  sbit  P27 = P2^7;
- 264      =3  sbit  P26 = P2^6;
- 265      =3  sbit  P25 = P2^5;
- 266      =3  sbit  P24 = P2^4;
- 267      =3  sbit  P23 = P2^3;
- 268      =3  sbit  P22 = P2^2;
- 269      =3  sbit  P21 = P2^1;
- 270      =3  sbit  P20 = P2^0;
- 271      =3  
- 272      =3  
- 279      =3  sbit  P37 = P3^7;
- 280      =3  sbit  P36 = P3^6;
- 281      =3  sbit  P35 = P3^5;
- 282      =3  sbit  P34 = P3^4;
- 283      =3  sbit  P33 = P3^3;
- 284      =3  sbit  P32 = P3^2;
- 285      =3  sbit  P31 = P3^1;
- 286      =3  sbit  P30 = P3^0;
- 287      =3  
- 288      =3  
- 295      =3  sbit  P47 = P4^7;
- 296      =3  sbit  P46 = P4^6;
- 297      =3  sbit  P45 = P4^5;
- 298      =3  sbit  P44 = P4^4;
- 299      =3  sbit  P43 = P4^3;
- 300      =3  sbit  P42 = P4^2;
- 301      =3  sbit  P41 = P4^1;
- 302      =3  sbit  P40 = P4^0;
- 303      =3  
- 304      =3  
- 311      =3  sbit  P55 = P5^5;
- 312      =3  sbit  P54 = P5^4;
- 313      =3  sbit  P53 = P5^3;
- 314      =3  sbit  P52 = P5^2;
- 315      =3  sbit  P51 = P5^1;
- 316      =3  sbit  P50 = P5^0;
- 317      =3  
- 318      =3                              
-             -        
- 323      =3  #define  SC95F8616B_NIO_Init()   {P4CON|=0xC0,P5CON|=0x30;}                                               
-             -  
- 324      =3  #define  SC95F8615B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xF0;}           
-             -  
- 325      =3  #define  SC95F8613B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P3CON|=0xF0,P4CON|=0xC0,P5CON|=0xFF;}           
-             -  
- 326      =3  #define  SC95F8612B_NIO_Init()   {P0CON|=0x0F,P1CON|=0xF0,P2CON|=0XF0,P3CON|=0xF0,P4CON|=0xF0,P5CON|=0xFF;
-             -} 
- 327      =3  #endif
-  43      =2  #endif
-  44      =2  #ifdef SC95F7x1xB
-  47      =2  #ifdef SC95R751
-  50      =2  #ifdef SC95F7610B
-  53      =2  #ifdef SC95F7619B
-  56      =2  #ifdef SC95FS52x
-  59      =2  #ifdef SC95R602
-  62      =2  #ifdef SC95R605
-  65      =2  #ifdef SC95F8x7x
-  68      =2  #ifdef SC95F7x7x
-  71      =2  #ifdef SC95R503
-  74      =2  
-  75      =2  #define enableInterrupts()    EA=1       
-  76      =2  #define disableInterrupts()   EA=0       
-  77      =2  
-  78      =2  #define     __I     volatile const   
-  79      =2  #define     __O     volatile         
-  80      =2  #define     __IO    volatile         
-  81      =2  
-  82      =2  
-  83      =2  typedef   signed char     int8_t;
-  84      =2  typedef   signed short    int16_t;
-  85      =2  typedef   signed long     int32_t;
-  86      =2  
-  87      =2  
-  88      =2  typedef unsigned char     uint8_t;
-  89      =2  typedef unsigned short    uint16_t;
-  90      =2  typedef unsigned long     uint32_t;
-  91      =2  
-  92      =2  typedef int32_t  s32;
-  93      =2  typedef int16_t  s16;
-  94      =2  typedef int8_t   s8;
-  95      =2  
-  96      =2  typedef uint32_t  u32;
-  97      =2  typedef uint16_t  u16;
-  98      =2  typedef uint8_t   u8;
-  99      =2  
- 100      =2  
- 101      =2  typedef enum {FALSE = 0, TRUE = !FALSE} bool;
- 102      =2  
- 103      =2  typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus, BitStatus;
- 104      =2  
- 105      =2  typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
- 106      =2  
- 107      =2  typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
- 108      =2  
- 109      =2  typedef enum 
- 110      =2  {
- 111      =2    Status_ERROR          = 0x00U,
- 112      =2    Status_OK                     = 0x01U,
- 113      =2    Status_BUSY           = 0x02U,
- 114      =2    Status_TIMEOUT        = 0x03U
- 115      =2  } StatusTypeDef;
- 116      =2  
- 117      =2  typedef enum {LOW = 0, HIGH = !LOW} PriorityStatus;
- 118      =2  
- 119      =2  #define SET_BIT(SFR,BIT)                                ((SFR) |= (BIT))
- 120      =2  
- 121      =2  #define CLEAR_BIT(SFR,BIT)                      ((SFR) &= ~(BIT))
- 122      =2  
- 123      =2  #define READ_BIT(SFR, BIT)      ((SFR) & (BIT))
- 124      =2  
- 125      =2  #define CLEAR_REG(SFR)          ((SFR) = (0x0))
- 126      =2  
- 127      =2  #define WRITE_REG(SFR, VAL)     ((SFR) = (VAL))
- 128      =2  
- 129      =2  #endif
-  15      =1  
-  16      =1  
-  17      =1  typedef enum
-  18      =1  {
-  19      =1    SYSCLK_PRESSEL_FOSC_D1 = (uint8_t)0x00, 
-  20      =1    SYSCLK_PRESSEL_FOSC_D2 = (uint8_t)0x10, 
-  21      =1    SYSCLK_PRESSEL_FOSC_D4 = (uint8_t)0x20, 
-  22      =1    SYSCLK_PRESSEL_FOSC_D8 = (uint8_t)0x30  
-  23      =1  } SYSCLK_PresSel_TypeDef;
-  24      =1  
-  25      =1  
-  26      =1  typedef enum
-  27      =1  {
-  28      =1    LVR_INVALID = (uint8_t)0x04, 
-  29      =1    LVR_1_9V = (uint8_t)0x00,    
-  30      =1    LVR_2_9V = (uint8_t)0x01,    
-  31      =1    LVR_3_7V = (uint8_t)0x02,    
-  32      =1    LVR_4_3V = (uint8_t)0x03     
-  33      =1  } LVR_Config_TypeDef;
-  34      =1  
-  35      =1  
-  36      =1  #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx)
-  45      =1  #if defined(SC95F8x2x) || defined(SC95F7x2x) || defined(SC95F8x3x) || defined(SC95F7x3x) || defined (SC95F
-             -8x6x) || defined (SC95F7x6x)\
-  46      =1                  || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined (SC95R751) || defined (SC95F7610B) || defined
-             - (SC95F7619B) || defined(SC95FS52x)\
-  47      =1                  || defined (SC95R602)  || defined (SC95R605) || defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R
-             -503)
-  48      =1  typedef enum
-  49      =1  {
-  50      =1    IAP_OPERATERANGE__LAST_0K_CODEREGION = (uint8_t)0x00, 
-  51      =1    IAP_OPERATERANGE__LAST_1K_CODEREGION = (uint8_t)0x04, 
-  52      =1    IAP_OPERATERANGE__LAST_2K_CODEREGION = (uint8_t)0x08, 
-  53      =1    IAP_OPERATERANGE__ALL_CODEREGION = (uint8_t)0x0c      
-  54      =1  } IAP_OperateRange_TypeDef;
-  55      =1  #endif
-  56      =1  
-  57      =1  #if defined (SC95F8x6x) || defined (SC95F7x6x)  || defined (SC95F8x1xB) || defined (SC95F7x1xB) || defined
-             - (SC95R751)\
-  58      =1                  || defined (SC95F7610B) || defined (SC95F7619B) || defined (SC95R602)  || defined (SC95R605) || defined(
-             -SC95F8x7x) || defined(SC95F7x7x)\
-  59      =1      || defined(SC95R503)
-  60      =1  
-  61      =1  typedef enum
-  62      =1  {
-  63      =1    ADC_VREF_VDD = 0x00,    
-  64      =1    ADC_VREF_2_048V = 0x40,       
-  65      =1    ADC_VREF_1_024V = 0x80, 
-  66      =1    ADC_VREF_2_4V = 0xC0          
-  67      =1  } ADC_Vref_TypeDef;
-  68      =1  #else
-  77      =1  
-  78      =1  void OPTION_WDT_Cmd(FunctionalState NewState);
-  79      =1  void OPTION_XTIPLL_Cmd(FunctionalState NewState);
-  80      =1  void OPTION_SYSCLK_Init(SYSCLK_PresSel_TypeDef SYSCLK_PresSel);
-  81      =1  void OPTION_LVR_Init(LVR_Config_TypeDef LVR_Config);
-  82      =1  void OPTION_ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref);
-  83      =1  void OPTION_IAP_SetOperateRange(IAP_OperateRange_TypeDef IAP_OperateRange);
-  84      =1  void OPTION_JTG_Cmd(FunctionalState NewState);
-  85      =1  
-  86      =1  #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) ||  defined(SC95F8x2x) || defined(SC95F7
-             -x2x) || defined(SC95FS52x)\
-  87      =1      || defined(SC95F8x7x) || defined(SC95F7x7x)|| defined(SC95R503)
-  90      =1  
-  91      =1  #endif
   12          
-  13          
+  13          /*****************************************************
+  14          *函数名称:void OPTION_WDT_Cmd(FunctionalState NewState)
+  15          *函数功能:WDT功能开关函数
+  16          *入口参数:
+  17          FunctionalState:NewState:看门狗功能启动/关闭选择
+  18          *出口参数:void
+  19          *****************************************************/
   20          void OPTION_WDT_Cmd(FunctionalState NewState)
   21          {
   22   1        OPINX = 0XC1;
@@ -502,7 +42,13 @@ line level    source
   31   2        }
   32   1      }
   33          
-  34          
+  34          /*****************************************************
+  35          *函数名称:void OPTION_XTIPLL_Cmd(FunctionalState NewState)
+  36          *函数功能:外部低频晶振使能
+  37          *入口参数:
+  38          FunctionalState:NewState:外部低频晶振启动/关闭选择
+  39          *出口参数:void
+  40          *****************************************************/
   41          void OPTION_XTIPLL_Cmd(FunctionalState NewState)
   42          {
   43   1        OPINX = 0XC1;
@@ -516,8 +62,16 @@ line level    source
   51   2          OPREG |= 0X40;
   52   2        }
   53   1      }
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/22/2024 18:56:14 PAGE 2   
+
   54          
-  55          
+  55          /*****************************************************
+  56          *函数名称:void OPTION_SYSCLK_Init(SYSCLK_PresSel_TypeDef SYSCLK_PresSel)
+  57          *函数功能:系统时钟分频初始化
+  58          *入口参数:
+  59          SYSCLK_PresSel_TypeDef:SYSCLK_PresSel:选择系统时钟分频
+  60          *出口参数:void
+  61          *****************************************************/
   62          void OPTION_SYSCLK_Init(SYSCLK_PresSel_TypeDef SYSCLK_PresSel)
   63          {
   64   1        OPINX = 0XC1;
@@ -527,45 +81,92 @@ line level    source
   68          #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) || defined(SC95F8x2x) || defined(SC95F7x
              -2x) || defined(SC95FS52x) || defined(SC95F8x7x) || defined(SC95F7x7x)\
   69             || defined(SC95R503)
+              /*****************************************************
+              *函数名称:void OPTION_RST_PIN_Cmd(FunctionalState NewState)
+              *函数功能:外部复位管脚使能
+              *入口参数:
+              FunctionalState:NewState:外部复位引脚功能使能/关闭选择
+              *出口参数:void
+              *****************************************************/
+              void OPTION_RST_PIN_Cmd(FunctionalState NewState)
+              {
+                OPINX = 0XC1;
+              
+                if (NewState == DISABLE)
+                {
+                  OPREG |= 0X08;
+                }
+                else
+                {
+                  OPREG &= 0XF7;
+                }
+              }
+              #endif
   91          
-  92          
+  92          /*****************************************************
+  93          *函数名称:void OPTION_LVR_Init(LVR_Config_TypeDef LVR_Config)
+  94          *函数功能:LVR 电压选择
+  95          *入口参数:
+  96          LVR_Config_TypeDef:LVR_Config:选择LVR电压
+  97          *出口参数:void
+  98          *****************************************************/
   99          void OPTION_LVR_Init(LVR_Config_TypeDef LVR_Config)
  100          {
  101   1        OPINX = 0XC1;
  102   1        OPREG = OPREG & 0XF8 | LVR_Config;
  103   1      }
  104          
- 105          
+ 105          /*****************************************************
+ 106          *函数名称:void OPTION_ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref)
+ 107          *函数功能:ADC 参考电压选择
+ 108          *入口参数:
+ 109          ADC_Vref_TypeDef:ADC_Vref:选择ADC参考电压
+ 110          *出口参数:void
+ 111          *****************************************************/
  112          void OPTION_ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref)
  113          {
  114   1        OPINX = 0xC2;
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/22/2024 18:56:14 PAGE 3   
+
  115   1      
  116   1        if (ADC_Vref == ADC_VREF_2_048V)
  117   1        {
  118   2          OPREG &= 0x3f;
- 119   2          OPREG |= 0x40; 
+ 119   2          OPREG |= 0x40; //选择参考内部电压2.048V。
  120   2        }
  121   1      
  122   1        if (ADC_Vref == ADC_VREF_1_024V)
  123   1        {
  124   2          OPREG &= 0x3f;
- 125   2          OPREG |= 0x80; 
+ 125   2          OPREG |= 0x80; //选择参考内部电压1.024V。
  126   2        }
  127   1      
  128   1        if (ADC_Vref == ADC_VREF_VDD)
  129   1        {
- 130   2          OPREG &= 0x3f; 
+ 130   2          OPREG &= 0x3f; //选择参考电压VDD。
  131   2        }
  132   1      }
  133          
- 134          
+ 134          /**************************************************
+ 135          *函数名称:void OPTION_IAP_SetOperateRange(IAP_OperateRange_TypeDef IAP_OperateRange)
+ 136          *函数功能:允许IAP操作的范围设置
+ 137          *入口参数:
+ 138          IAP_OperateRange_TypeDef:IAP_OperateRange:IAP操作范围
+ 139          *出口参数:void
+ 140          **************************************************/
  141          void OPTION_IAP_SetOperateRange(IAP_OperateRange_TypeDef IAP_OperateRange)
  142          {
  143   1        OPINX = 0xC2;
  144   1        OPREG = (OPREG & 0xF3) | IAP_OperateRange;
  145   1      }
  146          
- 147          
+ 147          /**************************************************
+ 148          *函数名称:void OPTION_JTG_Cmd(FunctionalState NewState)
+ 149          *函数功能:JTAG/IO口切换控制
+ 150          *入口参数:
+ 151          FunctionalState:NewState:烧录口作为正常的IO使用（DISBLE）,烧录口作为tCK/tDIO使用（ENABLE）
+ 152          *出口参数:void
+ 153          **************************************************/
  154          void OPTION_JTG_Cmd(FunctionalState NewState)
  155          {
  156   1        OPINX = 0xC2;
@@ -579,438 +180,9 @@ line level    source
  164   2        }
  165   1      }
  166          
- 167          
-ASSEMBLY LISTING OF GENERATED OBJECT CODE
-             ; FUNCTION _OPTION_WDT_Cmd (BEGIN)
-                                           ; SOURCE LINE # 20
-;---- Variable 'NewState' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 21
-                                           ; SOURCE LINE # 22
-0000 75FEC1            MOV     OPINX,#0C1H
-                                           ; SOURCE LINE # 24
-0003 EF                MOV     A,R7
-0004 7004              JNZ     ?C0001
-                                           ; SOURCE LINE # 25
-                                           ; SOURCE LINE # 26
-0006 53FF7F            ANL     OPREG,#07FH
-                                           ; SOURCE LINE # 27
-0009 22                RET     
-000A         ?C0001:
-                                           ; SOURCE LINE # 29
-                                           ; SOURCE LINE # 30
-000A 43FF80            ORL     OPREG,#080H
-                                           ; SOURCE LINE # 31
-                                           ; SOURCE LINE # 32
-000D         ?C0003:
-000D 22                RET     
-             ; FUNCTION _OPTION_WDT_Cmd (END)
-             ; FUNCTION _OPTION_XTIPLL_Cmd (BEGIN)
-                                           ; SOURCE LINE # 41
-;---- Variable 'NewState' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 42
-                                           ; SOURCE LINE # 43
-0000 75FEC1            MOV     OPINX,#0C1H
-                                           ; SOURCE LINE # 45
-0003 EF                MOV     A,R7
-0004 7004              JNZ     ?C0004
-                                           ; SOURCE LINE # 46
-                                           ; SOURCE LINE # 47
-0006 53FFBF            ANL     OPREG,#0BFH
-                                           ; SOURCE LINE # 48
-0009 22                RET     
-000A         ?C0004:
-                                           ; SOURCE LINE # 50
-                                           ; SOURCE LINE # 51
-000A 43FF40            ORL     OPREG,#040H
-                                           ; SOURCE LINE # 52
-                                           ; SOURCE LINE # 53
-000D         ?C0006:
-000D 22                RET     
-             ; FUNCTION _OPTION_XTIPLL_Cmd (END)
-             ; FUNCTION _OPTION_SYSCLK_Init (BEGIN)
-                                           ; SOURCE LINE # 62
-;---- Variable 'SYSCLK_PresSel' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 63
-                                           ; SOURCE LINE # 64
-0000 75FEC1            MOV     OPINX,#0C1H
-                                           ; SOURCE LINE # 65
-0003 E5FF              MOV     A,OPREG
-0005 54CF              ANL     A,#0CFH
-0007 4F                ORL     A,R7
-0008 F5FF              MOV     OPREG,A
-                                           ; SOURCE LINE # 66
-000A 22                RET     
-             ; FUNCTION _OPTION_SYSCLK_Init (END)
-             ; FUNCTION _OPTION_LVR_Init (BEGIN)
-                                           ; SOURCE LINE # 99
-;---- Variable 'LVR_Config' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 100
-                                           ; SOURCE LINE # 101
-0000 75FEC1            MOV     OPINX,#0C1H
-                                           ; SOURCE LINE # 102
-0003 E5FF              MOV     A,OPREG
-0005 54F8              ANL     A,#0F8H
-0007 4F                ORL     A,R7
-0008 F5FF              MOV     OPREG,A
-                                           ; SOURCE LINE # 103
-000A 22                RET     
-             ; FUNCTION _OPTION_LVR_Init (END)
-             ; FUNCTION _OPTION_ADC_VrefConfig (BEGIN)
-                                           ; SOURCE LINE # 112
-;---- Variable 'ADC_Vref' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 113
-                                           ; SOURCE LINE # 114
-0000 75FEC2            MOV     OPINX,#0C2H
-                                           ; SOURCE LINE # 116
-0003 EF                MOV     A,R7
-0004 FD                MOV     R5,A
-0005 7C00              MOV     R4,#00H
-0007 6440              XRL     A,#040H
-0009 7006              JNZ     ?C0009
-                                           ; SOURCE LINE # 117
-                                           ; SOURCE LINE # 118
-000B 53FF3F            ANL     OPREG,#03FH
-                                           ; SOURCE LINE # 119
-000E 43FF40            ORL     OPREG,#040H
-                                           ; SOURCE LINE # 120
-0011         ?C0009:
-                                           ; SOURCE LINE # 122
-0011 ED                MOV     A,R5
-0012 6480              XRL     A,#080H
-0014 4C                ORL     A,R4
-0015 7006              JNZ     ?C0010
-                                           ; SOURCE LINE # 123
-                                           ; SOURCE LINE # 124
-0017 53FF3F            ANL     OPREG,#03FH
-                                           ; SOURCE LINE # 125
-001A 43FF80            ORL     OPREG,#080H
-                                           ; SOURCE LINE # 126
-001D         ?C0010:
-                                           ; SOURCE LINE # 128
-001D ED                MOV     A,R5
-001E 4C                ORL     A,R4
-001F 7003              JNZ     ?C0012
-                                           ; SOURCE LINE # 129
-                                           ; SOURCE LINE # 130
-0021 53FF3F            ANL     OPREG,#03FH
-                                           ; SOURCE LINE # 131
-                                           ; SOURCE LINE # 132
-0024         ?C0012:
-0024 22                RET     
-             ; FUNCTION _OPTION_ADC_VrefConfig (END)
-             ; FUNCTION _OPTION_IAP_SetOperateRange (BEGIN)
-                                           ; SOURCE LINE # 141
-;---- Variable 'IAP_OperateRange' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 142
-                                           ; SOURCE LINE # 143
-0000 75FEC2            MOV     OPINX,#0C2H
-                                           ; SOURCE LINE # 144
-0003 E5FF              MOV     A,OPREG
-0005 54F3              ANL     A,#0F3H
-0007 4F                ORL     A,R7
-0008 F5FF              MOV     OPREG,A
-                                           ; SOURCE LINE # 145
-000A 22                RET     
-             ; FUNCTION _OPTION_IAP_SetOperateRange (END)
-             ; FUNCTION _OPTION_JTG_Cmd (BEGIN)
-                                           ; SOURCE LINE # 154
-;---- Variable 'NewState' assigned to Register 'R7' ----
-                                           ; SOURCE LINE # 155
-                                           ; SOURCE LINE # 156
-0000 75FEC2            MOV     OPINX,#0C2H
-                                           ; SOURCE LINE # 157
-0003 EF                MOV     A,R7
-0004 7004              JNZ     ?C0014
-                                           ; SOURCE LINE # 158
-                                           ; SOURCE LINE # 159
-0006 43FF10            ORL     OPREG,#010H
-                                           ; SOURCE LINE # 160
-0009 22                RET     
-000A         ?C0014:
-                                           ; SOURCE LINE # 162
-                                           ; SOURCE LINE # 163
-000A 53FFEF            ANL     OPREG,#0EFH
-                                           ; SOURCE LINE # 164
-                                           ; SOURCE LINE # 165
-000D         ?C0016:
-000D 22                RET     
-             ; FUNCTION _OPTION_JTG_Cmd (END)
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-uint16_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
-TRX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
-OPREG. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FFH  1
-P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
-P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
-P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
-Status_OK. . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-EUART. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
-TMCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008EH  1
-P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
-AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
-P4 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C0H  1
-FlagStatus . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-RESET. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-OTCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008FH  1
-P5 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D8H  1
-EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
-RCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
-int32_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
-PWMCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D2H  1
-TCLKX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
-PWMCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D3H  1
-int16_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
-EXENX. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
-ERROR. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-EADC . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AEH  1
-TXMOD. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C9H  1
-TXCON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C8H  1
-IE . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A8H  1
-DPH1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0085H  1
-_OPTION_SYSCLK_Init. . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  SYSCLK_PresSel . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-EXA0 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E9H  1
-OPINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FEH  1
-EXA1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EAH  1
-EXA2 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EBH  1
-_OPTION_XTIPLL_Cmd . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-EXA3 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ECH  1
-DPL1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0084H  1
-Status_TIMEOUT . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-CP . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
-USXCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C4H  1
-USXCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C5H  1
-SYSCLK_PresSel_TypeDef . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-USXCON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C6H  1
-ErrorStatus. . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-USXCON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C7H  1
-IAP_OperateRange_TypeDef . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-_OPTION_JTG_Cmd. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-OPERCON. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EFH  1
-P0PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009BH  1
-IP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B8H  1
-P1PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0092H  1
-RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
-P2PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A2H  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-SUCCESS. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
-P3PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B2H  1
-ADC_VREF_VDD . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-IAP_OPERATERANGE__ALL_CODEREGION . . .  E_CONST  -----  U_CHAR   -----  1
-TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
-TXINX. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CEH  1
-P4PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C2H  1
-IPT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
-P5PH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DAH  1
-FunctionalState. . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IPT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
-IPT2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
-HIGH . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-_OPTION_WDT_Cmd. . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  NewState . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
-OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
-ITStatus . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADE . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F4H  1
-P0VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009CH  1
-P1VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0094H  1
-_OPTION_LVR_Init . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  LVR_Config . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-P2VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A3H  1
-EXBH . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EEH  1
-ENABLE . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-BitStatus. . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F3H  1
-P3VO . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B3H  1
-ADCCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ADH  1
-s8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
-TX . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C9H  1
-EXBL . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00EDH  1
-Status_BUSY. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-u8 . . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPADL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F2H  1
-bool . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P00. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0080H  1
-P10. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0090H  1
-P01. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0081H  1
-SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
-PCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0087H  1
-P20. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A0H  1
-P11. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0091H  1
-P02. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0082H  1
-CMPCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B6H  1
-P30. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
-P21. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A1H  1
-P12. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0092H  1
-P03. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0083H  1
-P40. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C0H  1
-P31. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
-P22. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A2H  1
-P13. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0093H  1
-P04. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0084H  1
-SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-P50. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D8H  1
-P41. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C1H  1
-P32. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
-P23. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
-P14. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0094H  1
-P05. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0085H  1
-IAPDAT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F5H  1
-TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
-TCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0088H  1
-P51. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D9H  1
-P42. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C2H  1
-P33. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
-P24. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A4H  1
-P15. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0095H  1
-P06. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0086H  1
-IPINT0 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
-P52. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DAH  1
-P43. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C3H  1
-P34. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
-P25. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A5H  1
-P16. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0096H  1
-P07. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0087H  1
-IPINT1 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
-P53. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DBH  1
-P44. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C4H  1
-P35. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
-P26. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A6H  1
-P17. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0097H  1
-CRCREG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FDH  1
-P54. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DCH  1
-P45. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C5H  1
-P36. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
-P27. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A7H  1
-P55. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DDH  1
-P46. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C6H  1
-P37. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
-P47. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C7H  1
-ADC_VREF_1_024V. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-EXFX . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
-DDRCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0093H  1
-StatusTypeDef. . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPCTL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F6H  1
-IE1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A9H  1
-SYSCLK_PRESSEL_FOSC_D1 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-IE2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AAH  1
-SYSCLK_PRESSEL_FOSC_D2 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-TRUE . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-B. . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F0H  1
-CMPCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B7H  1
-ADC_VREF_2_048V. . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-SYSCLK_PRESSEL_FOSC_D4 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-LVR_Config_TypeDef . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAPKEY . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F1H  1
-BTMCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FBH  1
-PWMCFG . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D1H  1
-SYSCLK_PRESSEL_FOSC_D8 . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-ACC. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E0H  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-RCAPXH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CBH  1
-ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
-CRCINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00FCH  1
-TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
-ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
-ADCCFG0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ABH  1
-IP1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B9H  1
-TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
-ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
-ADCCFG1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00ACH  1
-IP2. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BAH  1
-ROMBNK . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DFH  1
-RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
-ADCCFG2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B5H  1
-RCAPXL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CAH  1
-TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
-TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
-TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
-uint8_t. . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
-SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
-TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
-SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
-WDTCON . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CFH  1
-TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
-SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
-PWMDFR . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D6H  1
-PWMPDH . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D5H  1
-ADC_Vref_TypeDef . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-IAP_OPERATERANGE__LAST_0K_CODEREGION .  E_CONST  -----  U_CHAR   -----  1
-_OPTION_ADC_VrefConfig . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  ADC_Vref . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-IAP_OPERATERANGE__LAST_1K_CODEREGION .  E_CONST  -----  U_CHAR   -----  1
-RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
-IAP_OPERATERANGE__LAST_2K_CODEREGION .  E_CONST  -----  U_CHAR   -----  1
-TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
-RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
-PWMPDL . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D4H  1
-TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
-IPUART . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
-s32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
-int8_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
-ADC_VREF_2_4V. . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-u32. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
-s16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
-u16. . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
-PWMFLT . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D7H  1
-DPH. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0083H  1
-LVR_INVALID. . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-DPL. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0082H  1
-EINT0. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
-P0CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009AH  1
-EINT1. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
-IPADC. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BEH  1
-INT0F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B4H  1
-P1CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0091H  1
-INT1F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BCH  1
-NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
-P2CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A1H  1
-INT2F. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BEH  1
-P3CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B1H  1
-REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
-P4CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00C1H  1
-P5CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D9H  1
-ADCVH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AFH  1
-DPS. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0086H  1
-US0CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0095H  1
-_OPTION_IAP_SetOperateRange. . . . . .  PUBLIC   CODE   PROC     0000H  -----
-  IAP_OperateRange . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
-US1CON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A4H  1
-US0CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009DH  1
-ADCVL. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AEH  1
-EXADH. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F7H  1
-SET. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-FALSE. . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-US1CON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A5H  1
-US0CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009EH  1
-US1CON2. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A6H  1
-US0CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009FH  1
-US1CON3. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A7H  1
-INT0R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BBH  1
-INT1R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BDH  1
-PriorityStatus . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
-INT2R. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00BFH  1
-USXINX . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00DCH  1
-LVR_4_3V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-LOW. . . . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-TFX. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
-IOHCON0. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0096H  1
-IOHCON1. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0097H  1
-Status_ERROR . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-THX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CDH  1
-LVR_3_7V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-LVR_1_9V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
-LVR_2_9V . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-DISABLE. . . . . . . . . . . . . . . .  E_CONST  -----  U_CHAR   -----  1
-F1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D1H  1
-TLX. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00CCH  1
-PSW. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D0H  1
-uint32_t . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+ 167          /******************* (C) COPYRIGHT 2020 SinOne Microelectronics *****END OF FILE****/
+
+
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    112    ----
    CONSTANT SIZE    =   ----    ----
@@ -1018,10 +190,14 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/22/2024 18:56:14 PAGE 4   
+
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
+
+
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
