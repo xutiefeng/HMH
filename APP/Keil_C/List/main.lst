@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              03/22/2024 20:40:38 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              03/23/2024 09:11:10 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   49   1          
   50   1          TouchKeyInit();
   51   1          CMP_Init();
-C51 COMPILER V9.59.0.0   MAIN                                                              03/22/2024 20:40:38 PAGE 2   
+C51 COMPILER V9.59.0.0   MAIN                                                              03/23/2024 09:11:10 PAGE 2   
 
   52   1          /*<UserCodeEnd>*//*<SinOne-Tag><60>*/
   53   1          /*<UserCodeStart>*//*<SinOne-Tag><4>*/
@@ -126,7 +126,7 @@ line level    source
  111   2              {
  112   3                  SOCAPI_TouchKeyStatus &= 0x7f;
  113   3                  exKeyValueFlag = TouchKeyScan();
-C51 COMPILER V9.59.0.0   MAIN                                                              03/22/2024 20:40:38 PAGE 3   
+C51 COMPILER V9.59.0.0   MAIN                                                              03/23/2024 09:11:10 PAGE 3   
 
  114   3                  if(exKeyValueFlag >0)
  115   3                  { 
@@ -190,7 +190,7 @@ line level    source
                           LED1_L = 1;
                           LED2_L = 1;
                           LED3_L = 1;
-C51 COMPILER V9.59.0.0   MAIN                                                              03/22/2024 20:40:38 PAGE 4   
+C51 COMPILER V9.59.0.0   MAIN                                                              03/23/2024 09:11:10 PAGE 4   
 
                           LED4_L = 1;
                       }
@@ -254,7 +254,7 @@ line level    source
                           }
                           
                       }
-C51 COMPILER V9.59.0.0   MAIN                                                              03/22/2024 20:40:38 PAGE 5   
+C51 COMPILER V9.59.0.0   MAIN                                                              03/23/2024 09:11:10 PAGE 5   
 
               #endif
  237   2              /*<UserCodeEnd>*//*<SinOne-Tag><14>*/

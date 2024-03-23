@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/22/2024 20:40:39 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 09:11:12 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_ADCOLLECT
@@ -62,7 +62,7 @@ line level    source
   50          
   51          
   52          unsigned int adc_get_average(unsigned short ch,BSP_ADChangeEnum num)            
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/22/2024 20:40:39 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 09:11:12 PAGE 2   
 
   53          {
   54   1        
@@ -126,7 +126,7 @@ line level    source
  112   1          P14 = !P14;
  113   1          P25 = !P25;
  114   1      }
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/22/2024 20:40:39 PAGE 3   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 09:11:12 PAGE 3   
 
  115          
  116          void JieShui_IO_Flip(void)
@@ -190,7 +190,7 @@ line level    source
                       ADCHANAL_Select(6);
                   break;
                   
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/22/2024 20:40:39 PAGE 4   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 09:11:12 PAGE 4   
 
                   case 9:
                       gstADCollect.LouShui = ADCHANAL_GetValue();// YuanShui
@@ -254,7 +254,7 @@ line level    source
                   
                     ChunShui_IO_Flip();
                     YuanShui_IO_Flip();
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/22/2024 20:40:39 PAGE 5   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 09:11:12 PAGE 5   
 
                     ADCHANAL_Select(7);
                     sADChanalCnt = 1;
@@ -318,7 +318,7 @@ line level    source
  298   1      }
 
 
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/22/2024 20:40:39 PAGE 6   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 09:11:12 PAGE 6   
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    466    ----

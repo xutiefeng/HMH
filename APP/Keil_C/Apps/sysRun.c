@@ -155,8 +155,8 @@ void FilterSysRunTime(void)
 	unsigned long  temp;
 	if(gstFilte.type == ROFilter)	
 	{
-	//	if(gstFilte.RO_DayCnt < 0x058FD400?)//3600*24*365
-		if(gstFilte.RO_DayCnt <0x01E13380 )	
+	
+		if(gstFilte.RO_DayCnt <0x058FD400 )	//3600*24*1080 0x01E13380
 			gstFilte.RO_DayCnt++;
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
@@ -167,16 +167,14 @@ void FilterSysRunTime(void)
 	}
 	else
 	{
-		
-		//if(gstFilte.Mix_DayCnt < ??0x01E13380)//83270(10/2.63)*60*1080)
-		if(gstFilte.Mix_DayCnt <0x01E13380 )
+		if(gstFilte.Mix_DayCnt <0x01DA9C00 )//3600*24*360 
 			gstFilte.Mix_DayCnt++;
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
 		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
 		temp =  gstFilte.RO_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
-			
-		gstAM901.Run.Bit.DayResidualPercent = ( (36000-temp)/365);
+		temp = 	36000-temp;	
+		gstAM901.Run.Bit.DayResidualPercent = (float)temp/360;
 	}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
