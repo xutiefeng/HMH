@@ -16,12 +16,11 @@ void LED_sCan(void)
 	led2_io = 1;
 	led3_io = 1;
 	led4_io = 1;
-	if(LED1_L || LED2_L || LED3_L || LED4_L )
+	if(LedChangeFlag)
 	{
+		LedChangeFlag = 0;
 		Chanel_IO1 = 1;
-		
-		
-		
+		Chanel_IO2 = 0;
 		if(LED1_L)
 		{
 			led1_io = 0;
@@ -32,26 +31,23 @@ void LED_sCan(void)
 			led2_io = 0;
 		}
 
-		 if(LED3_L)
+		if(LED3_L)
 		{
 			led3_io = 0;
 		}
 		
-		 if(LED4_L)
+		if(LED4_L)
 		{
 			led4_io = 0;
 		}
-
 	}
 	else
 	{
+		LedChangeFlag = 1;
+
 		Chanel_IO1 = 0;
-	}
-	
-    if(LED1_R || LED2_R || LED3_R || LED4_R )
-	{
 		Chanel_IO2 = 1;
-		//led4_io = 1;
+		
 	
 		if(LED1_R)
 		{
@@ -71,12 +67,7 @@ void LED_sCan(void)
 		{
 			led4_io = 0;
 		}
-	}
-	else
-	{
-		Chanel_IO2 = 0;
-	}
-	
+	}	
 }
 
 	

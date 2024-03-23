@@ -1,9 +1,9 @@
-C51 COMPILER V9.59.0.0   DECRYPT_TEA                                                       03/23/2024 09:11:12 PAGE 1   
+C51 COMPILER V9.59.0.0   DECRYPT_TEA                                                       03/23/2024 18:31:24 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DECRYPT_TEA
 OBJECT MODULE PLACED IN ..\Output\Decrypt_TEA.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\Decrypt_TEA.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE 
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\Decrypt_TEA.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE 
                     -INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..
                     -\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\Decrypt_TEA.lst) TABS(2) OBJECT(..\Output\Decrypt_TEA.obj)
 

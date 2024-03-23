@@ -93,7 +93,7 @@ typedef enum
 #define  SysOffDelayFlag								gbFlagData[4].Bit.b0 
 #define  ParameterRecoverFlag						gbFlagData[4].Bit.b1 
 #define  AbnormalPowerFlag							gbFlagData[4].Bit.b2 
-#define  AiKaiOzneTestFlag							gbFlagData[4].Bit.b3
+#define  LedChangeFlag							gbFlagData[4].Bit.b3
 #define  RedLedtFlag										gbFlagData[4].Bit.b4
 #define  BlueLedFlag                    gbFlagData[4].Bit.b5 
 #define  PunpFlag												gbFlagData[4].Bit.b6 

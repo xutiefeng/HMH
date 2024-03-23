@@ -18,7 +18,7 @@ Uchar gEventBuffer[EVENT_BUFFER_LENGTH];
 //////////////×îÐ¡¿ò¼Ü////////////////////
 
 ST_Filter gstFilte;
-ST_AM901  gstAM901;
+volatile ST_AM901  gstAM901;
 volatile STAD_Collect   gstADCollect;
 u8 gKeyValue;
 #if 0

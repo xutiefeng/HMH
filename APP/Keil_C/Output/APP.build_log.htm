@@ -22,7 +22,7 @@ Dialog DLL:      TP51.DLL V2.60.0.0
  
 <h2>Project:</h2>
 D:\tfxu\Project\AM901_0308\APP\Keil_C\project\APP.uvproj
-Project File Date:  03/22/2024
+Project File Date:  03/23/2024
 
 <h2>Output:</h2>
 Rebuild Project 'APP' - Target '<APP>'
@@ -43,9 +43,9 @@ compiling MIIO_OPERATE.C...
 compiling clib.c...
 compiling globe.c...
 compiling sysRun.c...
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(443): warning C206: 'KeySelect': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(444): warning C206: 'KeyRest': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(445): warning C206: 'KeyGaoYaSwitch': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(487): warning C206: 'KeySelect': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(488): warning C206: 'KeyRest': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(489): warning C206: 'KeyGaoYaSwitch': missing function-prototype
 compiling bsp_Led.c...
 compiling buzzer.c...
 D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\buzzer.c(146): warning C280: 'HisDuty': unreferenced local variable
@@ -78,57 +78,13 @@ compiling sc95f_option.c...
 assembling STARTUP.A51...
 linking...
 *** WARNING L15: MULTIPLE CALL TO FUNCTION
-    NAME:    _WRITEEEPROMDATA/BSP_EEPROM
-    CALLER1: ?C_C51STARTUP
-    CALLER2: ACMPINTERRUPT/SC_IT
-*** WARNING L15: MULTIPLE CALL TO FUNCTION
     NAME:    _IAP_EEPROMPROGRAMBYTEOPTION/IAP_OPTION_EW
     CALLER1: ?C_C51STARTUP
     CALLER2: ACMPINTERRUPT/SC_IT
-*** WARNING L15: MULTIPLE CALL TO FUNCTION
-    NAME:    _IAP_READBYTE/SC95F_IAP
-    CALLER1: ?C_C51STARTUP
-    CALLER2: ACMPINTERRUPT/SC_IT
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  sysRest
-    MODULE:  ..\Output\main.obj (MAIN)
-   DEFINED:  ..\Output\sysRun.obj (SYSRUN)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  WriteTempEeprom
-    MODULE:  ..\Output\main.obj (MAIN)
-   DEFINED:  ..\Output\bsp_eeprom.obj (BSP_EEPROM)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  DevicePowerOnInit
-    MODULE:  ..\Output\main.obj (MAIN)
-   DEFINED:  ..\Output\sysRun.obj (SYSRUN)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  sysRuning
-    MODULE:  ..\Output\main.obj (MAIN)
-   DEFINED:  ..\Output\sysRun.obj (SYSRUN)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  WriteTempEeprom
-    MODULE:  ..\Output\SC_it.obj (SC_IT)
-   DEFINED:  ..\Output\bsp_eeprom.obj (BSP_EEPROM)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  ADCollectProcess
-    MODULE:  ..\Output\SC_it.obj (SC_IT)
-   DEFINED:  ..\Output\bsp_ADCollect.obj (BSP_ADCOLLECT)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  KeySelect
-    MODULE:  ..\Output\sysRun.obj (SYSRUN)
-   DEFINED:  ..\Output\key.obj (KEY)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  KeyRest
-    MODULE:  ..\Output\sysRun.obj (SYSRUN)
-   DEFINED:  ..\Output\key.obj (KEY)
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  KeyGaoYaSwitch
-    MODULE:  ..\Output\sysRun.obj (SYSRUN)
-   DEFINED:  ..\Output\key.obj (KEY)
-Program Size: data=29.4 xdata=2963 const=306 code=20057
+Program Size: data=36.5 xdata=3466 const=306 code=25318
 creating hex file from "..\Output\APP"...
-"..\Output\APP" - 0 Error(s), 29 Warning(s).
-Build Time Elapsed:  00:00:03
+"..\Output\APP" - 0 Error(s), 18 Warning(s).
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

@@ -1,9 +1,9 @@
-C51 COMPILER V9.59.0.0   GLOBE                                                             03/23/2024 09:11:11 PAGE 1   
+C51 COMPILER V9.59.0.0   GLOBE                                                             03/23/2024 18:31:23 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE GLOBE
 OBJECT MODULE PLACED IN ..\Output\globe.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Apps\globe.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECTOR(0X2800) INC
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Apps\globe.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE INTVECTOR(0X2800) INC
                     -DIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) DEFINE
                     -(SC95F8x1xB) DEBUG PRINT(..\List\globe.lst) TABS(2) OBJECT(..\Output\globe.obj)
 
@@ -29,7 +29,7 @@ line level    source
   18          //////////////×îÐ¡¿ò¼Ü////////////////////
   19          
   20          ST_Filter gstFilte;
-  21          ST_AM901  gstAM901;
+  21          volatile ST_AM901  gstAM901;
   22          volatile STAD_Collect   gstADCollect;
   23          u8 gKeyValue;
   24          #if 0
@@ -62,7 +62,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
-C51 COMPILER V9.59.0.0   GLOBE                                                             03/23/2024 09:11:11 PAGE 2   
+C51 COMPILER V9.59.0.0   GLOBE                                                             03/23/2024 18:31:23 PAGE 2   
 
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----

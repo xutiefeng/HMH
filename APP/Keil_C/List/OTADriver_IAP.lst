@@ -1,9 +1,9 @@
-C51 COMPILER V9.59.0.0   OTADRIVER_IAP                                                     03/23/2024 09:11:12 PAGE 1   
+C51 COMPILER V9.59.0.0   OTADRIVER_IAP                                                     03/23/2024 18:31:23 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE OTADRIVER_IAP
 OBJECT MODULE PLACED IN ..\Output\OTADriver_IAP.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\OTADriver_IAP.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWS
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\OTADriver_IAP.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWS
                     -E INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\
                     -..\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\OTADriver_IAP.lst) TABS(2) OBJECT(..\Output\OTADriver_IAP.obj)
 
@@ -62,7 +62,7 @@ line level    source
   51          *****************************************************/
   52          unsigned char IAP_WriteNByte(unsigned long IAP_IapAddr, int Length, void* Write_IAP_IapData)//Ð´N×Ö½ÚIAP²Ù
              -×÷
-C51 COMPILER V9.59.0.0   OTADRIVER_IAP                                                     03/23/2024 09:11:12 PAGE 2   
+C51 COMPILER V9.59.0.0   OTADRIVER_IAP                                                     03/23/2024 18:31:23 PAGE 2   
 
   53          {
   54   1        int i;
@@ -91,9 +91,9 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    251    ----
+   CODE SIZE        =    335    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----      31
+   XDATA SIZE       =     36    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

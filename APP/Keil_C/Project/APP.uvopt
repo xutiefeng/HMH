@@ -149,62 +149,30 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>164</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-16759864</Address>
+          <LineNumber>44</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>0</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\tfxu\Project\AM901_0308\APP\Keil_C\project\Apps\sysRun.c</Filename>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\bsp_Led.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\unnamed\SYSRUN\164</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>165</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-16759842</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\tfxu\Project\AM901_0308\APP\Keil_C\project\Apps\sysRun.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\unnamed\SYSRUN\165</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>166</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-16759814</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\tfxu\Project\AM901_0308\APP\Keil_C\project\Apps\sysRun.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\unnamed\SYSRUN\166</Expression>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gstAM901,0x10</ItemText>
+          <ItemText>gstAM901,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>KEY_test</ItemText>
+          <ItemText>gbFlagData</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
@@ -214,7 +182,7 @@
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gstAM901</ItemText>
+          <ItemText>gstFilte</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
@@ -265,6 +233,26 @@
           <count>13</count>
           <WinNumber>1</WinNumber>
           <ItemText>gstAM901</ItemText>
+        </Ww>
+        <Ww>
+          <count>14</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gstAM901.stFilter-&gt;type</ItemText>
+        </Ww>
+        <Ww>
+          <count>15</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gstAM901.stFilter-&gt;Mix_DayCnt</ItemText>
+        </Ww>
+        <Ww>
+          <count>16</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gstAM901.stFilter-&gt;Mix_DayCnt</ItemText>
+        </Ww>
+        <Ww>
+          <count>17</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gstAM901.stFilter-&gt;type</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

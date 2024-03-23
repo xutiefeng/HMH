@@ -34,6 +34,7 @@ void sysRest(void)
 {
  	 memset(gbFlagData,0,5);
  	 memset(&gstFilte,0,sizeof(gstFilte));
+	 memset(&gstAM901,0,sizeof(gstAM901));
 	 gstAM901.stFilter = &gstFilte;
 }
 
@@ -82,9 +83,9 @@ void TimeReminder(void)
 				LED2_L =0;
 		}
 	
-		else if(temp <3)//寿命快到期
+		else if(temp <=3)//寿命快到期
 		{
-				if(sTimeReminderCnt < 5)
+				if(sTimeReminderCnt <= 5)
 				{
 						LED2_R =1;
 						LED2_L =0;
@@ -108,14 +109,14 @@ void TimeReminder(void)
 	}
 	else
 	{
-		if(temp < 3)//寿命到期
+		if(temp <= 3)//寿命到期
 		{
 				LED1_R =1;
 				LED1_L =0;
 
 		}
 	
-		else if(temp < 10)//寿命快到期
+		else if(temp <= 10)//寿命快到期
 		{
 				if(sTimeReminderCnt < 5)
 				{
@@ -150,33 +151,56 @@ void TimeReminder(void)
 * 输    入: 无	
 * 输    出: 无
 *************************************************************************/
+
+#define RO_DAY 1080ul
+#define MIX_3INI_DAY 360ul
 void FilterSysRunTime(void)
 {
-	unsigned long  temp;
+	 unsigned long  temp;
+	 float ftemp;
 	if(gstFilte.type == ROFilter)	
 	{
-	
+	/* 测试使用
+		百分之2   90514640
+		百分之3   0x5651D00
+		百分之10  0x5017200
+		
+		*/
 		if(gstFilte.RO_DayCnt <0x058FD400 )	//3600*24*1080 0x01E13380
 			gstFilte.RO_DayCnt++;
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
 		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
 		temp =  gstFilte.RO_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
-		temp = 	108000-temp;
-		gstAM901.Run.Bit.DayResidualPercent =  (float)temp/1080;
+			
+		if(temp < 108000ul)
+		{
+			temp = 108000ul-temp;
+			ftemp = (float)temp/1080ul;
+			gstAM901.Run.Bit.DayResidualPercent =  (u8)ftemp;
+		}
+		
+		
 	}
 	else
 	{
+		/* 测试使用
+		百分之3   0x01C9CE63
+		百分之10   0x1AB2600
+		百分之90  3110405
+		*/
 		if(gstFilte.Mix_DayCnt <0x01DA9C00 )//3600*24*360 
 			gstFilte.Mix_DayCnt++;
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
 		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
-		temp =  gstFilte.RO_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
-		temp = 	36000-temp;	
-		gstAM901.Run.Bit.DayResidualPercent = (float)temp/360;
+		temp =  gstFilte.Mix_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
+		temp = 	36000ul-temp;	
+
+		ftemp = (float)temp/MIX_3INI_DAY;
+		gstAM901.Run.Bit.DayResidualPercent = (u8)ftemp;
 	}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////MIX_RO_DAY///////////////////////////////////////////////////////////
 
 	
 	if(gstFilte.type == ROFilter && PunpFlag)	
@@ -184,35 +208,55 @@ void FilterSysRunTime(void)
 		if(gstFilte.RO_FlowRateCnt < 246388ul)//108000/(2.63/60)
 			gstFilte.RO_FlowRateCnt++;
 
-			
+		/* 测试使用
+		百分之1   90514640
+		百分之3   0x5651D00
+		百分之100  246388ul
+		
+		*/	
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 2.63*60*10800 
 		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
-		temp =  gstFilte.RO_FlowRateCnt*0.04384;//2.63/60
-		
+		temp =  (float)gstFilte.RO_FlowRateCnt*0.04384;//2.63/60;//
 		if(temp >10800ul )
 			temp = 10800ul;
+		
+		temp = 	10800-temp;	
 
-		gstAM901.Run.Bit.DayResidualPercent = (10800-temp)/108;
+		ftemp = (float)temp/108;
+
+		gstAM901.Run.Bit.FlowResidualPercent = (u8)ftemp;
 	}
 	else if(gstFilte.type == MixFilter && PunpFlag)
 	{
 		if(gstFilte.Mix_FlowRate < 82117ul)//3600/(2.63/60)
 			gstFilte.Mix_FlowRate++;
 			
-		if(temp >3600ul )
-			temp = 3600ul;
+		
 
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
 		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
 		temp =  gstFilte.Mix_FlowRate*0.04384;//gstFilte.RO_DayCnt*2.63/60
+		
+		if(temp >3600ul )
+			temp = 3600ul;
+		
+		temp = 	3600-temp;	
+
+		ftemp = ((float)temp)/36;
 			
-		gstAM901.Run.Bit.DayResidualPercent =  (3600-temp)/36;
+		gstAM901.Run.Bit.FlowResidualPercent =  (u8)ftemp;
 	}
 }
 
-
+void LEDProcess(void)
+{
+		if(!FirstPownOnFlag)
+		{
+				return;
+		}	
+}
 
 /************************************************************************* 
 * 函数名称:	DevicePowerOn

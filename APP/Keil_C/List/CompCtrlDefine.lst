@@ -1,9 +1,9 @@
-C51 COMPILER V9.59.0.0   COMPCTRLDEFINE                                                    03/23/2024 09:11:11 PAGE 1   
+C51 COMPILER V9.59.0.0   COMPCTRLDEFINE                                                    03/23/2024 18:31:22 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE COMPCTRLDEFINE
 OBJECT MODULE PLACED IN ..\Output\CompCtrlDefine.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\User\CompCtrlDefine.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECTOR(0X
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\User\CompCtrlDefine.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE INTVECTOR(0X
                     -2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\App
                     -s) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\CompCtrlDefine.lst) TABS(2) OBJECT(..\Output\CompCtrlDefine.obj)
 
@@ -36,7 +36,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =      3    ----
+   CODE SIZE        =      4    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

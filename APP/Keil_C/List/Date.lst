@@ -1,9 +1,9 @@
-C51 COMPILER V9.59.0.0   DATE                                                              03/23/2024 09:11:12 PAGE 1   
+C51 COMPILER V9.59.0.0   DATE                                                              03/23/2024 18:31:24 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DATE
 OBJECT MODULE PLACED IN ..\Output\Date.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\Date.c LARGE OMF2 OPTIMIZE(8,SIZE) BROWSE INTVECT
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Drivers\OTADriver\C\Date.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE INTVECT
                     -OR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;.
                     -.\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\Date.lst) TABS(2) OBJECT(..\Output\Date.obj)
 
