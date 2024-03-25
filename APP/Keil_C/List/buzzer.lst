@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/23/2024 18:31:23 PAGE 1   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/25/2024 20:30:54 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BUZZER
@@ -55,45 +55,53 @@ line level    source
   40          }ST_BuzzerCanShu;
   41          
   42          #define Buzzer0N_SingalKey 3300
-  43          #define Buzzer0N_6sheng 3400
-  44          #define Buzzer0FF_TIME  620
-  45          #define Buzzer0n_TIME   380
-  46          
-  47          ST_Buzzer stBuzzerTab[] =
-  48          {
-  49              {1900    ,200,120},
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/23/2024 18:31:23 PAGE 2   
+  43          #define Buzzer0N_6sheng 3700
+  44          #define Buzzer0N_3sheng 3400
+  45          
+  46          #define Buzzer0FF_TIME_Per1s  620
+  47          #define Buzzer0n_TIME_Per1s    380
+  48          
+  49          #define Buzzer0FF_TIME_Per500Ms  380
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/25/2024 20:30:54 PAGE 2   
 
-  50              {2400    ,200,120},
-  51              {2900    ,200,120},
-  52              {3400    ,200,1200},
-  53              {0xffffff   ,0xffff,0xffff}               
-  54          };
-  55          
-  56          
-  57          ST_Buzzer stBuzzerTab1[] =
-  58          {
-  59              {3400    ,200,120},
-  60              {2900    ,200,120},
-  61              {2400    ,200,120},
-  62              {1900    ,200,1200},
-  63              {0xffffff   ,0xffff,0xffff}
-  64          };
-  65          ////tong suo
-  66          ST_Buzzer stBuzzerTab2[] =
-  67          {
-  68              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  69              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  70              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  71              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  72              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  73              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  74              {0xffffff   ,0xffff,0xffff}
-  75          };
-  76          
-  77          ST_Buzzer stBuzzerTab31[] =
-  78          {
-  79            #if 0
+  50          #define Buzzer0n_TIME_Per500Ms    120
+  51          
+  52          #define Buzzer0FF_TIME  880
+  53          #define Buzzer0n_TIME   120
+  54          
+  55          ST_Buzzer stBuzzerTab[] =
+  56          {
+  57              {1900    ,200,120},
+  58              {2400    ,200,120},
+  59              {2900    ,200,120},
+  60              {3400    ,200,1200},
+  61              {0xffffff   ,0xffff,0xffff}               
+  62          };
+  63          
+  64          
+  65          ST_Buzzer stBuzzerTab1[] =
+  66          {
+  67              {3400    ,200,120},
+  68              {2900    ,200,120},
+  69              {2400    ,200,120},
+  70              {1900    ,200,1200},
+  71              {0xffffff   ,0xffff,0xffff}
+  72          };
+  73          ////tong suo
+  74          ST_Buzzer stBuzzerTab2[] =
+  75          {
+  76              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
+  77              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
+  78              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
+  79              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
+  80              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
+  81              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
+  82              {0xffffff   ,0xffff,0xffff}
+  83          };
+  84          
+  85          ST_Buzzer stBuzzerTab31[] =
+  86          {
+  87            #if 0
                   {1900    ,200,120},
                   {2400    ,200,120},
                   {2900    ,200,120},
@@ -104,266 +112,267 @@ line level    source
                   {2400    ,200,120},
                   {2900    ,200,1200},
                 #else
-  90              {Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  91              {Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  92              {Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  93              {Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  94              {Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  95              {Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-  96            #endif
-  97              {0xffffff   ,0xffff,0xffff}
-  98          };
-  99          ///////////////////ZhiLeng
- 100          ST_Buzzer stBuzzerTab32[] =
- 101          {
- 102              {Buzzer0N_SingalKey    ,200,Buzzer0FF_TIME},//2.0K
- 103              {0xffffff   ,0xffff,0xffff}
- 104          };
- 105          ///////////////////JianAnJian
- 106          ST_Buzzer stBuzzerTab33[] =
- 107          {
- 108            //  {2700    ,400,0},
- 109           //   {2900    ,400,0},
- 110                {3100    ,1500,0},
- 111                {3150    ,500,0},
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/23/2024 18:31:23 PAGE 3   
+  98              {Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+  99              {Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+ 100              {Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+ 101              {Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+ 102              {Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+ 103              {Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+ 104            #endif
+ 105              {0xffffff   ,0xffff,0xffff}
+ 106          };
+ 107          ///////////////////ZhiLeng
+ 108          ST_Buzzer stBuzzerTab32[] =
+ 109          {
+ 110              {Buzzer0N_SingalKey    ,200,Buzzer0FF_TIME},//2.0K
+ 111              {0xffffff   ,0xffff,0xffff}
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/25/2024 20:30:54 PAGE 3   
 
- 112           //   {3300    ,400,0},
- 113            //  {3500    ,400,0},
- 114              {0xffffff   ,0xffff,0xffff}
- 115          };
- 116          
- 117          ///////////////////JiaAnJian
- 118          ST_Buzzer stBuzzerTab34[] =
- 119          {
- 120              {Buzzer0N_SingalKey    ,Buzzer0n_TIME,Buzzer0FF_TIME},//2.0K
+ 112          };
+ 113          ///////////////////JianAnJian
+ 114          ST_Buzzer stBuzzerTab33[] =
+ 115          {
+ 116            //  {2700    ,400,0},
+ 117           //   {2900    ,400,0},
+ 118                {3150    ,200,300},
+ 119           //   {3300    ,400,0},
+ 120            //  {3500    ,400,0},
  121              {0xffffff   ,0xffff,0xffff}
  122          };
  123          
- 124          ///////////////////jiaRe
- 125          ST_Buzzer stBuzzerTab35[] =
+ 124          ///////////////////JiaAnJian
+ 125          ST_Buzzer stBuzzerTab34[] =
  126          {
- 127              {2300    ,Buzzer0n_TIME,Buzzer0FF_TIME},//1760 6 la
- 128              {1700    ,Buzzer0n_TIME,Buzzer0FF_TIME},//1560 5 suo
- 129              {0xffffff   ,0xffff,0xffff}
- 130          };
- 131          
- 132          ///////////////////chouTi 
- 133          ST_Buzzer stBuzzerTab36[] =
- 134          {
- 135              {1700    ,Buzzer0n_TIME,100},//1760 6 la
- 136              {2300    ,Buzzer0n_TIME,100},//1560 5 suo
- 137              {0xffffff   ,0xffff,0xffff}
- 138          };
- 139          
+ 127              {Buzzer0N_3sheng        ,Buzzer0FF_TIME_Per1s,Buzzer0FF_TIME_Per1s},//2.0K
+ 128              {Buzzer0N_3sheng        ,Buzzer0FF_TIME_Per1s,Buzzer0FF_TIME_Per1s},
+ 129              {Buzzer0N_3sheng        ,Buzzer0FF_TIME_Per1s,Buzzer0FF_TIME_Per1s},
+ 130              {0xffffff   ,0xffff,0xffff}
+ 131          };
+ 132          
+ 133          ///////////////////jiaRe
+ 134          ST_Buzzer stBuzzerTab35[] =
+ 135          {
+ 136              {2300    ,Buzzer0n_TIME,Buzzer0FF_TIME},//1760 6 la
+ 137              {1700    ,Buzzer0n_TIME,Buzzer0FF_TIME},//1560 5 suo
+ 138              {0xffffff   ,0xffff,0xffff}
+ 139          };
  140          
- 141          
- 142          uint8_t  BuzzerStart(ST_Buzzer  *stBuzzerTab, uint16_t  *stimeOpenPower,uint16_t  *stimeClosePower,uint8_t
-             - * step)
+ 141          ///////////////////chouTi 
+ 142          ST_Buzzer stBuzzerTab36[] =
  143          {
- 144   1      
- 145   1          static uint16_t HisFrq =  0UL;
- 146   1          static uint16_t HisDuty = 0UL;
- 147   1          static uint16_t sDuty = 0U;
- 148   1        
- 149   1         if(*step == 0xff)
- 150   1          {
- 151   2              return 1;
- 152   2          }
- 153   1          
- 154   1          if(*stimeOpenPower < stBuzzerTab[*step].OpenTime * 0.2)
- 155   1          {
- 156   2              
- 157   2              if(stBuzzerTab[*step].frq != HisFrq)
- 158   2              {
- 159   3                  HisFrq = stBuzzerTab[*step].frq ;
- 160   3                  BUEEER_SetFrq(stBuzzerTab[*step].frq);
- 161   3                  sDuty = stBuzzerTab[*step].frq;
- 162   3                  BUZZER_POWER_ON; 
- 163   3              }
- 164   2              else
- 165   2              {           
- 166   3                  BUEEER_SetDuty(sDuty);
- 167   3              }
- 168   2              
- 169   2               
- 170   2              (*stimeOpenPower)++;
- 171   2      
- 172   2          }
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/23/2024 18:31:23 PAGE 4   
+ 144              {1700    ,Buzzer0n_TIME,100},//1760 6 la
+ 145              {2300    ,Buzzer0n_TIME,100},//1560 5 suo
+ 146              {0xffffff   ,0xffff,0xffff}
+ 147          };
+ 148          
+ 149          
+ 150          
+ 151          uint8_t  BuzzerStart(ST_Buzzer  *stBuzzerTab, uint16_t  *stimeOpenPower,uint16_t  *stimeClosePower,uint8_t
+             - * step)
+ 152          {
+ 153   1      
+ 154   1          static uint16_t HisFrq =  0UL;
+ 155   1          static uint16_t HisDuty = 0UL;
+ 156   1          static uint16_t sDuty = 0U;
+ 157   1        
+ 158   1         if(*step == 0xff)
+ 159   1          {
+ 160   2              return 1;
+ 161   2          }
+ 162   1          
+ 163   1          if(*stimeOpenPower < stBuzzerTab[*step].OpenTime * 0.2)
+ 164   1          {
+ 165   2              
+ 166   2              if(stBuzzerTab[*step].frq != HisFrq)
+ 167   2              {
+ 168   3                  HisFrq = stBuzzerTab[*step].frq ;
+ 169   3                  BUEEER_SetFrq(stBuzzerTab[*step].frq);
+ 170   3                  sDuty = stBuzzerTab[*step].frq;
+ 171   3                  BUZZER_POWER_ON; 
+ 172   3              }
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/25/2024 20:30:54 PAGE 4   
 
- 173   1          else if(*stimeClosePower < stBuzzerTab[*step].CloseTime * 0.2)
- 174   1          {
- 175   2              BUZZER_POWER_OFF;
- 176   2              
- 177   2              (*stimeClosePower)++;
- 178   2          }
- 179   1          else
- 180   1          {
- 181   2              (*step)++;
- 182   2              *stimeOpenPower = 0;
- 183   2              *stimeClosePower = 0;
- 184   2              sDuty = stBuzzerTab[*step].frq;
- 185   2            
- 186   2              if(stBuzzerTab[*step].frq == 0xfffffful)
- 187   2              {
- 188   3                  *step = 0xff;
- 189   3                  HisFrq = 0;
- 190   3                  BUZZER_Stop;
- 191   3                  return 1;
- 192   3              }        
- 193   2          }
- 194   1          return 0;
- 195   1      
- 196   1      }
-*** WARNING C280 IN LINE 146 OF ..\Apps\buzzer.c: 'HisDuty': unreferenced local variable
- 197          
- 198          void BuzzerProcess(void)
- 199          {
- 200   1          static ST_Heat sBuzzerDelay;
- 201   1          static uint8_t  voliceNum;
- 202   1          static uint16_t  sstimeOpenPower;
- 203   1          static uint16_t  sstimeClosePower;
- 204   1          static uint8_t   sstep;
- 205   1       
- 206   1          if( BuzzerFlag || gbFlagData[5].all > 0)
- 207   1          {
- 208   2      
- 209   2              sBuzzerDelay.Bit.run = 1;
- 210   2          
- 211   2              
- 212   2              if(BuzzerPowerOnFlag)
- 213   2              {
- 214   3                  voliceNum = 1;
- 215   3              }
- 216   2                  
- 217   2              else if(BuzzerPowerOffFlag)
- 218   2              {
- 219   3                  voliceNum = 2;
- 220   3              }
- 221   2                  
- 222   2              else if(BuzzerFlag)
- 223   2              {
- 224   3                  voliceNum = 3;
- 225   3              }
- 226   2              
- 227   2              else if(Buzzer1Flag)
- 228   2              {
- 229   3                  voliceNum = 31;
- 230   3              }
- 231   2              else if(Buzzer2Flag)
+ 173   2              else
+ 174   2              {           
+ 175   3                  BUEEER_SetDuty(sDuty);
+ 176   3              }
+ 177   2              
+ 178   2               
+ 179   2              (*stimeOpenPower)++;
+ 180   2      
+ 181   2          }
+ 182   1          else if(*stimeClosePower < stBuzzerTab[*step].CloseTime * 0.2)
+ 183   1          {
+ 184   2              BUZZER_POWER_OFF;
+ 185   2              
+ 186   2              (*stimeClosePower)++;
+ 187   2          }
+ 188   1          else
+ 189   1          {
+ 190   2              (*step)++;
+ 191   2              *stimeOpenPower = 0;
+ 192   2              *stimeClosePower = 0;
+ 193   2              sDuty = stBuzzerTab[*step].frq;
+ 194   2            
+ 195   2              if(stBuzzerTab[*step].frq == 0xfffffful)
+ 196   2              {
+ 197   3                  *step = 0xff;
+ 198   3                  HisFrq = 0;
+ 199   3                  BUZZER_Stop;
+ 200   3                  return 1;
+ 201   3              }        
+ 202   2          }
+ 203   1          return 0;
+ 204   1      
+ 205   1      }
+*** WARNING C280 IN LINE 155 OF ..\Apps\buzzer.c: 'HisDuty': unreferenced local variable
+ 206          
+ 207          void BuzzerProcess(void)
+ 208          {
+ 209   1          static ST_Heat sBuzzerDelay;
+ 210   1          static uint8_t  voliceNum;
+ 211   1          static uint16_t  sstimeOpenPower;
+ 212   1          static uint16_t  sstimeClosePower;
+ 213   1          static uint8_t   sstep;
+ 214   1       
+ 215   1          if( BuzzerFlag || gbFlagData[5].all > 0)
+ 216   1          {
+ 217   2      
+ 218   2              sBuzzerDelay.Bit.run = 1;
+ 219   2          
+ 220   2              
+ 221   2              if(BuzzerPowerOnFlag)
+ 222   2              {
+ 223   3                  voliceNum = 1;
+ 224   3              }
+ 225   2                  
+ 226   2              else if(BuzzerPowerOffFlag)
+ 227   2              {
+ 228   3                  voliceNum = 2;
+ 229   3              }
+ 230   2                  
+ 231   2              else if(BuzzerFlag)
  232   2              {
- 233   3                  voliceNum = 32;
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/23/2024 18:31:23 PAGE 5   
+ 233   3                  voliceNum = 3;
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/25/2024 20:30:54 PAGE 5   
 
  234   3              }
- 235   2              else if(Buzzer3Flag)
- 236   2              {
- 237   3                  voliceNum = 33;
- 238   3              }
- 239   2              else if(Buzzer4Flag)
- 240   2              {
- 241   3                  voliceNum = 34;
- 242   3              }
- 243   2              else if(Buzzer5Flag)
- 244   2              {
- 245   3                  voliceNum = 35;
- 246   3              }
- 247   2              else if(Buzzer6Flag)
- 248   2              {
- 249   3                  voliceNum = 36;
- 250   3              }
- 251   2              BuzzerFlag = 0;
- 252   2              gbFlagData[5].all = 0;
- 253   2              
- 254   2              sstep = 0;
- 255   2              sstimeOpenPower = 0;
- 256   2              sstimeClosePower = 0;
- 257   2          }
- 258   1          if(sBuzzerDelay.Bit.run)
- 259   1          {
- 260   2              if(voliceNum == 1)
- 261   2              {
- 262   3                  if(BuzzerStart(stBuzzerTab,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 263   3                  {
- 264   4                      sBuzzerDelay.Bit.run = 0;
- 265   4                  }
- 266   3              }
- 267   2              else if(voliceNum == 2)
- 268   2              {
- 269   3                  if(BuzzerStart(stBuzzerTab1,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 270   3                  {
- 271   4                      sBuzzerDelay.Bit.run = 0;
- 272   4                  }
- 273   3              }
- 274   2              
- 275   2              else if(voliceNum == 3)
- 276   2              {
- 277   3                  if(BuzzerStart(stBuzzerTab2,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 278   3                  {
- 279   4                      sBuzzerDelay.Bit.run = 0;
- 280   4                  }
- 281   3              }
- 282   2              
- 283   2              else if(voliceNum == 31)
- 284   2              {
- 285   3                  if(BuzzerStart(stBuzzerTab31,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 286   3                  {
- 287   4                      sBuzzerDelay.Bit.run = 0;
- 288   4                  }
- 289   3              }
- 290   2              else if(voliceNum == 32)
- 291   2              {
- 292   3                  if(BuzzerStart(stBuzzerTab32,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 293   3                  {
- 294   4                      sBuzzerDelay.Bit.run = 0;
- 295   4                  }
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/23/2024 18:31:23 PAGE 6   
+ 235   2              
+ 236   2              else if(Buzzer1Flag)
+ 237   2              {
+ 238   3                  voliceNum = 31;
+ 239   3              }
+ 240   2              else if(Buzzer2Flag)
+ 241   2              {
+ 242   3                  voliceNum = 32;
+ 243   3              }
+ 244   2              else if(Buzzer3Flag)
+ 245   2              {
+ 246   3                  voliceNum = 33;
+ 247   3              }
+ 248   2              else if(Buzzer4Flag)
+ 249   2              {
+ 250   3                  voliceNum = 34;
+ 251   3              }
+ 252   2              else if(Buzzer5Flag)
+ 253   2              {
+ 254   3                  voliceNum = 35;
+ 255   3              }
+ 256   2              else if(Buzzer6Flag)
+ 257   2              {
+ 258   3                  voliceNum = 36;
+ 259   3              }
+ 260   2              BuzzerFlag = 0;
+ 261   2              gbFlagData[5].all = 0;
+ 262   2              
+ 263   2              sstep = 0;
+ 264   2              sstimeOpenPower = 0;
+ 265   2              sstimeClosePower = 0;
+ 266   2          }
+ 267   1          if(sBuzzerDelay.Bit.run)
+ 268   1          {
+ 269   2              if(voliceNum == 1)
+ 270   2              {
+ 271   3                  if(BuzzerStart(stBuzzerTab,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 272   3                  {
+ 273   4                      sBuzzerDelay.Bit.run = 0;
+ 274   4                  }
+ 275   3              }
+ 276   2              else if(voliceNum == 2)
+ 277   2              {
+ 278   3                  if(BuzzerStart(stBuzzerTab1,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 279   3                  {
+ 280   4                      sBuzzerDelay.Bit.run = 0;
+ 281   4                  }
+ 282   3              }
+ 283   2              
+ 284   2              else if(voliceNum == 3)
+ 285   2              {
+ 286   3                  if(BuzzerStart(stBuzzerTab2,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 287   3                  {
+ 288   4                      sBuzzerDelay.Bit.run = 0;
+ 289   4                  }
+ 290   3              }
+ 291   2              
+ 292   2              else if(voliceNum == 31)
+ 293   2              {
+ 294   3                  if(BuzzerStart(stBuzzerTab31,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 295   3                  {
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/25/2024 20:30:54 PAGE 6   
 
- 296   3              }
- 297   2              else if(voliceNum == 33)
- 298   2              {
- 299   3                  if(BuzzerStart(stBuzzerTab33,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 300   3                  {
- 301   4                      sBuzzerDelay.Bit.run = 0;
- 302   4                  }
- 303   3              }
- 304   2              
- 305   2              else if(voliceNum == 34)
- 306   2              {
- 307   3                  if(BuzzerStart(stBuzzerTab34,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 308   3                  {
- 309   4                      sBuzzerDelay.Bit.run = 0;
- 310   4                  }
- 311   3              }
- 312   2              
- 313   2              else if(voliceNum == 35)
- 314   2              {
- 315   3                  if(BuzzerStart(stBuzzerTab35,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 316   3                  {
- 317   4                      sBuzzerDelay.Bit.run = 0;
- 318   4                  }
- 319   3              }
- 320   2              
- 321   2              else if(voliceNum == 36)
- 322   2              {
- 323   3                  if(BuzzerStart(stBuzzerTab36,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
- 324   3                  {
- 325   4                      sBuzzerDelay.Bit.run = 0;
- 326   4                  }
- 327   3              }
- 328   2          }
- 329   1          else
- 330   1          {
- 331   2                  BUZZER_Stop;
- 332   2          }
- 333   1      }
+ 296   4                      sBuzzerDelay.Bit.run = 0;
+ 297   4                  }
+ 298   3              }
+ 299   2              else if(voliceNum == 32)
+ 300   2              {
+ 301   3                  if(BuzzerStart(stBuzzerTab32,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 302   3                  {
+ 303   4                      sBuzzerDelay.Bit.run = 0;
+ 304   4                  }
+ 305   3              }
+ 306   2              else if(voliceNum == 33)
+ 307   2              {
+ 308   3                  if(BuzzerStart(stBuzzerTab33,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 309   3                  {
+ 310   4                      sBuzzerDelay.Bit.run = 0;
+ 311   4                  }
+ 312   3              }
+ 313   2              
+ 314   2              else if(voliceNum == 34)
+ 315   2              {
+ 316   3                  if(BuzzerStart(stBuzzerTab34,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 317   3                  {
+ 318   4                      sBuzzerDelay.Bit.run = 0;
+ 319   4                  }
+ 320   3              }
+ 321   2              
+ 322   2              else if(voliceNum == 35)
+ 323   2              {
+ 324   3                  if(BuzzerStart(stBuzzerTab35,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 325   3                  {
+ 326   4                      sBuzzerDelay.Bit.run = 0;
+ 327   4                  }
+ 328   3              }
+ 329   2              
+ 330   2              else if(voliceNum == 36)
+ 331   2              {
+ 332   3                  if(BuzzerStart(stBuzzerTab36,&sstimeOpenPower,&sstimeClosePower,&sstep)==1)
+ 333   3                  {
+ 334   4                      sBuzzerDelay.Bit.run = 0;
+ 335   4                  }
+ 336   3              }
+ 337   2          }
+ 338   1          else
+ 339   1          {
+ 340   2                  BUZZER_Stop;
+ 341   2          }
+ 342   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   1821    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    321    ----
+   XDATA SIZE       =    329    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
@@ -373,6 +382,8 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
+
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/25/2024 20:30:54 PAGE 7   
 
 
 C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

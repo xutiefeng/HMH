@@ -149,6 +149,22 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+          <LineNumber>218</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>-16762436</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>D:\tfxu\Project\AM901_0308\APP\Keil_C\project\Apps\buzzer.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\unnamed\BUZZER\218</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
           <LineNumber>44</LineNumber>
           <EnabledFlag>0</EnabledFlag>
           <Address>0</Address>
@@ -167,7 +183,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gstAM901,0x0A</ItemText>
+          <ItemText>gstADCollect</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -177,7 +193,7 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>KEY_test</ItemText>
+          <ItemText>sUseFactoryCnt</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -306,7 +322,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>

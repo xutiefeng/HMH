@@ -311,8 +311,9 @@ IOT_State IOT_Work()
                     {
                         System.TimeCount=0;
                         UART_SendString("get_down\r");
-						Send_IOT_State++;
-						Send_IOT_State &=0x7F;
+											
+												Send_IOT_State++;
+												Send_IOT_State &=0x7F;
                     }
                     if(MIIO_IAP.State==MI_Rx)
                     {

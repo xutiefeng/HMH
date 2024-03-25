@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 1   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MIIO_OPERATE
@@ -62,7 +62,7 @@ line level    source
   51          MIIO_Result_t MIIO_IAP_Cmd(char *cmd,                     //
   52                                     char *reply1,              //
   53                                     char *reply2,              //
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 2   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 2   
 
   54                                     u32 TimeOut,               //
   55                                     void UR_Send(char *Udata)) //
@@ -126,7 +126,7 @@ line level    source
  113   2          ErrorCount=0;
  114   2          IAP_Size=0;
  115   2          IAP_Count=1;
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 3   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 3   
 
  116   2          FileCrcerror=0;
  117   2          File_crc=0;
@@ -190,7 +190,7 @@ line level    source
  175   2          {
  176   3            XMClient.Time.Count=0;
  177   3            ErrorCount+=1;
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 4   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 4   
 
  178   3            XMClient.Package.Size=0;
  179   3            UART_SendByte(XR_NACK);
@@ -254,7 +254,7 @@ line level    source
  236   2          XMClient.Package.Size=0;
  237   2          XMClient.State=XS_Error;
  238   2          XMClient.Phase=XP_PackEnd;;
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 5   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 5   
 
  239   2          return XS_Fault;
  240   2        } 
@@ -318,7 +318,7 @@ line level    source
  298          //====================================================================================================
  299          //====================================================================================================
  300          IOT_State IOT_Work()
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 6   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 6   
 
  301          {
  302   1        static unsigned char Send_IOT_State=0;
@@ -333,227 +333,228 @@ line level    source
  311   3                          {
  312   4                              System.TimeCount=0;
  313   4                              UART_SendString("get_down\r");
- 314   4                  Send_IOT_State++;
- 315   4                  Send_IOT_State &=0x7F;
- 316   4                          }
- 317   3                          if(MIIO_IAP.State==MI_Rx)
- 318   3                          {
- 319   4                              MIIO_IAP.State=MI_Wait;
- 320   4                              MIIO_IAP.Buffer.Count=0;
- 321   4                              if((u8)System.Mode==sMIIO_Get_down)
- 322   4                  {
- 323   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down none\r"))
- 324   5                    {
- 325   6                      UART_SendString("result\r");
- 326   6                    }
- 327   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down unknown_command\r"))
- 328   5                    {
- 329   6                      UART_SendString("result\r");
- 330   6                    }
- 331   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down MIIO_mcu_version_req\r"))
- 332   5                    {
- 333   6                      UART_SendString("mcu_version 0001\r");
- 334   6                    }       
- 335   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down get_properties"))
- 336   5                    {
- 337   6                      UART_SendString("result\r");
- 338   6                    }
- 339   5                  }
- 340   4                              if(CmpStr(&MIIO_IAP.Buffer.Memory,"down update_fw\r"))
- 341   4                              {
- 342   5                                  Systime_Set(sMIIO_Standby, IAP_TIME_WINDOW); //设置固件升级命令
- 343   5                    
- 344   5                    Net_State=IOT_GET_FW;  //收到固件升级命令
- 345   5                              }               
- 346   4                          }
- 347   3          }
- 348   2          else
- 349   2          {
- 350   3            if(System.TimeCount>=300)  //300mS
- 351   3                 {
- 352   4              System.TimeCount=0;
- 353   4              Send_IOT_State++;
- 354   4               Send_IOT_State &=0x7F;
- 355   4                 }
- 356   3            switch ((u8)System.Mode)
- 357   3            {
- 358   4              case sMIIO_Model:
- 359   4                      {
- 360   5            
- 361   5                          miio_result = MIIO_IAP_Cmd("model sasesi.srser.sas01\r", //
- 362   5                          "ok",                 //
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 7   
+ 314   4                            
+ 315   4                              Send_IOT_State++;
+ 316   4                              Send_IOT_State &=0x7F;
+ 317   4                          }
+ 318   3                          if(MIIO_IAP.State==MI_Rx)
+ 319   3                          {
+ 320   4                              MIIO_IAP.State=MI_Wait;
+ 321   4                              MIIO_IAP.Buffer.Count=0;
+ 322   4                              if((u8)System.Mode==sMIIO_Get_down)
+ 323   4                  {
+ 324   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down none\r"))
+ 325   5                    {
+ 326   6                      UART_SendString("result\r");
+ 327   6                    }
+ 328   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down unknown_command\r"))
+ 329   5                    {
+ 330   6                      UART_SendString("result\r");
+ 331   6                    }
+ 332   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down MIIO_mcu_version_req\r"))
+ 333   5                    {
+ 334   6                      UART_SendString("mcu_version 0001\r");
+ 335   6                    }       
+ 336   5                    if(CmpStr(&MIIO_IAP.Buffer.Memory,"down get_properties"))
+ 337   5                    {
+ 338   6                      UART_SendString("result\r");
+ 339   6                    }
+ 340   5                  }
+ 341   4                              if(CmpStr(&MIIO_IAP.Buffer.Memory,"down update_fw\r"))
+ 342   4                              {
+ 343   5                                  Systime_Set(sMIIO_Standby, IAP_TIME_WINDOW); //设置固件升级命令
+ 344   5                    
+ 345   5                    Net_State=IOT_GET_FW;  //收到固件升级命令
+ 346   5                              }               
+ 347   4                          }
+ 348   3          }
+ 349   2          else
+ 350   2          {
+ 351   3            if(System.TimeCount>=300)  //300mS
+ 352   3                 {
+ 353   4              System.TimeCount=0;
+ 354   4              Send_IOT_State++;
+ 355   4               Send_IOT_State &=0x7F;
+ 356   4                 }
+ 357   3            switch ((u8)System.Mode)
+ 358   3            {
+ 359   4              case sMIIO_Model:
+ 360   4                      {
+ 361   5            
+ 362   5                          miio_result = MIIO_IAP_Cmd("model sasesi.srser.sas01\r", //
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 7   
 
- 363   5                          "error",              //
- 364   5                          100,                  //
- 365   5                          UART_SendString);    //
- 366   5                          if (miio_result == MIR_R1)
- 367   5                          {
- 368   6                              Systime_Set(sMIIO_Ble_config, IAP_TIME_WINDOW);
- 369   6                          }
- 370   5                          break;
- 371   5              }
- 372   4              case sMIIO_Ble_config:
- 373   4                      {
- 374   5                          miio_result = MIIO_IAP_Cmd("ble_config set 156 0001\r", //
- 375   5                          "ok",                 //
- 376   5                          "error",              //
- 377   5                          100,                  //
- 378   5                          UART_SendString);    //
- 379   5                          if (miio_result == MIR_R1)
- 380   5                          {
- 381   6                              Systime_Set(sMIIO_Mcu_version, IAP_TIME_WINDOW);
- 382   6                          }
- 383   5                          break;
- 384   5              } 
- 385   4              case sMIIO_Mcu_version:
- 386   4                      {
- 387   5                          miio_result = MIIO_IAP_Cmd("mcu_version 0001\r", //
- 388   5                          "ok",                 //
- 389   5                          "error",              //
- 390   5                          100,                  //
- 391   5                          UART_SendString);    //
- 392   5                          if (miio_result == MIR_R1)
- 393   5                          {
- 394   6                              Systime_Set(sMIIO_Get_down, IAP_TIME_WINDOW);
- 395   6                              MIIO_IAP.Time.Count=0;
- 396   6                          }
- 397   5                          break;
- 398   5              } 
- 399   4              default:
- 400   4                System.Mode = sMIIO_Model;
- 401   4                break;
- 402   4            }       
- 403   3          }
- 404   2        }
- 405   1        return  Net_State;
- 406   1      }
- 407          //====================================================================================================
+ 363   5                          "ok",                 //
+ 364   5                          "error",              //
+ 365   5                          100,                  //
+ 366   5                          UART_SendString);    //
+ 367   5                          if (miio_result == MIR_R1)
+ 368   5                          {
+ 369   6                              Systime_Set(sMIIO_Ble_config, IAP_TIME_WINDOW);
+ 370   6                          }
+ 371   5                          break;
+ 372   5              }
+ 373   4              case sMIIO_Ble_config:
+ 374   4                      {
+ 375   5                          miio_result = MIIO_IAP_Cmd("ble_config set 156 0001\r", //
+ 376   5                          "ok",                 //
+ 377   5                          "error",              //
+ 378   5                          100,                  //
+ 379   5                          UART_SendString);    //
+ 380   5                          if (miio_result == MIR_R1)
+ 381   5                          {
+ 382   6                              Systime_Set(sMIIO_Mcu_version, IAP_TIME_WINDOW);
+ 383   6                          }
+ 384   5                          break;
+ 385   5              } 
+ 386   4              case sMIIO_Mcu_version:
+ 387   4                      {
+ 388   5                          miio_result = MIIO_IAP_Cmd("mcu_version 0001\r", //
+ 389   5                          "ok",                 //
+ 390   5                          "error",              //
+ 391   5                          100,                  //
+ 392   5                          UART_SendString);    //
+ 393   5                          if (miio_result == MIR_R1)
+ 394   5                          {
+ 395   6                              Systime_Set(sMIIO_Get_down, IAP_TIME_WINDOW);
+ 396   6                              MIIO_IAP.Time.Count=0;
+ 397   6                          }
+ 398   5                          break;
+ 399   5              } 
+ 400   4              default:
+ 401   4                System.Mode = sMIIO_Model;
+ 402   4                break;
+ 403   4            }       
+ 404   3          }
+ 405   2        }
+ 406   1        return  Net_State;
+ 407   1      }
  408          //====================================================================================================
- 409          void OTA_FirmwareDownload(IAPDATA_INFO *IAP_Pack)
- 410          {
- 411   1              switch ((u8)System.Mode)
- 412   1              {
- 413   2                  case sMIIO_Standby:    //发送升级请求
- 414   2                      miio_result = MIIO_IAP_Cmd("get_down\r",     //
- 415   2                      "down update_fw", //
- 416   2                      "down none",      //
- 417   2                      100,              //
- 418   2                      UART_SendString);
- 419   2                      if (miio_result == MIR_R1) // MIIO need update
- 420   2                      {
- 421   3                          Systime_Set(sMIIO_Ready, IAP_TIME_BOOT);
- 422   3                      }
- 423   2                      break;
- 424   2                  case sMIIO_Ready:     //应答IOT平台，准备接收固件
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 8   
+ 409          //====================================================================================================
+ 410          void OTA_FirmwareDownload(IAPDATA_INFO *IAP_Pack)
+ 411          {
+ 412   1              switch ((u8)System.Mode)
+ 413   1              {
+ 414   2                  case sMIIO_Standby:    //发送升级请求
+ 415   2                      miio_result = MIIO_IAP_Cmd("get_down\r",     //
+ 416   2                      "down update_fw", //
+ 417   2                      "down none",      //
+ 418   2                      100,              //
+ 419   2                      UART_SendString);
+ 420   2                      if (miio_result == MIR_R1) // MIIO need update
+ 421   2                      {
+ 422   3                          Systime_Set(sMIIO_Ready, IAP_TIME_BOOT);
+ 423   3                      }
+ 424   2                      break;
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 8   
 
- 425   2                      miio_result = MIIO_IAP_Cmd("result \"ready\"\r", //
- 426   2                      "ok",                 //
- 427   2                      "error",              //
- 428   2                      100,                  //
- 429   2                      UART_SendString);    //
- 430   2                      if (miio_result == MIR_R1)
- 431   2                      {
- 432   3                          Systime_Set(sIAP, IAP_TIME_BOOT);
- 433   3                      }
- 434   2                      break;
- 435   2                  case sIAP:       //下载固件数据
- 436   2                      System.TimeCount=0;
- 437   2              
- 438   2              if((IAP_Pack->State==OTA_IAPWRITED)&&(IAP_Pack->Size==0)) //完成一包数据接收,且写入IAP完成
- 439   2              {
- 440   3                XmodemClient_ACK();            //回应IOT平台ACK,准备接收下一包数据
- 441   3                IAP_Pack->State=OTA_READY;
- 442   3              }
- 443   2              if(IAP_Pack->State==OTA_FAULT)      //IAP写入出错
- 444   2              {
- 445   3                IAP_Pack->State=OTA_READY;
- 446   3                XS_Result = XS_Fault;
- 447   3              }
- 448   2            
+ 425   2                  case sMIIO_Ready:     //应答IOT平台，准备接收固件
+ 426   2                      miio_result = MIIO_IAP_Cmd("result \"ready\"\r", //
+ 427   2                      "ok",                 //
+ 428   2                      "error",              //
+ 429   2                      100,                  //
+ 430   2                      UART_SendString);    //
+ 431   2                      if (miio_result == MIR_R1)
+ 432   2                      {
+ 433   3                          Systime_Set(sIAP, IAP_TIME_BOOT);
+ 434   3                      }
+ 435   2                      break;
+ 436   2                  case sIAP:       //下载固件数据
+ 437   2                      System.TimeCount=0;
+ 438   2              
+ 439   2              if((IAP_Pack->State==OTA_IAPWRITED)&&(IAP_Pack->Size==0)) //完成一包数据接收,且写入IAP完成
+ 440   2              {
+ 441   3                XmodemClient_ACK();            //回应IOT平台ACK,准备接收下一包数据
+ 442   3                IAP_Pack->State=OTA_READY;
+ 443   3              }
+ 444   2              if(IAP_Pack->State==OTA_FAULT)      //IAP写入出错
+ 445   2              {
+ 446   3                IAP_Pack->State=OTA_READY;
+ 447   3                XS_Result = XS_Fault;
+ 448   3              }
  449   2            
- 450   2                      XS_Result = XmodemClient_Proess(IAP_Pack);//(&IAP_Pack);  //下载固件，存放于IAP_Pack
- 451   2          
- 452   2                      if (XS_Result == XS_Finish)        //下载进程结束
- 453   2                      {
- 454   3                              if(FileCrcerror==0)         
- 455   3                  {
- 456   4                    AppCompleteCheck();                         //下载成功，检查代码版本并copy到APP区
- 457   4                    IAP_Pack->State=OTA_COMPLETE;
- 458   4                        XmodemClient_ACK();
- 459   4                  }
- 460   3                  else
- 461   3                  {
- 462   4                    IAP_Pack->State=OTA_FAULT;
- 463   4                    MIIO_IAP.ReSendCount = 0;
- 464   4                    Systime_Set(sMIIO_Fault, IAP_TIME_BOOTFIAL);
- 465   4                    XmodemClient_ACK();
- 466   4                  }         
- 467   3                      }
- 468   2                      else if (XS_Result == XS_Fault)
- 469   2                      {
- 470   3                          MIIO_IAP.ReSendCount = 0;
- 471   3                          Systime_Set(sMIIO_Fault, IAP_TIME_BOOTFIAL);
- 472   3                      }
- 473   2                      else
- 474   2                      {
- 475   3                          Systime_Set(sIAP, IAP_TIME_BOOT);
- 476   3                      }
- 477   2                      break;
- 478   2                  case sAP:   //跳转到运行区运行
- 479   2                      { 
- 480   3                      break;
- 481   3                  }
- 482   2                  case sMIIO_Fault:  //出错处理
- 483   2                      {
- 484   3                          unsigned char i;
- 485   3                          for(i=0;i<10;i++)
- 486   3                          {
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/23/2024 18:31:22 PAGE 9   
+ 450   2            
+ 451   2                      XS_Result = XmodemClient_Proess(IAP_Pack);//(&IAP_Pack);  //下载固件，存放于IAP_Pack
+ 452   2          
+ 453   2                      if (XS_Result == XS_Finish)        //下载进程结束
+ 454   2                      {
+ 455   3                              if(FileCrcerror==0)         
+ 456   3                  {
+ 457   4                    AppCompleteCheck();                         //下载成功，检查代码版本并copy到APP区
+ 458   4                    IAP_Pack->State=OTA_COMPLETE;
+ 459   4                        XmodemClient_ACK();
+ 460   4                  }
+ 461   3                  else
+ 462   3                  {
+ 463   4                    IAP_Pack->State=OTA_FAULT;
+ 464   4                    MIIO_IAP.ReSendCount = 0;
+ 465   4                    Systime_Set(sMIIO_Fault, IAP_TIME_BOOTFIAL);
+ 466   4                    XmodemClient_ACK();
+ 467   4                  }         
+ 468   3                      }
+ 469   2                      else if (XS_Result == XS_Fault)
+ 470   2                      {
+ 471   3                          MIIO_IAP.ReSendCount = 0;
+ 472   3                          Systime_Set(sMIIO_Fault, IAP_TIME_BOOTFIAL);
+ 473   3                      }
+ 474   2                      else
+ 475   2                      {
+ 476   3                          Systime_Set(sIAP, IAP_TIME_BOOT);
+ 477   3                      }
+ 478   2                      break;
+ 479   2                  case sAP:   //跳转到运行区运行
+ 480   2                      { 
+ 481   3                      break;
+ 482   3                  }
+ 483   2                  case sMIIO_Fault:  //出错处理
+ 484   2                      {
+ 485   3                          unsigned char i;
+ 486   3                          for(i=0;i<10;i++)
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 9   
 
- 487   4                              UART_SendString("mcu_boot fail\r");
- 488   4                              System.TimeCount=0;
- 489   4                              while(System.TimeCount<200)
- 490   4                              {
- 491   5                                  WDTCON |=0X10;
- 492   5                              }
- 493   4                          }
- 494   3                          System.Mode = sMIIO_Standby;
- 495   3                MIIO_OTA_Init(sMIIO_Standby);  //直接下载固件模式
- 496   3                          break;
- 497   3                  }
- 498   2                  default:
- 499   2                   
- 500   2                      break;
- 501   2              }   
- 502   1      }
- 503          //====================================================================================================
+ 487   3                          {
+ 488   4                              UART_SendString("mcu_boot fail\r");
+ 489   4                              System.TimeCount=0;
+ 490   4                              while(System.TimeCount<200)
+ 491   4                              {
+ 492   5                                  WDTCON |=0X10;
+ 493   5                              }
+ 494   4                          }
+ 495   3                          System.Mode = sMIIO_Standby;
+ 496   3                MIIO_OTA_Init(sMIIO_Standby);  //直接下载固件模式
+ 497   3                          break;
+ 498   3                  }
+ 499   2                  default:
+ 500   2                   
+ 501   2                      break;
+ 502   2              }   
+ 503   1      }
  504          //====================================================================================================
- 505          void Systime_Count()
- 506          {
- 507   1        System.TimeCount++;
- 508   1        XMClient.Time.Count++;
- 509   1        MIIO_IAP.Time.Count++;
- 510   1      }
- 511          //====================================================================================================
+ 505          //====================================================================================================
+ 506          void Systime_Count()
+ 507          {
+ 508   1        System.TimeCount++;
+ 509   1        XMClient.Time.Count++;
+ 510   1        MIIO_IAP.Time.Count++;
+ 511   1      }
  512          //====================================================================================================
- 513          void Systime_Set(SystemMode_t mode, u32 TimeLimit)
- 514          {
- 515   1          System.Mode      = mode;
- 516   1          System.TimeCount = 0;
- 517   1          System.TimeLimit = TimeLimit;
- 518   1          MIIO_IAP.State=MI_Wait;
- 519   1      }
- 520          //====================================================================================================
+ 513          //====================================================================================================
+ 514          void Systime_Set(SystemMode_t mode, u32 TimeLimit)
+ 515          {
+ 516   1          System.Mode      = mode;
+ 517   1          System.TimeCount = 0;
+ 518   1          System.TimeLimit = TimeLimit;
+ 519   1          MIIO_IAP.State=MI_Wait;
+ 520   1      }
  521          //====================================================================================================
- 522          void MIIO_OTA_Init(SystemMode_t mode)
- 523          {
- 524   1        XmodemClient_ModeInit(XM_CRC,XMClient_Buffer);
- 525   1          Systime_Set(mode, IAP_TIME_WINDOW); 
- 526   1      }
- 527          //====================================================================================================
+ 522          //====================================================================================================
+ 523          void MIIO_OTA_Init(SystemMode_t mode)
+ 524          {
+ 525   1        XmodemClient_ModeInit(XM_CRC,XMClient_Buffer);
+ 526   1          Systime_Set(mode, IAP_TIME_WINDOW); 
+ 527   1      }
  528          //====================================================================================================
+ 529          //====================================================================================================
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

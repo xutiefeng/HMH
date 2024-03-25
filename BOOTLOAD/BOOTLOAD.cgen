@@ -36,7 +36,7 @@ Style=DockBottom
 [/WindowStyle]
 [WindowStyle]
 Name=Assembly
-Style=Document
+Style=Hidden
 [/WindowStyle]
 [WindowStyle]
 Name=Solution Explorer

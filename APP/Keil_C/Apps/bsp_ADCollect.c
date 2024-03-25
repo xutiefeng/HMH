@@ -49,44 +49,6 @@ ST_AD_Aversage  gstAD_Aversage;
 
 
 
-unsigned int adc_get_average(unsigned short ch,BSP_ADChangeEnum num)            
-{
-  
-  u8 i;
-  unsigned int  adc_current = 0;
- 
-  
-  if(gTempAD_Cnt < 10*ADAverage_CH_Num)//for(gTempAD_Cnt = 0;gTempAD_Cnt<10;gTempAD_Cnt++)
-  {
-		gTempAD_Cnt++;
-    adc_current = ch;
-    if(adc_current > gstAD_Aversage.adc_value_max[num])
-    {
-      gstAD_Aversage.adc_value_max[num] = adc_current;
-    }
-    if(adc_current < gstAD_Aversage.adc_value_min[num])
-    {
-      gstAD_Aversage.adc_value_min[num] = adc_current;
-    }
-    gstAD_Aversage.adc_sum[num] += adc_current;
-  }
-	else
-	{
-			for(i= 0; i < ADAverage_CH_Num;i++)
-			{
-					gstAD_Aversage.adc_sum[i] -=  gstAD_Aversage.adc_value_min[i];
-					gstAD_Aversage.adc_sum[i] -=  gstAD_Aversage.adc_value_max[i];
-					gstAD_Aversage.adc_sum[i] = gstAD_Aversage.adc_sum[i]>>3;	
-					adc_current = gstAD_Aversage.adc_sum[i];
-					gstAD_Aversage.adc_sum[i] = 0;
-					gstAD_Aversage.adc_value_min[i] = 0XFFFFUL;
-					gstAD_Aversage.adc_value_max[i] = 0;
-					gTempAD_Cnt = 0;
-			}
-	}
-  return adc_current;
-}
-
 
 
 
@@ -103,8 +65,20 @@ void JieShuiTDS(void)
 
 void YuanShui_IO_Flip(void)
 {
-		//P04 = !P04;
-		//P02 = !P02;
+		P04 = !P04;
+		P02 = !P02;
+}
+
+void YuanShui_IO_Flip_1(void)
+{
+		P04 = 0;
+		P02 = 1;
+}
+
+void YuanShui_IO_Flip_2(void)
+{
+		P04 = 1;
+		P02 = 0;
 }
 
 void ChunShui_IO_Flip(void)
@@ -113,139 +87,309 @@ void ChunShui_IO_Flip(void)
 		P25 = !P25;
 }
 
-void JieShui_IO_Flip(void)
+void ChunShui_IO_Flip_1(void)
 {
-	//	P26 = !P26;
-	//	P27 = !P27;
+		P14 = 0;
+		P25 = 1;
 }
 
+void ChunShui_IO_Flip_2(void)
+{
+		P14 = 1;
+		P25 = 0;
+}
+
+void JieShui_IO_Flip(void)
+{
+		P26 = !P26;
+		P27 = !P27;
+}
+
+void JieShui_IO_Flip_1(void)
+{
+		P26 = 0;
+		P27 = 1;
+}
+
+void JieShui_IO_Flip_2(void)
+{
+		P26 = 1;
+		P27 = 0;
+}
 
 void LouShui_IO_Flip(void)
 {
-	//	P00 = !P00;
-	//	P01 = !P01;
+		P00 = !P00;
+		P01 = !P01;
 }
 
+void LouShui_IO_Flip_1(void)
+{
+		P00 =  0;
+		P01 =  1;
+}
+
+void LouShui_IO_Flip_2(void)
+{
+		P00 = 1;
+		P01 = 0;
+}
+
+void TDs_IO_Flip(void)
+{
+	P04 = !P04;
+	P02 = !P02;
+	
+	P14 = !P14;
+	P25 = !P25;
+	
+	P26 = !P26;
+	P27 = !P27;
+	
+	P00 = !P00;
+	P01 = !P01;
+}
+
+#define AD_Cycle 15
 void ADCollectProcess(void)
 {
 	static u8 sADChanalCnt = 0;
+	static u8 sAD_Step = 0;
+	
+	if(gstADCollect.ADAvergeCnt >=10)
+		return;
 
 	sADChanalCnt++;
+	
 #if 1
-	switch(sADChanalCnt)
+	switch(sAD_Step)
 	{
+		case 0:
+			
+			if(sADChanalCnt == 1)
+			{
+				ChunShui_IO_Flip_1();
+				//LouShui_IO_Flip();
+			}
+			else if(sADChanalCnt == 3)
+			{
+				 ADCHANAL_Select(1);
+				
+			}
+
+			else if(sADChanalCnt == 5)
+			{
+				gstADCollect.ChunShui[gstADCollect.ADAvergeCnt] = ADCHANAL_GetValue();	
+				//LouShui_IO_Flip();
+			}
+
+
+			else if(sADChanalCnt >= AD_Cycle)
+			{
+				sAD_Step++;
+				sADChanalCnt =0;
+				ChunShui_IO_Flip_2();
+				
+			}
+			
+			 
+		break;	
+
 		case 1:
-			 ChunShui_IO_Flip();
-		break;
-		
-		case 2:
-			  ADCHANAL_Select(1);
-		break;
-		
-		case 3:
-				gstADCollect.ChunShui = ADCHANAL_GetValue();		
-		break;
-		
-		
-		case 8:
-			ChunShui_IO_Flip();
-		break;
-		
-		
-#if 0	
-		case 4:
-				JieShui_IO_Flip();
-		break;
-		
-		case 5:
+			
+			if(sADChanalCnt == 1)
+			{
+				JieShui_IO_Flip_1();
+				//YuanShui_IO_Flip();
+			}
+			else if(sADChanalCnt == 3)
+			{
 				 ADCHANAL_Select(3);
-		break;
-		
-		case 6:
+			  // YuanShui_IO_Flip();
+			}
+
+			else if(sADChanalCnt == 5)
+			{
+				gstADCollect.JieShui[gstADCollect.ADAvergeCnt]  = ADCHANAL_GetValue();
+			}
+
+
+			else if(sADChanalCnt >= AD_Cycle)
+			{
+				sAD_Step++;
+				sADChanalCnt =0;
+				JieShui_IO_Flip_1();
+				
+			}
 			
 		break;
-				gstADCollect.JieShui = ADCHANAL_GetValue();
-				JieShui_IO_Flip();
-		case 7:
-				LouShui_IO_Flip();
+
+		case 2:
+			if(sADChanalCnt == 1)
+			{
+				LouShui_IO_Flip_1();
+				//ChunShui_IO_Flip();
+			}
+			else if(sADChanalCnt == 3)
+			{
+				 ADCHANAL_Select(6);;
+			}
+
+			else if(sADChanalCnt == 5)
+			{
+				gstADCollect.LouShui[gstADCollect.ADAvergeCnt]  = ADCHANAL_GetValue();// YuanShui
+				
+			}
+
+
+			else if(sADChanalCnt >= AD_Cycle)
+			{
+				sAD_Step++;
+				sADChanalCnt =0;
+				LouShui_IO_Flip_1();
+			}
 		break;
-		
-		case 8:
-				ADCHANAL_Select(6);
+
+		case 3:
+			if(sADChanalCnt == 1)
+			{
+				YuanShui_IO_Flip_1();
+			}
+			else if(sADChanalCnt == 3)
+			{
+				 ADCHANAL_Select(7);
+			}
+
+			else if(sADChanalCnt == 5)
+			{
+				gstADCollect.YuanShui[gstADCollect.ADAvergeCnt]  = ADCHANAL_GetValue();// YuanShui				
+			}
+
+
+			else if(sADChanalCnt >= AD_Cycle)
+			{
+				sAD_Step =0;
+				sADChanalCnt =0;
+				YuanShui_IO_Flip_1();
+				gstADCollect.ADAvergeCnt++;
+			}
 		break;
-		
-		case 9:
-				gstADCollect.LouShui = ADCHANAL_GetValue();// YuanShui
-				LouShui_IO_Flip();
-		break;
-		
-		case 10:
-				YuanShui_IO_Flip();
-		break;
-		
-		case 11:
-				ADCHANAL_Select(7);
-		break;
-		
-		case 12:
-				gstADCollect.YuanShui = ADCHANAL_GetValue();// YuanShui
-				YuanShui_IO_Flip();
-		break;
-		
-#endif		
-		
+
 		default:
-			if(sADChanalCnt >= 10)
-				sADChanalCnt = 0;
 			break;
+
+		
+
 	}
-#elif 1
-	if( == 1)
-	{
-			gstADCollect.YuanShui = ADCHANAL_GetValue();
-		  gstADCollect.YuanShui  *= 0.00122;
-		  ChunShui_IO_Flip();
-			ADCHANAL_Select(1);
-			
-			sADChanalCnt = 3;
-	}
+#endif
 	
-	else if(sADChanalCnt == 3)
-	{
-			gstADCollect.ChunShui = ADCHANAL_GetValue();//
-			gstADCollect.ChunShui *= 0.00122;
-		
-			JieShui_IO_Flip();
-			ADCHANAL_Select(3);
-			sADChanalCnt = 6;
-	}
+}
+
+
+unsigned int adc_get_average(u16 *p)            
+{
+  unsigned int adc_value_max = 0;
+  unsigned int adc_value_min = 0xffff;
+  unsigned int adc_sum = 0;
+  unsigned int adc_current = 0;
+  unsigned char i;
+  
+  for(i = 0;i<10;i++)
+  {
+    adc_current = p[i];
+    if(adc_current > adc_value_max)
+    {
+      adc_value_max = adc_current;
+    }
+    if(adc_current < adc_value_min)
+    {
+      adc_value_min = adc_current;
+    }
+    adc_sum = adc_sum + adc_current;
+  }
+  
+  adc_sum = adc_sum - adc_value_min;
+  adc_sum = adc_sum - adc_value_max;
+  adc_sum = adc_sum>>3;
+  return adc_sum;
+}
+
+#define TDS_100 1
+#define TDS_300 1
+#define TDS_500 1
+#define TDS_1000 1
+
+void TDS_Calulate(void)
+{
+	static u8 sTDS_Calulate =0;
 	
-	else if(sADChanalCnt == 6)
+	
+	if(gstADCollect.ADAvergeCnt < 10)
 	{
-			gstADCollect.JieShui = ADCHANAL_GetValue();//
-			gstADCollect.JieShui  *= 0.00122;
-		
-			LouShui_IO_Flip();
-			ADCHANAL_Select(6);
-			sADChanalCnt = 7;
-	}
-	else if(sADChanalCnt == 7)
-	{
-			gstADCollect.LouShui = ADCHANAL_GetValue();// YuanShui
-		  gstADCollect.LouShui  *= 0.00122;
-		
-			ChunShui_IO_Flip();
-			YuanShui_IO_Flip();
-			ADCHANAL_Select(7);
-			sADChanalCnt = 1;
-	}
-	else
-	{
-			ADCHANAL_Select(1);
+		return;
 	}
 
-#else
 	
+
+		
+
+	if(sTDS_Calulate < 5)//TDS每隔500ms检测一次
+		sTDS_Calulate++;
+	else
+		sTDS_Calulate =0;
+
+	gstADCollect.ADAvergeCnt = 0;
+
+	 gstADCollect.fYuanShui= adc_get_average(gstADCollect.YuanShui)*0.00122;
+
+	gstADCollect.fChunShui=  adc_get_average(gstADCollect.ChunShui)*0.00122;
+
+	gstADCollect.fLouShui=    adc_get_average(gstADCollect.LouShui)*0.00122;
+
+	gstADCollect.fJieShui=     adc_get_average(gstADCollect.JieShui)*0.00122;
+	
+
+	
+
+	
+
+
+	
+	
+}
+
+void PaiShuiProcess(void)//1S钟运行一次
+{
+	static u8 sTDS_Time =0;
+
+	if(sTDS_Time < 100)
+		sTDS_Time++;
+
+	if(sTDS_Time < 100)
+	{
+		if(gstADCollect.fYuanShui >= TDS_100)
+		{
+			KongShuiFa_IO = 1;			
+		}
+
+		else if(gstADCollect.fYuanShui >= TDS_300)
+		{
+			KongShuiFa_IO = 1;	
+		}
+
+		else if(gstADCollect.fYuanShui >= TDS_500)
+		{
+			KongShuiFa_IO = 1;	
+		}
+		else//上店10秒内TDS <100
+		{
+			KongShuiFa_IO = 1;	
+		}
+	}
+}
+
+
+#if 0
 	if(sADChanalCnt == 1)
 	{
 			ChunShui_IO_Flip();
@@ -292,7 +436,4 @@ void ADCollectProcess(void)
 			ADCHANAL_Select(1);
 	}
 #endif
-	
-	
-	
-}
+

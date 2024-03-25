@@ -22,14 +22,36 @@ static u8 sKeyReskCnt=0;
 ******************************************************************************************************************************************/
 void KeyRest(void)
 {	
+		static u8 sUseFactoryCnt =0;
+
+		static u8 sKeyPressCnt =0;
+		
+		sUseFactoryCnt++;
 		if(NoKeyPressFalg)
 		{
 			if(sKeyReskCnt >0 && sKeyReskCnt < 10 )
 			{
-			//¶Ì°´
+				if(sUseFactoryCnt < _10S_Per50MS)	//		
+				{
+					
+					sKeyPressCnt++;
+					if(sKeyPressCnt >5 )
+					{
+						FactoryModeFlag = 1;
+						Buzzer3Flag = 1;
+						sKeyReskCnt = 0;
+						KeyRestFlag = 0;
+					}					
+						
+				}
+	
+				
 			}
-			sKeyReskCnt = 0;
-			KeyRestFlag = 0;
+			else
+			{
+					sKeyReskCnt = 0;
+					KeyRestFlag = 0;
+			}
 		}
 		
 		
@@ -48,7 +70,7 @@ void KeyRest(void)
 		if(sKeyReskCnt == _3S_Per50MS)
 		{
 					Buzzer2Flag = 1;
-					#if 1
+					#if 0
 					LED1_R = 0;
 					LED2_R = 0;
 					LED3_R = 0;
@@ -61,7 +83,7 @@ void KeyRest(void)
 		}
 		else if(sKeyReskCnt == _5S_Per50MS)
 		{
-					Buzzer3Flag = 1;
+					Buzzer3Flag = 0;
 					#if 1
 					LED1_R = 1;
 					LED2_R = 1;

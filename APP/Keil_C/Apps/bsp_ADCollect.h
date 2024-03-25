@@ -18,6 +18,7 @@ void ADColect_Init(void);
 void TemperatureCollect(void);
 void ADCollectProcess(void);
 float GetInputVoltage(void);
+void TDS_Calulate(void);
 
 #ifdef	__cplusplus
 }

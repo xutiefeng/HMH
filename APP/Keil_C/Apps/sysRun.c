@@ -16,6 +16,17 @@
 #define CLOSE_ALL_LED()  gbFlagData[3].all=0;BlueLedFlag =0;RedLedtFlag =0
 #define OPEN_ALL_LED()   gbFlagData[3].all=0xff;BlueLedFlag =1;RedLedtFlag =1
 
+
+void FactoryProcess(void)
+{
+	static u8 sFactoryProcessCnt =0;
+
+	if(FactoryModeFlag)
+		FactoryModeFlag = 0;
+
+	
+}
+
 /*****************************************************
 *函数名称：void CMP_Init(uchar CMPIS, uchar CMPRF)
 *函数功能：模拟比较器初始化
@@ -32,9 +43,11 @@ void CMP_Init(void)
 
 void sysRest(void)
 {
- 	 memset(gbFlagData,0,5);
+ 	 memset(gbFlagData,0,10);
  	 memset(&gstFilte,0,sizeof(gstFilte));
 	 memset(&gstAM901,0,sizeof(gstAM901));
+	 memset(&gstRDsysTick,0,sizeof(gstRDsysTick));
+	 
 	 gstAM901.stFilter = &gstFilte;
 }
 
@@ -67,9 +80,19 @@ void FilterlifeTime(emFilter type)
 
 }
 
+typedef union
+{
+	u8	all;
+	struct
+	{
+		u8 buzeerOn	:1;
+		u8 cnt		:7;
+	}Bit;
+}ST_TimeReminder;
+
 void TimeReminder(void)
 {
-	static u8 sTimeReminderCnt =0;
+	static ST_TimeReminder sTimeReminderCnt ={0};
 	u8  temp =gstAM901.Run.Bit.DayResidualPercent;
 	
 	if(gstAM901.Run.Bit.DayResidualPercent < temp)
@@ -77,18 +100,38 @@ void TimeReminder(void)
 		
 	if( gstFilte.type  == ROFilter)
 	{
-		if(temp <1)//寿命到期
+		if(temp <= 1)//寿命到期
 		{
 				LED2_R =1;
 				LED2_L =0;
+	#if 0			
+				if(KeySwitchFlag1)//制水时，检测到高压开关闭合
+				{
+					if(!sTimeReminderCnt.Bit.buzeerOn)
+					{
+						sTimeReminderCnt.Bit.buzeerOn = 1;
+						Buzzer1Flag = 1;
+					}
+						
+				}	
+#endif				
 		}
 	
 		else if(temp <=3)//寿命快到期
 		{
-				if(sTimeReminderCnt <= 5)
+		
+
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				{
+					sTimeReminderCnt.Bit.buzeerOn = 1;
+					Buzzer4Flag = 1;
+				}
+				
+				if(sTimeReminderCnt.Bit.cnt <= 5)
 				{
 						LED2_R =1;
 						LED2_L =0;
+						Buzzer4Flag = 1;
 				}
 				else
 				{
@@ -96,10 +139,11 @@ void TimeReminder(void)
 						LED2_L =0;
 				}
 				
-				sTimeReminderCnt++;
+				sTimeReminderCnt.Bit.cnt++;
 				
-				if(sTimeReminderCnt >= 10)
-					sTimeReminderCnt = 0;
+				if(sTimeReminderCnt.Bit.cnt >= 10)
+					sTimeReminderCnt.Bit.cnt = 0;
+				
 		}
 		else
 		{
@@ -118,7 +162,7 @@ void TimeReminder(void)
 	
 		else if(temp <= 10)//寿命快到期
 		{
-				if(sTimeReminderCnt < 5)
+				if(sTimeReminderCnt.Bit.cnt < 5)
 				{
 						LED1_R =1;
 						LED1_L =0;
@@ -129,10 +173,10 @@ void TimeReminder(void)
 						LED1_L =0;
 				}
 				
-				sTimeReminderCnt++;
+				sTimeReminderCnt.Bit.cnt++;
 				
-				if(sTimeReminderCnt >= 10)
-					sTimeReminderCnt = 0;
+				if(sTimeReminderCnt.Bit.cnt >= 10)
+					sTimeReminderCnt.Bit.cnt = 0;
 		}
 		else
 		{
@@ -495,6 +539,7 @@ void sysRuning(void)
         {
 						LED_Process();	
 						TimeReminder();
+						TDS_Calulate();
             ////EepromProcess();   
         }
         break;

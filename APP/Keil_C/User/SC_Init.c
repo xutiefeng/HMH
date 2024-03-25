@@ -79,6 +79,7 @@ void SC_GPIO_Init(void)
 	GPIO_Init(GPIO0, GPIO_PIN_0,GPIO_MODE_OUT_PP);
 	GPIO_Init(GPIO0, GPIO_PIN_1,GPIO_MODE_OUT_PP);
 	/*GPIO_Init write here*/		
+/*
 	P00 =1;
 	P01 =0;
 	
@@ -90,7 +91,7 @@ void SC_GPIO_Init(void)
 	
 	P04 = 1;
 	P02 = 0;
-	
+	*/
 }
 
 /*****************************************************

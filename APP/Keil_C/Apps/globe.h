@@ -92,10 +92,16 @@ typedef struct
 
 typedef struct 
 {
-    float   YuanShui ;
-    float 	ChunShui;
-    float 	LouShui;
-    float		JieShui;
+    u16   YuanShui[10] ;
+    u16 	ChunShui[10];
+    u16 	LouShui[10];
+    u16		JieShui[10];
+   	float fYuanShui;
+	float  fChunShui;
+	float  fLouShui;
+	float  fJieShui;
+    u8 	ADAvergeCnt;
+	
 }STAD_Collect;
 
 typedef struct 
@@ -368,11 +374,13 @@ u8  gLightAdjust = 0xc0;
 #define  _60Min_Per1S   120*30
 #define  _15Min_Per1S   60*15
 #define  _20Min_Per1S   60*20
-#define  _5Min_Per1S		60*5
-#define  _2Min_Per1S		60*2
-#define  _4Min_Per1S		60*4
-#define  _1Min_Per1S		60*1
-#define  _35S_Per1S		  35
-#define  _50S_Per1S		  50
+#define  _5Min_Per1S	60*5
+#define  _2Min_Per1S	60*2
+#define  _4Min_Per1S	60*4
+#define  _1Min_Per1S	60*1
+#define  _10S_Per1S	    10
+
+#define  _35S_Per1S		35
+#define  _50S_Per1S		50
 #define  _3Min_Per1S		60*3
 #endif

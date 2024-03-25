@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 18:31:23 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_ADCOLLECT
@@ -61,211 +61,359 @@ line level    source
   49          
   50          
   51          
-  52          unsigned int adc_get_average(unsigned short ch,BSP_ADChangeEnum num)            
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 18:31:23 PAGE 2   
+  52          
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 2   
 
-  53          {
-  54   1        
-  55   1        u8 i;
-  56   1        unsigned int  adc_current = 0;
-  57   1       
+  53          
+  54          
+  55          
+  56          void ChunShuiTDS(void)
+  57          {
   58   1        
-  59   1        if(gTempAD_Cnt < 10*ADAverage_CH_Num)//for(gTempAD_Cnt = 0;gTempAD_Cnt<10;gTempAD_Cnt++)
-  60   1        {
-  61   2          gTempAD_Cnt++;
-  62   2          adc_current = ch;
-  63   2          if(adc_current > gstAD_Aversage.adc_value_max[num])
-  64   2          {
-  65   3            gstAD_Aversage.adc_value_max[num] = adc_current;
-  66   3          }
-  67   2          if(adc_current < gstAD_Aversage.adc_value_min[num])
-  68   2          {
-  69   3            gstAD_Aversage.adc_value_min[num] = adc_current;
-  70   3          }
-  71   2          gstAD_Aversage.adc_sum[num] += adc_current;
-  72   2        }
-  73   1        else
-  74   1        {
-  75   2            for(i= 0; i < ADAverage_CH_Num;i++)
-  76   2            {
-  77   3                gstAD_Aversage.adc_sum[i] -=  gstAD_Aversage.adc_value_min[i];
-  78   3                gstAD_Aversage.adc_sum[i] -=  gstAD_Aversage.adc_value_max[i];
-  79   3                gstAD_Aversage.adc_sum[i] = gstAD_Aversage.adc_sum[i]>>3; 
-  80   3                adc_current = gstAD_Aversage.adc_sum[i];
-  81   3                gstAD_Aversage.adc_sum[i] = 0;
-  82   3                gstAD_Aversage.adc_value_min[i] = 0XFFFFUL;
-  83   3                gstAD_Aversage.adc_value_max[i] = 0;
-  84   3                gTempAD_Cnt = 0;
-  85   3            }
-  86   2        }
-  87   1        return adc_current;
+  59   1      }
+  60          
+  61          void JieShuiTDS(void)
+  62          {
+  63   1          
+  64   1      }
+  65          
+  66          void YuanShui_IO_Flip(void)
+  67          {
+  68   1          P04 = !P04;
+  69   1          P02 = !P02;
+  70   1      }
+  71          
+  72          void YuanShui_IO_Flip_1(void)
+  73          {
+  74   1          P04 = 0;
+  75   1          P02 = 1;
+  76   1      }
+  77          
+  78          void YuanShui_IO_Flip_2(void)
+  79          {
+  80   1          P04 = 1;
+  81   1          P02 = 0;
+  82   1      }
+  83          
+  84          void ChunShui_IO_Flip(void)
+  85          {
+  86   1          P14 = !P14;
+  87   1          P25 = !P25;
   88   1      }
   89          
-  90          
-  91          
-  92          
-  93          
-  94          void ChunShuiTDS(void)
-  95          {
-  96   1        
-  97   1      }
-  98          
-  99          void JieShuiTDS(void)
- 100          {
- 101   1          
- 102   1      }
- 103          
- 104          void YuanShui_IO_Flip(void)
- 105          {
- 106   1          //P04 = !P04;
- 107   1          //P02 = !P02;
- 108   1      }
- 109          
- 110          void ChunShui_IO_Flip(void)
- 111          {
- 112   1          P14 = !P14;
- 113   1          P25 = !P25;
- 114   1      }
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 18:31:23 PAGE 3   
+  90          void ChunShui_IO_Flip_1(void)
+  91          {
+  92   1          P14 = 0;
+  93   1          P25 = 1;
+  94   1      }
+  95          
+  96          void ChunShui_IO_Flip_2(void)
+  97          {
+  98   1          P14 = 1;
+  99   1          P25 = 0;
+ 100   1      }
+ 101          
+ 102          void JieShui_IO_Flip(void)
+ 103          {
+ 104   1          P26 = !P26;
+ 105   1          P27 = !P27;
+ 106   1      }
+ 107          
+ 108          void JieShui_IO_Flip_1(void)
+ 109          {
+ 110   1          P26 = 0;
+ 111   1          P27 = 1;
+ 112   1      }
+ 113          
+ 114          void JieShui_IO_Flip_2(void)
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 3   
 
- 115          
- 116          void JieShui_IO_Flip(void)
- 117          {
- 118   1        //  P26 = !P26;
- 119   1        //  P27 = !P27;
- 120   1      }
- 121          
- 122          
- 123          void LouShui_IO_Flip(void)
- 124          {
- 125   1        //  P00 = !P00;
- 126   1        //  P01 = !P01;
- 127   1      }
- 128          
- 129          void ADCollectProcess(void)
- 130          {
- 131   1        static u8 sADChanalCnt = 0;
- 132   1      
- 133   1        sADChanalCnt++;
- 134   1      #if 1
- 135   1        switch(sADChanalCnt)
- 136   1        {
- 137   2          case 1:
- 138   2             ChunShui_IO_Flip();
- 139   2          break;
- 140   2          
- 141   2          case 2:
- 142   2              ADCHANAL_Select(1);
- 143   2          break;
- 144   2          
- 145   2          case 3:
- 146   2              gstADCollect.ChunShui = ADCHANAL_GetValue();    
- 147   2          break;
- 148   2          
- 149   2          
- 150   2          case 8:
- 151   2            ChunShui_IO_Flip();
- 152   2          break;
- 153   2          
- 154   2          
- 155   2      #if 0 
-                  case 4:
-                      JieShui_IO_Flip();
-                  break;
-                  
-                  case 5:
-                       ADCHANAL_Select(3);
-                  break;
-                  
-                  case 6:
-                    
-                  break;
-                      gstADCollect.JieShui = ADCHANAL_GetValue();
-                      JieShui_IO_Flip();
-                  case 7:
-                      LouShui_IO_Flip();
-                  break;
-                  
-                  case 8:
-                      ADCHANAL_Select(6);
-                  break;
-                  
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 18:31:23 PAGE 4   
+ 115          {
+ 116   1          P26 = 1;
+ 117   1          P27 = 0;
+ 118   1      }
+ 119          
+ 120          void LouShui_IO_Flip(void)
+ 121          {
+ 122   1          P00 = !P00;
+ 123   1          P01 = !P01;
+ 124   1      }
+ 125          
+ 126          void LouShui_IO_Flip_1(void)
+ 127          {
+ 128   1          P00 =  0;
+ 129   1          P01 =  1;
+ 130   1      }
+ 131          
+ 132          void LouShui_IO_Flip_2(void)
+ 133          {
+ 134   1          P00 = 1;
+ 135   1          P01 = 0;
+ 136   1      }
+ 137          
+ 138          void TDs_IO_Flip(void)
+ 139          {
+ 140   1        P04 = !P04;
+ 141   1        P02 = !P02;
+ 142   1        
+ 143   1        P14 = !P14;
+ 144   1        P25 = !P25;
+ 145   1        
+ 146   1        P26 = !P26;
+ 147   1        P27 = !P27;
+ 148   1        
+ 149   1        P00 = !P00;
+ 150   1        P01 = !P01;
+ 151   1      }
+ 152          
+ 153          #define AD_Cycle 15
+ 154          void ADCollectProcess(void)
+ 155          {
+ 156   1        static u8 sADChanalCnt = 0;
+ 157   1        static u8 sAD_Step = 0;
+ 158   1        
+ 159   1        if(gstADCollect.ADAvergeCnt >=10)
+ 160   1          return;
+ 161   1      
+ 162   1        sADChanalCnt++;
+ 163   1        
+ 164   1      #if 1
+ 165   1        switch(sAD_Step)
+ 166   1        {
+ 167   2          case 0:
+ 168   2            
+ 169   2            if(sADChanalCnt == 1)
+ 170   2            {
+ 171   3              ChunShui_IO_Flip_1();
+ 172   3              //LouShui_IO_Flip();
+ 173   3            }
+ 174   2            else if(sADChanalCnt == 3)
+ 175   2            {
+ 176   3               ADCHANAL_Select(1);
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 4   
 
-                  case 9:
-                      gstADCollect.LouShui = ADCHANAL_GetValue();// YuanShui
-                      LouShui_IO_Flip();
-                  break;
-                  
-                  case 10:
-                      YuanShui_IO_Flip();
-                  break;
-                  
-                  case 11:
-                      ADCHANAL_Select(7);
-                  break;
-                  
-                  case 12:
-                      gstADCollect.YuanShui = ADCHANAL_GetValue();// YuanShui
-                      YuanShui_IO_Flip();
-                  break;
-                  
-              #endif    
- 196   2          
- 197   2          default:
- 198   2            if(sADChanalCnt >= 10)
- 199   2              sADChanalCnt = 0;
- 200   2            break;
- 201   2        }
- 202   1      #elif 1
-                if( == 1)
-                {
-                    gstADCollect.YuanShui = ADCHANAL_GetValue();
-                    gstADCollect.YuanShui  *= 0.00122;
-                    ChunShui_IO_Flip();
-                    ADCHANAL_Select(1);
-                    
-                    sADChanalCnt = 3;
-                }
-                
-                else if(sADChanalCnt == 3)
-                {
-                    gstADCollect.ChunShui = ADCHANAL_GetValue();//
-                    gstADCollect.ChunShui *= 0.00122;
-                  
-                    JieShui_IO_Flip();
-                    ADCHANAL_Select(3);
-                    sADChanalCnt = 6;
-                }
-                
-                else if(sADChanalCnt == 6)
-                {
-                    gstADCollect.JieShui = ADCHANAL_GetValue();//
-                    gstADCollect.JieShui  *= 0.00122;
-                  
-                    LouShui_IO_Flip();
-                    ADCHANAL_Select(6);
-                    sADChanalCnt = 7;
-                }
-                else if(sADChanalCnt == 7)
-                {
-                    gstADCollect.LouShui = ADCHANAL_GetValue();// YuanShui
-                    gstADCollect.LouShui  *= 0.00122;
-                  
-                    ChunShui_IO_Flip();
-                    YuanShui_IO_Flip();
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 18:31:23 PAGE 5   
+ 177   3              
+ 178   3            }
+ 179   2      
+ 180   2            else if(sADChanalCnt == 5)
+ 181   2            {
+ 182   3              gstADCollect.ChunShui[gstADCollect.ADAvergeCnt] = ADCHANAL_GetValue();  
+ 183   3              //LouShui_IO_Flip();
+ 184   3            }
+ 185   2      
+ 186   2      
+ 187   2            else if(sADChanalCnt >= AD_Cycle)
+ 188   2            {
+ 189   3              sAD_Step++;
+ 190   3              sADChanalCnt =0;
+ 191   3              ChunShui_IO_Flip_2();
+ 192   3              
+ 193   3            }
+ 194   2            
+ 195   2             
+ 196   2          break;  
+ 197   2      
+ 198   2          case 1:
+ 199   2            
+ 200   2            if(sADChanalCnt == 1)
+ 201   2            {
+ 202   3              JieShui_IO_Flip_1();
+ 203   3              //YuanShui_IO_Flip();
+ 204   3            }
+ 205   2            else if(sADChanalCnt == 3)
+ 206   2            {
+ 207   3               ADCHANAL_Select(3);
+ 208   3              // YuanShui_IO_Flip();
+ 209   3            }
+ 210   2      
+ 211   2            else if(sADChanalCnt == 5)
+ 212   2            {
+ 213   3              gstADCollect.JieShui[gstADCollect.ADAvergeCnt]  = ADCHANAL_GetValue();
+ 214   3            }
+ 215   2      
+ 216   2      
+ 217   2            else if(sADChanalCnt >= AD_Cycle)
+ 218   2            {
+ 219   3              sAD_Step++;
+ 220   3              sADChanalCnt =0;
+ 221   3              JieShui_IO_Flip_1();
+ 222   3              
+ 223   3            }
+ 224   2            
+ 225   2          break;
+ 226   2      
+ 227   2          case 2:
+ 228   2            if(sADChanalCnt == 1)
+ 229   2            {
+ 230   3              LouShui_IO_Flip_1();
+ 231   3              //ChunShui_IO_Flip();
+ 232   3            }
+ 233   2            else if(sADChanalCnt == 3)
+ 234   2            {
+ 235   3               ADCHANAL_Select(6);;
+ 236   3            }
+ 237   2      
+ 238   2            else if(sADChanalCnt == 5)
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 5   
 
-                    ADCHANAL_Select(7);
-                    sADChanalCnt = 1;
-                }
-                else
-                {
-                    ADCHANAL_Select(1);
-                }
-              
-              #else
-                
+ 239   2            {
+ 240   3              gstADCollect.LouShui[gstADCollect.ADAvergeCnt]  = ADCHANAL_GetValue();// YuanShui
+ 241   3              
+ 242   3            }
+ 243   2      
+ 244   2      
+ 245   2            else if(sADChanalCnt >= AD_Cycle)
+ 246   2            {
+ 247   3              sAD_Step++;
+ 248   3              sADChanalCnt =0;
+ 249   3              LouShui_IO_Flip_1();
+ 250   3            }
+ 251   2          break;
+ 252   2      
+ 253   2          case 3:
+ 254   2            if(sADChanalCnt == 1)
+ 255   2            {
+ 256   3              YuanShui_IO_Flip_1();
+ 257   3            }
+ 258   2            else if(sADChanalCnt == 3)
+ 259   2            {
+ 260   3               ADCHANAL_Select(7);
+ 261   3            }
+ 262   2      
+ 263   2            else if(sADChanalCnt == 5)
+ 264   2            {
+ 265   3              gstADCollect.YuanShui[gstADCollect.ADAvergeCnt]  = ADCHANAL_GetValue();// YuanShui        
+ 266   3            }
+ 267   2      
+ 268   2      
+ 269   2            else if(sADChanalCnt >= AD_Cycle)
+ 270   2            {
+ 271   3              sAD_Step =0;
+ 272   3              sADChanalCnt =0;
+ 273   3              YuanShui_IO_Flip_1();
+ 274   3              gstADCollect.ADAvergeCnt++;
+ 275   3            }
+ 276   2          break;
+ 277   2      
+ 278   2          default:
+ 279   2            break;
+ 280   2      
+ 281   2          
+ 282   2      
+ 283   2        }
+ 284   1      #endif
+ 285   1        
+ 286   1      }
+ 287          
+ 288          
+ 289          unsigned int adc_get_average(u16 *p)            
+ 290          {
+ 291   1        unsigned int adc_value_max = 0;
+ 292   1        unsigned int adc_value_min = 0xffff;
+ 293   1        unsigned int adc_sum = 0;
+ 294   1        unsigned int adc_current = 0;
+ 295   1        unsigned char i;
+ 296   1        
+ 297   1        for(i = 0;i<10;i++)
+ 298   1        {
+ 299   2          adc_current = p[i];
+ 300   2          if(adc_current > adc_value_max)
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 6   
+
+ 301   2          {
+ 302   3            adc_value_max = adc_current;
+ 303   3          }
+ 304   2          if(adc_current < adc_value_min)
+ 305   2          {
+ 306   3            adc_value_min = adc_current;
+ 307   3          }
+ 308   2          adc_sum = adc_sum + adc_current;
+ 309   2        }
+ 310   1        
+ 311   1        adc_sum = adc_sum - adc_value_min;
+ 312   1        adc_sum = adc_sum - adc_value_max;
+ 313   1        adc_sum = adc_sum>>3;
+ 314   1        return adc_sum;
+ 315   1      }
+ 316          
+ 317          #define TDS_100 1
+ 318          #define TDS_300 1
+ 319          #define TDS_500 1
+ 320          #define TDS_1000 1
+ 321          
+ 322          void TDS_Calulate(void)
+ 323          {
+ 324   1        static u8 sTDS_Calulate =0;
+ 325   1        
+ 326   1        
+ 327   1        if(gstADCollect.ADAvergeCnt < 10)
+ 328   1        {
+ 329   2          return;
+ 330   2        }
+ 331   1      
+ 332   1        
+ 333   1      
+ 334   1          
+ 335   1      
+ 336   1        if(sTDS_Calulate < 5)//TDS每隔500ms检测一次
+ 337   1          sTDS_Calulate++;
+ 338   1        else
+ 339   1          sTDS_Calulate =0;
+ 340   1      
+ 341   1        gstADCollect.ADAvergeCnt = 0;
+ 342   1      
+ 343   1         gstADCollect.fYuanShui= adc_get_average(gstADCollect.YuanShui)*0.00122;
+ 344   1      
+ 345   1        gstADCollect.fChunShui=  adc_get_average(gstADCollect.ChunShui)*0.00122;
+ 346   1      
+ 347   1        gstADCollect.fLouShui=    adc_get_average(gstADCollect.LouShui)*0.00122;
+ 348   1      
+ 349   1        gstADCollect.fJieShui=     adc_get_average(gstADCollect.JieShui)*0.00122;
+ 350   1        
+ 351   1      
+ 352   1        
+ 353   1      
+ 354   1        
+ 355   1      
+ 356   1      
+ 357   1        
+ 358   1        
+ 359   1      }
+ 360          
+ 361          void PaiShuiProcess(void)//1S钟运行一次
+ 362          {
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 7   
+
+ 363   1        static u8 sTDS_Time =0;
+ 364   1      
+ 365   1        if(sTDS_Time < 100)
+ 366   1          sTDS_Time++;
+ 367   1      
+ 368   1        if(sTDS_Time < 100)
+ 369   1        {
+ 370   2          if(gstADCollect.fYuanShui >= TDS_100)
+ 371   2          {
+ 372   3            KongShuiFa_IO = 1;      
+ 373   3          }
+ 374   2      
+ 375   2          else if(gstADCollect.fYuanShui >= TDS_300)
+ 376   2          {
+ 377   3            KongShuiFa_IO = 1;  
+ 378   3          }
+ 379   2      
+ 380   2          else if(gstADCollect.fYuanShui >= TDS_500)
+ 381   2          {
+ 382   3            KongShuiFa_IO = 1;  
+ 383   3          }
+ 384   2          else//上店10秒内TDS <100
+ 385   2          {
+ 386   3            KongShuiFa_IO = 1;  
+ 387   3          }
+ 388   2        }
+ 389   1      }
+ 390          
+ 391          
+ 392          #if 0
                 if(sADChanalCnt == 1)
                 {
                     ChunShui_IO_Flip();
@@ -298,6 +446,8 @@ line level    source
                     sADChanalCnt = 7;
                 }
                 else if(sADChanalCnt == 7)
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/25/2024 20:30:54 PAGE 8   
+
                 {
                     ADCHANAL_Select(7);
                     gstADCollect.YuanShui = ADC_GetConversionAverageValue(3);// YuanShui LouShui
@@ -312,18 +462,13 @@ line level    source
                     ADCHANAL_Select(1);
                 }
               #endif
- 295   1        
- 296   1        
- 297   1        
- 298   1      }
+ 439          
 
-
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/23/2024 18:31:23 PAGE 6   
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    655    ----
+   CODE SIZE        =   1205    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     27    ----
+   XDATA SIZE       =     36    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

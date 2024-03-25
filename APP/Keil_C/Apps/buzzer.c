@@ -40,9 +40,17 @@ typedef struct
 }ST_BuzzerCanShu;
 
 #define Buzzer0N_SingalKey 3300
-#define Buzzer0N_6sheng 3400
-#define Buzzer0FF_TIME  620
-#define Buzzer0n_TIME   380
+#define Buzzer0N_6sheng 3700
+#define Buzzer0N_3sheng 3400
+
+#define Buzzer0FF_TIME_Per1s  620
+#define Buzzer0n_TIME_Per1s    380
+
+#define Buzzer0FF_TIME_Per500Ms  380
+#define Buzzer0n_TIME_Per500Ms    120
+
+#define Buzzer0FF_TIME  880
+#define Buzzer0n_TIME   120
 
 ST_Buzzer stBuzzerTab[] =
 {
@@ -87,12 +95,12 @@ ST_Buzzer stBuzzerTab31[] =
 		{2400    ,200,120},
 		{2900    ,200,1200},
 	#else
-		{Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{Buzzer0N_6sheng    ,Buzzer0n_TIME,Buzzer0FF_TIME},
+		{Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+		{Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+		{Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+		{Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+		{Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
+		{Buzzer0N_6sheng    ,Buzzer0FF_TIME_Per500Ms,Buzzer0n_TIME_Per500Ms},
 	#endif
     {0xffffff   ,0xffff,0xffff}
 };
@@ -107,8 +115,7 @@ ST_Buzzer stBuzzerTab33[] =
 {
   //  {2700    ,400,0},
  //   {2900    ,400,0},
-      {3100    ,1500,0},
-      {3150    ,500,0},
+      {3150    ,200,300},
  //   {3300    ,400,0},
   //  {3500    ,400,0},
     {0xffffff   ,0xffff,0xffff}
@@ -117,7 +124,9 @@ ST_Buzzer stBuzzerTab33[] =
 ///////////////////JiaAnJian
 ST_Buzzer stBuzzerTab34[] =
 {
-    {Buzzer0N_SingalKey    ,Buzzer0n_TIME,Buzzer0FF_TIME},//2.0K
+    {Buzzer0N_3sheng        ,Buzzer0FF_TIME_Per1s,Buzzer0FF_TIME_Per1s},//2.0K
+    {Buzzer0N_3sheng        ,Buzzer0FF_TIME_Per1s,Buzzer0FF_TIME_Per1s},
+    {Buzzer0N_3sheng        ,Buzzer0FF_TIME_Per1s,Buzzer0FF_TIME_Per1s},
     {0xffffff   ,0xffff,0xffff}
 };
 

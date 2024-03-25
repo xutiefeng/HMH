@@ -3,8 +3,8 @@ Project.Name=APP
 Project.Path=D:\tfxu\Project\AM901_0308\APP
 Project.KeilPath=D:\tfxu\Project\AM901_0308\APP\Keil_C\
 Project.CurrentPath=D:\tfxu\Project\AM901_0308\APP\APP.cgen
-Project.CreationTime=20240322142220
-Project.ModificationTime=20240322142220
+Project.CreationTime=20240325202447
+Project.ModificationTime=20240325202447
 Project.Version=EasyCodeCube 3.3.4
 Project.IsBootloaderProject=false
 Project.IsUnifiedVersionProject=True
@@ -36,7 +36,7 @@ Style=DockBottom
 [/WindowStyle]
 [WindowStyle]
 Name=Assembly
-Style=Document
+Style=Hidden
 [/WindowStyle]
 [WindowStyle]
 Name=Solution Explorer
