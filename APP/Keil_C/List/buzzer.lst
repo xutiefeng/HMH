@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 16:08:16 PAGE 1   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 18:18:49 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BUZZER
@@ -62,7 +62,7 @@ line level    source
   47          #define Buzzer0n_TIME_Per1s    380
   48          
   49          #define Buzzer0FF_TIME_Per500Ms  380
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 16:08:16 PAGE 2   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 18:18:49 PAGE 2   
 
   50          #define Buzzer0n_TIME_Per500Ms    120
   51          
@@ -126,7 +126,7 @@ line level    source
  109          {
  110              {Buzzer0N_SingalKey    ,200,Buzzer0FF_TIME},//2.0K
  111              {0xffffff   ,0xffff,0xffff}
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 16:08:16 PAGE 3   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 18:18:49 PAGE 3   
 
  112          };
  113          ///////////////////JianAnJian
@@ -190,7 +190,7 @@ line level    source
  170   3              }
  171   2              else
  172   2              {           
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 16:08:16 PAGE 4   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 18:18:49 PAGE 4   
 
  173   3                  BUEEER_SetDuty(sDuty);
  174   3              }
@@ -254,7 +254,7 @@ line level    source
  232   3              }
  233   2              
  234   2              else if(Buzzer1Flag)
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 16:08:16 PAGE 5   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 18:18:49 PAGE 5   
 
  235   2              {
  236   3                  voliceNum = 31;
@@ -318,7 +318,7 @@ line level    source
  294   4                      sBuzzerDelay.Bit.run = 0;
  295   4                  }
  296   3              }
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 16:08:16 PAGE 6   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/26/2024 18:18:49 PAGE 6   
 
  297   2              else if(voliceNum == 32)
  298   2              {

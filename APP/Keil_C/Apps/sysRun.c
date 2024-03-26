@@ -152,14 +152,27 @@ void FilterlifeTime(emFilter type)
 {
 	if(FstModeFlag)
 	{
-	
-		gstFilte.RO_FlowRateCnt+=600;
-
+		if( type  == ROFilter)
+		{			
+			gstFilte.RO_FlowRateCnt+=600ul;
+		}
+		else
+		{
+			gstFilte.Mix_FlowRate+=600ul;
+		}
 	}
 	else
 	{
 
-		gstFilte.RO_FlowRateCnt++;
+		if( type  == ROFilter)
+		{
+			
+			gstFilte.RO_FlowRateCnt++;
+		}
+		else
+		{
+			gstFilte.Mix_FlowRate++;
+		}
 	}
 	
 
@@ -169,14 +182,26 @@ void FilterlifeDayTime(emFilter type)
 {
 	if(FstModeFlag)
 	{
-
-		gstFilte.RO_FlowRateCnt+=86400ul;
-
+		if( type  == ROFilter)
+		{
+			gstFilte.RO_DayCnt+=86400ul;
+		}
+		else
+		{
+			gstFilte.Mix_DayCnt+=86400ul;
+		}
 	}
 	else
 	{
-		gstFilte.RO_FlowRateCnt++;
-
+		if( type  == ROFilter)
+		{
+			
+			gstFilte.RO_DayCnt++;
+		}
+		else
+		{
+			gstFilte.Mix_DayCnt++;
+		}
 	}
 	
 
