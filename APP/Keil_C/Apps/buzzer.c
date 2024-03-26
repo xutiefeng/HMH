@@ -133,8 +133,7 @@ ST_Buzzer stBuzzerTab34[] =
 ///////////////////jiaRe
 ST_Buzzer stBuzzerTab35[] =
 {
-    {2300    ,Buzzer0n_TIME,Buzzer0FF_TIME},//1760 6 la
-    {1700    ,Buzzer0n_TIME,Buzzer0FF_TIME},//1560 5 suo
+    {2300    ,2000,1000},//1760 6 la
     {0xffffff   ,0xffff,0xffff}
 };
 
@@ -152,7 +151,6 @@ uint8_t  BuzzerStart(ST_Buzzer  *stBuzzerTab, uint16_t  *stimeOpenPower,uint16_t
 {
 
 		static uint16_t HisFrq =  0UL;
-		static uint16_t HisDuty = 0UL;
 		static uint16_t sDuty = 0U;
 	
 	 if(*step == 0xff)

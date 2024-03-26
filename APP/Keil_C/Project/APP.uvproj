@@ -319,7 +319,7 @@
             <SizeSpeed>0</SizeSpeed>
             <ObjectExtend>1</ObjectExtend>
             <ACallAJmp>0</ACallAJmp>
-            <InterruptVectorAddress>10240</InterruptVectorAddress>
+            <InterruptVectorAddress>4096</InterruptVectorAddress>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>SC95F8x1xB</Define>
@@ -353,11 +353,11 @@
             <Assign></Assign>
             <ReserveString></ReserveString>
             <CClasses></CClasses>
-            <UserClasses>CODE(C:0X2800-C:0X91ff),CONST(C:0X2800-C:0X91ff)</UserClasses>
+            <UserClasses>CODE(C:0X1000-C:0X85ff),CONST(C:0X1000-C:0X85ff)</UserClasses>
             <CSection></CSection>
-            <UserSection>?C_C51STARTUP(C:0X2900),
-?CO?DATE(C:0X2a00),
-?CO?BOOTLOAD_UPDATAFLAGFILL(C:0X91f0)</UserSection>
+            <UserSection>?C_C51STARTUP(C:0X1100),
+?CO?DATE(C:0X1200),
+?CO?BOOTLOAD_UPDATAFLAGFILL(C:0X85f0)</UserSection>
             <CodeBaseAddress>0x100</CodeBaseAddress>
             <XDataBaseAddress></XDataBaseAddress>
             <PDataBaseAddress></PDataBaseAddress>

@@ -1,10 +1,10 @@
-C51 COMPILER V9.59.0.0   SYSFUNVARDEFINE                                                   03/25/2024 20:30:54 PAGE 1   
+C51 COMPILER V9.59.0.0   SYSFUNVARDEFINE                                                   03/26/2024 16:08:15 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SYSFUNVARDEFINE
 OBJECT MODULE PLACED IN ..\Output\SysFunVarDefine.obj
 COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\User\SysFunVarDefine.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE INTVECTOR(0
-                    -X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Ap
+                    -X1000) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Ap
                     -ps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\SysFunVarDefine.lst) TABS(2) OBJECT(..\Output\SysFunVarDefine.obj)
 
 line level    source

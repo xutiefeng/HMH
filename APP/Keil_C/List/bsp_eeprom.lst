@@ -1,9 +1,9 @@
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/25/2024 20:30:55 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/26/2024 16:08:16 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_EEPROM
 OBJECT MODULE PLACED IN ..\Output\bsp_eeprom.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Apps\bsp_eeprom.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE INTVECTOR(0X2800
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\Apps\bsp_eeprom.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE INTVECTOR(0X1000
                     -) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) D
                     -EFINE(SC95F8x1xB) DEBUG PRINT(..\List\bsp_eeprom.lst) TABS(2) OBJECT(..\Output\bsp_eeprom.obj)
 
@@ -20,7 +20,7 @@ line level    source
              -IAP_MEMTYPE_EEPROM)
    9          #define EraseEEprom(X)            IAP_EEPROMSectorEraseOption(EEPROM##X##_ADDR)
   10          
-  11          #define EEPROM_DATA_LEN 20
+  11          #define EEPROM_DATA_LEN 4
   12          #define Block_Size 0XFFff
   13          /**************************************************
   14          *函数名称:void IAP_SectorEraseOption(Address,Data,IAP_MemType)
@@ -48,7 +48,7 @@ line level    source
   36   1          
   37   1        
   38   1        
-  39   1        for(i= 0;i < 20; i++)
+  39   1        for(i= 0;i < len; i++)
   40   1        {
   41   2          loop:   
   42   2          IAP_EEPROMProgramByteOption(x+i,pData[i]);
@@ -58,13 +58,12 @@ line level    source
   46   2        }
   47   1        return 1;
   48   1      }
-*** WARNING C280 IN LINE 32 OF ..\Apps\bsp_eeprom.c: 'len': unreferenced local variable
   49          
   50          
   51          
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/25/2024 20:30:55 PAGE 2   
-
   52          
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/26/2024 16:08:16 PAGE 2   
+
   53          void WriteTempEeprom(void)
   54          {
   55   1        //IAP_ReadByteArray(EEPROM_ADDR,FromEeppAry,8,IAP_MEMTYPE_EEPROM);
@@ -120,100 +119,81 @@ line level    source
   98          
   99          void EEpromInit(void)
  100          {
- 101   1          u8 a;
- 102   1          if(ReadFromEEprom(0) == 0)
- 103   1          {
- 104   2              ReadFromEEprom(0);
- 105   2          }
- 106   1          if(gstAM901.stFilter->type< EEPROM_SIZE)
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/25/2024 20:30:55 PAGE 3   
+ 101   1          if(ReadFromEEprom(0) == 0)
+ 102   1          {
+ 103   2              ReadFromEEprom(0);
+ 104   2          }
+ 105   1          if(gstAM901.stFilter->type< EEPROM_SIZE)
+ 106   1          {
+ 107   2              gstAM901.Run.Bit.EepromBlok = 0;
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/26/2024 16:08:16 PAGE 3   
 
- 107   1          {
- 108   2              gstAM901.Run.Bit.EepromBlok = 0;
- 109   2              EraseEEprom(0);
- 110   2              return;
- 111   2          }
- 112   1          else
- 113   1          {
- 114   2              if(ReadFromEEprom(1) == 0)
- 115   2              {
- 116   3                  ReadFromEEprom(1);
- 117   3              }
- 118   2          }
- 119   1          
- 120   1          if(gstAM901.stFilter->type < EEPROM_SIZE)//5a 表示上一次用的是EEPROM_ADDR 块，标记成F5;这一次用EEPROM1_
+ 108   2              EraseEEprom(0);
+ 109   2              return;
+ 110   2          }
+ 111   1          else
+ 112   1          {
+ 113   2              if(ReadFromEEprom(1) == 0)
+ 114   2              {
+ 115   3                  ReadFromEEprom(1);
+ 116   3              }
+ 117   2          }
+ 118   1          
+ 119   1          if(gstAM901.stFilter->type < EEPROM_SIZE)//5a 表示上一次用的是EEPROM_ADDR 块，标记成F5;这一次用EEPROM1_
              -ADDR
- 121   1          {
- 122   2              gstAM901.Run.Bit.EepromBlok = 1;//gstAM901.Run.Bit.EepromBlok = 1;
- 123   2              EraseEEprom(1);//EraseEEprom(1);
- 124   2          }
- 125   1          else//首次使用
- 126   1          {
- 127   2                gstAM901.Run.Bit.EepromBlok = 0;
- 128   2                //EraseEEprom(0);
- 129   2                EraseEEprom(1);
- 130   2                memset((u8 *)gstAM901.stFilter,0,EEPROM_DATA_LEN);
- 131   2                FirstPownOnFlag = 1;
- 132   2          }
- 133   1      }
-*** WARNING C280 IN LINE 101 OF ..\Apps\bsp_eeprom.c: 'a': unreferenced local variable
+ 120   1          {
+ 121   2              gstAM901.Run.Bit.EepromBlok = 1;//gstAM901.Run.Bit.EepromBlok = 1;
+ 122   2              EraseEEprom(1);//EraseEEprom(1);
+ 123   2          }
+ 124   1          else//首次使用
+ 125   1          {
+ 126   2                gstAM901.Run.Bit.EepromBlok = 0;
+ 127   2                //EraseEEprom(0);
+ 128   2                EraseEEprom(1);
+ 129   2                memset((u8 *)gstAM901.stFilter,0,EEPROM_DATA_LEN);
+ 130   2                FirstPownOnFlag = 1;
+ 131   2          }
+ 132   1      }
+ 133          
  134          
- 135          void ReadTempEeprom(void)
- 136          {
- 137   1          
- 138   1         
- 139   1      }
- 140          
- 141          /*********************************************************************************************************
+ 135          
+ 136          /*********************************************************************************************************
              -********************************* 
- 142          * 函数名称:  ReadBingXangState
- 143          * 功能说明:  读取冰箱状态  
- 144          * 输    入: 无  
- 145          * 输    出: 无
- 146          **********************************************************************************************************
+ 137          * 函数名称:  BSP_EEPROM_Initialize
+ 138          * 功能说明:  初始化EEPROM
+ 139          * 输    入: 无  
+ 140          * 输    出: 无
+ 141          **********************************************************************************************************
              -********************************/
- 147          void ReadBingXangState(void )
- 148          {
- 149   1         
- 150   1      }
- 151          
- 152          /*********************************************************************************************************
+ 142          void BSP_EEPROM_Initialize ( void )
+ 143          {
+ 144   1          
+ 145   1        
+ 146   1      }
+ 147          
+ 148          
+ 149          
+ 150          
+ 151          /*********************************************************************************************************
              -********************************* 
- 153          * 函数名称:  BSP_EEPROM_Initialize
- 154          * 功能说明:  初始化EEPROM
- 155          * 输    入: 无  
- 156          * 输    出: 无
- 157          **********************************************************************************************************
+ 152          * 函数名称: EepromProcess
+ 153          * 功能说明: 每个100ms检测一次，是否有开机状态变化，温度设置的变化
+ 154          * 输    入: 无  
+ 155          * 输    出: 无
+ 156          **********************************************************************************************************
              -********************************/
- 158          void BSP_EEPROM_Initialize ( void )
- 159          {
- 160   1          
- 161   1        
- 162   1      }
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/25/2024 20:30:55 PAGE 4   
-
- 163          
- 164          
- 165          
- 166          
- 167          /*********************************************************************************************************
-             -********************************* 
- 168          * 函数名称: EepromProcess
- 169          * 功能说明: 每个100ms检测一次，是否有开机状态变化，温度设置的变化
- 170          * 输    入: 无  
- 171          * 输    出: 无
- 172          **********************************************************************************************************
-             -********************************/
- 173          void EepromProcess(void)
- 174          {
- 175   1          
- 176   1      }
+ 157          void EepromProcess(void)
+ 158          {
+ 159   1          
+ 160   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    674    ----
+   CODE SIZE        =    669    ----
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/26/2024 16:08:16 PAGE 4   
+
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     30    ----
+   XDATA SIZE       =     29    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
@@ -225,4 +205,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  7 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  5 WARNING(S),  0 ERROR(S)

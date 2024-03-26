@@ -23,29 +23,31 @@ static u8 sKeyReskCnt=0;
 void KeyRest(void)
 {	
 		static u8 sUseFactoryCnt =0;
-
 		static u8 sKeyPressCnt =0;
 		
-		sUseFactoryCnt++;
+		if(sUseFactoryCnt < 0xff)
+			sUseFactoryCnt++;
+		
 		if(NoKeyPressFalg)
 		{
 			if(sKeyReskCnt >0 && sKeyReskCnt < 10 )
 			{
-				if(sUseFactoryCnt < _10S_Per50MS)	//		
+				if(sUseFactoryCnt < _10S_Per50MS && !FactoryModeFlag)	//		
 				{
 					
 					sKeyPressCnt++;
-					if(sKeyPressCnt >5 )
+					Buzzer3Flag = 1;
+					if(sKeyPressCnt >4 )//复位键按五次进入工程模式
 					{
-						FactoryModeFlag = 1;
-						Buzzer3Flag = 1;
+						FactoryModeFlag = 1;					
 						sKeyReskCnt = 0;
 						KeyRestFlag = 0;
 					}					
 						
 				}
-	
-				
+ 
+				sKeyReskCnt = 0;
+				KeyRestFlag = 0;				
 			}
 			else
 			{

@@ -342,7 +342,7 @@ IOT_State IOT_Work()
                         {
                             Systime_Set(sMIIO_Standby, IAP_TIME_WINDOW); //设置固件升级命令
 							
-							Net_State=IOT_GET_FW;  //收到固件升级命令
+														Net_State=IOT_GET_FW;  //收到固件升级命令
                         }								
                     }
 		}

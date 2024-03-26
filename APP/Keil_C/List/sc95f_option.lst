@@ -1,10 +1,10 @@
-C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/25/2024 20:30:56 PAGE 1   
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/26/2024 16:08:17 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_OPTION
 OBJECT MODULE PLACED IN ..\Output\sc95f_option.obj
 COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_option.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE
-                    - INTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\.
+                    - INTVECTOR(0X1000) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\.
                     -.\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_option.lst) TABS(2) OBJECT(..\Output\sc95f_option.obj)
 
 line level    source
@@ -62,7 +62,7 @@ line level    source
   51   2          OPREG |= 0X40;
   52   2        }
   53   1      }
-C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/25/2024 20:30:56 PAGE 2   
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/26/2024 16:08:17 PAGE 2   
 
   54          
   55          /*****************************************************
@@ -126,7 +126,7 @@ line level    source
  112          void OPTION_ADC_VrefConfig(ADC_Vref_TypeDef ADC_Vref)
  113          {
  114   1        OPINX = 0xC2;
-C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/25/2024 20:30:56 PAGE 3   
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/26/2024 16:08:17 PAGE 3   
 
  115   1      
  116   1        if (ADC_Vref == ADC_VREF_2_048V)
@@ -190,7 +190,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/25/2024 20:30:56 PAGE 4   
+C51 COMPILER V9.59.0.0   SC95F_OPTION                                                      03/26/2024 16:08:17 PAGE 4   
 
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----

@@ -49,7 +49,7 @@
 #include "includeall.h"   
 
 void EEpromInit(void );
-
+void WriteTempEeprom(void);
 
 #endif /* _APP_H */
 

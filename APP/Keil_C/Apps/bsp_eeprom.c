@@ -8,7 +8,7 @@
 #define ReadFromEEprom(X)  				IAP_ReadByteArray(EEPROM##X##_ADDR,(u8 *)gstAM901.stFilter,EEPROM_DATA_LEN,IAP_MEMTYPE_EEPROM)
 #define EraseEEprom(X)            IAP_EEPROMSectorEraseOption(EEPROM##X##_ADDR)
 
-#define EEPROM_DATA_LEN 20
+#define EEPROM_DATA_LEN 4
 #define Block_Size 0XFFff
 /**************************************************
 *函数名称:void IAP_SectorEraseOption(Address,Data,IAP_MemType)
@@ -36,7 +36,7 @@ u8 WriteEEpromData(u32 x,u8 *p,u8 len)
 		
 	
 	
-	for(i= 0;i < 20; i++)
+	for(i= 0;i < len; i++)
 	{
 		loop:		
 		IAP_EEPROMProgramByteOption(x+i,pData[i]);
@@ -98,7 +98,6 @@ u8 readEEprom(u32 x)
 
 void EEpromInit(void)
 {
-		u8 a;
 		if(ReadFromEEprom(0) == 0)
 		{
 				ReadFromEEprom(0);
@@ -132,22 +131,7 @@ void EEpromInit(void)
 		}
 }
 
-void ReadTempEeprom(void)
-{
-		
-	 
-}
 
-/****************************************************************************************************************************************** 
-* 函数名称:	 ReadBingXangState
-* 功能说明:  读取冰箱状态	 
-* 输    入: 无	
-* 输    出: 无
-******************************************************************************************************************************************/
-void ReadBingXangState(void )
-{
-   
-}
 
 /****************************************************************************************************************************************** 
 * 函数名称:	 BSP_EEPROM_Initialize

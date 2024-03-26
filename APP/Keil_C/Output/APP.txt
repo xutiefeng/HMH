@@ -1,7 +1,7 @@
 
 LX51 LINKER/LOCATER V4.66.93.0 - SN: K1DZC-94LH3C
 COPYRIGHT ARM Germany GmbH 1995 - 2018
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\BootLoad_UpdataFlagFill.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\bsp_ADCollect.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\bsp_eeprom.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\bsp_Led.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\buzzer.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\CallBackFunction.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\clib.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\CompCtrlDefine.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\CR_util.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\Date.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\Decrypt_TEA.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\FuncTab.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\globe.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\InterruptVectors_OTA.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\key.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\main.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\MIIO_OPERATE.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\OTADriver.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\OTADriver_IAP.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_adc.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_gpio.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_iap.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_option.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_pwm.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_timer0.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_uart0.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_wdt.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\SC_Init.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\SC_it.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\STARTUP.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\SysFunVarDefine.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sysRun.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\TKDriver.obj,D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C\SC95F8X1XB_HighSensitive_lib_T1_L_V2.1.0.LIB,D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\src\SC95FXX1XB_IAP_L_lib_V1.4.0.LIB TO D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\APP PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\APP.map) REMOVEUNUSED CLASSES(CODE(C:0X2800-C:0X91ff),CONST(C:0X2800-C:0X91ff)) SEGMENTS(?C_C51STARTUP(C:0X2900),?CO?DATE(C:0X2a00),?CO?BOOTLOAD_UPDATAFLAGFILL(C:0X91f0)) 
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\BootLoad_UpdataFlagFill.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\bsp_ADCollect.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\bsp_eeprom.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\bsp_Led.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\buzzer.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\CallBackFunction.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\clib.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\CompCtrlDefine.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\CR_util.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\Date.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\Decrypt_TEA.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\FuncTab.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\globe.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\InterruptVectors_OTA.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\key.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\main.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\MIIO_OPERATE.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\OTADriver.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\OTADriver_IAP.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_adc.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_gpio.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_iap.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_option.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_pwm.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_timer0.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_uart0.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sc95f_wdt.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\SC_Init.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\SC_it.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\STARTUP.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\SysFunVarDefine.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\sysRun.obj, D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\TKDriver.obj,D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Drivers\TKDriver\C\SC95F8X1XB_HighSensitive_lib_T1_L_V2.1.0.LIB,D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\FWLib\SC95F_Lib\src\SC95FXX1XB_IAP_L_lib_V1.4.0.LIB TO D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\APP PRINT(D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\APP.map) REMOVEUNUSED CLASSES(CODE(C:0X1000-C:0X85ff),CONST(C:0X1000-C:0X85ff)) SEGMENTS(?C_C51STARTUP(C:0X1100),?CO?DATE(C:0X1200),?CO?BOOTLOAD_UPDATAFLAGFILL(C:0X85f0)) 
 *** WARNING L15: MULTIPLE CALL TO FUNCTION
     NAME:    _WRITEEEPROMDATA/BSP_EEPROM
     CALLER1: ?C_C51STARTUP
@@ -23,11 +23,6 @@ D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\BootLoad_UpdataFlagFill.
    DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
 
 *** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  WriteTempEeprom
-    MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\MAIN.OBJ (MAIN)
-   DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\BSP_EEPROM.OBJ (BSP_EEPROM)
-
-*** WARNING L25: DATA TYPES DIFFERENT
     SYMBOL:  DevicePowerOnInit
     MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\MAIN.OBJ (MAIN)
    DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
@@ -38,34 +33,9 @@ D:\tfxu\Project\AM901_0308\APP\Keil_C\Project\..\Output\BootLoad_UpdataFlagFill.
    DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
 
 *** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  WriteTempEeprom
-    MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SC_IT.OBJ (SC_IT)
-   DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\BSP_EEPROM.OBJ (BSP_EEPROM)
-
-*** WARNING L25: DATA TYPES DIFFERENT
     SYMBOL:  ADCollectProcess
     MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SC_IT.OBJ (SC_IT)
    DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\BSP_ADCOLLECT.OBJ (BSP_ADCOLLECT)
 
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  KeySelect
-    MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
-   DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\KEY.OBJ (KEY)
-
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  KeyRest
-    MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
-   DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\KEY.OBJ (KEY)
-
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  KeyGaoYaSwitch
-    MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
-   DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\KEY.OBJ (KEY)
-
-*** WARNING L25: DATA TYPES DIFFERENT
-    SYMBOL:  TDS_Calulate
-    MODULE:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\SYSRUN.OBJ (SYSRUN)
-   DEFINED:  D:\TFXU\PROJECT\AM901_0308\APP\KEIL_C\PROJECT\..\OUTPUT\BSP_ADCOLLECT.OBJ (BSP_ADCOLLECT)
-
-Program Size: data=29.4 xdata=3058 const=306 code=20989
-LX51 RUN COMPLETE.  13 WARNING(S),  0 ERROR(S)
+Program Size: data=29.4 xdata=3050 const=306 code=21302
+LX51 RUN COMPLETE.  7 WARNING(S),  0 ERROR(S)

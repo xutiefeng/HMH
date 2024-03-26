@@ -17,13 +17,95 @@
 #define OPEN_ALL_LED()   gbFlagData[3].all=0xff;BlueLedFlag =1;RedLedtFlag =1
 
 
+#define STEP_1()  Pump_io =1;LED1_L=1;sFactoryStep++
+#define STEP_2()  JinShuiFa_io =1;LED2_L=1;sFactoryStep++
+#define STEP_3()  FeiShuiFa_IO =1;LED4_L=1;sFactoryStep++
+#define STEP_4()  HuiLiuFa_io =1;LED3_L=1;sFactoryStep++
+#define STEP_5()  KongShuiFa_IO =1;LED4_R=1;sFactoryStep++
+
+#define STEP_6()  BlueLedFlag =1;RedLedtFlag =1;gbFlagData[3].all =0XFF;Buzzer5Flag =1;sFactoryStep++
+#define STEP_7()  sFactoryStep++;
+
+
 void FactoryProcess(void)
 {
-	static u8 sFactoryProcessCnt =0;
+	static u16 FactoryPeriodCnt = 0;
+		
+	static u8 sFactoryStep =0;
 
-	if(FactoryModeFlag)
-		FactoryModeFlag = 0;
+	FactoryPeriodCnt++;
 
+	if(!FactoryModeFlag)
+	{
+		
+		return ;
+	}
+
+	if(FactoryModeFlag^HisFactoryModeFlag)
+	{
+		sFactoryStep =0;
+		HisFactoryModeFlag = FactoryModeFlag;
+		
+		gbFlagData[3].all = 0;
+		Buzzer5Flag = 0;
+		RedLedtFlag = 0;
+	}
+
+	if(FactoryPeriodCnt%2 == 0)
+	{
+		switch(sFactoryStep)
+		{
+			case 0:
+				STEP_1();
+			break;
+
+			case 1:
+				STEP_2();
+			break;
+
+			case 2:
+				STEP_3();
+			break;
+
+			case 3:
+				STEP_4();
+			break;
+
+			case 4:
+				STEP_5();
+			break;
+
+			case 5:
+				STEP_6();
+			break;
+
+			case 6:
+				STEP_7();
+			break;
+
+			case 7:
+				gbFlagData[3].all = 0;
+				BlueLedFlag = 0;
+				RedLedtFlag = 0;
+				JinShuiFa_io = 0;
+				FeiShuiFa_IO = 0;
+				HuiLiuFa_io = 0;
+				KongShuiFa_IO = 0;
+				sFactoryStep++;
+			break;
+
+			case 8:
+				 FstModeFlag = 1;
+				 FactoryModeFlag =0;
+			break;
+			
+			
+
+			default:
+				break;
+			
+		}
+	}
 	
 }
 
@@ -68,53 +150,69 @@ typedef enum
 *************************************************************************/
 void FilterlifeTime(emFilter type)
 {
-	if( type  == ROFilter)
+	if(FstModeFlag)
 	{
-		
-		gstFilte.RO_FlowRateCnt++;
+	
+		gstFilte.RO_FlowRateCnt+=600;
+
 	}
 	else
 	{
-		gstFilte.Mix_FlowRate++;
+
+		gstFilte.RO_FlowRateCnt++;
 	}
+	
 
 }
 
-typedef union
+void FilterlifeDayTime(emFilter type)
 {
-	u8	all;
-	struct
+	if(FstModeFlag)
 	{
-		u8 buzeerOn	:1;
-		u8 cnt		:7;
-	}Bit;
-}ST_TimeReminder;
+
+		gstFilte.RO_FlowRateCnt+=86400ul;
+
+	}
+	else
+	{
+		gstFilte.RO_FlowRateCnt++;
+
+	}
+	
+
+}
+
+
+/************************************************************************* 
+* 函数名称:	TimeReminder
+* 功能说明:	寿命到期处理
+* 输    入: 无	
+* 输    出: 无
+*************************************************************************/
+
+
 
 void TimeReminder(void)
 {
 	static ST_TimeReminder sTimeReminderCnt ={0};
 	u8  temp =gstAM901.Run.Bit.DayResidualPercent;
+
+	if(FactoryModeFlag)
+	{
+		return ;
+	}
+ 
 	
 	if(gstAM901.Run.Bit.DayResidualPercent < temp)
 		temp = gstAM901.Run.Bit.DayResidualPercent;
+	
 		
 	if( gstFilte.type  == ROFilter)
 	{
 		if(temp <= 1)//寿命到期
 		{
 				LED2_R =1;
-				LED2_L =0;
-	#if 0			
-				if(KeySwitchFlag1)//制水时，检测到高压开关闭合
-				{
-					if(!sTimeReminderCnt.Bit.buzeerOn)
-					{
-						sTimeReminderCnt.Bit.buzeerOn = 1;
-						Buzzer1Flag = 1;
-					}
-						
-				}	
-#endif				
+				LED2_L =0; 	
 		}
 	
 		else if(temp <=3)//寿命快到期
@@ -211,7 +309,7 @@ void FilterSysRunTime(void)
 		
 		*/
 		if(gstFilte.RO_DayCnt <0x058FD400 )	//3600*24*1080 0x01E13380
-			gstFilte.RO_DayCnt++;
+			FilterlifeDayTime();
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
 		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
@@ -234,7 +332,7 @@ void FilterSysRunTime(void)
 		百分之90  3110405
 		*/
 		if(gstFilte.Mix_DayCnt <0x01DA9C00 )//3600*24*360 
-			gstFilte.Mix_DayCnt++;
+			FilterlifeDayTime();
 			
 		// 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
 		// 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
@@ -250,7 +348,7 @@ void FilterSysRunTime(void)
 	if(gstFilte.type == ROFilter && PunpFlag)	
 	{
 		if(gstFilte.RO_FlowRateCnt < 246388ul)//108000/(2.63/60)
-			gstFilte.RO_FlowRateCnt++;
+			FilterlifeTime();
 
 		/* 测试使用
 		百分之1   90514640
@@ -274,7 +372,7 @@ void FilterSysRunTime(void)
 	else if(gstFilte.type == MixFilter && PunpFlag)
 	{
 		if(gstFilte.Mix_FlowRate < 82117ul)//3600/(2.63/60)
-			gstFilte.Mix_FlowRate++;
+			FilterlifeTime();;
 			
 		
 
@@ -294,13 +392,7 @@ void FilterSysRunTime(void)
 	}
 }
 
-void LEDProcess(void)
-{
-		if(!FirstPownOnFlag)
-		{
-				return;
-		}	
-}
+ 
 
 /************************************************************************* 
 * 函数名称:	DevicePowerOn
@@ -394,6 +486,11 @@ void MakeWaterProcess(void)
 {		
 		static u8 sMWaterStep = 5;
 		static u16 sMWaterStepCnt = 0;
+
+		if(FactoryModeFlag)
+		{
+			return ;
+		}
 	
 		if(FirstPownOnFlag)//和首次上电初始化是互斥关系
 		{
@@ -504,6 +601,10 @@ void JinShuiWorkProcess(void)
 * 输    入: 无	
 * 输    出: 无
 *************************************************************************/
+extern void TDS_Calulate(void);
+extern  void KeyGaoYaSwitch(void);
+extern void KeyRest(void);
+extern void KeySelect(void);
 void sysRuning(void)
 {	
 
@@ -531,7 +632,8 @@ void sysRuning(void)
 						KeySelect();
 						KeyRest();
 						KeyGaoYaSwitch();
-						MakeWaterProcess();						
+						MakeWaterProcess();	
+						
         }
         break;
 				
@@ -548,6 +650,7 @@ void sysRuning(void)
         {
 						FilterSysRunTime();//滤芯寿命计算
 						FirstPowerOnProcess();//首次上电冲洗15分钟
+						FactoryProcess();
         }
         break;
    

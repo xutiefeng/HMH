@@ -149,18 +149,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>218</LineNumber>
+          <LineNumber>91</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-16762436</Address>
+          <Address>-16759554</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\tfxu\Project\AM901_0308\APP\Keil_C\project\Apps\buzzer.c</Filename>
+          <Filename>Apps\key.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\unnamed\BUZZER\218</Expression>
+          <Expression>\\unnamed\KEY\91</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
@@ -193,7 +193,7 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sUseFactoryCnt</ItemText>
+          <ItemText>sUseFactoryCnt,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -269,6 +269,11 @@
           <count>17</count>
           <WinNumber>1</WinNumber>
           <ItemText>gstAM901.stFilter-&gt;type</ItemText>
+        </Ww>
+        <Ww>
+          <count>18</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gstADCollect.YuanShui</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

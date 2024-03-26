@@ -1,10 +1,10 @@
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 1   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MIIO_OPERATE
 OBJECT MODULE PLACED IN ..\Output\MIIO_OPERATE.obj
 COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\IOT_DRIVER\XIAOMI\MIIO_OPERATE.C LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE I
-                    -NTVECTOR(0X2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\
+                    -NTVECTOR(0X1000) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\
                     -Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\MIIO_OPERATE.lst) TABS(2) OBJECT(..\Output\MIIO_OPERATE.obj)
 
 line level    source
@@ -62,7 +62,7 @@ line level    source
   51          MIIO_Result_t MIIO_IAP_Cmd(char *cmd,                     //
   52                                     char *reply1,              //
   53                                     char *reply2,              //
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 2   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 2   
 
   54                                     u32 TimeOut,               //
   55                                     void UR_Send(char *Udata)) //
@@ -126,7 +126,7 @@ line level    source
  113   2          ErrorCount=0;
  114   2          IAP_Size=0;
  115   2          IAP_Count=1;
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 3   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 3   
 
  116   2          FileCrcerror=0;
  117   2          File_crc=0;
@@ -190,7 +190,7 @@ line level    source
  175   2          {
  176   3            XMClient.Time.Count=0;
  177   3            ErrorCount+=1;
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 4   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 4   
 
  178   3            XMClient.Package.Size=0;
  179   3            UART_SendByte(XR_NACK);
@@ -254,7 +254,7 @@ line level    source
  236   2          XMClient.Package.Size=0;
  237   2          XMClient.State=XS_Error;
  238   2          XMClient.Phase=XP_PackEnd;;
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 5   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 5   
 
  239   2          return XS_Fault;
  240   2        } 
@@ -318,7 +318,7 @@ line level    source
  298          //====================================================================================================
  299          //====================================================================================================
  300          IOT_State IOT_Work()
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 6   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 6   
 
  301          {
  302   1        static unsigned char Send_IOT_State=0;
@@ -364,7 +364,7 @@ line level    source
  342   4                              {
  343   5                                  Systime_Set(sMIIO_Standby, IAP_TIME_WINDOW); //设置固件升级命令
  344   5                    
- 345   5                    Net_State=IOT_GET_FW;  //收到固件升级命令
+ 345   5                                  Net_State=IOT_GET_FW;  //收到固件升级命令
  346   5                              }               
  347   4                          }
  348   3          }
@@ -382,7 +382,7 @@ line level    source
  360   4                      {
  361   5            
  362   5                          miio_result = MIIO_IAP_Cmd("model sasesi.srser.sas01\r", //
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 7   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 7   
 
  363   5                          "ok",                 //
  364   5                          "error",              //
@@ -446,7 +446,7 @@ line level    source
  422   3                          Systime_Set(sMIIO_Ready, IAP_TIME_BOOT);
  423   3                      }
  424   2                      break;
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 8   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 8   
 
  425   2                  case sMIIO_Ready:     //应答IOT平台，准备接收固件
  426   2                      miio_result = MIIO_IAP_Cmd("result \"ready\"\r", //
@@ -510,7 +510,7 @@ line level    source
  484   2                      {
  485   3                          unsigned char i;
  486   3                          for(i=0;i<10;i++)
-C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/25/2024 20:30:54 PAGE 9   
+C51 COMPILER V9.59.0.0   MIIO_OPERATE                                                      03/26/2024 16:08:15 PAGE 9   
 
  487   3                          {
  488   4                              UART_SendString("mcu_boot fail\r");

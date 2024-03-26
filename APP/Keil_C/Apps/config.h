@@ -132,8 +132,8 @@ typedef enum
 
 #define  PanelLostFlag                          gbFlagData[8].Bit.b0
 #define  FactoryModeFlag                      gbFlagData[8].Bit.b1 
-#define  RDFactoryUartFlag                      gbFlagData[8].Bit.b2 
-#define  CANTestFlag                            gbFlagData[8].Bit.b3 
+#define  HisFactoryModeFlag                      gbFlagData[8].Bit.b2 
+#define  FstModeFlag                 gbFlagData[8].Bit.b3 
 #define  LinMingDuFlag                          gbFlagData[8].Bit.b4 
 #define  CoolFlag_FromEEprom										gbFlagData[8].Bit.b5 
 #define  HisVCU_VIBPwrOff                       gbFlagData[8].Bit.b5 

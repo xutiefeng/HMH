@@ -261,6 +261,18 @@ typedef struct
 }sysTick_t;
 
 
+typedef union
+{
+	u8	all;
+	struct
+	{
+		u8 buzeerOn	:1;
+		u8 cnt		:7;
+	}Bit;
+}ST_TimeReminder;
+
+
+
 //////////////×îÐ¡¿ò¼Ü////////////////////
 extern ST_PushPop gstPushPop;
 extern volatile byte	gbFlagData[10];

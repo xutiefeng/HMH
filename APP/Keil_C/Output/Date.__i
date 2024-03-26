@@ -1,1 +1,1 @@
-"..\Drivers\OTADriver\C\Date.c" LARGE OMF2 OPTIMIZE (0,SIZE) BROWSE INTVECTOR(0x2800) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) DEFINE (SC95F8x1xB) DEBUG PRINT(..\List\Date.lst) TABS (2) OBJECT(..\Output\Date.obj)
+"..\Drivers\OTADriver\C\Date.c" LARGE OMF2 OPTIMIZE (0,SIZE) BROWSE INTVECTOR(0x1000) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..\Apps;..\Apps) DEFINE (SC95F8x1xB) DEBUG PRINT(..\List\Date.lst) TABS (2) OBJECT(..\Output\Date.obj)
