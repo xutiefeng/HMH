@@ -267,7 +267,8 @@ typedef union
 	struct
 	{
 		u8 buzeerOn	:1;
-		u8 cnt		:7;
+		u8 buzeerOn1	:1;
+		u8 cnt		:6;
 	}Bit;
 }ST_TimeReminder;
 

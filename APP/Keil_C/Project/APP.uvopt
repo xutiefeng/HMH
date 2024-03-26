@@ -150,7 +150,7 @@
           <Number>0</Number>
           <Type>0</Type>
           <LineNumber>91</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
+          <EnabledFlag>0</EnabledFlag>
           <Address>-16759121</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
@@ -158,7 +158,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\tfxu\Project\AM901_0308\APP\Keil_C\project\Apps\key.c</Filename>
+          <Filename>Apps\key.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\unnamed\KEY\91</Expression>
         </Bp>
@@ -248,7 +248,7 @@
         <Ww>
           <count>13</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gstAM901</ItemText>
+          <ItemText>gstAM901,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>14</count>
@@ -274,6 +274,11 @@
           <count>18</count>
           <WinNumber>1</WinNumber>
           <ItemText>gstADCollect.YuanShui</ItemText>
+        </Ww>
+        <Ww>
+          <count>19</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gstAM901.Run.All</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

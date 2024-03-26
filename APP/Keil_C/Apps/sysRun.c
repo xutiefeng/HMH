@@ -236,6 +236,12 @@ void TimeReminder(void)
 	{
 		if(temp <= 1)//寿命到期
 		{
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				{
+					sTimeReminderCnt.Bit.buzeerOn = 0;
+					sTimeReminderCnt.Bit.buzeerOn1 = 1;
+					Buzzer1Flag = 1;
+				}
 				LED2_R =1;
 				LED2_L =0; 	
 		}
@@ -247,6 +253,7 @@ void TimeReminder(void)
 				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 1;
+					sTimeReminderCnt.Bit.buzeerOn1 = 0;
 					Buzzer4Flag = 1;
 				}
 				
@@ -254,7 +261,6 @@ void TimeReminder(void)
 				{
 						LED2_R =1;
 						LED2_L =0;
-						Buzzer4Flag = 1;
 				}
 				else
 				{
@@ -280,11 +286,25 @@ void TimeReminder(void)
 		{
 				LED1_R =1;
 				LED1_L =0;
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				{
+					sTimeReminderCnt.Bit.buzeerOn = 0;
+					sTimeReminderCnt.Bit.buzeerOn1 = 1;
+					Buzzer1Flag = 1;
+				}
 
 		}
 	
 		else if(temp <= 10)//寿命快到期
 		{
+
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				{
+					sTimeReminderCnt.Bit.buzeerOn = 1;
+					sTimeReminderCnt.Bit.buzeerOn1 = 0;
+					Buzzer4Flag = 1;
+				}
+				
 				if(sTimeReminderCnt.Bit.cnt < 5)
 				{
 						LED1_R =1;

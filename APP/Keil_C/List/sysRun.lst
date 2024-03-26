@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 1   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SYSRUN
@@ -62,7 +62,7 @@ line level    source
   51   2          RedLedtFlag = 0;
   52   2        }
   53   1      
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 2   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 2   
 
   54   1        if(FactoryPeriodCnt%2 == 0)
   55   1        {
@@ -126,7 +126,7 @@ line level    source
  113          *函数名称：void CMP_Init(uchar CMPIS, uchar CMPRF)
  114          *函数功能：模拟比较器初始化
  115          *入口参数：CMPIS=正端通道，CMPRF=负端电压
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 3   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 3   
 
  116          *出口参数：void
  117          *****************************************************/
@@ -190,7 +190,7 @@ line level    source
  175   3          }
  176   2        }
  177   1        
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 4   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 4   
 
  178   1      
  179   1      }
@@ -253,478 +253,498 @@ line level    source
  236   1        {
  237   2          if(temp <= 1)//寿命到期
  238   2          {
- 239   3              LED2_R =1;
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 5   
+ 239   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 5   
 
- 240   3              LED2_L =0;  
- 241   3          }
- 242   2        
- 243   2          else if(temp <=3)//寿命快到期
- 244   2          {
- 245   3          
- 246   3      
- 247   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
- 248   3              {
- 249   4                sTimeReminderCnt.Bit.buzeerOn = 1;
- 250   4                Buzzer4Flag = 1;
- 251   4              }
- 252   3              
- 253   3              if(sTimeReminderCnt.Bit.cnt <= 5)
+ 240   3              {
+ 241   4                sTimeReminderCnt.Bit.buzeerOn = 0;
+ 242   4                sTimeReminderCnt.Bit.buzeerOn1 = 1;
+ 243   4                Buzzer1Flag = 1;
+ 244   4              }
+ 245   3              LED2_R =1;
+ 246   3              LED2_L =0;  
+ 247   3          }
+ 248   2        
+ 249   2          else if(temp <=3)//寿命快到期
+ 250   2          {
+ 251   3          
+ 252   3      
+ 253   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
  254   3              {
- 255   4                  LED2_R =1;
- 256   4                  LED2_L =0;
- 257   4                  Buzzer4Flag = 1;
+ 255   4                sTimeReminderCnt.Bit.buzeerOn = 1;
+ 256   4                sTimeReminderCnt.Bit.buzeerOn1 = 0;
+ 257   4                Buzzer4Flag = 1;
  258   4              }
- 259   3              else
- 260   3              {
- 261   4                  LED2_R =0;
- 262   4                  LED2_L =0;
- 263   4              }
- 264   3              
- 265   3              sTimeReminderCnt.Bit.cnt++;
- 266   3              
- 267   3              if(sTimeReminderCnt.Bit.cnt >= 10)
- 268   3                sTimeReminderCnt.Bit.cnt = 0;
- 269   3              
- 270   3          }
- 271   2          else
- 272   2          {
- 273   3              LED2_R =0;
- 274   3              LED2_L =1;
- 275   3          }
- 276   2        }
- 277   1        else
- 278   1        {
- 279   2          if(temp <= 3)//寿命到期
- 280   2          {
- 281   3              LED1_R =1;
- 282   3              LED1_L =0;
- 283   3      
- 284   3          }
- 285   2        
- 286   2          else if(temp <= 10)//寿命快到期
- 287   2          {
- 288   3              if(sTimeReminderCnt.Bit.cnt < 5)
- 289   3              {
- 290   4                  LED1_R =1;
- 291   4                  LED1_L =0;
- 292   4              }
- 293   3              else
- 294   3              {
- 295   4                  LED1_R =0;
- 296   4                  LED1_L =0;
- 297   4              }
- 298   3              
- 299   3              sTimeReminderCnt.Bit.cnt++;
- 300   3              
- 301   3              if(sTimeReminderCnt.Bit.cnt >= 10)
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 6   
+ 259   3              
+ 260   3              if(sTimeReminderCnt.Bit.cnt <= 5)
+ 261   3              {
+ 262   4                  LED2_R =1;
+ 263   4                  LED2_L =0;
+ 264   4              }
+ 265   3              else
+ 266   3              {
+ 267   4                  LED2_R =0;
+ 268   4                  LED2_L =0;
+ 269   4              }
+ 270   3              
+ 271   3              sTimeReminderCnt.Bit.cnt++;
+ 272   3              
+ 273   3              if(sTimeReminderCnt.Bit.cnt >= 10)
+ 274   3                sTimeReminderCnt.Bit.cnt = 0;
+ 275   3              
+ 276   3          }
+ 277   2          else
+ 278   2          {
+ 279   3              LED2_R =0;
+ 280   3              LED2_L =1;
+ 281   3          }
+ 282   2        }
+ 283   1        else
+ 284   1        {
+ 285   2          if(temp <= 3)//寿命到期
+ 286   2          {
+ 287   3              LED1_R =1;
+ 288   3              LED1_L =0;
+ 289   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+ 290   3              {
+ 291   4                sTimeReminderCnt.Bit.buzeerOn = 0;
+ 292   4                sTimeReminderCnt.Bit.buzeerOn1 = 1;
+ 293   4                Buzzer1Flag = 1;
+ 294   4              }
+ 295   3      
+ 296   3          }
+ 297   2        
+ 298   2          else if(temp <= 10)//寿命快到期
+ 299   2          {
+ 300   3      
+ 301   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 6   
 
- 302   3                sTimeReminderCnt.Bit.cnt = 0;
- 303   3          }
- 304   2          else
- 305   2          {
- 306   3              LED1_R =0;
- 307   3              LED1_L =1;
- 308   3          }
- 309   2        }
- 310   1          
- 311   1        
- 312   1      }
- 313          
- 314          
- 315          /************************************************************************* 
- 316          * 函数名称: FilterSysRunTime
- 317          * 功能说明: 用于滤芯寿命計數.单位秒
- 318          * 输    入: 无  
- 319          * 输    出: 无
- 320          *************************************************************************/
- 321          
- 322          #define RO_DAY 1080ul
- 323          #define MIX_3INI_DAY 360ul
- 324          void FilterSysRunTime(void)
- 325          {
- 326   1         unsigned long  temp;
- 327   1         float ftemp;
- 328   1        if(gstFilte.type == ROFilter) 
- 329   1        {
- 330   2        /* 测试使用
- 331   2          百分之2   90514640
- 332   2          百分之3   0x5651D00
- 333   2          百分之10  0x5017200
- 334   2          
- 335   2          */
- 336   2          if(gstFilte.RO_DayCnt <0x058FD400 ) //3600*24*1080 0x01E13380
- 337   2            FilterlifeDayTime();
-*** WARNING C209 IN LINE 337 OF ..\Apps\sysRun.c: '_FilterlifeDayTime': too few actual parameters
- 338   2            
- 339   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
- 340   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
- 341   2          temp =  gstFilte.RO_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
- 342   2            
- 343   2          if(temp < 108000ul)
- 344   2          {
- 345   3            temp = 108000ul-temp;
- 346   3            ftemp = (float)temp/1080ul;
- 347   3            gstAM901.Run.Bit.DayResidualPercent =  (u8)ftemp;
- 348   3          }
- 349   2          
- 350   2          
- 351   2        }
- 352   1        else
- 353   1        {
- 354   2          /* 测试使用
- 355   2          百分之3   0x01C9CE63
- 356   2          百分之10   0x1AB2600
- 357   2          百分之90  3110405
- 358   2          */
- 359   2          if(gstFilte.Mix_DayCnt <0x01DA9C00 )//3600*24*360 
- 360   2            FilterlifeDayTime();
-*** WARNING C209 IN LINE 360 OF ..\Apps\sysRun.c: '_FilterlifeDayTime': too few actual parameters
- 361   2            
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 7   
+ 302   3              {
+ 303   4                sTimeReminderCnt.Bit.buzeerOn = 1;
+ 304   4                sTimeReminderCnt.Bit.buzeerOn1 = 0;
+ 305   4                Buzzer4Flag = 1;
+ 306   4              }
+ 307   3              
+ 308   3              if(sTimeReminderCnt.Bit.cnt < 5)
+ 309   3              {
+ 310   4                  LED1_R =1;
+ 311   4                  LED1_L =0;
+ 312   4              }
+ 313   3              else
+ 314   3              {
+ 315   4                  LED1_R =0;
+ 316   4                  LED1_L =0;
+ 317   4              }
+ 318   3              
+ 319   3              sTimeReminderCnt.Bit.cnt++;
+ 320   3              
+ 321   3              if(sTimeReminderCnt.Bit.cnt >= 10)
+ 322   3                sTimeReminderCnt.Bit.cnt = 0;
+ 323   3          }
+ 324   2          else
+ 325   2          {
+ 326   3              LED1_R =0;
+ 327   3              LED1_L =1;
+ 328   3          }
+ 329   2        }
+ 330   1          
+ 331   1        
+ 332   1      }
+ 333          
+ 334          
+ 335          /************************************************************************* 
+ 336          * 函数名称: FilterSysRunTime
+ 337          * 功能说明: 用于滤芯寿命計數.单位秒
+ 338          * 输    入: 无  
+ 339          * 输    出: 无
+ 340          *************************************************************************/
+ 341          
+ 342          #define RO_DAY 1080ul
+ 343          #define MIX_3INI_DAY 360ul
+ 344          void FilterSysRunTime(void)
+ 345          {
+ 346   1         unsigned long  temp;
+ 347   1         float ftemp;
+ 348   1        if(gstFilte.type == ROFilter) 
+ 349   1        {
+ 350   2        /* 测试使用
+ 351   2          百分之2   90514640
+ 352   2          百分之3   0x5651D00
+ 353   2          百分之10  0x5017200
+ 354   2          
+ 355   2          */
+ 356   2          if(gstFilte.RO_DayCnt <0x058FD400 ) //3600*24*1080 0x01E13380
+ 357   2            FilterlifeDayTime();
+*** WARNING C209 IN LINE 357 OF ..\Apps\sysRun.c: '_FilterlifeDayTime': too few actual parameters
+ 358   2            
+ 359   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
+ 360   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
+ 361   2          temp =  gstFilte.RO_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
+ 362   2            
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 7   
 
- 362   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
- 363   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
- 364   2          temp =  gstFilte.Mix_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
- 365   2          temp =  36000ul-temp; 
- 366   2      
- 367   2          ftemp = (float)temp/MIX_3INI_DAY;
- 368   2          gstAM901.Run.Bit.DayResidualPercent = (u8)ftemp;
- 369   2        }
- 370   1      ///////////////////////////////////////////////////MIX_RO_DAY/////////////////////////////////////////////
+ 363   2          if(temp < 108000ul)
+ 364   2          {
+ 365   3            temp = 108000ul-temp;
+ 366   3            ftemp = (float)temp/1080ul;
+ 367   3            gstAM901.Run.Bit.DayResidualPercent =  (u8)ftemp;
+ 368   3          }
+ 369   2          
+ 370   2          
+ 371   2        }
+ 372   1        else
+ 373   1        {
+ 374   2          /* 测试使用
+ 375   2          百分之3   0x01C9CE63
+ 376   2          百分之10   0x1AB2600
+ 377   2          百分之90  3110405
+ 378   2          */
+ 379   2          if(gstFilte.Mix_DayCnt <0x01DA9C00 )//3600*24*360 
+ 380   2            FilterlifeDayTime();
+*** WARNING C209 IN LINE 380 OF ..\Apps\sysRun.c: '_FilterlifeDayTime': too few actual parameters
+ 381   2            
+ 382   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
+ 383   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
+ 384   2          temp =  gstFilte.Mix_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
+ 385   2          temp =  36000ul-temp; 
+ 386   2      
+ 387   2          ftemp = (float)temp/MIX_3INI_DAY;
+ 388   2          gstAM901.Run.Bit.DayResidualPercent = (u8)ftemp;
+ 389   2        }
+ 390   1      ///////////////////////////////////////////////////MIX_RO_DAY/////////////////////////////////////////////
              -//////////////
- 371   1      
- 372   1        
- 373   1        if(gstFilte.type == ROFilter && PunpFlag) 
- 374   1        {
- 375   2          if(gstFilte.RO_FlowRateCnt < 246388ul)//108000/(2.63/60)
- 376   2            FilterlifeTime();
-*** WARNING C209 IN LINE 376 OF ..\Apps\sysRun.c: '_FilterlifeTime': too few actual parameters
- 377   2      
- 378   2          /* 测试使用
- 379   2          百分之1   90514640
- 380   2          百分之3   0x5651D00
- 381   2          百分之100  246388ul
- 382   2          
- 383   2          */  
- 384   2            
- 385   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 2.63*60*10800 
- 386   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
- 387   2          temp =  (float)gstFilte.RO_FlowRateCnt*0.04384;//2.63/60;//
- 388   2          if(temp >10800ul )
- 389   2            temp = 10800ul;
- 390   2          
- 391   2          temp =  10800-temp; 
- 392   2      
- 393   2          ftemp = (float)temp/108;
- 394   2      
- 395   2          gstAM901.Run.Bit.FlowResidualPercent = (u8)ftemp;
- 396   2        }
- 397   1        else if(gstFilte.type == MixFilter && PunpFlag)
- 398   1        {
- 399   2          if(gstFilte.Mix_FlowRate < 82117ul)//3600/(2.63/60)
- 400   2            FilterlifeTime();;
-*** WARNING C209 IN LINE 400 OF ..\Apps\sysRun.c: '_FilterlifeTime': too few actual parameters
- 401   2            
+ 391   1      
+ 392   1        
+ 393   1        if(gstFilte.type == ROFilter && PunpFlag) 
+ 394   1        {
+ 395   2          if(gstFilte.RO_FlowRateCnt < 246388ul)//108000/(2.63/60)
+ 396   2            FilterlifeTime();
+*** WARNING C209 IN LINE 396 OF ..\Apps\sysRun.c: '_FilterlifeTime': too few actual parameters
+ 397   2      
+ 398   2          /* 测试使用
+ 399   2          百分之1   90514640
+ 400   2          百分之3   0x5651D00
+ 401   2          百分之100  246388ul
  402   2          
- 403   2      
+ 403   2          */  
  404   2            
- 405   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
+ 405   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 2.63*60*10800 
  406   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
- 407   2          temp =  gstFilte.Mix_FlowRate*0.04384;//gstFilte.RO_DayCnt*2.63/60
- 408   2          
- 409   2          if(temp >3600ul )
- 410   2            temp = 3600ul;
- 411   2          
- 412   2          temp =  3600-temp;  
- 413   2      
- 414   2          ftemp = ((float)temp)/36;
- 415   2            
- 416   2          gstAM901.Run.Bit.FlowResidualPercent =  (u8)ftemp;
- 417   2        }
- 418   1      }
- 419          
- 420           
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 8   
+ 407   2          temp =  (float)gstFilte.RO_FlowRateCnt*0.04384;//2.63/60;//
+ 408   2          if(temp >10800ul )
+ 409   2            temp = 10800ul;
+ 410   2          
+ 411   2          temp =  10800-temp; 
+ 412   2      
+ 413   2          ftemp = (float)temp/108;
+ 414   2      
+ 415   2          gstAM901.Run.Bit.FlowResidualPercent = (u8)ftemp;
+ 416   2        }
+ 417   1        else if(gstFilte.type == MixFilter && PunpFlag)
+ 418   1        {
+ 419   2          if(gstFilte.Mix_FlowRate < 82117ul)//3600/(2.63/60)
+ 420   2            FilterlifeTime();;
+*** WARNING C209 IN LINE 420 OF ..\Apps\sysRun.c: '_FilterlifeTime': too few actual parameters
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 8   
 
- 421          
- 422          /************************************************************************* 
- 423          * 函数名称: DevicePowerOn
- 424          * 功能说明: 设备上电初始化
- 425          * 输    入: 无  
- 426          * 输    出: 无
- 427          *************************************************************************/
- 428          volatile  u8 sDPOCnt =0;nt =0;
- 429          void DevicePowerOnInit(void)
- 430          {
- 431   1        
- 432   1        Blueled_io = 1;
- 433   1        Redled_io = 1;
- 434   1        Chanel_IO1 = 1;
- 435   1        Chanel_IO2 = 1;
- 436   1        led1_io = 0;
- 437   1        led2_io = 0;
- 438   1        led3_io = 0;
- 439   1        led4_io = 0;
- 440   1        //Buzzer2Flag = 1;
- 441   1        //BuzzerProcess();
- 442   1        PWM_IndependentModeConfig(PWM02,2000);
- 443   1        while(1)
- 444   1        {
- 445   2          if(Ev100MSFlag)
- 446   2          {
- 447   3            WDTCON |=0x10;
- 448   3            sDPOCnt++;
- 449   3            Ev100MSFlag =0;
- 450   3            
- 451   3              
- 452   3              if(sDPOCnt>= 30)
- 453   3            {
- 454   4              break;
- 455   4            }
- 456   3            else if(sDPOCnt>= 2)
- 457   3            {
- 458   4              PWM_IndependentModeConfig(PWM02,0);
- 459   4            }       
- 460   3          }
- 461   2        }
- 462   1        Chanel_IO1 = 0;
- 463   1        Chanel_IO2 = 0;
- 464   1        led1_io = 0;
- 465   1        led2_io = 0;
- 466   1        led3_io = 0;
- 467   1        led4_io = 0;
- 468   1        Blueled_io = 0;
- 469   1        Redled_io = 0;
- 470   1      }
- 471          
- 472          /************************************************************************* 
- 473          * 函数名称: FirstPowerOnProcess
- 474          * 功能说明: 首次上电对设备清洗处理
- 475          * 输    入: 无  
- 476          * 输    出: 无
- 477          *************************************************************************/
- 478          void FirstPowerOnProcess(void)
- 479          {
- 480   1          static u16 sTimeCnt = 0;
- 481   1          if(!FirstPownOnFlag)
- 482   1          {
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 9   
+ 421   2            
+ 422   2          
+ 423   2      
+ 424   2            
+ 425   2          // 气泵运行多少分钟代表一天 (10/2.63)-> 转换成S-> (10/2.63)*60-> 气泵运行总时间时间 ：(10/2.63)*60*365
+ 426   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
+ 427   2          temp =  gstFilte.Mix_FlowRate*0.04384;//gstFilte.RO_DayCnt*2.63/60
+ 428   2          
+ 429   2          if(temp >3600ul )
+ 430   2            temp = 3600ul;
+ 431   2          
+ 432   2          temp =  3600-temp;  
+ 433   2      
+ 434   2          ftemp = ((float)temp)/36;
+ 435   2            
+ 436   2          gstAM901.Run.Bit.FlowResidualPercent =  (u8)ftemp;
+ 437   2        }
+ 438   1      }
+ 439          
+ 440           
+ 441          
+ 442          /************************************************************************* 
+ 443          * 函数名称: DevicePowerOn
+ 444          * 功能说明: 设备上电初始化
+ 445          * 输    入: 无  
+ 446          * 输    出: 无
+ 447          *************************************************************************/
+ 448          volatile  u8 sDPOCnt =0;nt =0;
+ 449          void DevicePowerOnInit(void)
+ 450          {
+ 451   1        
+ 452   1        Blueled_io = 1;
+ 453   1        Redled_io = 1;
+ 454   1        Chanel_IO1 = 1;
+ 455   1        Chanel_IO2 = 1;
+ 456   1        led1_io = 0;
+ 457   1        led2_io = 0;
+ 458   1        led3_io = 0;
+ 459   1        led4_io = 0;
+ 460   1        //Buzzer2Flag = 1;
+ 461   1        //BuzzerProcess();
+ 462   1        PWM_IndependentModeConfig(PWM02,2000);
+ 463   1        while(1)
+ 464   1        {
+ 465   2          if(Ev100MSFlag)
+ 466   2          {
+ 467   3            WDTCON |=0x10;
+ 468   3            sDPOCnt++;
+ 469   3            Ev100MSFlag =0;
+ 470   3            
+ 471   3              
+ 472   3              if(sDPOCnt>= 30)
+ 473   3            {
+ 474   4              break;
+ 475   4            }
+ 476   3            else if(sDPOCnt>= 2)
+ 477   3            {
+ 478   4              PWM_IndependentModeConfig(PWM02,0);
+ 479   4            }       
+ 480   3          }
+ 481   2        }
+ 482   1        Chanel_IO1 = 0;
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 9   
 
- 483   2              return;
- 484   2          } 
- 485   1          sTimeCnt++;
- 486   1          JinShuiFa_io = 1;
- 487   1          Pump_io = 1;
- 488   1          FeiShuiFa_IO = 1;
- 489   1          KongShuiFa_IO = 1;
- 490   1          
- 491   1          if(sTimeCnt > _15Min_Per1S)
- 492   1          {
- 493   2              JinShuiFa_io = 0;
- 494   2              Pump_io = 0;
- 495   2              FeiShuiFa_IO = 0;
- 496   2              KongShuiFa_IO = 0;
- 497   2              FirstPownOnFlag =  1;
- 498   2          }
- 499   1              
- 500   1          
- 501   1      }
- 502          /************************************************************************* 
- 503          * 函数名称: makeWaterProcess
- 504          * 功能说明: 制作纯水
- 505          * 输    入: 无  
- 506          * 输    出: 无
- 507          *************************************************************************/
- 508          
- 509          
- 510          void MakeWaterProcess(void)
- 511          {   
- 512   1          static u8 sMWaterStep = 5;
- 513   1          static u16 sMWaterStepCnt = 0;
- 514   1      
- 515   1          if(FactoryModeFlag)
- 516   1          {
- 517   2            return ;
+ 483   1        Chanel_IO2 = 0;
+ 484   1        led1_io = 0;
+ 485   1        led2_io = 0;
+ 486   1        led3_io = 0;
+ 487   1        led4_io = 0;
+ 488   1        Blueled_io = 0;
+ 489   1        Redled_io = 0;
+ 490   1      }
+ 491          
+ 492          /************************************************************************* 
+ 493          * 函数名称: FirstPowerOnProcess
+ 494          * 功能说明: 首次上电对设备清洗处理
+ 495          * 输    入: 无  
+ 496          * 输    出: 无
+ 497          *************************************************************************/
+ 498          void FirstPowerOnProcess(void)
+ 499          {
+ 500   1          static u16 sTimeCnt = 0;
+ 501   1          if(!FirstPownOnFlag)
+ 502   1          {
+ 503   2              return;
+ 504   2          } 
+ 505   1          sTimeCnt++;
+ 506   1          JinShuiFa_io = 1;
+ 507   1          Pump_io = 1;
+ 508   1          FeiShuiFa_IO = 1;
+ 509   1          KongShuiFa_IO = 1;
+ 510   1          
+ 511   1          if(sTimeCnt > _15Min_Per1S)
+ 512   1          {
+ 513   2              JinShuiFa_io = 0;
+ 514   2              Pump_io = 0;
+ 515   2              FeiShuiFa_IO = 0;
+ 516   2              KongShuiFa_IO = 0;
+ 517   2              FirstPownOnFlag =  1;
  518   2          }
- 519   1        
- 520   1          if(FirstPownOnFlag)//和首次上电初始化是互斥关系
- 521   1          {
- 522   2              return;
- 523   2          } 
- 524   1          
- 525   1          if(KeySwitchFlag && !MakeWaterFlag)//检测到高压开关打开,若设备没有制水，则开始制水
- 526   1          {
- 527   2            sMWaterStep =   0;
- 528   2            MakeWaterFlag = 1;  
- 529   2            HuiLiuFa_io = 0;
- 530   2          }
- 531   1      
- 532   1          
- 533   1        
- 534   1          
- 535   1          switch(sMWaterStep)
+ 519   1              
+ 520   1          
+ 521   1      }
+ 522          /************************************************************************* 
+ 523          * 函数名称: makeWaterProcess
+ 524          * 功能说明: 制作纯水
+ 525          * 输    入: 无  
+ 526          * 输    出: 无
+ 527          *************************************************************************/
+ 528          
+ 529          
+ 530          void MakeWaterProcess(void)
+ 531          {   
+ 532   1          static u8 sMWaterStep = 5;
+ 533   1          static u16 sMWaterStepCnt = 0;
+ 534   1      
+ 535   1          if(FactoryModeFlag)
  536   1          {
- 537   2              case 0:
- 538   2                JinShuiFa_io =1;
- 539   2                sMWaterStep =1;
- 540   2                LED4_L =1;
- 541   2                PunpFlag = 1;
- 542   2                
- 543   2              break;
- 544   2              
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 10  
+ 537   2            return ;
+ 538   2          }
+ 539   1        
+ 540   1          if(FirstPownOnFlag)//和首次上电初始化是互斥关系
+ 541   1          {
+ 542   2              return;
+ 543   2          } 
+ 544   1          
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 10  
 
- 545   2              case 1://0.5秒后打开增压泵
- 546   2                sMWaterStepCnt++;
- 547   2                if(sMWaterStepCnt > _500MS_Per50MS)
- 548   2                {
- 549   3                  sMWaterStepCnt = 0;
- 550   3                  Pump_io = 1;
- 551   3                  sMWaterStep++;
- 552   3                }     
- 553   2              break;
- 554   2              
- 555   2              case 2:
- 556   2                if(!KeySwitchFlag)//水满
- 557   2                {
- 558   3                    sMWaterStep++;
- 559   3                    LED4_L =0;
- 560   3                }
- 561   2              break;
- 562   2              
- 563   2              case 3:
- 564   2                JinShuiFa_io = 0;//关闭进水阀
- 565   2                sMWaterStepCnt = 0;
- 566   2                sMWaterStep++;
- 567   2                MakeWaterFlag = 0;
- 568   2              break;
- 569   2              
- 570   2              case 4://0.5秒后关闭氣泵
- 571   2                sMWaterStepCnt++;
- 572   2                if(sMWaterStepCnt > _500MS_Per50MS)
- 573   2                {
- 574   3                  sMWaterStepCnt = 0;
- 575   3                  Pump_io = 0;
- 576   3                  PunpFlag = 0;
- 577   3                  sMWaterStep++;              
- 578   3                }
- 579   2              break;
- 580   2              
- 581   2              case 5://连续五分钟检测到水满，打开回流阀
- 582   2                  
- 583   2                  sMWaterStepCnt++;
- 584   2                  if(sMWaterStepCnt >_5Min_Per50MS)
- 585   2                  {
- 586   3                      sMWaterStepCnt = 0;
- 587   3                      sMWaterStep++;    
- 588   3                      
- 589   3                  }
- 590   2              break;
- 591   2                  
- 592   2              case 6:
- 593   2                  sMWaterStepCnt++;
- 594   2                  if(sMWaterStepCnt >_1Min_Per50MS)//一分钟后关闭回流阀
- 595   2                  {
- 596   3                      sMWaterStepCnt = 0;
- 597   3                      sMWaterStep++;    
- 598   3                      HuiLiuFa_io = 0;
- 599   3                      Pump_io = 0;
- 600   3                  }
- 601   2                  else
- 602   2                  {
- 603   3                      HuiLiuFa_io = 1;
- 604   3                      Pump_io = 1;//打开回流阀
- 605   3                  }
- 606   2                  if(KeySwitchFlag )
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 11  
+ 545   1          if(KeySwitchFlag && !MakeWaterFlag)//检测到高压开关打开,若设备没有制水，则开始制水
+ 546   1          {
+ 547   2            sMWaterStep =   0;
+ 548   2            MakeWaterFlag = 1;  
+ 549   2            HuiLiuFa_io = 0;
+ 550   2          }
+ 551   1      
+ 552   1          
+ 553   1        
+ 554   1          
+ 555   1          switch(sMWaterStep)
+ 556   1          {
+ 557   2              case 0:
+ 558   2                JinShuiFa_io =1;
+ 559   2                sMWaterStep =1;
+ 560   2                LED4_L =1;
+ 561   2                PunpFlag = 1;
+ 562   2                
+ 563   2              break;
+ 564   2              
+ 565   2              case 1://0.5秒后打开增压泵
+ 566   2                sMWaterStepCnt++;
+ 567   2                if(sMWaterStepCnt > _500MS_Per50MS)
+ 568   2                {
+ 569   3                  sMWaterStepCnt = 0;
+ 570   3                  Pump_io = 1;
+ 571   3                  sMWaterStep++;
+ 572   3                }     
+ 573   2              break;
+ 574   2              
+ 575   2              case 2:
+ 576   2                if(!KeySwitchFlag)//水满
+ 577   2                {
+ 578   3                    sMWaterStep++;
+ 579   3                    LED4_L =0;
+ 580   3                }
+ 581   2              break;
+ 582   2              
+ 583   2              case 3:
+ 584   2                JinShuiFa_io = 0;//关闭进水阀
+ 585   2                sMWaterStepCnt = 0;
+ 586   2                sMWaterStep++;
+ 587   2                MakeWaterFlag = 0;
+ 588   2              break;
+ 589   2              
+ 590   2              case 4://0.5秒后关闭氣泵
+ 591   2                sMWaterStepCnt++;
+ 592   2                if(sMWaterStepCnt > _500MS_Per50MS)
+ 593   2                {
+ 594   3                  sMWaterStepCnt = 0;
+ 595   3                  Pump_io = 0;
+ 596   3                  PunpFlag = 0;
+ 597   3                  sMWaterStep++;              
+ 598   3                }
+ 599   2              break;
+ 600   2              
+ 601   2              case 5://连续五分钟检测到水满，打开回流阀
+ 602   2                  
+ 603   2                  sMWaterStepCnt++;
+ 604   2                  if(sMWaterStepCnt >_5Min_Per50MS)
+ 605   2                  {
+ 606   3                      sMWaterStepCnt = 0;
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 11  
 
- 607   2                    HuiLiuFa_io = 0;
- 608   2              break;
- 609   2                  
- 610   2              default:
- 611   2              break;
- 612   2              
- 613   2              
- 614   2            }
- 615   1      }
- 616          
- 617          
- 618          void JinShuiWorkProcess(void)
- 619          {
- 620   1          
- 621   1      }
- 622          
- 623          /************************************************************************* 
- 624          * 函数名称: sysRuning
- 625          * 功能说明: 程序运行主体
- 626          * 输    入: 无  
- 627          * 输    出: 无
- 628          *************************************************************************/
- 629          extern void TDS_Calulate(void);
- 630          extern  void KeyGaoYaSwitch(void);
- 631          extern void KeyRest(void);
- 632          extern void KeySelect(void);
- 633          void sysRuning(void)
- 634          { 
- 635   1      
- 636   1        EventCollect();
- 637   1          switch(PopEvent())
- 638   1          {    
- 639   2      
- 640   2          case ev3MS:
- 641   2             LED_sCan();
- 642   2          break; 
- 643   2              
- 644   2              case ev5MS:       
- 645   2                BuzzerProcess();
- 646   2             //ADCollectProcess();  //  
- 647   2              break;  
- 648   2          
- 649   2              case ev20MS:
- 650   2              {
- 651   3                  
- 652   3              }       
- 653   2              break;
- 654   2              
- 655   2              case ev50MS:
- 656   2              {
- 657   3                  KeySelect();
- 658   3                  KeyRest();
- 659   3                  KeyGaoYaSwitch();
- 660   3                  MakeWaterProcess(); 
- 661   3                  
- 662   3              }
- 663   2              break;
- 664   2              
- 665   2              case ev100MS:
- 666   2              {
- 667   3                  LED_Process();  
- 668   3                  TimeReminder();
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 18:18:49 PAGE 12  
+ 607   3                      sMWaterStep++;    
+ 608   3                      
+ 609   3                  }
+ 610   2              break;
+ 611   2                  
+ 612   2              case 6:
+ 613   2                  sMWaterStepCnt++;
+ 614   2                  if(sMWaterStepCnt >_1Min_Per50MS)//一分钟后关闭回流阀
+ 615   2                  {
+ 616   3                      sMWaterStepCnt = 0;
+ 617   3                      sMWaterStep++;    
+ 618   3                      HuiLiuFa_io = 0;
+ 619   3                      Pump_io = 0;
+ 620   3                  }
+ 621   2                  else
+ 622   2                  {
+ 623   3                      HuiLiuFa_io = 1;
+ 624   3                      Pump_io = 1;//打开回流阀
+ 625   3                  }
+ 626   2                  if(KeySwitchFlag )
+ 627   2                    HuiLiuFa_io = 0;
+ 628   2              break;
+ 629   2                  
+ 630   2              default:
+ 631   2              break;
+ 632   2              
+ 633   2              
+ 634   2            }
+ 635   1      }
+ 636          
+ 637          
+ 638          void JinShuiWorkProcess(void)
+ 639          {
+ 640   1          
+ 641   1      }
+ 642          
+ 643          /************************************************************************* 
+ 644          * 函数名称: sysRuning
+ 645          * 功能说明: 程序运行主体
+ 646          * 输    入: 无  
+ 647          * 输    出: 无
+ 648          *************************************************************************/
+ 649          extern void TDS_Calulate(void);
+ 650          extern  void KeyGaoYaSwitch(void);
+ 651          extern void KeyRest(void);
+ 652          extern void KeySelect(void);
+ 653          void sysRuning(void)
+ 654          { 
+ 655   1      
+ 656   1        EventCollect();
+ 657   1          switch(PopEvent())
+ 658   1          {    
+ 659   2      
+ 660   2          case ev3MS:
+ 661   2             LED_sCan();
+ 662   2          break; 
+ 663   2              
+ 664   2              case ev5MS:       
+ 665   2                BuzzerProcess();
+ 666   2             //ADCollectProcess();  //  
+ 667   2              break;  
+ 668   2          
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 12  
 
- 669   3                  TDS_Calulate();
- 670   3                  ////EepromProcess();   
- 671   3              }
- 672   2              break;
- 673   2              
- 674   2              case ev1S:
- 675   2              {
- 676   3                  FilterSysRunTime();//滤芯寿命计算
- 677   3                  FirstPowerOnProcess();//首次上电冲洗15分钟
- 678   3                  FactoryProcess();
- 679   3              }
- 680   2              break;
- 681   2         
- 682   2              default:
+ 669   2              case ev20MS:
+ 670   2              {
+ 671   3                  
+ 672   3              }       
+ 673   2              break;
+ 674   2              
+ 675   2              case ev50MS:
+ 676   2              {
+ 677   3                  KeySelect();
+ 678   3                  KeyRest();
+ 679   3                  KeyGaoYaSwitch();
+ 680   3                  MakeWaterProcess(); 
+ 681   3                  
+ 682   3              }
  683   2              break;
- 684   2          }
- 685   1      }
+ 684   2              
+ 685   2              case ev100MS:
+ 686   2              {
+ 687   3                  LED_Process();  
+ 688   3                  TimeReminder();
+ 689   3                  TDS_Calulate();
+ 690   3                  ////EepromProcess();   
+ 691   3              }
+ 692   2              break;
+ 693   2              
+ 694   2              case ev1S:
+ 695   2              {
+ 696   3                  FilterSysRunTime();//滤芯寿命计算
+ 697   3                  FirstPowerOnProcess();//首次上电冲洗15分钟
+ 698   3                  FactoryProcess();
+ 699   3              }
+ 700   2              break;
+ 701   2         
+ 702   2              default:
+ 703   2              break;
+ 704   2          }
+ 705   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   2813    ----
+   CODE SIZE        =   3015    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     23    ----
    PDATA SIZE       =   ----    ----
