@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 1   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SYSRUN
@@ -62,7 +62,7 @@ line level    source
   51   2          RedLedtFlag = 0;
   52   2        }
   53   1      
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 2   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 2   
 
   54   1        if(FactoryPeriodCnt%2 == 0)
   55   1        {
@@ -126,7 +126,7 @@ line level    source
  113          *函数名称：void CMP_Init(uchar CMPIS, uchar CMPRF)
  114          *函数功能：模拟比较器初始化
  115          *入口参数：CMPIS=正端通道，CMPRF=负端电压
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 3   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 3   
 
  116          *出口参数：void
  117          *****************************************************/
@@ -190,7 +190,7 @@ line level    source
  175   3          }
  176   2        }
  177   1        
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 4   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 4   
 
  178   1      
  179   1      }
@@ -253,8 +253,8 @@ line level    source
  236   1        {
  237   2          if(temp <= 1)//寿命到期
  238   2          {
- 239   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 5   
+ 239   3              if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1)
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 5   
 
  240   3              {
  241   4                sTimeReminderCnt.Bit.buzeerOn = 0;
@@ -305,7 +305,7 @@ line level    source
  286   2          {
  287   3              LED1_R =1;
  288   3              LED1_L =0;
- 289   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+ 289   3              if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1)
  290   3              {
  291   4                sTimeReminderCnt.Bit.buzeerOn = 0;
  292   4                sTimeReminderCnt.Bit.buzeerOn1 = 1;
@@ -318,7 +318,7 @@ line level    source
  299   2          {
  300   3      
  301   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 6   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 6   
 
  302   3              {
  303   4                sTimeReminderCnt.Bit.buzeerOn = 1;
@@ -382,7 +382,7 @@ line level    source
  360   2          // 气泵1秒钟运行多少天：  tick */60*（10/2.63） 
  361   2          temp =  gstFilte.RO_DayCnt/864; //gstFilte.RO_DayCnt/0x00015180 *100;
  362   2            
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 7   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 7   
 
  363   2          if(temp < 108000ul)
  364   2          {
@@ -446,7 +446,7 @@ line level    source
  419   2          if(gstFilte.Mix_FlowRate < 82117ul)//3600/(2.63/60)
  420   2            FilterlifeTime();;
 *** WARNING C209 IN LINE 420 OF ..\Apps\sysRun.c: '_FilterlifeTime': too few actual parameters
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 8   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 8   
 
  421   2            
  422   2          
@@ -510,7 +510,7 @@ line level    source
  480   3          }
  481   2        }
  482   1        Chanel_IO1 = 0;
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 9   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 9   
 
  483   1        Chanel_IO2 = 0;
  484   1        led1_io = 0;
@@ -574,7 +574,7 @@ line level    source
  542   2              return;
  543   2          } 
  544   1          
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 10  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 10  
 
  545   1          if(KeySwitchFlag && !MakeWaterFlag)//检测到高压开关打开,若设备没有制水，则开始制水
  546   1          {
@@ -638,7 +638,7 @@ line level    source
  604   2                  if(sMWaterStepCnt >_5Min_Per50MS)
  605   2                  {
  606   3                      sMWaterStepCnt = 0;
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 11  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 11  
 
  607   3                      sMWaterStep++;    
  608   3                      
@@ -702,7 +702,7 @@ line level    source
  666   2             //ADCollectProcess();  //  
  667   2              break;  
  668   2          
-C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:00:26 PAGE 12  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            03/26/2024 19:32:53 PAGE 12  
 
  669   2              case ev20MS:
  670   2              {

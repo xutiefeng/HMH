@@ -236,7 +236,7 @@ void TimeReminder(void)
 	{
 		if(temp <= 1)//ÊÙÃüµ½ÆÚ
 		{
-				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 0;
 					sTimeReminderCnt.Bit.buzeerOn1 = 1;
@@ -286,7 +286,7 @@ void TimeReminder(void)
 		{
 				LED1_R =1;
 				LED1_L =0;
-				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 0;
 					sTimeReminderCnt.Bit.buzeerOn1 = 1;
