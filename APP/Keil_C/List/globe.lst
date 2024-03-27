@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   GLOBE                                                             03/27/2024 19:21:14 PAGE 1   
+C51 COMPILER V9.59.0.0   GLOBE                                                             03/27/2024 21:09:24 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE GLOBE
@@ -34,11 +34,11 @@ line level    source
   23          volatile ST_AM901  gstAM901;
   24          volatile STAD_Collect   gstADCollect;
   25          u8 gKeyValue;
-  26          byte gSendData[8];
+  26          byte gSendData[8]={0};
   27          #if 0
               signed char gTempHeat,gTempAD;
               STFactory   gstFactory; 
-              byte gSendData[3];
+              
               uint8_t gErrorCode;
               byte gbNoInitFlagData[10];
               
@@ -59,10 +59,10 @@ line level    source
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   ----    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    178    ----
+   XDATA SIZE       =    170    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
-C51 COMPILER V9.59.0.0   GLOBE                                                             03/27/2024 19:21:14 PAGE 2   
+C51 COMPILER V9.59.0.0   GLOBE                                                             03/27/2024 21:09:24 PAGE 2   
 
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----

@@ -635,10 +635,7 @@ void MakeWaterProcess(void)
 }
 
 
-void JinShuiWorkProcess(void)
-{
-		
-}
+
 
 /************************************************************************* 
 * 函数名称:	sysRuning
@@ -662,8 +659,7 @@ void sysRuning(void)
 		break; 
 				
         case ev5MS:       
-					BuzzerProcess();
-			 //ADCollectProcess();	//	
+					BuzzerProcess();	
         break;  
     
         case ev20MS:
@@ -687,8 +683,8 @@ void sysRuning(void)
 						LED_Process();	
 						TimeReminder();
 						TDS_Calulate();
-						
-            ////EepromProcess();   
+						UART0_SendData();
+            //EepromProcess();   
         }
         break;
 				
@@ -697,7 +693,7 @@ void sysRuning(void)
 						FilterSysRunTime();//滤芯寿命计算
 						FirstPowerOnProcess();//首次上电冲洗15分钟
 						FactoryProcess();
-						UART0_SendData();
+						
         }
         break;
    

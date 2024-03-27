@@ -23,11 +23,11 @@ ST_Filter gstFilte;
 volatile ST_AM901  gstAM901;
 volatile STAD_Collect   gstADCollect;
 u8 gKeyValue;
-byte gSendData[8];
+byte gSendData[8]={0};
 #if 0
 signed char gTempHeat,gTempAD;
 STFactory   gstFactory; 
-byte gSendData[3];
+
 uint8_t gErrorCode;
 byte gbNoInitFlagData[10];
 

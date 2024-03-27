@@ -38,25 +38,41 @@ const	unsigned	char  code	display_tab[]=
 ´Ëº¯Êý
 */
 
+void ShuMaGuanDisplay(void)
+{
+		gSendData[2].all = (gstADCollect.fChunShui>>8)&0x0f;
+		gSendData[2].all = display_tab[gSendData[2].all];
+	
+		gSendData[3].all = (gstADCollect.fChunShui>>4)&0x0f;
+		gSendData[3].all = display_tab[gSendData[3].all];
+	
+		gSendData[4].all = gstADCollect.fChunShui&0x0f;
+		gSendData[4].all = display_tab[gSendData[4].all];
+}
+
+
 void    UART0_SendData( void)
 {
 		u8 i;
 		
 	  gSendData[0].all = 0xA5;
 		gSendData[1].all = 8;
-		gSendData[2].all = 0;
-		gSendData[3].all = 0;
-		gSendData[4].all = 0;
-		gSendData[5].all = 0;
-		gSendData[6].all = 0;
 	
-	  gSendData[7].all = 0;
+		gSendData[5].all = 0;		
+		gSendData[6].all = 3;
+		ShuMaGuanDisplay();
+	 	gSendData[7].all = 0;
+		
 		for(i = 0;i<7;i++)
 		{
 				gSendData[7].all +=gSendData[i].all;
 		}
+		
 		SBUF = 0xA5;
 }
+
+
+
 
 void    RDUART0_RcvByte(void)
 {
@@ -85,12 +101,18 @@ void    RDUART0_RcvByte(void)
 				{
  					if(temp ==  SCICheckout)
 					{
-//							gKeyValue = rx[2];  
-
-//							if(gKeyValue > 0)
-//							{
-//									EvRecvFlag = 1;
-//							}       
+     
+							if(rx[2] >0 )
+							{
+									ShuiLongTouOpen=1;
+									ShuiLongTouClose=0;
+							}
+								
+							else
+							{
+									ShuiLongTouOpen=0;
+									ShuiLongTouClose=1;
+							}
 							PanelLostFlag = 0;
 						
 							ReceiveRestart();

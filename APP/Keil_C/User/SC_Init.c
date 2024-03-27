@@ -25,7 +25,7 @@ void SC_Init(void)
 	//Forbid editing areas before the following label !!!
 	SC_GPIO_Init();
 	SC_OPTION_Init();
-	SC_USCI2_Init();
+	//SC_USCI2_Init();
 	SC_UART0_Init();
 	SC_TIM0_Init();
 	SC_PWM0_Init();

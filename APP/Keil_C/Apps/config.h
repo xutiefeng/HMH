@@ -67,8 +67,8 @@ typedef enum
 #define  ChouTiFlag     												gbFlagData[1].Bit.b3 
 #define  HeatFlag   														gbFlagData[1].Bit.b4 
 #define  CoolFlag																gbFlagData[1].Bit.b5 
-#define  RecveFlag                              gbFlagData[1].Bit.b6 
-#define  OzoneFlag                              gbFlagData[1].Bit.b7 
+#define  ShuiLongTouClose                              gbFlagData[1].Bit.b6 
+#define  ShuiLongTouOpen                              gbFlagData[1].Bit.b7 
 
 
 #define  HisBuzzerFlag                            gbFlagData[2].Bit.b0 

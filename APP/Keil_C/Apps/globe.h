@@ -96,11 +96,11 @@ typedef struct
     u16 	ChunShui[10];
     u16 	LouShui[10];
     u16		JieShui[10];
-   	float fYuanShui;
-	float  fChunShui;
-	float  fLouShui;
-	float  fJieShui;
-    u8 	ADAvergeCnt;
+   	u16 	fYuanShui;
+		u16  	fChunShui;
+		u16  	fLouShui;
+		u16  	fJieShui;
+    u8 		ADAvergeCnt;
 	
 }STAD_Collect;
 

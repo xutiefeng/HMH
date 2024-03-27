@@ -340,13 +340,13 @@ void TDS_Calulate(void)
 
 	gstADCollect.ADAvergeCnt = 0;
 
-	 gstADCollect.fYuanShui= adc_get_average(gstADCollect.YuanShui)*0.00122;
+	 gstADCollect.fYuanShui= adc_get_average(gstADCollect.YuanShui);
 
-	gstADCollect.fChunShui=  adc_get_average(gstADCollect.ChunShui)*0.00122;
+	gstADCollect.fChunShui=  adc_get_average(gstADCollect.ChunShui);
 
-	gstADCollect.fLouShui=    adc_get_average(gstADCollect.LouShui)*0.00122;
+	gstADCollect.fLouShui=    adc_get_average(gstADCollect.LouShui);
 
-	gstADCollect.fJieShui=     adc_get_average(gstADCollect.JieShui)*0.00122;
+	gstADCollect.fJieShui=     adc_get_average(gstADCollect.JieShui);
 	
 
 	
