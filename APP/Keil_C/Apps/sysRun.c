@@ -222,7 +222,7 @@ void TimeReminder(void)
 	static ST_TimeReminder sTimeReminderCnt ={0};
 	u8  temp =gstAM901.Run.Bit.DayResidualPercent;
 
-	if(FactoryModeFlag)
+	if(FactoryModeFlag ||!SysRunFlag)
 	{
 		return ;
 	}
@@ -693,7 +693,7 @@ void sysRuning(void)
 						FilterSysRunTime();//滤芯寿命计算
 						FirstPowerOnProcess();//首次上电冲洗15分钟
 						FactoryProcess();
-						
+						SysRunFlag =1;
         }
         break;
    

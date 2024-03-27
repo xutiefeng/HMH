@@ -2,6 +2,10 @@
 #include "..\Apps\includeall.h"
 
 
+void RedLed(u8 x)
+{
+	
+}
 
 void LED_sCan(void)
 {	
