@@ -15,12 +15,15 @@ volatile byte	gbFlagData[10];
 volatile sysTick_t gstRDsysTick;
 Uchar gEventBuffer[EVENT_BUFFER_LENGTH];
 
+
+
 //////////////×îÐ¡¿ò¼Ü////////////////////
 
 ST_Filter gstFilte;
 volatile ST_AM901  gstAM901;
 volatile STAD_Collect   gstADCollect;
 u8 gKeyValue;
+byte gSendData[8];
 #if 0
 signed char gTempHeat,gTempAD;
 STFactory   gstFactory; 

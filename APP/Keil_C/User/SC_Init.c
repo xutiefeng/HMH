@@ -25,6 +25,7 @@ void SC_Init(void)
 	//Forbid editing areas before the following label !!!
 	SC_GPIO_Init();
 	SC_OPTION_Init();
+	SC_USCI2_Init();
 	SC_UART0_Init();
 	SC_TIM0_Init();
 	SC_PWM0_Init();
@@ -61,7 +62,6 @@ void SC_GPIO_Init(void)
 	GPIO_Init(GPIO0, GPIO_PIN_4,GPIO_MODE_OUT_PP);
 	GPIO_Init(GPIO0, GPIO_PIN_5,GPIO_MODE_IN_PU);
 	GPIO_Init(GPIO5, GPIO_PIN_3,GPIO_MODE_OUT_PP);
-	GPIO_Init(GPIO4, GPIO_PIN_3,GPIO_MODE_OUT_PP);
 	GPIO_Init(GPIO4, GPIO_PIN_2,GPIO_MODE_OUT_PP);
 	GPIO_Init(GPIO4, GPIO_PIN_1,GPIO_MODE_OUT_PP);
 	GPIO_Init(GPIO3, GPIO_PIN_7,GPIO_MODE_OUT_PP);
@@ -107,7 +107,7 @@ void SC_UART0_Init(void)
 	//Forbid editing areas before the following label !!!
 	GPIO_Init(GPIO2, GPIO_PIN_0,GPIO_MODE_IN_PU);
 	GPIO_Init(GPIO2, GPIO_PIN_1,GPIO_MODE_IN_PU);
-	/*模式1初始化*/UART0_Init(32000000,115200,UART0_Mode_10B,UART0_CLOCK_TIMER1,UART0_RX_ENABLE);
+	/*模式1初始化*/UART0_Init(32000000,9600,UART0_Mode_10B,UART0_CLOCK_TIMER1,UART0_RX_ENABLE);
 	UART0_ITConfig(ENABLE,LOW);
 	/*UART0_Init write here*/		
 }
@@ -343,6 +343,10 @@ void SC_USCI1_Init(void)
 void SC_USCI2_Init(void)
 {
 	//Forbid editing areas before the following label !!!
+	GPIO_Init(GPIO4, GPIO_PIN_5,GPIO_MODE_IN_PU);
+	GPIO_Init(GPIO4, GPIO_PIN_4,GPIO_MODE_IN_PU);
+	USCI2_ITConfig(ENABLE,LOW);
+	USCI2_UART_Init(32000000,  USCI2_UART_BaudRate_FsysDIV12,  USCI2_UART_Mode_8B,USCI2_UART_RX_ENABLE);
 	/*USCI2_Init write here*/		
 }
 

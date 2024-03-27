@@ -2,7 +2,7 @@
 #define _OTADriver_H_
 
 //<<<Use SPTML>>>
-#define UartSelect 0//UartSelect 
+#define UartSelect 3//UartSelect 
 #define UartBaud 115200
 #define Fsoc X
 #define CheckMode 0//CheckMode 

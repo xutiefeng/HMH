@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_ADCOLLECT
@@ -62,7 +62,7 @@ line level    source
   50          
   51          
   52          
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 2   
 
   53          
   54          
@@ -126,7 +126,7 @@ line level    source
  112   1      }
  113          
  114          void JieShui_IO_Flip_2(void)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 3   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 3   
 
  115          {
  116   1          P26 = 1;
@@ -190,7 +190,7 @@ line level    source
  174   2            else if(sADChanalCnt == 3)
  175   2            {
  176   3               ADCHANAL_Select(1);
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 4   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 4   
 
  177   3              
  178   3            }
@@ -254,7 +254,7 @@ line level    source
  236   3            }
  237   2      
  238   2            else if(sADChanalCnt == 5)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 5   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 5   
 
  239   2            {
  240   3              gstADCollect.LouShui[gstADCollect.ADAvergeCnt]  = ADCHANAL_GetValue();// YuanShui
@@ -318,7 +318,7 @@ line level    source
  298   1        {
  299   2          adc_current = p[i];
  300   2          if(adc_current > adc_value_max)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 6   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 6   
 
  301   2          {
  302   3            adc_value_max = adc_current;
@@ -382,7 +382,7 @@ line level    source
  360          
  361          void PaiShuiProcess(void)//1S钟运行一次
  362          {
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 7   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 7   
 
  363   1        static u8 sTDS_Time =0;
  364   1      
@@ -446,7 +446,7 @@ line level    source
                     sADChanalCnt = 7;
                 }
                 else if(sADChanalCnt == 7)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/26/2024 19:00:26 PAGE 8   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     03/27/2024 19:21:14 PAGE 8   
 
                 {
                     ADCHANAL_Select(7);

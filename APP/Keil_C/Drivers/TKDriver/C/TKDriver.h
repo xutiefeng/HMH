@@ -12,10 +12,10 @@
 
 
 //<<<Use SPTML>>>
-#define SCD_TK_Type 1//SCD_TK_Type 
-#define SCD_Wheel 0//SCD_Wheel 
-#define SCD_Slider 0//SCD_Slider 
-#define SCD_Key 1//SCD_Key 
+#define SCD_TK_Type 1 //SCD_TK_Type 
+#define SCD_Wheel 0 //SCD_Wheel 
+#define SCD_Slider 0 //SCD_Slider 
+#define SCD_Key 1 //SCD_Key 
 extern unsigned char xdata SOCAPI_TouchKeyStatus;
 
 extern unsigned long int TouchKeyScan();

@@ -75,6 +75,7 @@ void UART0_Init(uint32_t Uart0Fsys, uint32_t BaudRate, UART0_Mode_Typedef Mode,
 	  TRX = 1;
 	}
   }
+		EUART = 1;     //¿ªÆôUartÖÐ¶Ï
 }
 
 /*****************************************************

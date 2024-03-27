@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   GLOBE                                                             03/26/2024 19:00:26 PAGE 1   
+C51 COMPILER V9.59.0.0   GLOBE                                                             03/27/2024 19:21:14 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE GLOBE
@@ -26,13 +26,16 @@ line level    source
   15          volatile sysTick_t gstRDsysTick;
   16          Uchar gEventBuffer[EVENT_BUFFER_LENGTH];
   17          
-  18          //////////////最小框架////////////////////
+  18          
   19          
-  20          ST_Filter gstFilte;
-  21          volatile ST_AM901  gstAM901;
-  22          volatile STAD_Collect   gstADCollect;
-  23          u8 gKeyValue;
-  24          #if 0
+  20          //////////////最小框架////////////////////
+  21          
+  22          ST_Filter gstFilte;
+  23          volatile ST_AM901  gstAM901;
+  24          volatile STAD_Collect   gstADCollect;
+  25          u8 gKeyValue;
+  26          byte gSendData[8];
+  27          #if 0
               signed char gTempHeat,gTempAD;
               STFactory   gstFactory; 
               byte gSendData[3];
@@ -46,24 +49,24 @@ line level    source
               //////////////调节LED亮度////////////////////
               u8  gLightAdjust = 0xc0;
               #endif
-  38          
-  39          
-  40          
   41          
   42          
+  43          
+  44          
+  45          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   ----    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    170    ----
+   XDATA SIZE       =    178    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
+C51 COMPILER V9.59.0.0   GLOBE                                                             03/27/2024 19:21:14 PAGE 2   
+
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
-C51 COMPILER V9.59.0.0   GLOBE                                                             03/26/2024 19:00:26 PAGE 2   
-
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----

@@ -476,6 +476,11 @@
               <FileType>1</FileType>
               <FilePath>..\Apps\FuncTab.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Apps\bsp_uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -526,6 +531,11 @@
         <Group>
           <GroupName>FWLib</GroupName>
           <Files>
+            <File>
+              <FileName>sc95f_usci2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FWLib\SC95F_Lib\src\sc95f_usci2.c</FilePath>
+            </File>
             <File>
               <FileName>sc95f_wdt.c</FileName>
               <FileType>1</FileType>

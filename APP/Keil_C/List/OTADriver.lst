@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 1   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE OTADRIVER
@@ -48,21 +48,21 @@ line level    source
   37          
   38          /* 使用串口定义 */
   39          #if (UartSelect==0)
-  40          #define SendData(UartData) UART0_SendData8((uint8_t)UartData)
-  41          #define ReceiveData() UART0_ReceiveData8()
-  42          #define READ_RI UART0_GetFlagStatus(UART0_FLAG_RI)
-  43          #define CLEAR_RI UART0_ClearFlag(UART0_FLAG_RI)
-  44          #define READ_TI UART0_GetFlagStatus(UART0_FLAG_TI)
-  45          #define CLEAR_TI UART0_ClearFlag(UART0_FLAG_TI)
-  46          #define UART_INT_NUMBER 4
-  47          #endif
+              #define SendData(UartData) UART0_SendData8((uint8_t)UartData)
+              #define ReceiveData() UART0_ReceiveData8()
+              #define READ_RI UART0_GetFlagStatus(UART0_FLAG_RI)
+              #define CLEAR_RI UART0_ClearFlag(UART0_FLAG_RI)
+              #define READ_TI UART0_GetFlagStatus(UART0_FLAG_TI)
+              #define CLEAR_TI UART0_ClearFlag(UART0_FLAG_TI)
+              #define UART_INT_NUMBER 4
+              #endif
   48          
   49          #if (UartSelect==1)
               #define SendData(UartData) USCI0_UART_SendData8(UartData)
               #define ReceiveData() USCI0_UART_ReceiveData8()
               #define READ_RI USCI0_GetFlagStatus(USCI0_UART_FLAG_RI)
               #define CLEAR_RI USCI0_ClearFlag(USCI0_UART_FLAG_RI)
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 2   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 2   
 
               #define READ_TI USCI0_GetFlagStatus(USCI0_UART_FLAG_TI)
               #define CLEAR_TI USCI0_ClearFlag(USCI0_UART_FLAG_TI)
@@ -80,14 +80,14 @@ line level    source
               #endif
   68          
   69          #if (UartSelect==3)
-              #define SendData(UartData) USCI2_UART_SendData8(UartData)
-              #define ReceiveData() USCI2_UART_ReceiveData8()
-              #define READ_RI USCI2_GetFlagStatus(USCI2_UART_FLAG_RI)
-              #define CLEAR_RI USCI2_ClearFlag(USCI2_UART_FLAG_RI)
-              #define READ_TI USCI2_GetFlagStatus(USCI2_UART_FLAG_TI)
-              #define CLEAR_TI USCI2_ClearFlag(USCI2_UART_FLAG_TI)
-              #define UART_INT_NUMBER 16
-              #endif
+  70          #define SendData(UartData) USCI2_UART_SendData8(UartData)
+  71          #define ReceiveData() USCI2_UART_ReceiveData8()
+  72          #define READ_RI USCI2_GetFlagStatus(USCI2_UART_FLAG_RI)
+  73          #define CLEAR_RI USCI2_ClearFlag(USCI2_UART_FLAG_RI)
+  74          #define READ_TI USCI2_GetFlagStatus(USCI2_UART_FLAG_TI)
+  75          #define CLEAR_TI USCI2_ClearFlag(USCI2_UART_FLAG_TI)
+  76          #define UART_INT_NUMBER 16
+  77          #endif
   78          
   79          #if (UartSelect==4)
               #define SendData(UartData) USCI3_UART_SendData8(UartData)
@@ -126,7 +126,7 @@ line level    source
  113          
  114          IAPDATA_INFO  IAP_Pack;
  115          unsigned long  IAP_Checksum=0;
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 3   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 3   
 
  116          unsigned long IAP_Size=0;
  117          
@@ -190,7 +190,7 @@ line level    source
  175          /**************************************************
  176          *函数名称：IAP_Reset
  177          *函数功能：软复位
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 4   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 4   
 
  178          *入口参数：mode ：BOOT：复位执行LDROM程序 APP：复位执行APP程序
  179          *出口参数：void  
@@ -254,7 +254,7 @@ line level    source
  237   1        while(!UartSeneFlag)
  238   1        {
  239   2          if(2000<i++)
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 5   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 5   
 
  240   2          {
  241   3            WDTCON |=0X10;
@@ -318,7 +318,7 @@ line level    source
              -_Pack->Size))<RUN_APP_END_ADDRESS))  //仅写入有效区域
  299   1          {
  300   2            {
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 6   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 6   
 
  301   3            #if(Encryption == 1)//如果数据加密了在此进行解密
                       unsigned char i,k;
@@ -382,7 +382,7 @@ line level    source
  359   1        OPINX = 0xC2;
  360   1        OPREG=Option2Buff;       //恢复C2的寄存器
  361   1        
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 7   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 7   
 
  362   1        OPINX = 0xC1;
  363   1        OPREG=Option1Buff ;    //恢复C1的寄存器
@@ -446,7 +446,7 @@ line level    source
  421   1      }
  422          /*****************************************************
  423          *函数名称: unsigned char WriteAPPMemoryInfo(char region,APPMemoryInfoStruct APPMemoryInfo)
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 8   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 8   
 
  424          *函数功能: 写备份区存储区信息
  425          *入口参数：APPMemoryInfo:存储区信息
@@ -510,7 +510,7 @@ line level    source
  482          *出口参数：unsigned char 1：代码完整
  483          *****************************************************/
  484          unsigned char AppCompleteCheck()
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 9   
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 9   
 
  485          {
  486   1        APPSPACE_STATE RunState=OTAING;
@@ -574,7 +574,7 @@ line level    source
  543   2          {
  544   3            if(RunState==DOWNLOADED)        //APP区代码不完整，且备份区代码完整
  545   3            {
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 10  
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 10  
 
  546   4              RunState=COPYING;//更新程序
  547   4            }
@@ -638,7 +638,7 @@ line level    source
  605          *函数名称: unsigned char IAP_Check_APFLASH()
  606          *函数功能: 判断运行区APP是否为最开始的APP,如果不是则检查程序的完备性
  607          *入口参数：Crc 0：上电不对APP区进行CRC校验； 1：上电对APP区进行CRC校验，上电引导时间变长
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 11  
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 11  
 
  608          *出口参数：0 ：不是 1：是
  609          *****************************************************/
@@ -702,7 +702,7 @@ line level    source
  667   2          if(!IAP_WriteOneByte(RUN_APP_BEGIN_ADDRESS + i,BackupsCode))
  668   2          {
  669   3            return 0;
-C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/26/2024 19:00:26 PAGE 12  
+C51 COMPILER V9.59.0.0   OTADRIVER                                                         03/27/2024 19:21:15 PAGE 12  
 
  670   3          }
  671   2        }
@@ -740,7 +740,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   2807    ----
+   CODE SIZE        =   2821    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =    182    ----
    PDATA SIZE       =   ----    ----

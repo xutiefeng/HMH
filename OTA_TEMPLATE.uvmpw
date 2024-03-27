@@ -16,7 +16,6 @@
 
   <project>
     <PathAndName>.\BOOTLOAD\Keil_C\project\BOOTLOAD.uvproj</PathAndName>
-    <NodeIsExpanded>1</NodeIsExpanded>
     <NodeIsCheckedInBatchBuild>1</NodeIsCheckedInBatchBuild>
   </project>
 

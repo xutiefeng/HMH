@@ -469,7 +469,7 @@ void DevicePowerOnInit(void)
 			Ev100MSFlag =0;
 			
 			  
-		    if(sDPOCnt>= 30)
+		   if(sDPOCnt>= 30)
 			{
 				break;
 			}
@@ -687,6 +687,7 @@ void sysRuning(void)
 						LED_Process();	
 						TimeReminder();
 						TDS_Calulate();
+						
             ////EepromProcess();   
         }
         break;
@@ -696,6 +697,7 @@ void sysRuning(void)
 						FilterSysRunTime();//滤芯寿命计算
 						FirstPowerOnProcess();//首次上电冲洗15分钟
 						FactoryProcess();
+						UART0_SendData();
         }
         break;
    

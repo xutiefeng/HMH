@@ -1,0 +1,2404 @@
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_USCI2
+OBJECT MODULE PLACED IN ..\Output\sc95f_usci2.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ..\FWLib\SC95F_Lib\src\sc95f_usci2.c LARGE OMF2 OPTIMIZE(0,SIZE) BROWSE 
+                    -INTVECTOR(0X1000) INCDIR(..\FWLib\SC95F_Lib\inc;..\User;..\IOT_DRIVER\XIAOMI;..\Drivers;..\Drivers\TKDriver\C;..\List\..
+                    -\Apps;..\Apps) DEFINE(SC95F8x1xB) DEBUG PRINT(..\List\sc95f_usci2.lst) TABS(2) OBJECT(..\Output\sc95f_usci2.obj)
+
+line level    source
+
+   1          //************************************************************
+   2          //  Copyright (c) ÉîÛÚÊÐÈüÔªÎ¢µç×Ó¹É·ÝÓÐÏÞ¹«Ë¾
+   3          //  ÎÄ¼þÃû³Æ:     sc95f_usci2.c
+   4          //  ×÷Õß    :
+   5          //  Ä£¿é¹¦ÄÜ:     USCI2¹Ì¼þ¿âº¯ÊýCÎÄ¼þ
+   6          //  ×îºó¸üÕýÈÕÆÚ: 2024Äê1ÔÂ18ÈÕ
+   7          //  °æ±¾:       V1.0002
+   8          // ËµÃ÷:¸ÃÎÄ¼þ½öÊÊÓÃÓÚSC95FÏµÁÐÐ¾Æ¬
+   9          //*************************************************************
+  10          
+  11          #include "sc95f_usci2.h"
+  12          
+  13          #if defined(SC95F8x3x) || defined(SC95F7x3x) || defined (SC95F8x6x) || defined (SC95F7x6x)  || defined (SC
+             -95F8x1xB) || defined (SC95F7x1xB)\
+  14           || defined (SC95R751) || defined (SC95F7610B) || defined (SC95F7619B) || defined (SC95R602)  || defined (
+             -SC95R605)
+  15          #define Select_USCI2()          \
+  16            do {                       \
+  17              USXINX &= 0xF8;          \
+  18              USXINX |= 0X02;          \
+  19            } while(0)
+  20          
+  21          #define USCI2_SetNull() TMCON = (TMCON & 0X3F)
+  22          #define USCI2_SetSPI()  TMCON = (TMCON & 0X3F) | 0X40
+  23          #define USCI2_SetTWI()  TMCON = (TMCON & 0X3F) | 0X80
+  24          #define USCI2_SetUART() TMCON = (TMCON & 0X3F) | 0XC0
+  25          
+  26          #define US2CON0 USXCON0
+  27          #define US2CON1 USXCON1
+  28          #define US2CON2 USXCON2
+  29          #define US2CON3 USXCON3
+  30          
+  31          #else
+              
+              #define Select_USCI2()
+              
+              #define USCI2_SetNull() TMCON = (TMCON & 0X3F)
+              #define USCI2_SetSPI() TMCON = (TMCON & 0X3F) | 0X40
+              #define USCI2_SetTWI() TMCON = (TMCON & 0X3F) | 0X80
+              #define USCI2_SetUART() TMCON = (TMCON & 0X3F) | 0XC0
+              
+              #endif
+  41          
+  42          /**************************************************
+  43          *º¯ÊýÃû³Æ:void USCI2_DeInit(void)
+  44          *º¯Êý¹¦ÄÜ:USCI2Ïà¹Ø¼Ä´æÆ÷¸´Î»ÖÁÈ±Ê¡Öµ
+  45          *Èë¿Ú²ÎÊý:void
+  46          *³ö¿Ú²ÎÊý:void
+  47          **************************************************/
+  48          void USCI2_DeInit(void)
+  49          {
+  50   1        Select_USCI2();
+  51   1        USCI2_SetNull();
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 2   
+
+  52   1        US2CON0 = 0X00;
+  53   1        US2CON1 = 0X00;
+  54   1        US2CON2 = 0X00;
+  55   1        US2CON3 = 0X00;
+  56   1        IE2 &= (~0X02);
+  57   1        IP2 &= (~0X02);
+  58   1      }
+  59          
+  60          
+  61          /******************************* SPIº¯Êý *************************************/
+  62          /**************************************************
+  63          *º¯ÊýÃû³Æ:void USCI2_SPI_Init(USCI2_SPI_FirstBit_TypeDef FirstBit, USCI2_SPI_BaudRatePrescaler_TypeDef Bau
+             -dRatePrescaler,USCI2_SPI_Mode_TypeDef Mode,
+  64                         USCI2_SPI_ClockPolarity_TypeDef ClockPolarity, USCI2_SPI_ClockPhase_TypeDef ClockPhase,USCI2_SPI_T
+             -XE_INT_TypeDef SPI_TXE_INT,USCI2_TransmissionMode_TypeDef TransmissionMode)
+  65          *º¯Êý¹¦ÄÜ:SPI³õÊ¼»¯ÅäÖÃº¯Êý
+  66          *Èë¿Ú²ÎÊý:
+  67          USCI2_SPI_FirstBit_TypeDef:FirstBit:ÓÅÏÈ´«ËÍÎ»Ñ¡Ôñ£¨MSB/LSB£©
+  68          USCI2_SPI_BaudRatePrescaler_TypeDef:BaudRatePrescaler:SPIÊ±ÖÓÆµÂÊÑ¡Ôñ
+  69          USCI2_SPI_Mode_TypeDef:Mode:SPI¹¤×÷Ä£Ê½Ñ¡Ôñ
+  70          USCI2_SPI_ClockPolarity_TypeDef:ClockPolarity:SPIÊ±ÖÓ¼«ÐÔÑ¡Ôñ
+  71          USCI2_SPI_ClockPhase_TypeDef:ClockPhase:SPIÊ±ÖÓÏàÎ»Ñ¡Ôñ
+  72          USCI2_SPI_TXE_INT_TypeDef:SPI_TXE_INT:·¢ËÍ»º´æÆ÷ÖÐ¶ÏÔÊÐíÑ¡Ôñ,¸Ã¹¦ÄÜÔÚUSCI2Ð¾Æ¬ÉÏÎÞÐ§
+  73          USCI2_TransmissionMode_TypeDef:TransmissionMode:SPI´«ÊäÄ£Ê½Ñ¡Ôñ 8/16Î»
+  74          *³ö¿Ú²ÎÊý:void
+  75          **************************************************/
+  76          void USCI2_SPI_Init(USCI2_SPI_FirstBit_TypeDef FirstBit,
+  77                              USCI2_SPI_BaudRatePrescaler_TypeDef BaudRatePrescaler, USCI2_SPI_Mode_TypeDef Mode,
+  78                              USCI2_SPI_ClockPolarity_TypeDef ClockPolarity, USCI2_SPI_ClockPhase_TypeDef ClockPhase
+             -,
+  79                              USCI2_SPI_TXE_INT_TypeDef SPI_TXE_INT, USCI2_TransmissionMode_TypeDef TransmissionMode
+             -)
+  80          {
+  81   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+  82   1        USCI2_SetSPI();//USCI2ÅäÖÃÎªSPIÄ£Ê½
+  83   1        SPI_TXE_INT = USCI2_SPI_TXE_DISINT; //SPI_TXE_INT¸Ã¹¦ÄÜÔÚUSCI2Ð¾Æ¬ÉÏÎÞÐ§
+  84   1        US2CON1 = US2CON1 & (~0X05) | FirstBit | TransmissionMode;
+  85   1        US2CON0 = US2CON0 & 0X80 | BaudRatePrescaler | Mode | ClockPolarity | ClockPhase;
+  86   1      }
+  87          
+  88          /**************************************************
+  89          *º¯ÊýÃû³Æ:void USCI2_TransmissionMode(USCI2_TransmissionMode_TypeDef TransmissionMode)
+  90          *º¯Êý¹¦ÄÜ:SPI ´«ÊäÄ£Ê½ÅäÖÃº¯Êý
+  91          *Èë¿Ú²ÎÊý:
+  92          USCI2_TransmissionMode_TypeDef:TransmissionMode:SPI´«ÊäÄ£Ê½Ñ¡Ôñ 8/16eÎ»
+  93          *³ö¿Ú²ÎÊý:void
+  94          **************************************************/
+  95          void USCI2_TransmissionMode(USCI2_TransmissionMode_TypeDef TransmissionMode)
+  96          {
+  97   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+  98   1        USCI2_SetSPI();//USCI2ÅäÖÃÎªSPIÄ£Ê½
+  99   1        if(TransmissionMode == USCI2_SPI_DATA8)
+ 100   1        {
+ 101   2          US2CON1 &= 0xFD;
+ 102   2        }
+ 103   1        else
+ 104   1        {
+ 105   2          US2CON1 |= 0x02;
+ 106   2        }
+ 107   1      }
+ 108          
+ 109          /*****************************************************
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 3   
+
+ 110          *º¯ÊýÃû³Æ:void USCI2_SPI_Cmd(FunctionalState NewState)
+ 111          *º¯Êý¹¦ÄÜ:SPI¹¦ÄÜ¿ª¹Øº¯Êý
+ 112          *Èë¿Ú²ÎÊý:
+ 113          FunctionalState:NewState:¹¦ÄÜÆô¶¯/¹Ø±ÕÑ¡Ôñ
+ 114          *³ö¿Ú²ÎÊý:void
+ 115          *****************************************************/
+ 116          void USCI2_SPI_Cmd(FunctionalState NewState)
+ 117          {
+ 118   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 119   1        USCI2_SetSPI();//USCI2ÅäÖÃÎªSPIÄ£Ê½
+ 120   1      
+ 121   1        if(NewState != DISABLE)
+ 122   1        {
+ 123   2          US2CON0 |= 0X80;
+ 124   2        }
+ 125   1        else
+ 126   1        {
+ 127   2          US2CON0 &= (~0X80);
+ 128   2        }
+ 129   1      }
+ 130          
+ 131          /*****************************************************
+ 132          *º¯ÊýÃû³Æ:void USCI2_SPI_SendData_8(uint8_t Data)
+ 133          *º¯Êý¹¦ÄÜ:USCI2 SPI·¢ËÍÊý¾Ý
+ 134          *Èë¿Ú²ÎÊý:
+ 135          uint8_t:Data:·¢ËÍµÄÊý¾Ý
+ 136          *³ö¿Ú²ÎÊý:void
+ 137          *****************************************************/
+ 138          void USCI2_SPI_SendData_8(uint8_t Data)
+ 139          {
+ 140   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 141   1        US2CON2 = Data;
+ 142   1      }
+ 143          
+ 144          /*****************************************************
+ 145          *º¯ÊýÃû³Æ:uint8_t USCI2_SPI_ReceiveData_8(void)
+ 146          *º¯Êý¹¦ÄÜ:»ñµÃUS2CON2ÖÐµÄÖµ
+ 147          *Èë¿Ú²ÎÊý:void
+ 148          *³ö¿Ú²ÎÊý:
+ 149          uint8_t:½ÓÊÕµÄÊý¾Ý
+ 150          *****************************************************/
+ 151          uint8_t USCI2_SPI_ReceiveData_8(void)
+ 152          {
+ 153   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 154   1        return US2CON2;
+ 155   1      }
+ 156          
+ 157          /*****************************************************
+ 158          *º¯ÊýÃû³Æ:void USCI2_SPI_SendData_16(uint16_t Data)
+ 159          *º¯Êý¹¦ÄÜ:US2CON2 SPI·¢ËÍÊý¾Ý
+ 160          *Èë¿Ú²ÎÊý:
+ 161          uint16_t:Data:·¢ËÍµÄÊý¾Ý
+ 162          *³ö¿Ú²ÎÊý:void
+ 163          *****************************************************/
+ 164          void USCI2_SPI_SendData_16(uint16_t Data)
+ 165          {
+ 166   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 167   1        US2CON3 = (uint8_t)(Data >> 8);
+ 168   1        US2CON2 = (uint8_t)Data;
+ 169   1      }
+ 170          
+ 171          /*****************************************************
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 4   
+
+ 172          *º¯ÊýÃû³Æ:uint16_t USCI2_SPI_ReceiveData_16(void)
+ 173          *º¯Êý¹¦ÄÜ:»ñµÃUS2CON2ÖÐµÄÖµ
+ 174          *Èë¿Ú²ÎÊý:void
+ 175          *³ö¿Ú²ÎÊý:
+ 176          uint16_t:½ÓÊÕµÄÊý¾Ý
+ 177          *****************************************************/
+ 178          uint16_t USCI2_SPI_ReceiveData_16(void)
+ 179          {
+ 180   1        uint16_t SPI_data;
+ 181   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 182   1        SPI_data = (uint16_t)((US2CON3 << 8) | US2CON2);
+ 183   1        return SPI_data;
+ 184   1      }
+ 185          
+ 186          /*********************************************************************************************************
+             -*
+ 187          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_SPI_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+ 188          *º¯Êý¹¦ÄÜ:SPI0 ÖÐ¶Ï´¦Àí
+ 189          *Èë¿Ú²ÎÊý:
+ 190          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸Ïò°üº¬ SPI0 ÐÅÏ¢µÄ USCI2_HandleInfoDef ½á¹¹ÌåµÄÖ¸Õë¡£
+ 191          *³ö¿Ú²ÎÊý:
+ 192          void
+ 193          **********************************************************************************************************
+             -/
+ 194          StatusTypeDef USCI2_SPI_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+ 195          {
+ 196   1        StatusTypeDef TempStatus = Status_ERROR;
+ 197   1      
+ 198   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 199   1      
+ 200   1        if(USCI2_HANDLE->RxState == USCI2_STATE_BUSY)
+ 201   1        {
+ 202   2          /* µ±Êý¾ÝÃ»ÓÐ½ÓÊÕÍê³É */
+ 203   2          if(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize)
+ 204   2          {
+ 205   3            /* SPI´¦ÓÚ16Î»Í¨ÐÅÄ£Ê½ */
+ 206   3            if((US2CON1 & USCI2_SPI_DATA16) != 0)
+ 207   3            {
+ 208   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u16 + USCI2_HANDLE->RxXferCount) = USCI2_SPI_ReceiveData_16();      /
+             -/¶ÁÈ¡16Î»Êý¾Ý
+ 209   4            }
+ 210   3            /* SPI´¦ÓÚ8Î»Í¨ÐÅÄ£Ê½ */
+ 211   3            else
+ 212   3            {
+ 213   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = USCI2_SPI_ReceiveData_8();      //¶
+             -ÁÈ¡16Î»Êý¾Ý
+ 214   4            }
+ 215   3      
+ 216   3            TempStatus = Status_BUSY;
+ 217   3            USCI2_HANDLE->RxXferCount++;      //½ÓÊÕµ½Êý¾Ý£¬¼ÆÊýÖµ¼Ó1
+ 218   3      
+ 219   3            /* Êý¾Ý½ÓÊÕÍê³É£¬×´Ì¬Î»½øÐÐÐÞ¸Ä */
+ 220   3            if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+ 221   3            {
+ 222   4              USCI2_HANDLE->RxState = USCI2_STATE_READY;
+ 223   4              TempStatus =  Status_OK;
+ 224   4            }
+ 225   3          }
+ 226   2      
+ 227   2          if(USCI2_HANDLE->TxState == USCI2_STATE_BUSY)
+ 228   2          {
+ 229   3      
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 5   
+
+ 230   3            USCI2_HANDLE->TxXferCount++;      //Êý¾Ý·¢ËÍÍê³É£¬¼ÆÊýÖµ¼Ó1
+ 231   3            /* µ±Êý¾ÝÃ»ÓÐ·¢ËÍÍê³É */
+ 232   3            if(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize)
+ 233   3            {
+ 234   4              /* SPI´¦ÓÚ16Î»Í¨ÐÅÄ£Ê½ */
+ 235   4              if((US2CON1 & USCI2_SPI_DATA16) != 0)
+ 236   4              {
+ 237   5                USCI2_SPI_SendData_16(*(USCI2_HANDLE->pTxBuffPtr.Size_u16 + USCI2_HANDLE->TxXferCount));      //·¢Ë
+             -Í16Î»Êý¾Ý
+ 238   5              }
+ 239   4              /* SPI´¦ÓÚ8Î»Í¨ÐÅÄ£Ê½ */
+ 240   4              else
+ 241   4              {
+ 242   5                USCI2_SPI_SendData_8(*(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount));      //·¢ËÍ1
+             -6Î»Êý¾Ý
+ 243   5              }
+ 244   4              TempStatus = Status_BUSY;
+ 245   4            }
+ 246   3            /* Êý¾Ý·¢ËÍÍê³É£¬×´Ì¬Î»½øÐÐÐÞ¸Ä  */
+ 247   3            else if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize)
+ 248   3            {
+ 249   4              USCI2_HANDLE->TxState = USCI2_STATE_READY;
+ 250   4              TempStatus = Status_OK;
+ 251   4            }
+ 252   3          }
+ 253   2          /* µ±SPI´¦ÓÚÖ÷»úÊ±£¬SPIÐèÒª·¢ËÍÊý¾Ý£¬²ÅÄÜÍ¬²½½ÓÊÕµ½Êý¾Ý */
+ 254   2          else if(USCI2_HANDLE->RxXferSize)
+ 255   2          {
+ 256   3            USCI2_SPI_SendData_8(0x00);
+ 257   3          }
+ 258   2        }
+ 259   1        return TempStatus;
+ 260   1      }
+ 261          
+ 262          /*********************************************************************************************************
+             -*
+ 263          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_SPI_Receive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t *pData, uint8_t Size,
+             - uint32_t Timeout)
+ 264          *º¯Êý¹¦ÄÜ:SPIÔÚÂÖÑ¯Ä£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾Ý
+ 265          *Èë¿Ú²ÎÊý:
+ 266          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸Ïò°üº¬Ö¸¶¨SPIÄ£¿éµÄÅäÖÃÐÅÏ¢½á¹¹ÌåµÄÖ¸Õë
+ 267          uint8_t *:pData:½ÓÊÕÊý¾ÝµÄ´æ·ÅÇø
+ 268          uint16_t:Size:´ý½ÓÊÕµÄÊý¾ÝÁ¿
+ 269          uint32_t:Timeout:³¬Ê±Ê±¼ä
+ 270          *³ö¿Ú²ÎÊý:
+ 271          StatusTypeDef:USCI2 ×´Ì¬
+ 272          **********************************************************************************************************
+             -/
+ 273          StatusTypeDef USCI2_SPI_Receive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size, uint32_t 
+             -Timeout)
+ 274          {
+ 275   1        uint32_t TimeoutCnt = 0;
+ 276   1      
+ 277   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 278   1      
+ 279   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+ 280   1        {
+ 281   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 282   2          if((IE2 & 0x02 != 0) || (Size == 0U))
+ 283   2          {
+ 284   3            return USCI2_STATE_ERROR;
+ 285   3          }
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 6   
+
+ 286   2      
+ 287   2          /* SPI×÷ÎªÖ÷»úÊ±£¬½ÓÊÕÊý¾Ý±Ø¶¨¸úËæ·¢ËÍÊý¾Ý */
+ 288   2          if((US2CON0 & USCI2_SPI_MODE_MASTER) != 0)
+ 289   2          {
+ 290   3            return USCI2_SPI_TransmitReceive(USCI2_HANDLE, pData, pData, Size, Timeout);      //Ìø×ªµ½×èÈûÄ£Ê½Êý¾ÝÊ
+             -Õ·¢º¯Êý
+ 291   3          }
+ 292   2      
+ 293   2          USCI2_HANDLE->RxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+ 294   2          USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);      //½ÓÊÕÇ°Çå³ý½ÓÊÕÖÐ¶Ï±êÖ¾
+ 295   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+ 296   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+ 297   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+ 298   2      
+ 299   2          while(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize)
+ 300   2          {
+ 301   3            /* µÈ´ýSPIÖÐ¶Ï±êÖ¾Î»ÖÃÆð */
+ 302   3            if(USCI2_GetFlagStatus(USCI2_SPI_FLAG_SPIF))
+ 303   3            {
+ 304   4              /* SPI´¦ÓÚ16Î»Í¨ÐÅÄ£Ê½ */
+ 305   4              if((US2CON1 & USCI2_SPI_DATA16) != 0)
+ 306   4              {
+ 307   5                *(USCI2_HANDLE->pRxBuffPtr.Size_u16 + USCI2_HANDLE->RxXferCount) = USCI2_SPI_ReceiveData_16();    
+             -  //¶ÁÈ¡16Î»Êý¾Ý,²¢ÇÒµØÖ·×ÔÔö
+ 308   5              }
+ 309   4              /* SPI´¦ÓÚ8Î»Í¨ÐÅÄ£Ê½ */
+ 310   4              else
+ 311   4              {
+ 312   5                *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = USCI2_SPI_ReceiveData_8();      /
+             -/¶ÁÈ¡16Î»Êý¾Ý,²¢ÇÒµØÖ·×ÔÔö
+ 313   5              }
+ 314   4              USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);       //Çå³ý±êÖ¾Î»
+ 315   4              USCI2_HANDLE->RxXferCount++;  //½ÓÊÕÊý¾ÝÁ¿¼ÆÊý¼Ó1
+ 316   4              TimeoutCnt = 0;     //³¬Ê±¼ÆÊýÖµÇåÁã
+ 317   4            }
+ 318   3            else
+ 319   3            {
+ 320   4              /* ³¬Ê±¼ÆÊýÆ÷²»¶ÏÀÛ¼Ó£¬Ö±µ½³¬³öÉè¶¨µÄ³¬Ê±Ê±¼ä */
+ 321   4              if((TimeoutCnt++) > Timeout)
+ 322   4              {
+ 323   5                if(Timeout == 0)
+ 324   5                  return USCI2_STATE_TIMEOUT;       //·µ»Ø³¬Ê±´íÎó
+ 325   5              }
+ 326   4              WDTCON |= 0x10;          //Î¹¹·º¯Êý£¬·ÀÖ¹¿´ÃÅ¹·¸´Î»
+ 327   4            }
+ 328   3          }
+ 329   2          if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+ 330   2          {
+ 331   3            USCI2_HANDLE->RxState = USCI2_STATE_READY;  //½ÓÊÕÍê³É
+ 332   3            return Status_OK;
+ 333   3          }
+ 334   2          else
+ 335   2          {
+ 336   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;//½ÓÊÕ´íÎó
+ 337   3            return Status_ERROR;
+ 338   3          }
+ 339   2        }
+ 340   1        else
+ 341   1        {
+ 342   2          return Status_BUSY;//·µ»ØÃ¦Âµ×´Ì¬
+ 343   2        }
+ 344   1      }
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 7   
+
+ 345          
+ 346          /*********************************************************************************************************
+             -*
+ 347          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_SPI_Receive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t *pData, uint8_t Si
+             -ze)
+ 348          *º¯Êý¹¦ÄÜ:ÖÐ¶ÏÄ£Ê½½ÓÊÕÒ»¶¨Á¿Êý¾Ý
+ 349          *Èë¿Ú²ÎÊý:
+ 350          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸Ïò°üº¬Ö¸¶¨SPIÄ£¿éµÄÅäÖÃÐÅÏ¢½á¹¹ÌåµÄÖ¸Õë
+ 351          uint8_t *:pData:½ÓÊÕÊý¾ÝµÄ´æ·Å
+ 352          uint16_t:Size:´ý½ÓÊÕµÄÊý¾ÝÁ¿
+ 353          *³ö¿Ú²ÎÊý:
+ 354          StatusTypeDef:USCI2 ×´Ì¬
+ 355          **********************************************************************************************************
+             -/
+ 356          StatusTypeDef USCI2_SPI_Receive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size)
+ 357          {
+ 358   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 359   1      
+ 360   1        /* ¼ì²éÒ»¸ö½ÓÊÕ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+ 361   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+ 362   1        {
+ 363   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 364   2          if((IE2 & 0x02 == 0) || (Size == 0U))
+ 365   2          {
+ 366   3            return USCI2_STATE_ERROR;
+ 367   3          }
+ 368   2      
+ 369   2          /* SPI×÷ÎªÖ÷»úÊ±£¬½ÓÊÕÊý¾Ý±Ø¶¨¸úËæ·¢ËÍÊý¾Ý */
+ 370   2          if((US2CON0 & USCI2_SPI_MODE_MASTER) != 0)
+ 371   2          {
+ 372   3            return USCI2_SPI_TransmitReceive_IT(USCI2_HANDLE, pData, pData, Size);      //Ìø×ªµ½ÖÐ¶ÏÄ£Ê½Êý¾ÝÊÕ·¢º¯Ê
+             -ý
+ 373   3          }
+ 374   2      
+ 375   2          USCI2_HANDLE->RxState = USCI2_STATE_BUSY;     //×´Ì¬¸üÐÂÎª½ÓÊÕÃ¦ÂµÖÐ
+ 376   2          USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);     //Çå³ýÖÐ¶Ï±êÖ¾Î»
+ 377   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+ 378   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+ 379   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+ 380   2      
+ 381   2          return Status_OK;
+ 382   2        }
+ 383   1        else
+ 384   1        {
+ 385   2          return Status_BUSY;//·µ»Ø±êÖ¾Î»
+ 386   2        }
+ 387   1      }
+ 388          
+ 389          /*********************************************************************************************************
+             -*
+ 390          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_SPI_Transmit(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size
+             -, uint32_t Timeout)
+ 391          *º¯Êý¹¦ÄÜ:SPIÔÚÂÖÑ¯Ä£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾Ý
+ 392          *Èë¿Ú²ÎÊý:
+ 393          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸Ïò°üº¬Ö¸¶¨SPIÄ£¿éµÄÅäÖÃÐÅÏ¢½á¹¹ÌåµÄÖ¸Õë
+ 394          uint8_t *pData:Ö¸ÏòÊý¾Ý»º´æµÄÖ¸Õë¡£
+ 395          uint16_t Size:·¢ËÍÊý¾ÝµÄ´óÐ¡
+ 396          uint32_t Timeout:³¬Ê±Ê±¼ä
+ 397          *³ö¿Ú²ÎÊý:
+ 398          StatusTypeDef:USCI2 ×´Ì¬
+ 399          **********************************************************************************************************
+             -/
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 8   
+
+ 400          StatusTypeDef USCI2_SPI_Transmit(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size, uint32_t
+             - Timeout)
+ 401          {
+ 402   1        uint32_t TimeoutCnt = 0;
+ 403   1      
+ 404   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 405   1      
+ 406   1        /* ¼ì²éÒ»¸ö·¢ËÍ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+ 407   1        if(USCI2_HANDLE->TxState == USCI2_STATE_READY)
+ 408   1        {
+ 409   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 410   2          if((IE2 & 0x02 != 0) || (Size == 0U))
+ 411   2          {
+ 412   3            return Status_ERROR;
+ 413   3          }
+ 414   2      
+ 415   2          USCI2_HANDLE->TxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+ 416   2          USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+ 417   2          USCI2_HANDLE->pTxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+ 418   2          USCI2_HANDLE->TxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+ 419   2          USCI2_HANDLE->TxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+ 420   2      
+ 421   2          while(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize) //ÅÐ¶ÏÊÇ·ñ½ÓÊÕËùÓÐÊý¾Ý
+ 422   2          {
+ 423   3            if((US2CON1 & USCI2_SPI_DATA16) != 0) /* SPI´¦ÓÚ16Î»Í¨ÐÅÄ£Ê½ */
+ 424   3            {
+ 425   4              USCI2_SPI_SendData_16(*USCI2_HANDLE->pTxBuffPtr.Size_u16 + USCI2_HANDLE->TxXferCount);      //·¢ËÍ16Î
+             -»Êý¾Ý²¢ÇÒÊý¾ÝµØÖ·Ôö¼Ó
+ 426   4            }
+ 427   3            else/* SPI´¦ÓÚ8Î»Í¨ÐÅÄ£Ê½ */
+ 428   3            {
+ 429   4              USCI2_SPI_SendData_8(*USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount);      //·¢ËÍ8Î»Êý
+             -¾Ý²¢ÇÒÊý¾ÝµØÖ·Ôö¼Ó
+ 430   4            }
+ 431   3            while(!USCI2_GetFlagStatus(USCI2_SPI_FLAG_SPIF))      //µÈ´ý·¢ËÍÍê³É
+ 432   3            {
+ 433   4              /* ³¬Ê±¼ÆÊýÆ÷²»¶ÏÀÛ¼Ó£¬Ö±µ½³¬³öÉè¶¨µÄ³¬Ê±Ê±¼ä */
+ 434   4              if(TimeoutCnt++ > Timeout)
+ 435   4              {
+ 436   5                USCI2_HANDLE->TxState = USCI2_STATE_TIMEOUT;//·¢ËÍ³¬Ê±
+ 437   5                return Status_TIMEOUT;
+ 438   5              }
+ 439   4              WDTCON |= 0x10;     //Î¹¹·£¬·ÀÖ¹µÈ´ýÊ±¼ä¹ý³¤£¬µ¼ÖÂWDT¸´Î»
+ 440   4            }
+ 441   3            USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);       //·¢ËÍÇ°ÏÈÇå³ý±êÖ¾Î»
+ 442   3            TimeoutCnt = 0;     //³¬Ê±¼ÆÊýÆ÷ÇåÁã
+ 443   3            USCI2_HANDLE->TxXferCount++;  //·¢ËÍÊý¾ÝÁ¿¼ÆÊý
+ 444   3          }
+ 445   2          if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize)
+ 446   2          {
+ 447   3            USCI2_HANDLE->TxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+ 448   3            return Status_OK;
+ 449   3          }
+ 450   2          else
+ 451   2          {
+ 452   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+ 453   3            return Status_ERROR;
+ 454   3          }
+ 455   2        }
+ 456   1        else
+ 457   1        {
+ 458   2          return Status_BUSY;//·µ»ØÃ¦Âµ×´Ì¬
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 9   
+
+ 459   2        }
+ 460   1      }
+ 461          
+ 462          /*********************************************************************************************************
+             -*
+ 463          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_SPI_Transmit_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t S
+             -ize)
+ 464          *º¯Êý¹¦ÄÜ:ÖÐ¶ÏÄ£Ê½·¢ËÍÒ»¶¨Á¿Êý¾Ý
+ 465          *Èë¿Ú²ÎÊý:
+ 466          USCI2_HandleInfoDef *USCI2_HANDLE:Ö¸Ïò°üº¬ SPI0 ÐÅÏ¢µÄ USCI2_HandleInfoDef ½á¹¹ÌåµÄÖ¸Õë¡£
+ 467          uint8_t *pData:Ö¸ÏòÊý¾Ý»º´æµÄÖ¸Õë¡£
+ 468          uint16_t Size:·¢ËÍÊý¾ÝµÄ´óÐ¡
+ 469          *³ö¿Ú²ÎÊý:
+ 470          StatusTypeDef:USCI2 ×´Ì¬
+ 471          **********************************************************************************************************
+             -/
+ 472          StatusTypeDef USCI2_SPI_Transmit_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size)
+ 473          {
+ 474   1      
+ 475   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 476   1      
+ 477   1        /* ¼ì²éÒ»¸ö·¢ËÍ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+ 478   1        if(USCI2_HANDLE->TxState == USCI2_STATE_READY)
+ 479   1        {
+ 480   2          /* Ã»ÓÐ¿ªÆôUSCI2ÖÐ¶Ï»ò·¢ËÍÊý¾ÝÁ¿´óÐ¡Îª0£¬·µ»Ø´íÎó */
+ 481   2          if((IE2 & 0x02 == 0) || (Size == 0U))
+ 482   2          {
+ 483   3            return Status_ERROR;
+ 484   3          }
+ 485   2      
+ 486   2          USCI2_HANDLE->TxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+ 487   2          USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);     //Çå³ýÖÐ¶Ï±êÖ¾Î»
+ 488   2          USCI2_HANDLE->pTxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+ 489   2          USCI2_HANDLE->TxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+ 490   2          USCI2_HANDLE->TxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÖÃ0
+ 491   2      
+ 492   2          /* ·¢ËÍµÚ1byteÊý¾Ý */
+ 493   2          /* SPI´¦ÓÚ16Î»Í¨ÐÅÄ£Ê½ */
+ 494   2          if((US2CON1 & USCI2_SPI_DATA16) != 0)
+ 495   2          {
+ 496   3            USCI2_SPI_SendData_16(*(USCI2_HANDLE->pTxBuffPtr.Size_u16));
+ 497   3          }
+ 498   2          /* SPI´¦ÓÚ8Î»Í¨ÐÅÄ£Ê½ */
+ 499   2          else
+ 500   2          {
+ 501   3            USCI2_SPI_SendData_8(*(USCI2_HANDLE->pTxBuffPtr.Size_u8));
+ 502   3          }
+ 503   2      
+ 504   2          return Status_OK;
+ 505   2        }
+ 506   1        else
+ 507   1        {
+ 508   2          return  Status_BUSY;      //×´Ì¬Î»ÐÞ¸ÄÎªÃ¦Âµ×´Ì¬
+ 509   2        }
+ 510   1      }
+ 511          
+ 512          /*********************************************************************************************************
+             -*
+ 513          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_SPI_TransmitReceive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pTxData, uin
+             -t8_t* pRxData, uint8_t Size, uint32_t Timeout)
+ 514          *º¯Êý¹¦ÄÜ:×èÈûÄ£Ê½ÊÕ·¢Ò»¶¨Á¿Êý¾Ý
+ 515          *Èë¿Ú²ÎÊý:
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 10  
+
+ 516          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸Ïò°üº¬ SPI0 ÐÅÏ¢µÄ USCI2_HandleInfoDef ½á¹¹ÌåµÄÖ¸Õë
+ 517          uint8_t*:pTxData:Ö¸Ïò·¢ËÍÊý¾Ý»º´æµÄÖ¸Õë
+ 518          uint8_t*:pRxData:Ö¸Ïò½ÓÊÕÊý¾Ý»º´æµÄÖ¸Õë
+ 519          uint16_t:Size:·¢ËÍÊý¾ÝµÄ´óÐ¡
+ 520          uint32_t:Timeout:³¬Ê±Ê±¼ä
+ 521          *³ö¿Ú²ÎÊý:
+ 522          StatusTypeDef:º¯Êý×îÐÂ×´Ì¬
+ 523          **********************************************************************************************************
+             -/
+ 524          StatusTypeDef USCI2_SPI_TransmitReceive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pTxData, uint8_t* pRxD
+             -ata, uint8_t Size, uint32_t Timeout)
+ 525          {
+ 526   1        uint32_t TimeoutCnt = 0;
+ 527   1      
+ 528   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 529   1      
+ 530   1        /* ¼ì²éÒ»¸ö·¢ËÍ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+ 531   1        if((USCI2_HANDLE->TxState == USCI2_STATE_READY) && (USCI2_HANDLE->RxState == USCI2_STATE_READY))
+ 532   1        {
+ 533   2      
+ 534   2          /* ´ý·¢ËÍºÍ½ÓÊÕÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 535   2          if((IE2 & 0x02 != 0) || (Size == 0U))
+ 536   2          {
+ 537   3            return  Status_ERROR;
+ 538   3          }
+ 539   2      
+ 540   2          USCI2_HANDLE->TxState = USCI2_HANDLE->RxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+ 541   2          USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);     //Çå³ýÖÐ¶Ï±êÖ¾Î»
+ 542   2          USCI2_HANDLE->pTxBuffPtr.Size_u8 = pTxData;       //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+ 543   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pRxData;
+ 544   2          USCI2_HANDLE->TxXferSize = USCI2_HANDLE->RxXferSize = Size;     //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+ 545   2          USCI2_HANDLE->TxXferCount = USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+ 546   2      
+ 547   2          while(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize);
+ 548   2          {
+ 549   3      
+ 550   3            if((US2CON1 & USCI2_SPI_DATA16) != 0)
+ 551   3            {
+ 552   4              USCI2_SPI_SendData_16(*(USCI2_HANDLE->pTxBuffPtr.Size_u16 + USCI2_HANDLE->TxXferCount));      //·¢ËÍ1
+             -6Î»Êý¾Ý²¢ÇÒµØÖ·Ôö¼Ó
+ 553   4              while(!USCI2_GetFlagStatus(USCI2_SPI_FLAG_SPIF))      //µÈ´ý·¢ËÍÍê³É
+ 554   4              {
+ 555   5                /* µÈ´ýÊ±¼äÊÇ·ñ·¢ÉúÁË³¬Ê± */
+ 556   5                if(TimeoutCnt++ > Timeout)
+ 557   5                {
+ 558   6                  USCI2_HANDLE->RxState = USCI2_STATE_TIMEOUT;//½ÓÊÕ´íÎó
+ 559   6                  return Status_TIMEOUT;        //·µ»Ø³¬Ê±´íÎó
+ 560   6                }
+ 561   5                WDTCON |= 0x10;     //Î¹¹·£¬·ÀÖ¹µÈ´ýÊ±¼ä¹ý³¤£¬µ¼ÖÂWDT¸´Î»
+ 562   5              }
+ 563   4              USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);       //·¢ËÍÇ°ÏÈÇå³ý±êÖ¾Î»
+ 564   4              *(USCI2_HANDLE->pTxBuffPtr.Size_u16 + USCI2_HANDLE->TxXferCount) = USCI2_SPI_ReceiveData_16();
+ 565   4            }
+ 566   3            else
+ 567   3            {
+ 568   4              USCI2_SPI_SendData_8(*(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount));      //·¢ËÍ16Î
+             -»Êý¾Ý²¢ÇÒµØÖ·Ôö¼Ó
+ 569   4              while(!USCI2_GetFlagStatus(USCI2_SPI_FLAG_SPIF))      //µÈ´ý·¢ËÍÍê³É
+ 570   4              {
+ 571   5                /* µÈ´ýÊ±¼äÊÇ·ñ·¢ÉúÁË³¬Ê± */
+ 572   5                if(TimeoutCnt++ > Timeout)
+ 573   5                {
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 11  
+
+ 574   6                  USCI2_HANDLE->RxState = USCI2_STATE_TIMEOUT;//½ÓÊÕ´íÎó
+ 575   6                  return Status_TIMEOUT;        //·µ»Ø³¬Ê±´íÎó
+ 576   6                }
+ 577   5                WDTCON |= 0x10;     //Î¹¹·£¬·ÀÖ¹µÈ´ýÊ±¼ä¹ý³¤£¬µ¼ÖÂWDT¸´Î»
+ 578   5              }
+ 579   4              USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);       //·¢ËÍÇ°ÏÈÇå³ý±êÖ¾Î»
+ 580   4              *(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount) = USCI2_SPI_ReceiveData_8();
+ 581   4            }
+ 582   3            TimeoutCnt = 0;     //³¬Ê±¼ÆÊýÖµÇåÁã
+ 583   3            USCI2_HANDLE->TxXferCount++;      //Êý¾ÝÁ¿¼ÆÊýÖµ¼Ó1
+ 584   3            USCI2_HANDLE->TxXferCount++;      //Êý¾ÝÁ¿¼ÆÊýÖµ¼Ó1
+ 585   3          }
+ 586   2          if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize)
+ 587   2          {
+ 588   3            USCI2_HANDLE->TxState = USCI2_HANDLE->RxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+ 589   3            return Status_OK;
+ 590   3          }
+ 591   2          else
+ 592   2          {
+ 593   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+ 594   3            return Status_ERROR;
+ 595   3          }
+ 596   2        }
+ 597   1        else
+ 598   1        {
+ 599   2          return Status_ERROR;
+ 600   2        }
+ 601   1      }
+ 602          
+ 603          
+ 604          /*********************************************************************************************************
+             -*
+ 605          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_SPI_TransmitReceive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pTxData, 
+             -uint8_t* pRxData, uint8_t Size)
+ 606          *º¯Êý¹¦ÄÜ:SPIÔÚÖÐ¶ÏÄ£Ê½ÏÂ·¢ËÍºÍ½ÓÊÕ´óÁ¿Êý¾ÝÊ±£¬ÏÈÔÚmainº¯ÊýÖÐµ÷ÓÃ´Ëº¯Êý
+ 607          *Èë¿Ú²ÎÊý:
+ 608          USCI2_HandleInfoDef *USCI2_HANDLE:Ö¸Ïò°üº¬Ö¸¶¨SPIÄ£¿éµÄÅäÖÃÐÅÏ¢½á¹¹ÌåµÄÖ¸Õë
+ 609          uint8_t *:pData:·¢ËÍºÍ½ÓÊÕÊý¾ÝµÄ´æ·ÅÇø
+ 610          uint16_t:Size:´ý·¢ËÍºÍ½ÓÊÕµÄÊý¾ÝÁ¿
+ 611          *³ö¿Ú²ÎÊý:
+ 612          StatusTypeDef:USCI2 ×´Ì¬
+ 613          **********************************************************************************************************
+             -/
+ 614          StatusTypeDef USCI2_SPI_TransmitReceive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pTxData, uint8_t* p
+             -RxData, uint8_t Size)
+ 615          {
+ 616   1        /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 617   1        if((USCI2_HANDLE->TxState == USCI2_STATE_READY) && (USCI2_HANDLE->RxState == USCI2_STATE_READY))
+ 618   1        {
+ 619   2          Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 620   2      
+ 621   2          /* ´ý·¢ËÍºÍ½ÓÊÕÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 622   2          if((IE2 & 0x02 == 0) || (Size == 0U))
+ 623   2          {
+ 624   3            return  Status_ERROR;
+ 625   3          }
+ 626   2      
+ 627   2          USCI2_SPI_Cmd(DISABLE);
+ 628   2          USCI2_HANDLE->TxState = USCI2_HANDLE->RxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+ 629   2          USCI2_ClearFlag(USCI2_SPI_FLAG_SPIF);     //Çå³ýÖÐ¶Ï±êÖ¾Î»
+ 630   2          USCI2_HANDLE->pTxBuffPtr.Size_u8 = pTxData;
+ 631   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pRxData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 12  
+
+ 632   2          USCI2_HANDLE->TxXferSize = USCI2_HANDLE->RxXferSize = Size;     //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+ 633   2          USCI2_HANDLE->TxXferCount = USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+ 634   2          USCI2_SPI_Cmd(ENABLE);
+ 635   2      
+ 636   2          /* ·¢ËÍµÚ1byteÊý¾Ý */
+ 637   2          /* SPI´¦ÓÚ16Î»Í¨ÐÅÄ£Ê½ */
+ 638   2          if((US2CON1 & USCI2_SPI_DATA16) != 0)
+ 639   2          {
+ 640   3            USCI2_SPI_SendData_16(*(USCI2_HANDLE->pTxBuffPtr.Size_u16));      //·¢ËÍ16Î»Êý¾Ý
+ 641   3          }
+ 642   2          /* SPI´¦ÓÚ8Î»Í¨ÐÅÄ£Ê½ */
+ 643   2          else
+ 644   2          {
+ 645   3            USCI2_SPI_SendData_8(*(USCI2_HANDLE->pTxBuffPtr.Size_u8));      //·¢ËÍ8Î»Êý¾Ý
+ 646   3          }
+ 647   2          /* ×´Ì¬´¦ÓÚÃ¦ÂµµÄ×´Ì¬ */
+ 648   2      
+ 649   2          return  Status_OK;
+ 650   2        }
+ 651   1        else
+ 652   1        {
+ 653   2          return Status_ERROR;
+ 654   2        }
+ 655   1      }
+ 656          
+ 657          /******************************* TWIº¯Êý *************************************/
+ 658          /**************************************************
+ 659          *º¯ÊýÃû³Æ:void USCI2_TWI_Slave_Init(uint8_t TWI_Address)
+ 660          *º¯Êý¹¦ÄÜ:USCI2 TWI ´Ó»ú³õÊ¼»¯ÅäÖÃº¯Êý
+ 661          *Èë¿Ú²ÎÊý:
+ 662          uint8_t:TWI_Address:TWI×÷Îª´Ó»úÊ±µÄ7Î»´Ó»úµØÖ·
+ 663          *³ö¿Ú²ÎÊý:void
+ 664          **************************************************/
+ 665          void USCI2_TWI_Slave_Init(uint8_t TWI_Address)
+ 666          {
+ 667   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 668   1        USCI2_SetTWI();//USCI2ÅäÖÃÎªTWIÄ£Ê½
+ 669   1        US2CON2 = TWI_Address << 1;
+ 670   1      }
+ 671          
+ 672          /**************************************************
+ 673          *º¯ÊýÃû³Æ:void USCI2_TWI_MasterCommunicationRate(USCI2_TWI_MasterCommunicationRate_TypeDef TWI_MasterCommu
+             -nicationRate)
+ 674          *º¯Êý¹¦ÄÜ:USCI2 TWIÖ÷»úÄ£Ê½ÏÂÍ¨Ñ¶ËÙÂÊÉè¶¨
+ 675          *Èë¿Ú²ÎÊý:
+ 676          USCI2_TWI_MasterCommunicationRate_TypeDef:TWI_MasterCommunicationRate:TWIÖ÷»úÄ£Ê½ÏÂÍ¨Ñ¶ËÙÂÊ
+ 677          *³ö¿Ú²ÎÊý:void
+ 678          **************************************************/
+ 679          void USCI2_TWI_MasterCommunicationRate(USCI2_TWI_MasterCommunicationRate_TypeDef
+ 680                                                 TWI_MasterCommunicationRate)
+ 681          {
+ 682   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 683   1        USCI2_SetTWI();//USCI2ÅäÖÃÎªTWIÄ£Ê½
+ 684   1      
+ 685   1        US2CON1 = TWI_MasterCommunicationRate;
+ 686   1      }
+ 687          
+ 688          /**************************************************
+ 689          *º¯ÊýÃû³Æ:void USCI2_TWI_Start(void)
+ 690          *º¯Êý¹¦ÄÜ:USCI2 TWI ÆðÊ¼Î»
+ 691          *Èë¿Ú²ÎÊý:void
+ 692          *³ö¿Ú²ÎÊý:void
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 13  
+
+ 693          **************************************************/
+ 694          void USCI2_TWI_Start(void)
+ 695          {
+ 696   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 697   1        US2CON1 |= 0x20;
+ 698   1      }
+ 699          
+ 700          /**************************************************
+ 701          *º¯ÊýÃû³Æ:void USCI2_TWI_MasterModeStop(void)
+ 702          *º¯Êý¹¦ÄÜ:USCI2 TWIÖ÷»úÄ£Ê½Í£Ö¹Î»
+ 703          *Èë¿Ú²ÎÊý:void
+ 704          *³ö¿Ú²ÎÊý:void
+ 705          **************************************************/
+ 706          void USCI2_TWI_MasterModeStop(void)
+ 707          {
+ 708   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 709   1        US2CON1 |= 0x10;
+ 710   1      }
+ 711          
+ 712          /**************************************************
+ 713          *º¯ÊýÃû³Æ:void USCI2_TWI_SlaveClockExtension(void)
+ 714          *º¯Êý¹¦ÄÜ:USCI2 TWI´Ó»úÄ£Ê½Ê±ÖÓÑÓ³¤¹¦ÄÜÎ»
+ 715          *Èë¿Ú²ÎÊý:void
+ 716          *³ö¿Ú²ÎÊý:void
+ 717          **************************************************/
+ 718          void USCI2_TWI_SlaveClockExtension(FunctionalState NewState)
+ 719          {
+ 720   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 721   1        USCI2_SetTWI();//USCI2ÅäÖÃÎªTWIÄ£Ê½
+ 722   1      
+ 723   1        if(NewState != DISABLE)
+ 724   1        {
+ 725   2          US2CON1 |= 0x40;
+ 726   2        }
+ 727   1        else
+ 728   1        {
+ 729   2          US2CON1 &= 0XBF;
+ 730   2        }
+ 731   1      }
+ 732          
+ 733          /**************************************************
+ 734          *º¯ÊýÃû³Æ:void USCI2_TWI_AcknowledgeConfig(FunctionalState NewState)
+ 735          *º¯Êý¹¦ÄÜ:TWI½ÓÊÕÓ¦´ðÊ¹ÄÜº¯Êý
+ 736          *Èë¿Ú²ÎÊý:
+ 737          FunctionalState:NewState:½ÓÊÕÓ¦´ðÊ¹ÄÜ/Ê§ÄÜÑ¡Ôñ
+ 738          *³ö¿Ú²ÎÊý:void
+ 739          **************************************************/
+ 740          void USCI2_TWI_AcknowledgeConfig(FunctionalState NewState)
+ 741          {
+ 742   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 743   1        USCI2_SetTWI();//USCI2ÅäÖÃÎªTWIÄ£Ê½
+ 744   1      
+ 745   1        if(NewState != DISABLE)
+ 746   1        {
+ 747   2          US2CON0 |= 0X08;
+ 748   2        }
+ 749   1        else
+ 750   1        {
+ 751   2          US2CON0 &= 0XF7;
+ 752   2        }
+ 753   1      }
+ 754          
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 14  
+
+ 755          /**************************************************
+ 756          *º¯ÊýÃû³Æ:void USCI2_TWI_GeneralCallCmd(FunctionalState NewState)
+ 757          *º¯Êý¹¦ÄÜ:TWIÍ¨ÓÃµØÖ·ÏìÓ¦Ê¹ÄÜº¯Êý
+ 758          *Èë¿Ú²ÎÊý:
+ 759          FunctionalState:NewState:½ÓÊÕÓ¦´ðÊ¹ÄÜ/Ê§ÄÜÑ¡Ôñ
+ 760          *³ö¿Ú²ÎÊý:void
+ 761          **************************************************/
+ 762          void USCI2_TWI_GeneralCallCmd(FunctionalState NewState)
+ 763          {
+ 764   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 765   1        USCI2_SetTWI();//USCI2ÅäÖÃÎªTWIÄ£Ê½
+ 766   1      
+ 767   1        if(NewState != DISABLE)
+ 768   1        {
+ 769   2          US2CON2 |= 0X01;
+ 770   2        }
+ 771   1        else
+ 772   1        {
+ 773   2          US2CON2 &= 0XFE;
+ 774   2        }
+ 775   1      }
+ 776          
+ 777          /*****************************************************
+ 778          *º¯ÊýÃû³Æ:FlagStatus USCI2_GetTWIStatus(USCI2_TWIState_TypeDef USCI2_TWIState)
+ 779          *º¯Êý¹¦ÄÜ:¶ÁÈ¡TWI×´Ì¬
+ 780          *Èë¿Ú²ÎÊý:
+ 781          USCI2_TWIState_TypeDef:USCI2_TWIState:TWI×´Ì¬ÀàÐÍ
+ 782          *³ö¿Ú²ÎÊý:
+ 783          FlagStatus:USCI2_TWI±êÖ¾×´Ì¬
+ 784          *****************************************************/
+ 785          FlagStatus USCI2_GetTWIStatus(USCI2_TWIState_TypeDef USCI2_TWIState)
+ 786          {
+ 787   1        if((US2CON0 & 0x07) == USCI2_TWIState)
+ 788   1          return SET;
+ 789   1        else
+ 790   1          return RESET;
+ 791   1      }
+ 792          
+ 793          /*****************************************************
+ 794          *º¯ÊýÃû³Æ:void USCI2_TWI_Cmd(FunctionalState NewState)
+ 795          *º¯Êý¹¦ÄÜ:TWI¹¦ÄÜ¿ª¹Øº¯Êý
+ 796          *Èë¿Ú²ÎÊý:
+ 797          FunctionalState:NewState:¹¦ÄÜÆô¶¯/¹Ø±ÕÑ¡Ôñ
+ 798          *³ö¿Ú²ÎÊý:void
+ 799          *****************************************************/
+ 800          void USCI2_TWI_Cmd(FunctionalState NewState)
+ 801          {
+ 802   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+ 803   1        USCI2_SetTWI();//USCI2ÅäÖÃÎªTWIÄ£Ê½
+ 804   1      
+ 805   1        if(NewState != DISABLE)
+ 806   1        {
+ 807   2          US2CON0 |= 0X80;
+ 808   2        }
+ 809   1        else
+ 810   1        {
+ 811   2          US2CON0 &= (~0X80);
+ 812   2        }
+ 813   1      }
+ 814          
+ 815          /*****************************************************
+ 816          *º¯ÊýÃû³Æ:void USCI2_TWI_SendAddr(uint8_t Addr,USCI2_TWI_RWType RW)
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 15  
+
+ 817          *º¯Êý¹¦ÄÜ:TWI·¢ËÍµØÖ·£¬¶ÁÐ´ÀàÐÍ
+ 818          *Èë¿Ú²ÎÊý:
+ 819          uint8_t:Addr:·¢ËÍµÄµØÖ·
+ 820          USCI2_TWI_RWType:RW:¶ÁÐ´ÀàÐÍ
+ 821          *³ö¿Ú²ÎÊý:void
+ 822          *****************************************************/
+ 823          void USCI2_TWI_SendAddr(uint8_t Addr, USCI2_TWI_RWType RW)
+ 824          {
+ 825   1        US2CON3 = (Addr << 1) | RW;
+ 826   1      }
+ 827          
+ 828          
+ 829          /*****************************************************
+ 830          *º¯ÊýÃû³Æ:void USCI2_TWI_SendData(uint8_t Data)
+ 831          *º¯Êý¹¦ÄÜ:TWI·¢ËÍÊý¾Ý
+ 832          *Èë¿Ú²ÎÊý:
+ 833          uint8_t:Data:·¢ËÍµÄÊý¾Ý
+ 834          *³ö¿Ú²ÎÊý:void
+ 835          *****************************************************/
+ 836          void USCI2_TWI_SendData(uint8_t Data)
+ 837          {
+ 838   1        US2CON3 = Data;
+ 839   1      }
+ 840          
+ 841          
+ 842          /*****************************************************
+ 843          *º¯ÊýÃû³Æ:uint8_t USCI2_TWI_ReceiveData(void)
+ 844          *º¯Êý¹¦ÄÜ:»ñµÃUS2CON3ÖÐµÄÖµ
+ 845          *Èë¿Ú²ÎÊý:void
+ 846          *³ö¿Ú²ÎÊý:
+ 847          uint8_t:½ÓÊÕµÄÊý¾Ý
+ 848          *****************************************************/
+ 849          uint8_t USCI2_TWI_ReceiveData(void)
+ 850          {
+ 851   1        return US2CON3;
+ 852   1      }
+ 853          
+ 854          /*****************************************************
+ 855          *º¯ÊýÃû³Æ£ºStatusTypeDef USCI2_TWI_Wait_TWIF(USCI2_HandleInfoDef* USCI2_HANDLE,uint32_t Timeout)
+ 856          *º¯Êý¹¦ÄÜ£ºµÈ´ýTWIFÖÃÆð
+ 857          *Èë¿Ú²ÎÊý£º
+ 858          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+ 859          uint32_t:Timeout:³¬Ê±Ê±¼äÉèÖÃ
+ 860          *³ö¿Ú²ÎÊý£ºStatusTypeDef×´Ì¬Ã¶¾Ù
+ 861          *****************************************************/
+ 862          StatusTypeDef USCI2_TWI_Wait_TWIF(USCI2_HandleInfoDef* USCI2_HANDLE, uint32_t Timeout)
+ 863          {
+ 864   1        uint32_t TimeoutCnt = 0;
+ 865   1        while(!(USCI2_GetFlagStatus(USCI2_TWI_FLAG_TWIF)))      //µÈ´ýÆô¶¯ÐÅºÅ·¢ËÍÍê±Ï
+ 866   1        {
+ 867   2          TimeoutCnt++;
+ 868   2          if(TimeoutCnt > Timeout)
+ 869   2          {
+ 870   3            /* ³¬Ê±¸üÐÂ×´Ì¬ */
+ 871   3            if(USCI2_HANDLE->TxState == USCI2_STATE_BUSY)
+ 872   3              USCI2_HANDLE->TxState = USCI2_STATE_TIMEOUT;
+ 873   3            if(USCI2_HANDLE->RxState == USCI2_STATE_BUSY)
+ 874   3              USCI2_HANDLE->RxState = USCI2_STATE_TIMEOUT;
+ 875   3            return Status_TIMEOUT;
+ 876   3          }
+ 877   2        }
+ 878   1        USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);     //Çå³ý±êÖ¾Î»
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 16  
+
+ 879   1        return Status_OK;
+ 880   1      }
+ 881          
+ 882          /*****************************************************
+ 883          *º¯ÊýÃû³Æ£ºStatusTypeDef USCI2_TWI_Master_Transmit(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t slaveAddr, u
+             -int8_t* pData, uint8_t Size, uint32_t Timeout)
+ 884          *º¯Êý¹¦ÄÜ£º·¢ËÍ8Î»Êý¾ÝÊ±£¬Ö÷»úÂÖÑ¯Ä£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾Ý
+ 885          *Èë¿Ú²ÎÊý£º
+ 886          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+ 887          uint8_t:slaveAddr:´Ó»úµØÖ·
+ 888          uint8_t*£ºpData Ö¸ÕëÖ¸Ïò´æ´¢Çø
+ 889          uint32_t:Size:´æ´¢Êý¾Ý³¤¶È
+ 890          uint32_t:Timeout:³¬Ê±Ê±¼äÉèÖÃ
+ 891          *³ö¿Ú²ÎÊý£ºStatusTypeDef×´Ì¬Ã¶¾Ù
+ 892          *****************************************************/
+ 893          StatusTypeDef USCI2_TWI_Master_Transmit(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t slaveAddr, uint8_t* pDa
+             -ta, uint8_t Size, uint32_t Timeout)
+ 894          {
+ 895   1        /* ¼ì²éÒ»¸ö·¢ËÍ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+ 896   1        if(USCI2_HANDLE->TxState == USCI2_STATE_READY)
+ 897   1        {
+ 898   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 899   2          if((IE2 & 0x01 != 0) || (Size == 0U))
+ 900   2          {
+ 901   3            return Status_ERROR;
+ 902   3          }
+ 903   2      
+ 904   2          USCI2_HANDLE->TxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+ 905   2          USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+ 906   2          USCI2_HANDLE->pTxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+ 907   2          USCI2_HANDLE->TxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+ 908   2          USCI2_HANDLE->TxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+ 909   2      
+ 910   2          USCI2_TWI_Start();      //·¢ËÍÆô¶¯ÐÅºÅ
+ 911   2          if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)           //µÈ´ýÆô¶¯ÐÅºÅ·¢ËÍÍê±Ï
+ 912   2          {
+ 913   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+ 914   3            USCI2_TWI_MasterModeStop();
+ 915   3            return Status_TIMEOUT;
+ 916   3          }
+ 917   2      
+ 918   2          if(USCI2_GetTWIStatus(USCI2_TWI_MasterSendAddress) == RESET)          //¼ì²â×´Ì¬»ú×´Ì¬
+ 919   2          {
+ 920   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+ 921   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+ 922   3            USCI2_TWI_MasterModeStop();
+ 923   3            return Status_ERROR;
+ 924   3          }
+ 925   2      
+ 926   2          US2CON3 = (slaveAddr << 1) & 0xFE;      //·¢ËÍµØÖ·ºÍ¶ÁÐ´Î»
+ 927   2          if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)           //µÈ´ýÐÅºÅ·¢ËÍÍê±Ï
+ 928   2          {
+ 929   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+ 930   3            USCI2_TWI_MasterModeStop();
+ 931   3            return Status_TIMEOUT;
+ 932   3          }
+ 933   2      
+ 934   2          do
+ 935   2          {
+ 936   3            if(USCI2_GetTWIStatus(USCI2_TWI_MasterSendData) == RESET)          //¼ì²â×´Ì¬»ú×´Ì¬
+ 937   3            {
+ 938   4              USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 17  
+
+ 939   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+ 940   4              USCI2_TWI_MasterModeStop();
+ 941   4              return Status_ERROR;
+ 942   4            }
+ 943   3            US1CON3 = *(USCI2_HANDLE->pTxBuffPtr.Size_u8  + USCI2_HANDLE->TxXferCount);             //TWI·¢ËÍÊý¾
+             -Ý
+ 944   3            if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)           //µÈ´ýÐÅºÅ·¢ËÍÍê±Ï
+ 945   3            {
+ 946   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+ 947   4              USCI2_TWI_MasterModeStop();
+ 948   4              return Status_TIMEOUT;
+ 949   4            }
+ 950   3            USCI2_HANDLE->TxXferCount++;
+ 951   3          }
+ 952   2          while(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize);
+ 953   2      
+ 954   2          /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+ 955   2          USCI2_TWI_MasterModeStop();
+ 956   2      
+ 957   2          if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize)
+ 958   2          {
+ 959   3            USCI2_HANDLE->TxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+ 960   3            return Status_OK;
+ 961   3          }
+ 962   2          else
+ 963   2          {
+ 964   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+ 965   3            return Status_ERROR;
+ 966   3          }
+ 967   2        }
+ 968   1        else
+ 969   1        {
+ 970   2          return Status_BUSY;
+ 971   2        }
+ 972   1      }
+ 973          
+ 974          /*****************************************************
+ 975          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Master_Transmit_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t slaveAddr,
+             - uint8_t* pData, uint8_t Size)
+ 976          *º¯Êý¹¦ÄÜ:Ö÷»úÊ¹ÓÃÖÐ¶ÏÄ£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾ÝÊ±£¬ÏÈÔÚmainº¯ÊýÖÐµ÷ÓÃ´Ëº¯Êý
+ 977          *Èë¿Ú²ÎÊý:
+ 978          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+ 979          *³ö¿Ú²ÎÊý:
+ 980          StatusTypeDef×´Ì¬Ã¶¾Ù
+ 981          *****************************************************/
+ 982          StatusTypeDef USCI2_TWI_Master_Transmit_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t slaveAddr, uint8_t* 
+             -pData, uint8_t Size)
+ 983          {
+ 984   1        if(USCI2_HANDLE->TxState == USCI2_STATE_READY)
+ 985   1        {
+ 986   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+ 987   2          if(((IE2 & 0x02) == 0) || (Size == 0U))
+ 988   2          {
+ 989   3            return Status_ERROR;
+ 990   3          }
+ 991   2          else
+ 992   2          {
+ 993   3            Select_USCI2();
+ 994   3            IE2 &= ~0x02;     //¹Ø±ÕÖÐ¶Ï
+ 995   3      
+ 996   3            USCI2_HANDLE->TxState = USCI2_STATE_WAIT;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+ 997   3            USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 18  
+
+ 998   3            USCI2_HANDLE->pTxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+ 999   3            USCI2_HANDLE->TxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1000   3            USCI2_HANDLE->TxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1001   3      
+1002   3            USCI2_TWI_Start();      //·¢ËÍÆô¶¯ÐÅºÅ
+1003   3      
+1004   3            if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, 0xFFFFFFFF) == Status_TIMEOUT)            //µÈ´ýÆô¶¯ÐÅºÅ·¢ËÍÍê±
+             -Ï
+1005   3            {
+1006   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1007   4              USCI2_TWI_MasterModeStop();
+1008   4              IE2 |= 0x02;  //¿ªÆôÖÐ¶Ï
+1009   4              return Status_TIMEOUT;
+1010   4            }
+1011   3      
+1012   3            if(USCI2_GetTWIStatus(USCI2_TWI_MasterSendAddress) == RESET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1013   3            {
+1014   4              USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1015   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1016   4              USCI2_TWI_MasterModeStop();
+1017   4              IE2 |= 0x02;  //¿ªÆôÖÐ¶Ï
+1018   4              return Status_ERROR;
+1019   4            }
+1020   3      
+1021   3            IE2 |= 0x02;            //¿ªÆôÖÐ¶Ï
+1022   3            US2CON3 = (slaveAddr << 1) & 0xFE;//·¢ËÍµØÖ·ºÍ¶ÁÐ´Î»
+1023   3      
+1024   3            return Status_OK;
+1025   3          }
+1026   2        }
+1027   1        else
+1028   1        {
+1029   2          return Status_BUSY;
+1030   2        }
+1031   1      }
+1032          
+1033          /*****************************************************
+1034          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Master_Transmit_IRQHandler(USCI2_HandleInfoDef *USCI2_HANDLE)
+1035          *º¯Êý¹¦ÄÜ:·¢ËÍ8Î»Êý¾ÝÊ±£¬Ö÷»úÖÐ¶ÏÄ£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾Ý
+1036          *Èë¿Ú²ÎÊý:
+1037          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1038          *³ö¿Ú²ÎÊý:StatusTypeDef×´Ì¬Ã¶¾Ù
+1039          *****************************************************/
+1040          StatusTypeDef USCI2_TWI_Master_Transmit_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+1041          {
+1042   1        if(USCI2_HANDLE->TxState == USCI2_STATE_BUSY)
+1043   1        {
+1044   2          if(USCI2_GetTWIStatus(USCI2_TWI_MasterSendData) == SET)
+1045   2          {
+1046   3            if(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize)
+1047   3            {
+1048   4              USCI2_HANDLE->TxXferCount++;      //µØÖ·Ö¡Ò²×÷ÎªÊý¾Ý¼ÆÊý
+1049   4              US2CON3 = *(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount);             //TWI·¢ËÍÊý
+             -¾Ý
+1050   4              return Status_BUSY;
+1051   4            }
+1052   3            else if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+1053   3            {
+1054   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1055   4              USCI2_TWI_MasterModeStop();
+1056   4              USCI2_HANDLE->TxState = USCI2_STATE_READY;
+1057   4              return Status_OK;
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 19  
+
+1058   4            }
+1059   3            else
+1060   3            {
+1061   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1062   4              USCI2_TWI_MasterModeStop();
+1063   4              USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1064   4              return Status_OK;
+1065   4            }
+1066   3          }
+1067   2          else if(USCI2_GetTWIStatus(USCI2_TWI_MasterReceivedaUACK) == SET)
+1068   2          {
+1069   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1070   3            USCI2_HANDLE->TxXferCount++;
+1071   3            USCI2_TWI_MasterModeStop();
+1072   3            if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize)
+1073   3            {
+1074   4              USCI2_HANDLE->TxState = USCI2_STATE_READY;
+1075   4              return Status_OK;
+1076   4            }
+1077   3            else
+1078   3            {
+1079   4              USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1080   4              return Status_ERROR;
+1081   4            }
+1082   3          }
+1083   2          else
+1084   2          {
+1085   3            USCI2_TWI_MasterModeStop();
+1086   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1087   3            return Status_ERROR;
+1088   3          }
+1089   2        }
+1090   1        else if(USCI2_HANDLE->TxState == USCI2_STATE_WAIT)
+1091   1        {
+1092   2          //µØÖ·³É¹¦ÏìÓ¦
+1093   2          USCI2_HANDLE->TxState = USCI2_STATE_BUSY;
+1094   2          US2CON3 = *(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount);
+1095   2          return Status_BUSY;
+1096   2        }
+1097   1        else
+1098   1        {
+1099   2          return Status_ERROR;//·µ»Ø±êÖ¾Î»
+1100   2        }
+1101   1      }
+1102          
+1103          /*****************************************************
+1104          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Slave_Transmit_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uin
+             -t8_t Size)
+1105          *º¯Êý¹¦ÄÜ:´Ó»úÊ¹ÓÃÖÐ¶ÏÄ£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾ÝÊ±£¬ÏÈÔÚmainº¯ÊýÖÐµ÷ÓÃ´Ëº¯Êý
+1106          * ×¢
+1107          *Èë¿Ú²ÎÊý:*USCI2_HANDLE Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1108          *³ö¿Ú²ÎÊý:void
+1109          *****************************************************/
+1110          StatusTypeDef USCI2_TWI_Slave_Transmit_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size)
+1111          {
+1112   1        /* ¼ì²éÒ»¸ö·¢ËÍ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+1113   1        if(USCI2_HANDLE->TxState == USCI2_STATE_READY)
+1114   1        {
+1115   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+1116   2          if(((IE2 & 0x02) == 0) || (Size == 0U))
+1117   2          {
+1118   3            return Status_ERROR;
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 20  
+
+1119   3          }
+1120   2          else
+1121   2          {
+1122   3            Select_USCI2();
+1123   3      
+1124   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¿ªÆôAA
+1125   3            USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+1126   3            USCI2_TWI_SlaveClockExtension(ENABLE);            //¿ªÆôÊ±ÖÓÑÓ³¤
+1127   3            USCI2_HANDLE->TxState = USCI2_STATE_WAIT;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+1128   3            USCI2_HANDLE->pTxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1129   3            USCI2_HANDLE->TxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1130   3            USCI2_HANDLE->TxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1131   3      
+1132   3            USCI2_TWI_AcknowledgeConfig(ENABLE);         //¿ªÆôAA
+1133   3      
+1134   3            return Status_OK;;
+1135   3          }
+1136   2        }
+1137   1        else
+1138   1        {
+1139   2          return Status_ERROR;
+1140   2        }
+1141   1      }
+1142          
+1143          /*****************************************************
+1144          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Slave_Transmit_IRQHandler(USCI2_HandleInfoDef *USCI2_HANDLE)
+1145          *º¯Êý¹¦ÄÜ:·¢ËÍ8Î»Êý¾ÝÊ±£¬´Ó»úÖÐ¶ÏÄ£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾Ý
+1146          *Èë¿Ú²ÎÊý:*USCI2_HANDLE Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1147          *³ö¿Ú²ÎÊý:StatusTypeDef×´Ì¬Ã¶¾Ù
+1148          *****************************************************/
+1149          StatusTypeDef USCI2_TWI_Slave_Transmit_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+1150          {
+1151   1        if(USCI2_HANDLE->TxState == USCI2_STATE_BUSY)
+1152   1        {
+1153   2      
+1154   2          if(USCI2_GetTWIStatus(USCI2_TWI_SlaveSendData) == SET)
+1155   2          {
+1156   3            if(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize)
+1157   3            {
+1158   4              USCI2_HANDLE->TxXferCount++;      //µÚÒ»´ÎÖÐ¶ÏÊÇ½ÓÊÜµ½µØÖ·ÁË
+1159   4              US2CON3 = *(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount);
+1160   4              if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize - 1)
+1161   4              {
+1162   5                USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1163   5              }
+1164   4              return Status_BUSY;
+1165   4            }
+1166   3            else
+1167   3            {
+1168   4              USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1169   4              USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1170   4              return Status_ERROR;
+1171   4            }
+1172   3          }
+1173   2          /*
+1174   2          1.µ«Êý¾Ý´«Êä¹ý³ÌÖÐ£¬ÆäËû³ÌÐòÐÞ¸ÄÁËAA¿ØÖÆÎ»
+1175   2          2.½ÓÊÕµ½Ö÷»ú»ØÀ´µÄUACK */
+1176   2          else if((USCI2_GetTWIStatus(USCI2_TWI_SlaveDisableACK) == SET) || (USCI2_GetTWIStatus(USCI2_TWI_SlaveR
+             -eceivedaUACK) == SET))
+1177   2          {
+1178   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1179   3            USCI2_HANDLE->TxXferCount++;
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 21  
+
+1180   3            if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize)     //ËùÓÐÊý¾ÝÒÑ·¢ËÍ
+1181   3            {
+1182   4              USCI2_HANDLE->TxState = USCI2_STATE_READY;
+1183   4              return Status_OK;
+1184   4            }
+1185   3            else
+1186   3            {
+1187   4              USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1188   4              return Status_ERROR;
+1189   4            }
+1190   3          }
+1191   2          else
+1192   2          {
+1193   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1194   3            /* ÒÔÏÂÇé¿öÎ´·¢ËÍ¹ý³Ì³ö´í
+1195   3            1.Êý¾Ý·¢ËÍºó½ÓÊÜµ½UACK
+1196   3            2.TWI²»ÊÇ¹¤×÷ÔÚ´Ó»ú·¢ËÍ×´Ì¬ */
+1197   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1198   3            return Status_ERROR;
+1199   3          }
+1200   2        }
+1201   1        else if(USCI2_HANDLE->TxState == USCI2_STATE_WAIT)
+1202   1        {
+1203   2          if(USCI2_GetTWIStatus(USCI2_TWI_SlaveSendData) == SET)
+1204   2          {
+1205   3            US2CON3 = *(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount);
+1206   3            USCI2_HANDLE->TxState = USCI2_STATE_BUSY;
+1207   3          }
+1208   2          return Status_BUSY;
+1209   2        }
+1210   1        else
+1211   1        {
+1212   2          return Status_ERROR;//·µ»Ø±êÖ¾Î»
+1213   2        }
+1214   1      }
+1215          
+1216          /*****************************************************
+1217          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Master_Receive(USCI2_HandleInfoDef* USCI2_HANDLE,uint8_t slaveAddr, uint
+             -8_t* pData, uint8_t Size,uint32_t Timeout)
+1218          *º¯Êý¹¦ÄÜ:½ÓÊÕ8Î»Êý¾ÝÊ±£¬Ö÷»úÂÖÑ¯Ä£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾Ý
+1219          *Èë¿Ú²ÎÊý:*USCI2_HANDLE Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1220                     Timeout    ³¬Ê±Ê±¼äÉèÖÃ
+1221          *³ö¿Ú²ÎÊý:
+1222          StatusTypeDef×´Ì¬Ã¶¾Ù
+1223          *****************************************************/
+1224          StatusTypeDef USCI2_TWI_Master_Receive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t slaveAddr, uint8_t* pDat
+             -a, uint8_t Size, uint32_t Timeout)
+1225          {
+1226   1        /* ¼ì²éÒ»¸ö½ÓÊÕ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+1227   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+1228   1        {
+1229   2          /* ´ý½ÓÊÕÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+1230   2          if((IE2 & 0x02 != 0) || (Size == 0U))
+1231   2          {
+1232   3            return Status_ERROR;
+1233   3          }
+1234   2          Select_USCI2();
+1235   2          USCI2_HANDLE->RxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+1236   2          USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+1237   2          USCI2_TWI_AcknowledgeConfig(ENABLE);         //¿ªÆôAAÊ¹ÄÜÎ»
+1238   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1239   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 22  
+
+1240   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1241   2      
+1242   2          USCI2_TWI_Start();      //·¢ËÍÆô¶¯ÐÅºÅ
+1243   2          if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)            //µÈ´ýÆô¶¯ÐÅºÅ·¢ËÍÍê±Ï
+1244   2          {
+1245   3            USCI2_TWI_AcknowledgeConfig(DISABLE);
+1246   3            return Status_TIMEOUT;
+1247   3          }
+1248   2      
+1249   2          if(USCI2_GetTWIStatus(USCI2_TWI_MasterSendAddress) == RESET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1250   2          {
+1251   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1252   3            USCI2_TWI_AcknowledgeConfig(DISABLE);
+1253   3            return Status_ERROR;
+1254   3          }
+1255   2      
+1256   2          /* ·¢ËÍµØÖ·Ö¡¹ý³Ì */
+1257   2          US2CON3 = (slaveAddr << 1) | 0x01;//·¢ËÍµØÖ·ºÍ¶ÁÐ´Î»
+1258   2          if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)            //µÈ´ýÐÅºÅ·¢ËÍÍê±Ï
+1259   2          {
+1260   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1261   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1262   3            USCI2_TWI_MasterModeStop();
+1263   3            return Status_TIMEOUT;
+1264   3          }
+1265   2      
+1266   2          if(USCI2_GetTWIStatus(USCI2_TWI_MasterReceivedaData) == RESET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1267   2          {
+1268   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1269   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1270   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1271   3            USCI2_TWI_MasterModeStop();
+1272   3            return Status_ERROR;
+1273   3          }
+1274   2      
+1275   2          /* Êý¾Ý½ÓÊÕ¹ý³Ì */
+1276   2          do
+1277   2          {
+1278   3            if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)            //µÈ´ýÐÅºÅ·¢ËÍÍê±Ï
+1279   3            {
+1280   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1281   4              USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1282   4              USCI2_TWI_MasterModeStop();
+1283   4              return Status_TIMEOUT;
+1284   4            }
+1285   3      
+1286   3            if(USCI2_GetTWIStatus(USCI2_TWI_MasterReceivedaData) == RESET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1287   3            {
+1288   4              USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1289   4              /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1290   4              USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1291   4              USCI2_TWI_MasterModeStop();
+1292   4              return Status_ERROR;
+1293   4            }
+1294   3      
+1295   3            *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = US2CON3;             //TWI½ÓÊÕÊý¾Ý
+1296   3            USCI2_HANDLE->RxXferCount++;
+1297   3            if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize - 1)
+1298   3            {
+1299   4              USCI2_TWI_AcknowledgeConfig(DISABLE);                                     //¹Ø±ÕAA
+1300   4              if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)            //µÈ´ýÐÅºÅ·¢ËÍÍê±Ï
+1301   4              {
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 23  
+
+1302   5                /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1303   5                USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1304   5                USCI2_TWI_MasterModeStop();
+1305   5                return Status_TIMEOUT;
+1306   5              }
+1307   4              if(USCI2_GetTWIStatus(USCI2_TWI_MasterReceivedaUACK) == RESET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1308   4              {
+1309   5                USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1310   5                /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1311   5                USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1312   5                USCI2_TWI_MasterModeStop();
+1313   5                return Status_ERROR;
+1314   5              }
+1315   4      
+1316   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = US2CON3;             //TWI½ÓÊÕÊý
+             -¾Ý
+1317   4              USCI2_HANDLE->RxXferCount++;
+1318   4            }
+1319   3          }
+1320   2          while(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize);
+1321   2          /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1322   2          USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1323   2          USCI2_TWI_MasterModeStop();
+1324   2      
+1325   2          if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+1326   2          {
+1327   3            USCI2_HANDLE->RxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+1328   3            return Status_OK;
+1329   3          }
+1330   2          else
+1331   2          {
+1332   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+1333   3            return Status_ERROR;
+1334   3          }
+1335   2        }
+1336   1        else
+1337   1        {
+1338   2          return Status_BUSY;
+1339   2        }
+1340   1      }
+1341          
+1342          
+1343          /*****************************************************
+1344          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Slave_Receive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t
+             - Size, uint32_t Timeout)
+1345          *º¯Êý¹¦ÄÜ:½ÓÊÕ8Î»Êý¾ÝÊ±£¬´Ó»úÂÖÑ¯Ä£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾Ý
+1346          *Èë¿Ú²ÎÊý:
+1347          USCI2_HandleInfoDef:*USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1348          uint32_t:Timeout:³¬Ê±Ê±¼äÉèÖÃ
+1349          *³ö¿Ú²ÎÊý:StatusTypeDef×´Ì¬Ã¶¾Ù
+1350          *****************************************************/
+1351          StatusTypeDef USCI2_TWI_Slave_Receive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size, uin
+             -t32_t Timeout)
+1352          {
+1353   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+1354   1        {
+1355   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+1356   2          if((IE2 & 0x02 != 0) || (Size == 0U))
+1357   2          {
+1358   3            return Status_ERROR;
+1359   3          }
+1360   2          Select_USCI2();
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 24  
+
+1361   2          USCI2_HANDLE->RxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+1362   2          USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+1363   2          USCI2_TWI_AcknowledgeConfig(ENABLE);         //¿ªÆôAAÊ¹ÄÜÎ»
+1364   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1365   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1366   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1367   2      
+1368   2          /* ½ÓÊÕµØÖ·¹¤³Ì */
+1369   2          if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)            //µÈ´ýÐÅºÅ·¢ËÍÍê±Ï
+1370   2          {
+1371   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1372   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1373   3            return Status_TIMEOUT;
+1374   3          }
+1375   2      
+1376   2          if(USCI2_GetTWIStatus(USCI2_TWI_SlaveReceivedaData) == RESET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1377   2          {
+1378   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1379   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1380   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1381   3            return Status_ERROR;
+1382   3          }
+1383   2      
+1384   2          /* ½ÓÊÕÊý¾Ý¹ý³Ì */
+1385   2          do
+1386   2          {
+1387   3            if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, Timeout) == Status_TIMEOUT)            //µÈ´ýÆô¶¯ÐÅºÅ·¢ËÍÍê±Ï
+1388   3            {
+1389   4              return Status_TIMEOUT;
+1390   4            }
+1391   3      
+1392   3            if(USCI2_GetTWIStatus(USCI2_TWI_SlaveReceivedaData) == SET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1393   3            {
+1394   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = US2CON3;             //TWI½ÓÊÕÊý
+             -¾Ý
+1395   4              USCI2_HANDLE->RxXferCount++;
+1396   4              if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize - 1)
+1397   4                USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»,»ØÖ÷»úUAC
+1398   4            }
+1399   3            else if(USCI2_GetTWIStatus(USCI2_TWI_SlaveIdle) == SET)
+1400   3            {
+1401   4              if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize - 1)
+1402   4              {
+1403   5                *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = US2CON3;
+1404   5                USCI2_HANDLE->RxXferCount++;
+1405   5              }
+1406   4              else
+1407   4              {
+1408   5                USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1409   5                USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1410   5                return Status_ERROR;
+1411   5              }
+1412   4            }
+1413   3            else
+1414   3            {
+1415   4              USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1416   4              USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1417   4              return Status_ERROR;
+1418   4            }
+1419   3      
+1420   3          }
+1421   2          while(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize);
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 25  
+
+1422   2      
+1423   2          if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+1424   2          {
+1425   3            USCI2_HANDLE->RxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+1426   3            return Status_OK;
+1427   3          }
+1428   2          else
+1429   2          {
+1430   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+1431   3            return Status_ERROR;
+1432   3          }
+1433   2        }
+1434   1        else
+1435   1        {
+1436   2          return Status_BUSY;
+1437   2        }
+1438   1      }
+1439          
+1440          /*****************************************************
+1441          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Master_Receive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t slaveAddr, 
+             -uint8_t* pData, uint8_t Size)
+1442          *º¯Êý¹¦ÄÜ:Ö÷»úÊ¹ÓÃÖÐ¶ÏÄ£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾ÝÊ±£¬ÏÈÔÚmainº¯ÊýÖÐµ÷ÓÃ´Ëº¯Êý
+1443          *Èë¿Ú²ÎÊý:*USCI2_HANDLE Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1444                 Size        ´æ´¢Êý¾Ý³¤¶È
+1445          *³ö¿Ú²ÎÊý:void
+1446          *****************************************************/
+1447          StatusTypeDef USCI2_TWI_Master_Receive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t slaveAddr, uint8_t* p
+             -Data, uint8_t Size)
+1448          {
+1449   1        /* ¼ì²éÒ»¸ö½ÓÊÕ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+1450   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+1451   1        {
+1452   2          /* ´ý½ÓÊÕÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+1453   2          if(((IE2 & 0x02) == 0) || (Size == 0U))
+1454   2          {
+1455   3            return Status_ERROR;
+1456   3          }
+1457   2          Select_USCI2();
+1458   2          IE2 &= ~0x02; //¹Ø±ÕÖÐ¶Ï
+1459   2          USCI2_HANDLE->RxState = USCI2_STATE_WAIT;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+1460   2          USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+1461   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1462   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1463   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1464   2          USCI2_TWI_AcknowledgeConfig(ENABLE);         //¿ªÆôAA
+1465   2          USCI2_TWI_Start();      //·¢ËÍÆô¶¯ÐÅºÅ
+1466   2      
+1467   2          if(USCI2_TWI_Wait_TWIF(USCI2_HANDLE, 0xFFFF) == Status_TIMEOUT)            //µÈ´ýÆô¶¯ÐÅºÅ·¢ËÍÍê±Ï
+1468   2          {
+1469   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1470   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1471   3            USCI2_TWI_MasterModeStop();
+1472   3            IE2 |= 0x02;  //¿ªÆôÖÐ¶Ï
+1473   3            return Status_TIMEOUT;
+1474   3          }
+1475   2      
+1476   2          if(USCI2_GetTWIStatus(USCI2_TWI_MasterSendAddress) == RESET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1477   2          {
+1478   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1479   3            /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1480   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1481   3            USCI2_TWI_MasterModeStop();
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 26  
+
+1482   3            IE2 |= 0x02;  //¿ªÆôÖÐ¶Ï
+1483   3            return Status_ERROR;
+1484   3          }
+1485   2      
+1486   2          /* ·¢ËÍµØÖ·Ö¡¹ý³Ì */
+1487   2          IE2 |= 0x02;  //¿ªÆôÖÐ¶Ï
+1488   2          US2CON3 = (slaveAddr << 1) | 0x01;//·¢ËÍµØÖ·ºÍ¶ÁÐ´Î»
+1489   2      
+1490   2          return Status_OK;
+1491   2        }
+1492   1        else
+1493   1        {
+1494   2          return Status_BUSY;
+1495   2        }
+1496   1      }
+1497          
+1498          /*****************************************************
+1499          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Master_Receive_IRQHandler(USCI2_HandleInfoDef *USCI2_HANDLE)
+1500          *º¯Êý¹¦ÄÜ:½ÓÊÕ8Î»Êý¾ÝÊ±£¬Ö÷»úÖÐ¶ÏÄ£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾Ý
+1501          *Èë¿Ú²ÎÊý:*USCI2_HANDLE Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1502          *³ö¿Ú²ÎÊý:StatusTypeDef×´Ì¬Ã¶¾Ù
+1503          *****************************************************/
+1504          StatusTypeDef USCI2_TWI_Master_Receive_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+1505          {
+1506   1        if(USCI2_HANDLE->RxState == USCI2_STATE_BUSY)
+1507   1        {
+1508   2          if(USCI2_GetTWIStatus(USCI2_TWI_MasterReceivedaData) == SET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1509   2          {
+1510   3            if(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize)
+1511   3            {
+1512   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = US2CON3;             //TWI½ÓÊÕÊý
+             -¾Ý
+1513   4              USCI2_HANDLE->RxXferCount++;
+1514   4              if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+1515   4              {
+1516   5                /* ÎÞÂÛÊÇ·ñ·¢ËÍÍê³É£¬¶¼ÐèÒª·¢ËÍ½áÊøÐÅºÅ£¬·ÀÖ¹Ö÷»úÕ¼ÓÃ×ÜÏß */
+1517   5                USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1518   5                USCI2_TWI_MasterModeStop();
+1519   5                USCI2_HANDLE->RxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+1520   5                return Status_OK;
+1521   5              }
+1522   4              return Status_BUSY;
+1523   4            }
+1524   3            else
+1525   3            {
+1526   4              USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1527   4              USCI2_TWI_MasterModeStop();
+1528   4              USCI2_HANDLE->RxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+1529   4              return Status_ERROR;
+1530   4            }
+1531   3          }
+1532   2        }
+1533   1        else if(USCI2_HANDLE->RxState == USCI2_STATE_WAIT)
+1534   1        {
+1535   2          if(USCI2_GetTWIStatus(USCI2_TWI_MasterReceivedaData) == SET)
+1536   2          {
+1537   3            USCI2_HANDLE->RxState = USCI2_STATE_BUSY;
+1538   3          }
+1539   2          return Status_BUSY;
+1540   2        }
+1541   1        return Status_ERROR;
+1542   1      }
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 27  
+
+1543          
+1544          
+1545          /*****************************************************
+1546          *º¯ÊýÃû³Æ:void USCI2_TWI_Slave_Receive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size)
+             -)
+1547          *º¯Êý¹¦ÄÜ:´Ó»úÊ¹ÓÃÖÐ¶ÏÄ£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾ÝÊ±£¬ÏÈÔÚmainº¯ÊýÖÐµ÷ÓÃ´Ëº¯Êý
+1548          *Èë¿Ú²ÎÊý:
+1549          *USCI2_HANDLE Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1550                 *pData Ö¸ÕëÖ¸Ïò´æ´¢Çø
+1551                 Size        ´æ´¢Êý¾Ý³¤¶È
+1552          *³ö¿Ú²ÎÊý:void
+1553          *****************************************************/
+1554          StatusTypeDef USCI2_TWI_Slave_Receive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size)
+1555          {
+1556   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+1557   1        {
+1558   2          /* ´ý·¢ËÍÊý¾Ý³¤¶È±ØÐë´óÓÚ0£¬·ñÔò·µ»Ø´íÎó×´Ì¬ */
+1559   2          if(((IE2 & 0x02) == 0) || (Size == 0U))
+1560   2          {
+1561   3            return Status_ERROR;
+1562   3          }
+1563   2          Select_USCI2();
+1564   2          USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1565   2          USCI2_ClearFlag(USCI2_TWI_FLAG_TWIF);      //·¢ËÍÇ°Çå³ý±êÖ¾Î»
+1566   2          USCI2_HANDLE->RxState = USCI2_STATE_WAIT;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+1567   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1568   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1569   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1570   2          USCI2_TWI_AcknowledgeConfig(ENABLE);         //¿ªÆôAAÊ¹ÄÜÎ»
+1571   2      
+1572   2          return Status_OK;
+1573   2        }
+1574   1        else
+1575   1        {
+1576   2          return Status_BUSY;
+1577   2        }
+1578   1      }
+1579          
+1580          /*****************************************************
+1581          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_TWI_Slave_Receive_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+1582          *º¯Êý¹¦ÄÜ:½ÓÊÕ8Î»Êý¾ÝÊ±£¬´Ó»úÖÐ¶ÏÄ£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾Ý
+1583          *Èë¿Ú²ÎÊý:
+1584          USCI2_HandleInfoDef:*USCI2_HANDLE Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+1585          *³ö¿Ú²ÎÊý:StatusTypeDef×´Ì¬Ã¶¾Ù
+1586          *****************************************************/
+1587          StatusTypeDef USCI2_TWI_Slave_Receive_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+1588          {
+1589   1        if(USCI2_HANDLE->RxState == USCI2_STATE_BUSY)
+1590   1        {
+1591   2          if(USCI2_GetTWIStatus(USCI2_TWI_SlaveReceivedaData) == SET)           //¼ì²â×´Ì¬»ú×´Ì¬
+1592   2          {
+1593   3            if(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize)
+1594   3            {
+1595   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = US2CON3;             //TWI·¢ËÍÊý
+             -¾Ý
+1596   4              USCI2_HANDLE->RxXferCount++;
+1597   4              if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize - 1)
+1598   4              {
+1599   5                USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»,»ØÖ÷»úUACK
+1600   5              }
+1601   4            }
+1602   3            else
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 28  
+
+1603   3            {
+1604   4              USCI2_TWI_AcknowledgeConfig(DISABLE);
+1605   4              return Status_ERROR;
+1606   4            }
+1607   3            return Status_BUSY;
+1608   3          }
+1609   2          else if(USCI2_GetTWIStatus(USCI2_TWI_SlaveIdle) == SET)
+1610   2          {
+1611   3            if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize - 1)
+1612   3            {
+1613   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = US2CON3;
+1614   4              USCI2_HANDLE->RxXferCount++;
+1615   4              USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»,»ØÖ÷»úUACK
+1616   4              USCI2_HANDLE->RxState = USCI2_STATE_READY;
+1617   4              return Status_OK;
+1618   4            }
+1619   3            else
+1620   3            {
+1621   4              USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1622   4              USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1623   4              return Status_ERROR;
+1624   4            }
+1625   3          }
+1626   2          else
+1627   2          {
+1628   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+1629   3            USCI2_TWI_AcknowledgeConfig(DISABLE);         //¹Ø±ÕAAÊ¹ÄÜÎ»
+1630   3            return Status_ERROR;
+1631   3          }
+1632   2        }
+1633   1        else if(USCI2_HANDLE->RxState == USCI2_STATE_WAIT)
+1634   1        {
+1635   2          USCI2_HANDLE->RxState = USCI2_STATE_BUSY;
+1636   2          return Status_BUSY;
+1637   2        }
+1638   1        else
+1639   1        {
+1640   2          return Status_ERROR;
+1641   2        }
+1642   1      }
+1643          
+1644          /******************************* UARTº¯Êý *************************************/
+1645          /**************************************************
+1646          *º¯ÊýÃû³Æ:void USCI2_UART_Init(uint32_t UARTFsys, uint32_t BaudRate, USCI2_UART_Mode_TypeDef Mode, USCI2_U
+             -ART_RX_TypeDef RxMode)
+1647          *º¯Êý¹¦ÄÜ:UART³õÊ¼»¯ÅäÖÃº¯Êý
+1648          *Èë¿Ú²ÎÊý:
+1649          uint32_t:UARTFsys:ÏµÍ³Ê±ÖÓÆµÂÊ
+1650          uint32_t:BaudRate:²¨ÌØÂÊ
+1651          USCI2_UART_Mode_TypeDef:Mode:UART1¹¤×÷Ä£Ê½
+1652          USCI2_UART_RX_TypeDef:RxMode:½ÓÊÕÔÊÐíÑ¡Ôñ
+1653          *³ö¿Ú²ÎÊý:void
+1654          **************************************************/
+1655          void USCI2_UART_Init(uint32_t UARTFsys, uint32_t BaudRate, USCI2_UART_Mode_TypeDef Mode,
+1656                               USCI2_UART_RX_TypeDef RxMode)
+1657          {
+1658   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+1659   1        USCI2_SetUART();//USCI2ÅäÖÃÎªUARTÄ£Ê½
+1660   1        US2CON0 = US2CON0 & 0X0F | Mode | RxMode;
+1661   1      
+1662   1        if(Mode == USCI2_UART_Mode_8B)
+1663   1        {
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 29  
+
+1664   2          if(BaudRate == USCI2_UART_BaudRate_FsysDIV12)
+1665   2          {
+1666   3            US2CON0 &= 0XDF;
+1667   3          }
+1668   2          else if(BaudRate == USCI2_UART_BaudRate_FsysDIV4)
+1669   2          {
+1670   3            US2CON0 |= 0X20;
+1671   3          }
+1672   2        }
+1673   1        else
+1674   1        {
+1675   2          US2CON2 = UARTFsys / BaudRate / 256;
+1676   2          US2CON1 = UARTFsys / BaudRate % 256;
+1677   2        }
+1678   1      }
+1679          
+1680          /*****************************************************
+1681          *º¯ÊýÃû³Æ:void USCI2_UART_SendData8(uint8_t Data)
+1682          *º¯Êý¹¦ÄÜ:USCI2 UART1·¢ËÍ8Î»Êý¾Ý
+1683          *Èë¿Ú²ÎÊý:
+1684          uint8_t:Data:·¢ËÍµÄÊý¾Ý
+1685          *³ö¿Ú²ÎÊý:void
+1686          *****************************************************/
+1687          void USCI2_UART_SendData8(uint8_t Data)
+1688          {
+1689   1        US2CON3 = Data;
+1690   1      }
+1691          
+1692          /*****************************************************
+1693          *º¯ÊýÃû³Æ:uint8_t USCI2_UART_ReceiveData8(void)
+1694          *º¯Êý¹¦ÄÜ:»ñµÃUS2CON3ÖÐµÄÖµ
+1695          *Èë¿Ú²ÎÊý:void
+1696          *³ö¿Ú²ÎÊý:
+1697          uint8_t:½ÓÊÕµÄÊý¾Ý
+1698          *****************************************************/
+1699          uint8_t USCI2_UART_ReceiveData8(void)
+1700          {
+1701   1        return US2CON3;
+1702   1      }
+1703          
+1704          /*****************************************************
+1705          *º¯ÊýÃû³Æ:void USCI2_UART_SendData9(uint16_t Data)
+1706          *º¯Êý¹¦ÄÜ:UART·¢ËÍ9Î»Êý¾Ý
+1707          *Èë¿Ú²ÎÊý:
+1708          uint16_t:Data:·¢ËÍµÄÊý¾Ý
+1709          *³ö¿Ú²ÎÊý:void
+1710          *****************************************************/
+1711          void USCI2_UART_SendData9(uint16_t Data)
+1712          {
+1713   1        uint8_t Data_9Bit;
+1714   1        Data_9Bit = (Data >> 8);
+1715   1      
+1716   1        if(Data_9Bit)
+1717   1        {
+1718   2          US2CON0 |= 0x08;
+1719   2        }
+1720   1        else
+1721   1        {
+1722   2          US2CON0 &= 0xf7;
+1723   2        }
+1724   1      
+1725   1        US2CON3 = (uint8_t)Data;
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 30  
+
+1726   1      }
+1727          
+1728          /*****************************************************
+1729          *º¯ÊýÃû³Æ:uint16_t USCI2_UART_ReceiveData9(void)
+1730          *º¯Êý¹¦ÄÜ:»ñµÃUS2CON3ÖÐµÄÖµ¼°µÚ¾ÅÎ»µÄÖµ
+1731          *Èë¿Ú²ÎÊý:void
+1732          *³ö¿Ú²ÎÊý:
+1733          uint16_t:½ÓÊÕµÄÊý¾Ý
+1734          *****************************************************/
+1735          uint16_t USCI2_UART_ReceiveData9(void)
+1736          {
+1737   1        uint16_t Data9;
+1738   1        Data9 = US2CON3 + ((uint16_t)(US2CON0 & 0X04) << 6);
+1739   1        return Data9;
+1740   1      }
+1741          
+1742          /*****************************************************
+1743          *º¯ÊýÃû³Æ:StatusTypeDef  USCI2_UART_Transmit(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t *pData, uint8_t Si
+             -ze, uint32_t Timeout)
+1744          *º¯Êý¹¦ÄÜ:UARTÔÚÂÖÑ¯Ä£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾Ý
+1745          *Èë¿Ú²ÎÊý:
+1746          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUARTÊý¾ÝÐÅÏ¢´æ·ÅÇø
+1747          uint8_t *:pData:´ý·¢ËÍÊý¾Ý
+1748          uint16_t:Size:´ý·¢ËÍµÄÊý¾ÝÁ¿
+1749          uint32_t:Timeout:³¬Ê±Ê±¼äÉèÖÃ
+1750          *³ö¿Ú²ÎÊý:
+1751          StatusTypeDef:º¯ÊýÖ´ÐÐ×´Ì¬
+1752          *****************************************************/
+1753          StatusTypeDef USCI2_UART_Transmit(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size, uint32_
+             -t Timeout)
+1754          {
+1755   1      
+1756   1        uint32_t delaytime = 0;
+1757   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+1758   1      
+1759   1        /* ¼ì²éÒ»¸ö·¢ËÍ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+1760   1        if(USCI2_HANDLE->TxState == USCI2_STATE_READY)
+1761   1        {
+1762   2          /* ¼ì²é·¢ËÍÊý¾ÝÁ¿ÊÇ·ñÎª0 */
+1763   2          if((IE2 & 0x02 != 0) || (Size == 0U))
+1764   2          {
+1765   3            return  Status_ERROR;
+1766   3          }
+1767   2      
+1768   2          USCI2_HANDLE->TxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+1769   2          USCI2_ClearFlag(USCI2_UART_FLAG_TI); //·¢ËÍÇ°Çå³ý·¢ËÍÖÐ¶Ï±êÖ¾£¬Ð´1/Ð´0ÇåÁã
+1770   2          USCI2_HANDLE->pTxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1771   2          USCI2_HANDLE->TxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1772   2          USCI2_HANDLE->TxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1773   2      
+1774   2          while(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize) //ÅÐ¶ÏÊÇ·ñ½ÓÊÕËùÓÐÊý¾Ý
+1775   2          {
+1776   3            if((US2CON0 & 0xC0) == USCI2_UART_Mode_11B)
+1777   3            {
+1778   4              /* ·¢ËÍ9Î»Êý¾Ý */
+1779   4              USCI2_UART_SendData9(*(USCI2_HANDLE->pTxBuffPtr.Size_u16 + USCI2_HANDLE->TxXferCount));
+1780   4            }
+1781   3            else
+1782   3            {
+1783   4              /* ·¢ËÍ8Î»Êý¾Ý */
+1784   4              USCI2_UART_SendData8(*(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount));
+1785   4            }
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 31  
+
+1786   3      
+1787   3            /* µÈ´ý·¢ËÍÍê³É */
+1788   3            delaytime = 0;
+1789   3            while(!(US2CON0 & 0x02))
+1790   3            {
+1791   4              if(delaytime++ > Timeout)
+1792   4              {
+1793   5                USCI2_HANDLE->TxState = USCI2_STATE_TIMEOUT;//·¢ËÍ³¬Ê±
+1794   5                return Status_TIMEOUT;
+1795   5              }
+1796   4            }
+1797   3      
+1798   3            USCI2_ClearFlag(USCI2_UART_FLAG_TI); //·¢ËÍÖÐ¶Ï±êÖ¾Çå³ý£¬Ð´1/Ð´0ÇåÁã
+1799   3            USCI2_HANDLE->TxXferCount++;  //·¢ËÍÊý¾ÝÁ¿¼ÆÊý
+1800   3          }
+1801   2      
+1802   2          if(USCI2_HANDLE->TxXferCount == USCI2_HANDLE->TxXferSize)
+1803   2          {
+1804   3            USCI2_HANDLE->TxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+1805   3            return Status_OK;
+1806   3          }
+1807   2          else
+1808   2          {
+1809   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+1810   3            return Status_ERROR;
+1811   3          }
+1812   2        }
+1813   1        else
+1814   1        {
+1815   2          return Status_BUSY;//·µ»Ø±êÖ¾Î»
+1816   2        }
+1817   1      }
+1818          
+1819          /*****************************************************
+1820          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_UART_Transmit_IT(USCI2_HandleInfoDef *USCI2_HANDLE, uint8_t *pData, uint8_t 
+             -Size)
+1821          *º¯Êý¹¦ÄÜ:UARTÔÚÖÐ¶ÏÄ£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾ÝÊ±£¬ÏÈÔÚmainº¯ÊýÖÐµ÷ÓÃ´Ëº¯Êý
+1822          *Èë¿Ú²ÎÊý:
+1823          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUARTÊý¾ÝÐÅÏ¢´æ·ÅÇø
+1824          uint8_t *:pData:´ý·¢ËÍÊý¾Ý
+1825          uint16_t:Size:´ý·¢ËÍµÄÊý¾ÝÁ¿
+1826          *³ö¿Ú²ÎÊý:
+1827          StatusTypeDef:º¯ÊýÖ´ÐÐ×´Ì¬
+1828          *****************************************************/
+1829          StatusTypeDef USCI2_UART_Transmit_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size)
+1830          {
+1831   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+1832   1      
+1833   1        /* ¼ì²éÒ»¸ö·¢ËÍ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+1834   1        if(USCI2_HANDLE->TxState == USCI2_STATE_READY)
+1835   1        {
+1836   2          /* Ã»ÓÐ¿ªÆôUSCI2ÖÐ¶Ï»ò·¢ËÍÊý¾ÝÁ¿´óÐ¡Îª0£¬·µ»Ø´íÎó */
+1837   2          if(((IE2 & 0x02) == 0) || (USCI2_HANDLE->TxXferSize == 0U))
+1838   2          {
+1839   3            return Status_ERROR;
+1840   3          }
+1841   2      
+1842   2          USCI2_HANDLE->TxState = USCI2_STATE_BUSY;
+1843   2          USCI2_HANDLE->pTxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1844   2          USCI2_HANDLE->TxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1845   2          USCI2_HANDLE->TxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1846   2      
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 32  
+
+1847   2          /* ·¢ËÍµÚ1Ö¡Êý¾Ý */
+1848   2          if((US2CON0 & 0xC0) == USCI2_UART_Mode_11B)
+1849   2          {
+1850   3            /* ·¢ËÍ9Î»Êý¾Ý */
+1851   3            USCI2_UART_SendData9(*(USCI2_HANDLE->pTxBuffPtr.Size_u16 + USCI2_HANDLE->TxXferCount));
+1852   3          }
+1853   2          else
+1854   2          {
+1855   3            /* ·¢ËÍ8Î»Êý¾Ý */
+1856   3            USCI2_UART_SendData8(*(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount));
+1857   3          }
+1858   2          return Status_OK;
+1859   2        }
+1860   1        else
+1861   1        {
+1862   2          return Status_BUSY;//·µ»Ø±êÖ¾Î»
+1863   2        }
+1864   1      }
+1865          
+1866          /*****************************************************
+1867          *º¯ÊýÃû³Æ:StatusTypeDef  USCI2_UART_Transmit_IRQHandler(USCI2_HandleInfoDef *USCI2_HANDLE)
+1868          *º¯Êý¹¦ÄÜ:UARTÔÚÖÐ¶ÏÄ£Ê½ÏÂ·¢ËÍ´óÁ¿Êý¾ÝÊ±£¬ÔÚÖÐ¶Ï·þÎñº¯ÊýÖÐµ÷ÓÃ
+1869          * ×¢£º¸Ãº¯Êýµ÷ÓÃÐèÒªÅÐ¶ÏÖÐ¶Ï±êÖ¾Î»ÊÇ·ñÖÃÆð
+1870          *Èë¿Ú²ÎÊý:*USCI2_HANDLE Ö¸ÕëÖ¸ÏòUARTÊý¾ÝÐÅÏ¢´æ·ÅÇø
+1871          *³ö¿Ú²ÎÊý:
+1872          StatusTypeDef:º¯ÊýÖ´ÐÐ×´Ì¬
+1873          *****************************************************/
+1874          StatusTypeDef USCI2_UART_Transmit_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+1875          {
+1876   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+1877   1      
+1878   1        /* ´¦ÓÚ·¢ËÍÏß³Ì */
+1879   1        if(USCI2_HANDLE->TxState == USCI2_STATE_BUSY)
+1880   1        {
+1881   2          USCI2_HANDLE->TxXferCount++;
+1882   2          /* ÅÐ¶ÏÉÏÒ»´Î·¢ËÍÊÇ·ñÊÇ×îºóÒ»´Î */
+1883   2          if(USCI2_HANDLE->TxXferCount < USCI2_HANDLE->TxXferSize)
+1884   2          {
+1885   3            /* ´ý·¢ËÍÊý¾ÝÁ¿Î´Îª0£¬¼ÌÐø·¢ËÍ */
+1886   3            if((US2CON0 & 0xC0) == USCI2_UART_Mode_11B)
+1887   3            {
+1888   4              /* ·¢ËÍ9Î»Êý¾Ý */
+1889   4              USCI2_UART_SendData9(*(USCI2_HANDLE->pTxBuffPtr.Size_u16 + USCI2_HANDLE->TxXferCount));
+1890   4            }
+1891   3            else
+1892   3            {
+1893   4              /* ·¢ËÍ8Î»Êý¾Ý */
+1894   4              USCI2_UART_SendData8(*(USCI2_HANDLE->pTxBuffPtr.Size_u8 + USCI2_HANDLE->TxXferCount));
+1895   4            }
+1896   3            return Status_OK;
+1897   3          }
+1898   2          else if(USCI2_HANDLE->TxXferCount)
+1899   2          {
+1900   3            /* ·¢ËÍÍê³É */
+1901   3            USCI2_HANDLE->TxState = USCI2_STATE_READY;
+1902   3            return Status_OK;
+1903   3          }
+1904   2          else
+1905   2          {
+1906   3            /* ·¢ËÍÊý¾ÝÁ¿Îª0Ê±»¹·¢ËÍÊý¾Ý£¬·µ»Ø´íÎó */
+1907   3            USCI2_HANDLE->TxState = USCI2_STATE_ERROR;
+1908   3            return Status_ERROR;
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 33  
+
+1909   3          }
+1910   2        }
+1911   1        else
+1912   1        {
+1913   2          return Status_BUSY;
+1914   2        }
+1915   1      }
+1916          
+1917          /*****************************************************
+1918          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_UART_Receive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t *pData, uint8_t Size
+             -, uint32_t Timeout)
+1919          *º¯Êý¹¦ÄÜ:UARTÔÚÂÖÑ¯Ä£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾Ý
+1920          *Èë¿Ú²ÎÊý:
+1921          USCI2_USCI2_HANDLEInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUSCI2_UARTÊý¾ÝÐÅÏ¢´æ·ÅÇø
+1922          uint8_t *:pData:½ÓÊÕÊý¾ÝµÄ´æ·ÅÇø
+1923          uint16_t:Size:´ý½ÓÊÕµÄÊý¾ÝÁ¿
+1924          uint32_t:Timeout:³¬Ê±Ê±¼äÉèÖÃ
+1925          *³ö¿Ú²ÎÊý:
+1926          StatusTypeDef:º¯ÊýÖ´ÐÐ×´Ì¬
+1927          *****************************************************/
+1928          StatusTypeDef USCI2_UART_Receive(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size, uint32_t
+             - Timeout)
+1929          {
+1930   1        uint32_t delaytime = 0;
+1931   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+1932   1      
+1933   1        /* ¼ì²é½ÓÊÕ½ø³ÌÕýÔÚÔËÐÐ */
+1934   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+1935   1        {
+1936   2          /* ¼ì²é½ÓÊÕÊý¾ÝÁ¿´óÐ¡ºÍÊÇ·ñ¿ªÆô½ÓÊÕÊ¹ÄÜ */
+1937   2          if((IE2 & 0x02 != 0) || (Size == 0U) || ((US2CON0 & 0x10) != USCI2_UART_RX_ENABLE))
+1938   2          {
+1939   3            return  Status_ERROR;
+1940   3          }
+1941   2      
+1942   2          USCI2_HANDLE->RxState = USCI2_STATE_BUSY;     //·¢ËÍ½ø³ÌÃ¦ÂµÖÐ
+1943   2          USCI2_ClearFlag(USCI2_UART_FLAG_RI);       //½ÓÊÕÇ°Çå³ý½ÓÊÕÖÐ¶Ï±êÖ¾
+1944   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò´ý·¢ËÍÊý¾ÝµÄµØÖ·
+1945   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý·¢ËÍµÄÊý¾ÝÁ¿
+1946   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+1947   2      
+1948   2          while(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize)  //ÅÐ¶ÏÊÇ·ñ½ÓÊÕËùÓÐÊý¾Ý
+1949   2          {
+1950   3            if(USCI2_GetFlagStatus(USCI2_UART_FLAG_RI))  //ÅÐ¶Ï½ÓÊÕ±êÖ¾Î»
+1951   3            {
+1952   4              USCI2_ClearFlag(USCI2_UART_FLAG_RI);      //½ÓÊÕ±êÖ¾Î»ÇåÁã
+1953   4      
+1954   4              /* ´ý½ÓÊÕÊý¾ÝÁ¿Î´Îª0£¬¼ÌÐø·¢ËÍ */
+1955   4              if((US2CON0 & 0xC0) == USCI2_UART_Mode_11B)
+1956   4              {
+1957   5                /* ½ÓÊÕ9Î»Êý¾Ý */
+1958   5                *(USCI2_HANDLE->pRxBuffPtr.Size_u16 + USCI2_HANDLE->RxXferCount) = USCI2_UART_ReceiveData9();
+1959   5              }
+1960   4              else
+1961   4              {
+1962   5                /* ½ÓÊÕ8Î»Êý¾Ý */
+1963   5                *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = USCI2_UART_ReceiveData8();
+1964   5              }
+1965   4      
+1966   4              USCI2_HANDLE->RxXferCount++;  //½ÓÊÕÊý¾ÝÁ¿¼ÆÊý
+1967   4              delaytime = 0;//ÊÕµ½Êý¾Ý£¬³¬Ê±¼ÆÊýÇåÁã
+1968   4            }
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 34  
+
+1969   3            if(delaytime++ > Timeout) //¼ÆÊ±Òç³ö
+1970   3            {
+1971   4              USCI2_HANDLE->RxState = USCI2_STATE_TIMEOUT;//·¢ËÍ³¬Ê±
+1972   4              return Status_TIMEOUT;
+1973   4            }
+1974   3          }
+1975   2      
+1976   2          if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+1977   2          {
+1978   3            USCI2_HANDLE->RxState = USCI2_STATE_READY;  //·¢ËÍÍê³É
+1979   3            return Status_OK;
+1980   3          }
+1981   2          else
+1982   2          {
+1983   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;//·¢Éú·¢ËÍ´íÎó
+1984   3            return Status_ERROR;
+1985   3          }
+1986   2        }
+1987   1        else
+1988   1        {
+1989   2          return Status_BUSY;//·µ»Ø±êÖ¾Î»
+1990   2        }
+1991   1      }
+1992          
+1993          /*****************************************************
+1994          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_UART_Receive_IT(USCI2_HandleInfoDef *USCI2_HANDLE, uint8_t *pData, uint8_t S
+             -ize)
+1995          *º¯Êý¹¦ÄÜ:UARTÔÚÖÐ¶ÏÄ£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾ÝÊ±£¬ÏÈÔÚmainº¯ÊýÖÐµ÷ÓÃ´Ëº¯Êý
+1996          *Èë¿Ú²ÎÊý:
+1997          USCI2_USCI2_HANDLEInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUARTÊý¾ÝÐÅÏ¢´æ·ÅÇø
+1998          uint8_t *:pData:½ÓÊÕÊý¾ÝµÄ´æ·ÅÇø
+1999          uint16_t:Size:´ý½ÓÊÕµÄÊý¾ÝÁ¿
+2000          *³ö¿Ú²ÎÊý:
+2001          StatusTypeDef:º¯ÊýÖ´ÐÐ×´Ì¬
+2002          *****************************************************/
+2003          StatusTypeDef USCI2_UART_Receive_IT(USCI2_HandleInfoDef* USCI2_HANDLE, uint8_t* pData, uint8_t Size)
+2004          {
+2005   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+2006   1      
+2007   1        /* ¼ì²éÒ»¸ö½ÓÊÕ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+2008   1        if(USCI2_HANDLE->RxState == USCI2_STATE_READY)
+2009   1        {
+2010   2          /* ¼ì²éÊÇ·ñ¿ªÆôUSCI2_UARTÖÐ¶Ï»ò·¢ËÍÊý¾ÝÁ¿´óÐ¡Îª0»òÊÇ·ñ¿ªÆô½ÓÊÕÊ¹ÄÜ£¬·µ»Ø´íÎó */
+2011   2          if(((IE2 & 0x02) == 0) || (Size == 0U) || ((US2CON0 & 0x10) != USCI2_UART_RX_ENABLE))
+2012   2          {
+2013   3            return Status_ERROR;
+2014   3          }
+2015   2      
+2016   2          USCI2_HANDLE->RxState = USCI2_STATE_BUSY;
+2017   2          USCI2_HANDLE->pRxBuffPtr.Size_u8 = pData;     //Ö¸Ïò½ÓÊÕÊý¾ÝµÄ´æ·ÅµØÖ·
+2018   2          USCI2_HANDLE->RxXferSize = Size;      //¸üÐÂ´ý½ÓÊÕµÄÊý¾ÝÁ¿
+2019   2          USCI2_HANDLE->RxXferCount = 0;      //·¢ËÍ¼ÆÊýÆ÷ÇåÁã
+2020   2      
+2021   2          return Status_OK;
+2022   2        }
+2023   1        else
+2024   1        {
+2025   2          return Status_BUSY;//·µ»Ø±êÖ¾Î»
+2026   2        }
+2027   1      }
+2028          
+2029          /*****************************************************
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 35  
+
+2030          *º¯ÊýÃû³Æ:StatusTypeDef USCI2_UART_Receive_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+2031          *º¯Êý¹¦ÄÜ:UARTÔÚÖÐ¶ÏÄ£Ê½ÏÂ½ÓÊÕ´óÁ¿Êý¾ÝÊ±£¬ÔÚÖÐ¶Ï·þÎñº¯ÊýÖÐµ÷ÓÃ
+2032          * ×¢£º¸Ãº¯Êýµ÷ÓÃÐèÒªÅÐ¶ÏÖÐ¶Ï±êÖ¾Î»ÊÇ·ñÖÃÆð
+2033          *Èë¿Ú²ÎÊý:
+2034          USCI2_HandleInfoDef*:USCI2_HANDLE:Ö¸ÕëÖ¸ÏòUSCI2Êý¾ÝÐÅÏ¢´æ·ÅÇø
+2035          *³ö¿Ú²ÎÊý:
+2036          StatusTypeDef:º¯ÊýÖ´ÐÐ×´Ì¬
+2037          *****************************************************/
+2038          StatusTypeDef USCI2_UART_Receive_IRQHandler(USCI2_HandleInfoDef* USCI2_HANDLE)
+2039          {
+2040   1        Select_USCI2();//Ñ¡Ôñ¿ØÖÆUSCI2
+2041   1      
+2042   1        /* ¼ì²éÒ»¸ö½ÓÊÕ½ø³ÌÊÇ·ñÕýÔÚ½øÐÐ */
+2043   1        if(USCI2_HANDLE->RxState == USCI2_STATE_BUSY)
+2044   1        {
+2045   2          /* ´¦ÓÚ½ÓÊÕÏß³Ì£¬¼ì²é´ý½ÓÊÕÊý¾ÝÁ¿ÊÇ·ñÎª0 */
+2046   2          if(USCI2_HANDLE->RxXferCount < USCI2_HANDLE->RxXferSize)
+2047   2          {
+2048   3            /* ´ý½ÓÊÕÊý¾ÝÁ¿Î´Îª0£¬¼ÌÐø½ÓÊÕ */
+2049   3            if((US2CON0 & 0xC0) == USCI2_UART_Mode_11B)
+2050   3            {
+2051   4              /* ½ÓÊÕ9Î»Êý¾Ý */
+2052   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u16 + USCI2_HANDLE->RxXferCount) = USCI2_UART_ReceiveData9();
+2053   4            }
+2054   3            else
+2055   3            {
+2056   4              /* ½ÓÊÕ8Î»Êý¾Ý */
+2057   4              *(USCI2_HANDLE->pRxBuffPtr.Size_u8 + USCI2_HANDLE->RxXferCount) = USCI2_UART_ReceiveData8();
+2058   4            }
+2059   3            USCI2_HANDLE->RxXferCount++;
+2060   3            /* ÅÐ¶ÏÉÏÒ»´Î·¢ËÍÊÇ·ñÊÇ×îºóÒ»´Î */
+2061   3            if(USCI2_HANDLE->RxXferCount == USCI2_HANDLE->RxXferSize)
+2062   3            {
+2063   4              /* ½ÓÊÕÍê³É */
+2064   4              USCI2_HANDLE->RxState = USCI2_STATE_READY;
+2065   4              return Status_OK;
+2066   4            }
+2067   3      
+2068   3             return Status_BUSY;
+2069   3          }
+2070   2          else
+2071   2          {
+2072   3            /* ½ÓÊÕÊý¾ÝÁ¿Îª0Ê±»¹½ÓÊÕÊý¾Ý£¬·µ»Ø´íÎó */
+2073   3            USCI2_HANDLE->RxState = USCI2_STATE_ERROR;
+2074   3            return Status_ERROR;
+2075   3          }
+2076   2        }
+2077   1        else
+2078   1        {
+2079   2          return Status_BUSY;
+2080   2        }
+2081   1      }
+2082          
+2083          /*****************************************************
+2084          *º¯ÊýÃû³Æ:FlagStatus USCI2_GetFlagStatus(USCI2_Flag_TypeDef USCI2_FLAG)
+2085          *º¯Êý¹¦ÄÜ:»ñµÃUSCI2±êÖ¾×´Ì¬
+2086          *Èë¿Ú²ÎÊý:
+2087          USCI2_Flag_TypeDef:USCI2_FLAG:ËùÐè»ñÈ¡µÄ±êÖ¾Î»
+2088          *³ö¿Ú²ÎÊý:
+2089          FlagStatus:USCI2±êÖ¾×´Ì¬
+2090          *****************************************************/
+2091          FlagStatus USCI2_GetFlagStatus(USCI2_Flag_TypeDef USCI2_FLAG)
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 36  
+
+2092          {
+2093   1        FlagStatus bitstatus = RESET;
+2094   1        Select_USCI2();
+2095   1        if((TMCON & 0xC0)==0x40)  //SPIÄ£Ê½
+2096   1        {
+2097   2      #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) 
+                  
+                  if((USCI2_FLAG == USCI2_SPI_FLAG_SPIF) || (USCI2_FLAG == USCI2_SPI_FLAG_WCOL))
+              #else 
+2101   2          if((USCI2_FLAG == USCI2_SPI_FLAG_SPIF) || (USCI2_FLAG == USCI2_SPI_FLAG_WCOL) || (USCI2_FLAG == USCI2_S
+             -PI_FLAG_TXE))
+2102   2      #endif
+2103   2          {
+2104   3            if((USCI2_FLAG & US2CON1) != (uint8_t)RESET)
+2105   3            {
+2106   4              bitstatus = SET;
+2107   4            }
+2108   3            else
+2109   3            {
+2110   4              bitstatus = RESET;
+2111   4            } 
+2112   3          }
+2113   2        }else if((TMCON & 0xC0)==0x80)  //TWIÄ£Ê½
+2114   1        {
+2115   2          if(USCI2_FLAG == USCI2_TWI_FLAG_TXRXnE)
+2116   2          {
+2117   3            if((USCI2_FLAG & US2CON1) != (uint8_t)RESET)
+2118   3            {
+2119   4              bitstatus = SET;
+2120   4            }
+2121   3            else
+2122   3            {
+2123   4              bitstatus = RESET;
+2124   4            }
+2125   3          }
+2126   2          else
+2127   2          {
+2128   3            if((USCI2_FLAG & US2CON0) != (uint8_t)RESET)
+2129   3            {
+2130   4              bitstatus = SET;
+2131   4            }
+2132   3            else
+2133   3            {
+2134   4              bitstatus = RESET;
+2135   4            }
+2136   3          } 
+2137   2        }else if((TMCON & 0xC0)==0xC0)  //UARTÄ£Ê½
+2138   1        {
+2139   2          if((USCI2_FLAG & US2CON0) != (uint8_t)RESET)
+2140   2          {
+2141   3            bitstatus = SET;
+2142   3          }
+2143   2          else
+2144   2          {
+2145   3            bitstatus = RESET;
+2146   3          }
+2147   2        }
+2148   1        return bitstatus;
+2149   1      }
+2150          
+2151          /*****************************************************
+2152          *º¯ÊýÃû³Æ:void USCI2_ClearFlag(USCI2_Flag_TypeDef USCI2_FLAG)
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 37  
+
+2153          *º¯Êý¹¦ÄÜ:Çå³ýUSCI2±êÖ¾×´Ì¬
+2154          *Èë¿Ú²ÎÊý:
+2155          USCI2_Flag_TypeDef:USCI2_FLAG:ËùÐèÇå³ýµÄ±êÖ¾Î»
+2156          *³ö¿Ú²ÎÊý:void
+2157          *****************************************************/
+2158          void USCI2_ClearFlag(USCI2_Flag_TypeDef USCI2_FLAG)
+2159          {
+2160   1        Select_USCI2();
+2161   1        if((TMCON & 0xC0)==0x40)  //SPIÄ£Ê½
+2162   1        {
+2163   2      #if defined(SC95F8x1x) || defined(SC95F7x1x) || defined(SC95FWxx) 
+                  
+                  if((USCI2_FLAG == USCI2_SPI_FLAG_SPIF) || (USCI2_FLAG == USCI2_SPI_FLAG_WCOL))
+              #else 
+2167   2          if((USCI2_FLAG == USCI2_SPI_FLAG_SPIF) || (USCI2_FLAG == USCI2_SPI_FLAG_WCOL) || (USCI2_FLAG == USCI2_S
+             -PI_FLAG_TXE))
+2168   2      #endif
+2169   2          {
+2170   3            US2CON1 &= (~USCI2_FLAG); //²Ù×÷¼Ä´æÆ÷US2CON1 
+2171   3          }
+2172   2        }else if((TMCON & 0xC0)==0x80)  //TWIÄ£Ê½
+2173   1        {
+2174   2          if(USCI2_FLAG == USCI2_TWI_FLAG_TXRXnE)
+2175   2          {
+2176   3            US2CON1 &= (~USCI2_FLAG); //²Ù×÷¼Ä´æÆ÷US2CON1 
+2177   3          }
+2178   2          else
+2179   2          {
+2180   3             US2CON0 &= (~USCI2_FLAG); //²Ù×÷¼Ä´æÆ÷US2CON0
+2181   3          } 
+2182   2        }else if((TMCON & 0xC0)==0xC0)  //UARTÄ£Ê½
+2183   1        {
+2184   2          if((USCI2_FLAG == USCI2_UART_FLAG_TI) || (USCI2_FLAG == USCI2_UART_FLAG_RI))
+2185   2          {
+2186   3      #if defined(SC95F8x3x) || defined(SC95F7x3x) || defined (SC95F8x6x) || defined (SC95F7x6x)  || defined (SC
+             -95F8x1xB) || defined (SC95F7x1xB)\
+2187   3          || defined (SC95R602)  || defined (SC95R605) || defined (SC95F8x7x) || defined (SC95F7x7x)|| defined(SC9
+             -5R503)
+2188   3           US2CON0 = US2CON0  & 0xFC | USCI2_FLAG;//Ð´1ÇåÁã
+2189   3      #else
+                   US2CON0 &= (~USCI2_FLAG); //Ð´0ÇåÁã
+              #endif
+2192   3          } 
+2193   2        }
+2194   1      }
+2195          
+2196          /*****************************************************
+2197          *º¯ÊýÃû³Æ:void USCI2_ITConfig(FunctionalState NewState, PriorityStatus Priority)
+2198          *º¯Êý¹¦ÄÜ:USCI2ÖÐ¶Ï³õÊ¼»¯
+2199          *Èë¿Ú²ÎÊý:
+2200          FunctionalState:NewState:ÖÐ¶ÏÊ¹ÄÜ/¹Ø±ÕÑ¡Ôñ
+2201          PriorityStatus:Priority:ÖÐ¶ÏÓÅÏÈ¼¶Ñ¡Ôñ
+2202          *³ö¿Ú²ÎÊý:void
+2203          *****************************************************/
+2204          void USCI2_ITConfig(FunctionalState NewState, PriorityStatus Priority)
+2205          {
+2206   1        if(NewState != DISABLE)
+2207   1        {
+2208   2          IE2 |= 0x02;
+2209   2        }
+2210   1        else
+2211   1        {
+C51 COMPILER V9.59.0.0   SC95F_USCI2                                                       03/27/2024 19:21:15 PAGE 38  
+
+2212   2          IE2 &= 0xFD;
+2213   2        }
+2214   1      
+2215   1        /************************************************************/
+2216   1        if(Priority != LOW)
+2217   1        {
+2218   2          IP2 |= 0x02;
+2219   2        }
+2220   1        else
+2221   1        {
+2222   2          IP2 &= 0xFD;
+2223   2        }
+2224   1      }
+2225          
+2226          
+2227          /******************* (C) COPYRIGHT 2022 SinOne Microelectronics *****END OF FILE****/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =  10935    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =    259    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

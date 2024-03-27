@@ -90,7 +90,7 @@ TIM0使能=True
 [Peripheral]OTA驱动[DriverType]Custom[/DriverType]
 [Configure]1-应用类型=0
 2-复位等待时间(S)=[4]
-3-串口选择=1
+3-串口选择=4
 26-数据传输校验=0
 27-新固件下载方式=1
 4-是否启用调试模式=0

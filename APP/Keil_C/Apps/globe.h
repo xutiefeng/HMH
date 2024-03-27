@@ -285,6 +285,7 @@ extern ST_Filter gstFilte;
 extern volatile STAD_Collect   gstADCollect;
 extern u8 gKeyValue;
 extern ST_AM901  gstAM901;
+extern byte gSendData[8];
 #if 0
 signed char gTempHeat,gTempAD;
 STFactory   gstFactory; 
