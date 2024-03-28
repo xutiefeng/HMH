@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/27/2024 21:25:07 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/28/2024 21:58:58 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_EEPROM
@@ -30,7 +30,7 @@ line level    source
   18          *出口参数:void
   19          **************************************************/
   20          
-  21          u8 testAyy[]={0x60,0x33,0x99,0x90,0x90,0x90,0xD5,0xFA};
+  21          //u8 testAyy[]={0x60,0x33,0x99,0x90,0x90,0x90,0xD5,0xFA};
   22          #define _INIT_DADA 0x5b
   23          #define  EEPROM0_ADDR 0ul
   24          #define  EEPROM1_ADDR 0x200UL
@@ -38,7 +38,7 @@ line level    source
   26          #define  EEPROM3_ADDR 0x600UL
   27          #define EEPROM_SIZE 0XFFFF
   28          
-  29          static u8 FromEeppAry[8];
+  29          //static u8 FromEeppAry[8];
   30          
   31          
   32          u8 WriteEEpromData(u32 x,u8 *p,u8 len)
@@ -62,7 +62,7 @@ line level    source
   50          
   51          
   52          
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/27/2024 21:25:07 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/28/2024 21:58:58 PAGE 2   
 
   53          void WriteTempEeprom(void)
   54          {
@@ -126,7 +126,7 @@ line level    source
  105   1          if(gstAM901.stFilter->type< EEPROM_SIZE)
  106   1          {
  107   2              gstAM901.Run.Bit.EepromBlok = 0;
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/27/2024 21:25:07 PAGE 3   
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/28/2024 21:58:58 PAGE 3   
 
  108   2              EraseEEprom(0);
  109   2              return;
@@ -190,10 +190,10 @@ line level    source
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    669    ----
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/27/2024 21:25:07 PAGE 4   
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        03/28/2024 21:58:58 PAGE 4   
 
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     29    ----
+   XDATA SIZE       =     13    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

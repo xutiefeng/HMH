@@ -21,7 +21,7 @@
 #define u16	unsigned short
 #define Uchar	unsigned char
 #define u32	unsigned int
-#define EVENT_BUFFER_LENGTH  20
+#define EVENT_BUFFER_LENGTH  15
 
 
 typedef struct
@@ -100,6 +100,7 @@ typedef struct
 		u16  	fChunShui;
 		u16  	fLouShui;
 		u16  	fJieShui;
+		float tds_ChunShui;
     u8 		ADAvergeCnt;
 	
 }STAD_Collect;

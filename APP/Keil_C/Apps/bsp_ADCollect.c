@@ -334,9 +334,16 @@ void TDS_Calulate(void)
 		
 
 	if(sTDS_Calulate < 5)//TDS每隔500ms检测一次
-		sTDS_Calulate++;
+	{
+			sTDS_Calulate++;
+			return;
+	}
+		
 	else
-		sTDS_Calulate =0;
+	{	
+			sTDS_Calulate =0;
+	}
+		
 
 	gstADCollect.ADAvergeCnt = 0;
 
@@ -347,24 +354,89 @@ void TDS_Calulate(void)
 	gstADCollect.fLouShui=    adc_get_average(gstADCollect.LouShui);
 
 	gstADCollect.fJieShui=     adc_get_average(gstADCollect.JieShui);
-	
 
-	
+}
 
-	
+// 计算TDS值的函数
+
+#include <math.h>
+#define ADC_MAX_VALUE 0x0fff
+#define ADC_MIN_VALUE 0
+
+	//float e  = -100;
+
+  float c = 4/917; // 根据实际情况调整
 
 
+float adc_to_tds(u16 adc_value, int a,int b) 
+{
 	
 	
+  
+ // 根据实际的ADC参数调整下面的系数
+// const float a = 232.5; // 根据实际情况调整
+// const float b = -15.6; // 根据实际情况调整
+ //const float d = -5.464; // 根据实际情况调整
+    // 将ADC值标准化到0到1之间
+    float normalized_adc = (adc_value  - ADC_MIN_VALUE) / (float)(ADC_MAX_VALUE - ADC_MIN_VALUE);
+    // 应用一次线性拟合
+    float  linear_tds= a * normalized_adc + b;
+ 
+   /* 根据实际情况，可能需要应用非线性拟合
+    float nonlinear_tds = c * pow(linear_tds, 2) + d * linear_tds +464;
+	*/
+		// linear_tds = c * pow(linear_tds, 2) + c* linear_tds -46;
+		return linear_tds;
+}
+
+void test_TDS(void)
+{
+		//gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
+		if(gstADCollect.fChunShui <= 753)//20
+		{
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,172.4,-3.4);//30
+		}
+		
+		else if(gstADCollect.fChunShui <= 880)
+		{
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,200,-6);//40
+		}
+		else if(gstADCollect.fChunShui <= 1175)
+		{
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,232.5,-9.5);//50
+		}
+		
+		else if(gstADCollect.fChunShui <= 1415)
+		{
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,421.7,-57.9);//85
+		}
+		
+		else if(gstADCollect.fChunShui <= 1820)
+		{
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,897,-225);//110
+		}
+		
+		else if(gstADCollect.fChunShui <= 2020)
+		{
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,1500,-478);//110
+		}
+		
+		else 
+		{
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,2000,-704);//200
+		}
 }
 
 void PaiShuiProcess(void)//1S钟运行一次
 {
 	static u8 sTDS_Time =0;
+	
+	test_TDS();
 
 	if(sTDS_Time < 100)
 		sTDS_Time++;
 
+	
 	if(sTDS_Time < 100)
 	{
 		if(gstADCollect.fYuanShui >= TDS_100)
@@ -387,6 +459,7 @@ void PaiShuiProcess(void)//1S钟运行一次
 		}
 	}
 }
+
 
 
 #if 0

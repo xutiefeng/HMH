@@ -38,18 +38,46 @@ const	unsigned	char  code	display_tab[]=
 ´Ëº¯Êý
 */
 
+
+
+u16 display_value(u16 v,u8 type)
+{
+		switch(type)
+		{
+			case 0:
+				gSendData[2].all = (v>>8)&0x0f;
+				gSendData[2].all = display_tab[gSendData[2].all];
+			
+				gSendData[3].all = (v>>4)&0x0f;
+				gSendData[3].all = display_tab[gSendData[3].all];
+			
+				gSendData[4].all = v&0x0f;
+				gSendData[4].all = display_tab[gSendData[4].all];
+			break;
+			
+			case 1:
+				
+				if(v > 999)
+					v= 999;
+				
+				gSendData[2].all = v/100;	
+				gSendData[2].all = display_tab[gSendData[2].all];
+				gSendData[3].all = (v/10)%10;
+				gSendData[3].all = display_tab[gSendData[3].all];
+				gSendData[4].all = v%10;
+				gSendData[4].all = display_tab[gSendData[4].all];
+			break;
+			
+			default:
+				break;
+		
+		}
+}
 void ShuMaGuanDisplay(void)
 {
-		gSendData[2].all = (gstADCollect.fChunShui>>8)&0x0f;
-		gSendData[2].all = display_tab[gSendData[2].all];
 	
-		gSendData[3].all = (gstADCollect.fChunShui>>4)&0x0f;
-		gSendData[3].all = display_tab[gSendData[3].all];
-	
-		gSendData[4].all = gstADCollect.fChunShui&0x0f;
-		gSendData[4].all = display_tab[gSendData[4].all];
+		display_value((u16)gstADCollect.tds_ChunShui,1);
 }
-
 
 void    UART0_SendData( void)
 {

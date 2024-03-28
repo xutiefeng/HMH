@@ -109,6 +109,8 @@ void FactoryProcess(void)
 	
 }
 
+
+
 /*****************************************************
 *函数名称：void CMP_Init(uchar CMPIS, uchar CMPRF)
 *函数功能：模拟比较器初始化
@@ -129,7 +131,6 @@ void sysRest(void)
  	 memset(&gstFilte,0,sizeof(gstFilte));
 	 memset(&gstAM901,0,sizeof(gstAM901));
 	 memset(&gstRDsysTick,0,sizeof(gstRDsysTick));
-	 
 	 gstAM901.stFilter = &gstFilte;
 }
 
@@ -694,6 +695,7 @@ void sysRuning(void)
 						FirstPowerOnProcess();//首次上电冲洗15分钟
 						FactoryProcess();
 						SysRunFlag =1;
+						PaiShuiProcess();
         }
         break;
    

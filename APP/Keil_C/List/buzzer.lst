@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/27/2024 21:25:07 PAGE 1   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/28/2024 21:58:58 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BUZZER
@@ -62,14 +62,14 @@ line level    source
   47          #define Buzzer0n_TIME_Per1s    380
   48          
   49          #define Buzzer0FF_TIME_Per500Ms  380
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/27/2024 21:25:07 PAGE 2   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/28/2024 21:58:58 PAGE 2   
 
   50          #define Buzzer0n_TIME_Per500Ms    120
   51          
   52          #define Buzzer0FF_TIME  880
   53          #define Buzzer0n_TIME   120
   54          
-  55          ST_Buzzer stBuzzerTab[] =
+  55          code ST_Buzzer stBuzzerTab[] =
   56          {
   57              {1900    ,200,120},
   58              {2400    ,200,120},
@@ -79,7 +79,7 @@ line level    source
   62          };
   63          
   64          
-  65          ST_Buzzer stBuzzerTab1[] =
+  65          code ST_Buzzer stBuzzerTab1[] =
   66          {
   67              {3400    ,200,120},
   68              {2900    ,200,120},
@@ -88,7 +88,7 @@ line level    source
   71              {0xffffff   ,0xffff,0xffff}
   72          };
   73          ////tong suo
-  74          ST_Buzzer stBuzzerTab2[] =
+  74          code ST_Buzzer stBuzzerTab2[] =
   75          {
   76              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
   77              {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
@@ -126,7 +126,7 @@ line level    source
  109          {
  110              {Buzzer0N_SingalKey    ,200,Buzzer0FF_TIME},//2.0K
  111              {0xffffff   ,0xffff,0xffff}
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/27/2024 21:25:07 PAGE 3   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/28/2024 21:58:58 PAGE 3   
 
  112          };
  113          ///////////////////JianAnJian
@@ -190,7 +190,7 @@ line level    source
  170   3              }
  171   2              else
  172   2              {           
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/27/2024 21:25:07 PAGE 4   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/28/2024 21:58:58 PAGE 4   
 
  173   3                  BUEEER_SetDuty(sDuty);
  174   3              }
@@ -254,7 +254,7 @@ line level    source
  232   3              }
  233   2              
  234   2              else if(Buzzer1Flag)
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/27/2024 21:25:07 PAGE 5   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/28/2024 21:58:58 PAGE 5   
 
  235   2              {
  236   3                  voliceNum = 31;
@@ -318,7 +318,7 @@ line level    source
  294   4                      sBuzzerDelay.Bit.run = 0;
  295   4                  }
  296   3              }
-C51 COMPILER V9.59.0.0   BUZZER                                                            03/27/2024 21:25:07 PAGE 6   
+C51 COMPILER V9.59.0.0   BUZZER                                                            03/28/2024 21:58:58 PAGE 6   
 
  297   2              else if(voliceNum == 32)
  298   2              {
@@ -368,8 +368,8 @@ line level    source
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   1821    ----
-   CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    319    ----
+   CONSTANT SIZE    =    136    ----
+   XDATA SIZE       =    183    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

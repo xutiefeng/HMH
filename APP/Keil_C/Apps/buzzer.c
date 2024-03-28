@@ -52,7 +52,7 @@ typedef struct
 #define Buzzer0FF_TIME  880
 #define Buzzer0n_TIME   120
 
-ST_Buzzer stBuzzerTab[] =
+code ST_Buzzer stBuzzerTab[] =
 {
 	  {1900    ,200,120},
 		{2400    ,200,120},
@@ -62,7 +62,7 @@ ST_Buzzer stBuzzerTab[] =
 };
 
 
-ST_Buzzer stBuzzerTab1[] =
+code ST_Buzzer stBuzzerTab1[] =
 {
 		{3400    ,200,120},
     {2900    ,200,120},
@@ -71,7 +71,7 @@ ST_Buzzer stBuzzerTab1[] =
     {0xffffff   ,0xffff,0xffff}
 };
 ////tong suo
-ST_Buzzer stBuzzerTab2[] =
+code ST_Buzzer stBuzzerTab2[] =
 {
     {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
     {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},

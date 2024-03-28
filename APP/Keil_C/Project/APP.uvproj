@@ -417,6 +417,11 @@
           <GroupName>IOT_DRIVER</GroupName>
           <Files>
             <File>
+              <FileName>bsp_ADCollect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Apps\bsp_ADCollect.c</FilePath>
+            </File>
+            <File>
               <FileName>CR_util.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\IOT_DRIVER\XIAOMI\CR_util.c</FilePath>
@@ -455,11 +460,6 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Apps\buzzer.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_ADCollect.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Apps\bsp_ADCollect.c</FilePath>
             </File>
             <File>
               <FileName>key.c</FileName>

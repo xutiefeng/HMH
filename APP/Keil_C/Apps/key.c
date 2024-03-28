@@ -86,7 +86,7 @@ void KeyRest(void)
 		else if(sKeyReskCnt == _5S_Per50MS)
 		{
 					Buzzer3Flag = 0;
-					#if 1
+					#if 0
 					LED1_R = 1;
 					LED2_R = 1;
 					LED3_R = 1;
