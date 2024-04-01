@@ -23,39 +23,41 @@ static u8 sKeyReskCnt=0;
 void KeyRest(void)
 {	
 		static u8 sUseFactoryCnt =0;
-		static u8 sKeyPressCnt =0;
-		
+	  static u8 sKeyReskCnt =0;//按下计时
+	  static u8 sKeyPressCnt =0;//按下次数
+
 		if(sUseFactoryCnt < 0xff)
 			sUseFactoryCnt++;
 		
 		if(NoKeyPressFalg)
 		{
+///////////////////////////////退出工程模式////////////////////////////////////////		
 			if(sKeyReskCnt >0 && sKeyReskCnt < 10 )
 			{
-				if(sUseFactoryCnt < _10S_Per50MS && !FactoryModeFlag)	//		
+
+			
+				if(sUseFactoryCnt < _10S_Per50MS && !FactoryModeFlag)	//上电10秒内		
 				{
 					
 					sKeyPressCnt++;
+					
 					Buzzer3Flag = 1;
+					
 					if(sKeyPressCnt >4 )//复位键按五次进入工程模式
 					{
 						FactoryModeFlag = 1;					
 						sKeyReskCnt = 0;
 						KeyRestFlag = 0;
-					}					
-						
+					}		
 				}
- 
+
 				sKeyReskCnt = 0;
-				KeyRestFlag = 0;				
+				KeyRestFlag = 0;	
+				LongPress_5sFlag = 0;
+				LongPress_3sFlag = 0;
+
 			}
-			else
-			{
-					sKeyReskCnt = 0;
-					KeyRestFlag = 0;
-			}
-		}
-		
+		}	
 		
 		if(KeyRestFlag)
 		{
@@ -72,6 +74,7 @@ void KeyRest(void)
 		if(sKeyReskCnt == _3S_Per50MS)
 		{
 					Buzzer2Flag = 1;
+					LongPress_3sFlag = 1;
 					#if 0
 					LED1_R = 0;
 					LED2_R = 0;
@@ -86,6 +89,7 @@ void KeyRest(void)
 		else if(sKeyReskCnt == _5S_Per50MS)
 		{
 					Buzzer3Flag = 0;
+					LongPress_3sFlag = 1;
 					#if 0
 					LED1_R = 1;
 					LED2_R = 1;
@@ -98,6 +102,63 @@ void KeyRest(void)
 					#endif
 		}
 			
+}
+
+
+
+/****************************************************************************************************************************************** 
+* 函数名称:	KeySelect
+* 功能说明:	选择按键
+* 输    入: 无	
+* 输    出: 无
+* 注意事项: 短按有效
+******************************************************************************************************************************************/
+	static u8 sKeyNoPress_Cnt =0;
+void KeySelect(void)
+{
+	
+		sKeyNoPress_Cnt = 0;
+		if(NoKeyPressFalg)
+		{
+			if(sKeySelectCnt >0 && sKeySelectCnt < 10 )
+			{
+
+				///////////////////////////按键逻辑处理//////////////////////////////
+					if(LongPress_5sFlag)
+					{
+						sKeyNoPress_Cnt++;
+					}
+						
+					else if(LongPress_3sFlag)
+					{
+						sKeyNoPress_Cnt++; 	
+						if(gstFilte.type == ROFilter)
+						{
+							gstFilte.type = MixFilter;
+						}
+						else
+						{
+							gstFilte.type = ROFilter;
+						}
+						Buzzer2Flag = 1;
+					}			
+			}
+
+			
+			
+			sKeySelectCnt = 0;
+			KeySelecetFlag = 0;
+		}
+			
+		if(KeySelecetFlag)
+		{
+			sKeySelectCnt++;
+		}
+			
+		else if(sKeySelectCnt > _10S_Per50MS || !KeySelecetFlag)
+		{
+				return;
+		}
 }
 
 void KeyGaoYaSwitch(void)
@@ -130,71 +191,6 @@ void KeyGaoYaSwitch(void)
 		
 }
 
-
-
-/****************************************************************************************************************************************** 
-* 函数名称:	KeySelect
-* 功能说明:	选择按键
-* 输    入: 无	
-* 输    出: 无
-* 注意事项: 短按有效
-******************************************************************************************************************************************/
-void KeySelect(void)
-{
-		
-		if(NoKeyPressFalg)
-		{
-			if(sKeySelectCnt >0 && sKeySelectCnt < 10 )
-			{
-			//短按
-					if(RedLedtFlag && BlueLedFlag)
-					{
-								BlueLedFlag = 0;
-								RedLedtFlag = 0;
-					}
-					
-					else if(BlueLedFlag && !RedLedtFlag)	
-					{
-						
-							BlueLedFlag = 0;
-							RedLedtFlag = 1;
-					}
-					
-					else if(RedLedtFlag && !BlueLedFlag)
-					{
-								BlueLedFlag = 1;
-								RedLedtFlag = 1;
-					}
-					
-					
-					else
-					{
-							BlueLedFlag = 1;
-							RedLedtFlag = 0;
-					}
-			}
-			sKeySelectCnt = 0;
-			KeySelecetFlag = 0;
-		}
-			
-		if(KeySelecetFlag)
-		{
-			sKeySelectCnt++;
-		}
-			
-		else if(sKeySelectCnt > _10S_Per50MS || !KeySelecetFlag)
-		{
-				return;
-		}
-		
-	
-		
-		
-	
-		
-		
-		
-}
 /****************************************************************************************************************************************** 
 * 函数名称:	KeyProcess
 * 功能说明:	处理按键长按短按功能
@@ -209,6 +205,12 @@ void NoKeyProcess(void)
 	{
 		sNoKeytCnt++;
 	}
+	
+		if(sNoKeytCnt > _10S_Per50MS)
+		{
+				LongPress_3sFlag = 0;
+				LongPress_5sFlag = 0;		
+		}	
 	
 }
 

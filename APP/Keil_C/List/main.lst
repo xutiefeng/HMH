@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2024 21:58:57 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   49   1          
   50   1          TouchKeyInit();
   51   1          CMP_Init();
-C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2024 21:58:57 PAGE 2   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 2   
 
   52   1          /*<UserCodeEnd>*//*<SinOne-Tag><60>*/
   53   1          /*<UserCodeStart>*//*<SinOne-Tag><4>*/
@@ -74,59 +74,59 @@ line level    source
   59   2              /***User program***/
   60   2              WDTCON |=0x10;
   61   2              
-  62   2              if(IOT_GET_FW==IOT_Work())                        //IOT平台交互命令处理
-  63   2              {
-  64   3      #if(FIRMWARE_DOWMLOADER_MODE==0) //在BOOT中下载固件
-                          OTA_JumpBoot();             //复位到BOOT，在BOOT中下载固件并更新到APP区
-              #endif
-  67   3              }
+  62   2      //        if(IOT_GET_FW==IOT_Work())                        //IOT平台交互命令处理
+  63   2      //        {
+  64   2      //#if(FIRMWARE_DOWMLOADER_MODE==0) //在BOOT中下载固件
+  65   2      //            OTA_JumpBoot();             //复位到BOOT，在BOOT中下载固件并更新到APP区
+  66   2      //#endif
+  67   2      //        }
   68   2              
-  69   2      #if(FIRMWARE_DOWMLOADER_MODE==1)
-  70   2              OTA_FirmwareDownload(&IAP_Pack);   //从IOT平台下载固件
-  71   2              
-  72   2              if(IAP_Pack.Size!=0)                       //完成一包数据接收
-  73   2              {
-  74   3                  unsigned int IapLen;
-  75   3                  BootLoadInit();                         //开放IAP操作区域
-  76   3                  IapLen=SaveOTA_to_BacksArea(&IAP_Pack); //将APP写入备份区
-  77   3                  if(IapLen!=0)                           //写入成功
-  78   3                  {
-  79   4                      IAP_Pack.State=OTA_IAPWRITED;
-  80   4                  }
-  81   3                  else
-  82   3                  {
-  83   4                      IAP_Pack.State=OTA_FAULT;             //下载失败
-  84   4                  }
-  85   3                  IAP_Pack.Size=0;
-  86   3                  BootLoad_DeInit();                        //恢复IAP操作区域
-  87   3              }     
-  88   2              if(IAP_Pack.State==OTA_COMPLETE)     //下载完成是，IAP_Pack.State置为OTA_COMPLETE状态
-  89   2              {
-  90   3                  BootLoadInit();                   //开放IAP操作区域
-  91   3                  if (!IAP_BacksArea_CrcCheck())    //检查下载到备份区代码的Crc       
-  92   3                  {
-  93   4                      BootLoad_DeInit();            //恢复IAP操作区域
-  94   4                      IAP_Pack.State=OTA_FAULT;     //下载失败
-  95   4                  }
-  96   3                  else                              //校验通过
-  97   3                  {
-  98   4                      BootLoad_DeInit();            //恢复IAP操作区域
-  99   4                      OTA_JumpBoot();             //复位到BOOT，将备份区更新到APP区
- 100   4                  }
- 101   3              } 
- 102   2              
- 103   2              if(IAP_Pack.State==OTA_FAULT)  //出错处理
- 104   2              {
- 105   3                  OTA_Init(IOT_Uart_Receiver,&IOT_Uart_DataBuf);
- 106   3                  IOT_Init(0);
- 107   3              }   
- 108   2      #endif
+  69   2      //#if(FIRMWARE_DOWMLOADER_MODE==1)
+  70   2      //        OTA_FirmwareDownload(&IAP_Pack);   //从IOT平台下载固件
+  71   2      //        
+  72   2      //        if(IAP_Pack.Size!=0)                       //完成一包数据接收
+  73   2      //        {
+  74   2      //            unsigned int IapLen;
+  75   2      //            BootLoadInit();                         //开放IAP操作区域
+  76   2      //            IapLen=SaveOTA_to_BacksArea(&IAP_Pack); //将APP写入备份区
+  77   2      //            if(IapLen!=0)                           //写入成功
+  78   2      //            {
+  79   2      //                IAP_Pack.State=OTA_IAPWRITED;
+  80   2      //            }
+  81   2      //            else
+  82   2      //            {
+  83   2      //                IAP_Pack.State=OTA_FAULT;             //下载失败
+  84   2      //            }
+  85   2      //            IAP_Pack.Size=0;
+  86   2      //            BootLoad_DeInit();                        //恢复IAP操作区域
+  87   2      //        }     
+  88   2      //        if(IAP_Pack.State==OTA_COMPLETE)     //下载完成是，IAP_Pack.State置为OTA_COMPLETE状态
+  89   2      //        {
+  90   2      //            BootLoadInit();                   //开放IAP操作区域
+  91   2      //            if (!IAP_BacksArea_CrcCheck())    //检查下载到备份区代码的Crc       
+  92   2      //            {
+  93   2      //                BootLoad_DeInit();            //恢复IAP操作区域
+  94   2      //                IAP_Pack.State=OTA_FAULT;     //下载失败
+  95   2      //            }
+  96   2      //            else                              //校验通过
+  97   2      //            {
+  98   2      //                BootLoad_DeInit();            //恢复IAP操作区域
+  99   2      //                OTA_JumpBoot();             //复位到BOOT，将备份区更新到APP区
+ 100   2      //            }
+ 101   2      //        } 
+ 102   2      //        
+ 103   2      //        if(IAP_Pack.State==OTA_FAULT)  //出错处理
+ 104   2      //       {
+ 105   2      //           OTA_Init(IOT_Uart_Receiver,&IOT_Uart_DataBuf);
+ 106   2      //            IOT_Init(0);
+ 107   2      //       }    
+ 108   2      //#endif
  109   2      #if 1         
  110   2              if(SOCAPI_TouchKeyStatus & 0x80)
  111   2              {
  112   3                  SOCAPI_TouchKeyStatus &= 0x7f;
  113   3                  exKeyValueFlag = TouchKeyScan();
-C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2024 21:58:57 PAGE 3   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 3   
 
  114   3                  if(exKeyValueFlag >0)
  115   3                  { 
@@ -190,7 +190,7 @@ line level    source
                           LED1_L = 1;
                           LED2_L = 1;
                           LED3_L = 1;
-C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2024 21:58:57 PAGE 4   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 4   
 
                           LED4_L = 1;
                       }
@@ -254,7 +254,7 @@ line level    source
                           
                       }
               #endif
-C51 COMPILER V9.59.0.0   MAIN                                                              03/28/2024 21:58:57 PAGE 5   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 5   
 
  237   2              /*<UserCodeEnd>*//*<SinOne-Tag><14>*/
  238   2              /*<Begin-Inserted by EasyCodeCube for Condition>*/
@@ -267,9 +267,9 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    481    ----
+   CODE SIZE        =    310    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     16    ----
+   XDATA SIZE       =     14    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

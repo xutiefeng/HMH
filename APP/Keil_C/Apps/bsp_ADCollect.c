@@ -135,22 +135,9 @@ void LouShui_IO_Flip_2(void)
 		P01 = 0;
 }
 
-void TDs_IO_Flip(void)
-{
-	P04 = !P04;
-	P02 = !P02;
-	
-	P14 = !P14;
-	P25 = !P25;
-	
-	P26 = !P26;
-	P27 = !P27;
-	
-	P00 = !P00;
-	P01 = !P01;
-}
 
-#define AD_Cycle 15
+
+#define AD_Cycle 10
 void ADCollectProcess(void)
 {
 	static u8 sADChanalCnt = 0;
@@ -169,18 +156,15 @@ void ADCollectProcess(void)
 			if(sADChanalCnt == 1)
 			{
 				ChunShui_IO_Flip_1();
-				//LouShui_IO_Flip();
 			}
 			else if(sADChanalCnt == 3)
 			{
-				 ADCHANAL_Select(1);
-				
+				 ADCHANAL_Select(1);				
 			}
 
 			else if(sADChanalCnt == 5)
 			{
 				gstADCollect.ChunShui[gstADCollect.ADAvergeCnt] = ADCHANAL_GetValue();	
-				//LouShui_IO_Flip();
 			}
 
 
@@ -189,7 +173,7 @@ void ADCollectProcess(void)
 				sAD_Step++;
 				sADChanalCnt =0;
 				ChunShui_IO_Flip_2();
-				
+				YuanShui_IO_Flip_1();
 			}
 			
 			 
@@ -200,12 +184,11 @@ void ADCollectProcess(void)
 			if(sADChanalCnt == 1)
 			{
 				JieShui_IO_Flip_1();
-				//YuanShui_IO_Flip();
+				// ChunShui_IO_Flip_1();
 			}
 			else if(sADChanalCnt == 3)
 			{
 				 ADCHANAL_Select(3);
-			  // YuanShui_IO_Flip();
 			}
 
 			else if(sADChanalCnt == 5)
@@ -218,21 +201,22 @@ void ADCollectProcess(void)
 			{
 				sAD_Step++;
 				sADChanalCnt =0;
-				JieShui_IO_Flip_1();
-				
+				JieShui_IO_Flip_2();
+			  //ChunShui_IO_Flip_2();
+				YuanShui_IO_Flip_2();
 			}
 			
 		break;
-
+#if 1
 		case 2:
 			if(sADChanalCnt == 1)
 			{
 				LouShui_IO_Flip_1();
-				//ChunShui_IO_Flip();
+				//ChunShui_IO_Flip_1();
 			}
 			else if(sADChanalCnt == 3)
 			{
-				 ADCHANAL_Select(6);;
+				 ADCHANAL_Select(6);
 			}
 
 			else if(sADChanalCnt == 5)
@@ -246,14 +230,16 @@ void ADCollectProcess(void)
 			{
 				sAD_Step++;
 				sADChanalCnt =0;
-				LouShui_IO_Flip_1();
+				LouShui_IO_Flip_2();
+				// ChunShui_IO_Flip_2();
 			}
 		break;
-
+#endif
 		case 3:
 			if(sADChanalCnt == 1)
 			{
 				YuanShui_IO_Flip_1();
+				
 			}
 			else if(sADChanalCnt == 3)
 			{
@@ -270,7 +256,7 @@ void ADCollectProcess(void)
 			{
 				sAD_Step =0;
 				sADChanalCnt =0;
-				YuanShui_IO_Flip_1();
+				YuanShui_IO_Flip_2();
 				gstADCollect.ADAvergeCnt++;
 			}
 		break;
@@ -314,14 +300,18 @@ unsigned int adc_get_average(u16 *p)
   return adc_sum;
 }
 
-#define TDS_100 1
-#define TDS_300 1
-#define TDS_500 1
-#define TDS_1000 1
+#define TDS_100 100
+#define TDS_300 300
+#define TDS_500 500
+#define TDS_1000 1000
+
+
 
 void TDS_Calulate(void)
 {
 	static u8 sTDS_Calulate =0;
+
+	
 	
 	
 	if(gstADCollect.ADAvergeCnt < 10)
@@ -333,21 +323,26 @@ void TDS_Calulate(void)
 
 		
 
-	if(sTDS_Calulate < 5)//TDS每隔500ms检测一次
+	if(sTDS_Calulate < 5)//TDS每隔500ms检测一次,前面3秒钟AD数据不计算
 	{
 			sTDS_Calulate++;
+			if(sTDS_Calulate < 0)
+			{
+				gstADCollect.ADAvergeCnt = 0;
+			}
 			return;
 	}
 		
 	else
 	{	
-			sTDS_Calulate =0;
+			sTDS_Calulate = 15;
 	}
 		
 
 	gstADCollect.ADAvergeCnt = 0;
 
-	 gstADCollect.fYuanShui= adc_get_average(gstADCollect.YuanShui);
+
+	gstADCollect.fYuanShui= adc_get_average(gstADCollect.YuanShui);
 
 	gstADCollect.fChunShui=  adc_get_average(gstADCollect.ChunShui);
 
@@ -357,54 +352,60 @@ void TDS_Calulate(void)
 
 }
 
+
+
 // 计算TDS值的函数
 
 #include <math.h>
 #define ADC_MAX_VALUE 0x0fff
 #define ADC_MIN_VALUE 0
 
-	//float e  = -100;
-
-  float c = 4/917; // 根据实际情况调整
 
 
 float adc_to_tds(u16 adc_value, int a,int b) 
 {
 	
-	
-  
- // 根据实际的ADC参数调整下面的系数
-// const float a = 232.5; // 根据实际情况调整
-// const float b = -15.6; // 根据实际情况调整
- //const float d = -5.464; // 根据实际情况调整
     // 将ADC值标准化到0到1之间
     float normalized_adc = (adc_value  - ADC_MIN_VALUE) / (float)(ADC_MAX_VALUE - ADC_MIN_VALUE);
     // 应用一次线性拟合
     float  linear_tds= a * normalized_adc + b;
- 
-   /* 根据实际情况，可能需要应用非线性拟合
-    float nonlinear_tds = c * pow(linear_tds, 2) + d * linear_tds +464;
-	*/
-		// linear_tds = c * pow(linear_tds, 2) + c* linear_tds -46;
+
 		return linear_tds;
 }
 
-void test_TDS(void)
+void test_TDS(u16 D, float *pp)
 {
 		//gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
-		if(gstADCollect.fChunShui <= 753)//20
-		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,172.4,-3.4);//30
-		}
+		u16 v = D;
 		
-		else if(gstADCollect.fChunShui <= 880)
+		float *p =pp;	
+		
+	#if 0
+//		if(gstADCollect.fChunShui <= 753)//20
+//		{
+//				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,172.4,-3.4);//30
+//		}
+		if(v <= 600)//20
 		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,200,-6);//40
+				*p = adc_to_tds(v,80,-3);
 		}
-		else if(gstADCollect.fChunShui <= 1175)
+
+		else if(v<= 880)						   //1146 50ppm
 		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,232.5,-9.5);//50
+				*p  = adc_to_tds(v,140,-5);//40
 		}
+//		else if(gstADCollect.fChunShui <= 880)
+//		{
+//				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,200,-6);//40
+//		}
+		else if(v <= 1156)//50ppm
+		{
+				*p= adc_to_tds(v,372,-54);
+		}
+//		else if(gstADCollect.fChunShui <= 1175)
+//		{
+//				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,232.5,-9.5);//50
+//		}
 		
 		else if(gstADCollect.fChunShui <= 1415)
 		{
@@ -418,21 +419,70 @@ void test_TDS(void)
 		
 		else if(gstADCollect.fChunShui <= 2020)
 		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,1500,-478);//110
+				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,1500,-478);//200
+		}
+	#else
+		
+	#if 0
+	  if(v <= 600)//20
+		{
+				*p = adc_to_tds(v,80,-3);
+		}
+
+		else if(v<= 880)						   //1146 50ppm
+		{
+				*p  = adc_to_tds(v,140,-5);//40
+		}
+		else if(v <= 1156)//50ppm
+		{
+				//*p   = adc_to_tds(v,200,-9.5);//50
+				*p= adc_to_tds(v,372,-54);
 		}
 		
-		else 
+		else if(v <= 1356)//100ppm 1226
 		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,2000,-704);//200
+				//*p   = adc_to_tds(v,200,-9.5);//50
+				*p= adc_to_tds(v,1137,-268);
 		}
-}
+		
+		else if(v <= 1610)//200ppm
+		{
+				*p  = adc_to_tds(v,1479,-390);//85
+		}
+		
+		else if(v <= 1820)
+		{
+				
+				*p   = adc_to_tds(v,819,-174);//110
+		}
+		
+		else if(v <= 1820)
+		{
+				
+				*p  = adc_to_tds(v,897,-225);//110
+		}
+		#endif
+		
+				*p  = adc_to_tds(v,205,0);//110
+		#endif
+	}
+		
+		
+
 
 void PaiShuiProcess(void)//1S钟运行一次
 {
 	static u8 sTDS_Time =0;
 	
-	test_TDS();
-
+	test_TDS(gstADCollect.fChunShui,&gstADCollect.tds_ChunShui);
+	test_TDS(gstADCollect.fYuanShui,&gstADCollect.tds_YuanShui);
+	
+//	if(gstADCollect.tds_YuanShui <= 60)
+//		gstADCollect.tds_YuanShui*=1.5;
+//	
+//	else if(gstADCollect.tds_YuanShui <= 333)
+//		gstADCollect.tds_YuanShui*=3;
+	
 	if(sTDS_Time < 100)
 		sTDS_Time++;
 

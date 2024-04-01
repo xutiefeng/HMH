@@ -134,11 +134,6 @@ void sysRest(void)
 	 gstAM901.stFilter = &gstFilte;
 }
 
-typedef enum
-{
-	ROFilter,
-	MixFilter
-}emFilter;
 
 
 
@@ -235,9 +230,11 @@ void TimeReminder(void)
 		
 	if( gstFilte.type  == ROFilter)
 	{
+		LED1_R =0;
+		LED1_L =0;
 		if(temp <= 1)//寿命到期
 		{
-				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1)
+				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1 && ShuiLongTouOpen)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 0;
 					sTimeReminderCnt.Bit.buzeerOn1 = 1;
@@ -251,7 +248,7 @@ void TimeReminder(void)
 		{
 		
 
-				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1&& ShuiLongTouOpen)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 1;
 					sTimeReminderCnt.Bit.buzeerOn1 = 0;
@@ -279,15 +276,19 @@ void TimeReminder(void)
 		{
 				LED2_R =0;
 				LED2_L =1;
+				
 		}
 	}
 	else
 	{
+		
+		LED2_R =0;
+		LED2_L =0;
 		if(temp <= 3)//寿命到期
 		{
 				LED1_R =1;
 				LED1_L =0;
-				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1)
+				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1&& ShuiLongTouOpen)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 0;
 					sTimeReminderCnt.Bit.buzeerOn1 = 1;
@@ -299,7 +300,7 @@ void TimeReminder(void)
 		else if(temp <= 10)//寿命快到期
 		{
 
-				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1)
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1&& ShuiLongTouOpen)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 1;
 					sTimeReminderCnt.Bit.buzeerOn1 = 0;
@@ -570,6 +571,7 @@ void MakeWaterProcess(void)
 						sMWaterStepCnt = 0;
 						Pump_io = 1;
 						sMWaterStep++;
+						ChuShuiFlag = 1;
 					}			
 				break;
 				
@@ -595,7 +597,8 @@ void MakeWaterProcess(void)
 						sMWaterStepCnt = 0;
 						Pump_io = 0;
 						PunpFlag = 0;
-						sMWaterStep++;							
+						sMWaterStep++;			
+						ChuShuiFlag = 0;
 					}
 				break;
 				
@@ -635,7 +638,36 @@ void MakeWaterProcess(void)
 			}
 }
 
+// TDS值校准
 
+void TDS_JiaoZhun(u16 v0,u16 AdValue_0,u16 v1,u16 AdValue_1)
+{
+	float a,b;
+
+	
+		if(v0 > v1)
+		{
+			//	a = (v0- v1)*4095/((float)(AdValue_0-AdValue_1));
+				a= (v0- v1);
+			  a= a*4095/(float)(AdValue_0-AdValue_1);
+				b = AdValue_1/(float)4095;
+				b = b*a;
+				b =  v1- b;
+		}
+		else
+		{
+				
+				
+			
+				a= (v1- v0);
+			  a= a*4095/(float)(AdValue_1-AdValue_0);
+			  b = AdValue_1/(float)4095;
+				b = b*a;
+				b =  v1- b;
+				return;
+		}
+	
+}
 
 
 /************************************************************************* 
@@ -648,26 +680,19 @@ extern void TDS_Calulate(void);
 extern  void KeyGaoYaSwitch(void);
 extern void KeyRest(void);
 extern void KeySelect(void);
+u16 gPPM1 = 110 ,gPPM2 = 50 ,gAD1 = 1420 ,gAD2 =1120;
 void sysRuning(void)
 {	
 
 	EventCollect();
     switch(PopEvent())
     {    
-
-		case ev3MS:
-			 LED_sCan();
-		break; 
-				
+		
         case ev5MS:       
 					BuzzerProcess();	
+					
         break;  
-    
-        case ev20MS:
-        {
-						
-        }				
-        break;
+
 				
         case ev50MS:
         {
@@ -684,13 +709,13 @@ void sysRuning(void)
 						LED_Process();	
 						TimeReminder();
 						TDS_Calulate();
-						UART0_SendData();
-            //EepromProcess();   
+						UART0_SendData(); 
         }
         break;
 				
         case ev1S:
         {
+						TDS_JiaoZhun(gPPM1,gAD1,gPPM2,gAD2);
 						FilterSysRunTime();//滤芯寿命计算
 						FirstPowerOnProcess();//首次上电冲洗15分钟
 						FactoryProcess();

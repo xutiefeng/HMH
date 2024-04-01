@@ -170,7 +170,7 @@ sbit  P   = PSW^0;  //ÆæÅ¼±êÖ¾Î»      0:ACCÖÐ1µÄ¸öÊýÎªÅ¼Êý£¨°üÀ¨0¸ö£©		1:ACCÖÐ1µ
 sbit  TFX   = TXCON^7;  //¶¨Ê±Æ÷2/3/4Òç³ö±êÖ¾Î»
 sbit  EXFX  = TXCON^6;  //TnEX(n=2/3)Òý½ÅÍâ²¿ÊÂ¼þÊäÈë(ÏÂ½µÑØ)±»¼ì²âµ½µÄ±êÖ¾Î»
 sbit  RCLKX = TXCON^5;  //UART0½ÓÊÕÊ±ÖÓ¿ØÖÆÎ»        0: ¶¨Ê±Æ÷1²úÉú½ÓÊÕ²¨ÌØÂÊ	1: ¶¨Ê±Æ÷2²úÉú½ÓÊÕ²¨ÌØÂÊ
-sbit  TCLKX = TXCON^4;  //UART0·¢ËÍÊ±ÖÓ¿ØÖÆÎ»        0: ¶¨Ê±Æ÷1²úÉú·¢ËÍ²¨ÌØÂÊ	1: ¶¨Ê±Æ÷2²úÉú·¢ËÍ²¨ÌØÂÊ
+sbit  TCLKX = TXCON^4;  //UART0·¢ËÍÊ±ÖÓ¿ØÖÆÎ»    0   0: ¶¨Ê±Æ÷1²úÉú·¢ËÍ²¨ÌØÂÊ	1: ¶¨Ê±Æ÷2²úÉú·¢ËÍ²¨ÌØÂÊ
 sbit  EXENX = TXCON^3;  //TnEX(n=2/3)Òý½ÅÉÏµÄÍâ²¿ÊÂ¼þÊäÈë(ÏÂ½µÑØ)ÓÃ×÷ÖØÔØ/²¶»ñ´¥·¢Æ÷ÔÊÐí/½ûÖ¹¿ØÖÆ
 sbit  TRX   = TXCON^2;  //¶¨Ê±Æ÷2/3/4¿ªÊ¼/Í£Ö¹¿ØÖÆÎ» 0: Í£Ö¹¶¨Ê±Æ÷2/3/4         1: ¿ªÊ¼¶¨Ê±Æ÷2/3/4
 sbit  TX    = TXCON^1;  //¶¨Ê±Æ÷2/3/4¶¨Ê±Æ÷/¼ÆÊýÆ÷·½Ê½Ñ¡¶¨Î»

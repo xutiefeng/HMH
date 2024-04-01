@@ -57,8 +57,8 @@ typedef enum
 #define  NoKeyPressFalg                           	gbFlagData[0].Bit.b2
 #define  KeySwitchFlag1                          	gbFlagData[0].Bit.b3 
 #define  KeySwitchFlag								gbFlagData[0].Bit.b4
-#define  TouchKeyMixFlag                    	    gbFlagData[0].Bit.b5  
-#define  EvRecvFlag                      	     	gbFlagData[0].Bit.b6 
+#define  LongPress_5sFlag                    	    gbFlagData[0].Bit.b5  
+#define  LongPress_3sFlag                      	    gbFlagData[0].Bit.b6 
 #define  SysRunFlag                        			gbFlagData[0].Bit.b7
 
 #define  ALLTempSenseErrowFlag					 			  gbFlagData[1].Bit.b0  
@@ -67,7 +67,7 @@ typedef enum
 #define  ChouTiFlag     												gbFlagData[1].Bit.b3 
 #define  HeatFlag   														gbFlagData[1].Bit.b4 
 #define  CoolFlag																gbFlagData[1].Bit.b5 
-#define  ShuiLongTouClose                              gbFlagData[1].Bit.b6 
+#define  ChuShuiFlag                              	gbFlagData[1].Bit.b6 
 #define  ShuiLongTouOpen                              gbFlagData[1].Bit.b7 
 
 
@@ -97,7 +97,7 @@ typedef enum
 #define  RedLedtFlag										gbFlagData[4].Bit.b4
 #define  BlueLedFlag                    gbFlagData[4].Bit.b5 
 #define  PunpFlag												gbFlagData[4].Bit.b6 
-//#define  CoolFlag_FromEEprom                    gbFlagData[4].Bit.b6 
+
 
 #define  Buzzer1Flag                            gbFlagData[5].Bit.b0 
 #define  Buzzer2Flag                            gbFlagData[5].Bit.b1 

@@ -63,6 +63,17 @@ typedef struct
 		
 }ST_AM901;
 
+typedef union
+{
+	u8 all;
+	struct
+	{
+	u8	ppc :2;
+	u8	C		:2;	
+	u8	RO 	:2;
+	}Bit;
+}uLED_Dliaplay;
+
 typedef enum
 {
     AD_YuanShui,
@@ -71,6 +82,14 @@ typedef enum
 		AD_LouShui,
     ADMax = AD_LouShui ,
 }BSP_ADChangeEnum;
+
+
+typedef enum
+{
+	ROFilter,
+	MixFilter
+}emFilter;
+
 
 
 //typedef enum
@@ -101,6 +120,7 @@ typedef struct
 		u16  	fLouShui;
 		u16  	fJieShui;
 		float tds_ChunShui;
+		float tds_YuanShui;
     u8 		ADAvergeCnt;
 	
 }STAD_Collect;
@@ -253,9 +273,7 @@ typedef struct
   u32 tickCnt;
 	u8 tickCnt1;
 	u8 tickCnt2;
-	u8 tickCnt3;
   u8 tickCnt4;
-	u8 tickCnt5;
 	Evnt_t parameter;
   void  (*pTickCBFunc)(Uchar evt);                    
  	void  (*pTickEvent)(void); 
@@ -307,12 +325,8 @@ u8  gLightAdjust = 0xc0;
 #define  RDSystickProcess() gstRDsysTick.tickCnt++; \
 	gstRDsysTick.tickCnt1++;\
 	gstRDsysTick.tickCnt2++;\
-	gstRDsysTick.tickCnt3++;\
   gstRDsysTick.tickCnt4++;\
-	gstRDsysTick.tickCnt5++;\
-	if(0 == gstRDsysTick.tickCnt5%3){Ev3MSFlag = 1; gstRDsysTick.tickCnt5  = 0;}\
   if(0 == gstRDsysTick.tickCnt4%5){Ev5MSFlag = 1; gstRDsysTick.tickCnt4  = 0;}\
-	if(0 == gstRDsysTick.tickCnt3%20){Ev20MSFlag = 1;gstRDsysTick.tickCnt3  = 0;}\
 	if(0 == gstRDsysTick.tickCnt2%50){Ev50MSFlag = 1;gstRDsysTick.tickCnt2  = 0;}\
 	if(0 == (gstRDsysTick.tickCnt)%1000){Ev1SFlag = 1;gstRDsysTick.tickCnt = 0;}\
 	if(0 == (gstRDsysTick.tickCnt1)%100){Ev100MSFlag = 1;gstRDsysTick.tickCnt1 = 0;}\

@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 1   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC_INIT
@@ -62,7 +62,7 @@ line level    source
   51          
   52          /*****************************************************
   53          *函数名称: SC_GPIO_Init
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 2   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 2   
 
   54          *函数功能: GPIO初始化函数
   55          *入口参数：void
@@ -86,488 +86,496 @@ line level    source
   73   1        GPIO_Init(GPIO1, GPIO_PIN_0,GPIO_MODE_OUT_PP);
   74   1        GPIO_Init(GPIO1, GPIO_PIN_2,GPIO_MODE_OUT_PP);
   75   1        GPIO_Init(GPIO1, GPIO_PIN_4,GPIO_MODE_OUT_PP);
-  76   1        GPIO_Init(GPIO2, GPIO_PIN_5,GPIO_MODE_OUT_PP);
-  77   1        GPIO_Init(GPIO2, GPIO_PIN_6,GPIO_MODE_OUT_PP);
-  78   1        GPIO_Init(GPIO2, GPIO_PIN_7,GPIO_MODE_OUT_PP);
-  79   1        GPIO_Init(GPIO0, GPIO_PIN_0,GPIO_MODE_OUT_PP);
-  80   1        GPIO_Init(GPIO0, GPIO_PIN_1,GPIO_MODE_OUT_PP);
-  81   1        GPIO_Init(GPIO1, GPIO_PIN_6, GPIO_MODE_OUT_PP);
-  82   1          GPIO_Init(GPIO3, GPIO_PIN_6, GPIO_MODE_OUT_PP);
-  83   1        /*GPIO_Init write here*/    
-  84   1      /*
-  85   1        P00 =1;
-  86   1        P01 =0;
-  87   1        
-  88   1        P14 = 1;
-  89   1        P25 = 0;
-  90   1        
-  91   1        P26 = 1;
-  92   1        P27 = 0;
+  76   1        
+  77   1        GPIO_Init(GPIO1, GPIO_PIN_5,GPIO_MODE_IN_HI);
+  78   1        GPIO_Init(GPIO2, GPIO_PIN_2,GPIO_MODE_IN_HI);
+  79   1        GPIO_Init(GPIO2, GPIO_PIN_3,GPIO_MODE_IN_HI);
+  80   1        GPIO_Init(GPIO1, GPIO_PIN_7,GPIO_MODE_IN_HI);
+  81   1        
+  82   1        GPIO_Init(GPIO2, GPIO_PIN_5,GPIO_MODE_OUT_PP);
+  83   1        GPIO_Init(GPIO2, GPIO_PIN_6,GPIO_MODE_OUT_PP);
+  84   1        GPIO_Init(GPIO2, GPIO_PIN_7,GPIO_MODE_OUT_PP);
+  85   1        GPIO_Init(GPIO0, GPIO_PIN_0,GPIO_MODE_OUT_PP);
+  86   1        GPIO_Init(GPIO0, GPIO_PIN_1,GPIO_MODE_OUT_PP);
+  87   1        GPIO_Init(GPIO1, GPIO_PIN_6, GPIO_MODE_OUT_PP);
+  88   1          GPIO_Init(GPIO3, GPIO_PIN_6, GPIO_MODE_OUT_PP);
+  89   1        /*GPIO_Init write here*/    
+  90   1      /*
+  91   1        P00 =1;
+  92   1        P01 =0;
   93   1        
-  94   1        P04 = 1;
-  95   1        P02 = 0;
-  96   1        */
-  97   1      }
-  98          
-  99          /*****************************************************
- 100          *函数名称: SC_UART0_Init
- 101          *函数功能: UART0初始化函数
- 102          *入口参数：void
- 103          *出口参数：void
- 104          *****************************************************/
- 105          void SC_UART0_Init(void)
- 106          {
- 107   1        //Forbid editing areas before the following label !!!
- 108   1        GPIO_Init(GPIO2, GPIO_PIN_0,GPIO_MODE_IN_PU);
- 109   1        GPIO_Init(GPIO2, GPIO_PIN_1,GPIO_MODE_IN_PU);
- 110   1        /*模式1初始化*/UART0_Init(32000000,9600,UART0_Mode_10B,UART0_CLOCK_TIMER1,UART0_RX_ENABLE);
- 111   1        UART0_ITConfig(ENABLE,LOW);
- 112   1        /*UART0_Init write here*/   
- 113   1      }
- 114          
- 115          /*****************************************************
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 3   
+  94   1        P14 = 1;
+  95   1        P25 = 0;
+  96   1        
+  97   1        P26 = 1;
+  98   1        P27 = 0;
+  99   1        
+ 100   1        P04 = 1;
+ 101   1        P02 = 0;
+ 102   1        */
+ 103   1      }
+ 104          
+ 105          /*****************************************************
+ 106          *函数名称: SC_UART0_Init
+ 107          *函数功能: UART0初始化函数
+ 108          *入口参数：void
+ 109          *出口参数：void
+ 110          *****************************************************/
+ 111          void SC_UART0_Init(void)
+ 112          {
+ 113   1        //Forbid editing areas before the following label !!!
+ 114   1        GPIO_Init(GPIO2, GPIO_PIN_0,GPIO_MODE_IN_PU);
+ 115   1        GPIO_Init(GPIO2, GPIO_PIN_1,GPIO_MODE_IN_PU);
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 3   
 
- 116          *函数名称: SC_TIM0_Init
- 117          *函数功能: TIMER0初始化函数
- 118          *入口参数：void
- 119          *出口参数：void 
- 120          *****************************************************/
- 121          void SC_TIM0_Init(void)
- 122          {
- 123   1        //Forbid editing areas before the following label !!!
- 124   1        TIM0_TimeBaseInit(TIM0_PRESSEL_FSYS_D1,TIM0_MODE_TIMER);
- 125   1        TIM0_WorkModeConfig(TIM0_WORK_MODE1,33536, 0);
- 126   1        TIM0_ITConfig(ENABLE,LOW);
- 127   1        TIM0_Cmd(ENABLE);
- 128   1        /*TIM0_Init write here*/    
- 129   1      }
- 130          
- 131          /*****************************************************
- 132          *函数名称: SC_TIM1_Init
- 133          *函数功能: TIMER1初始化函数
- 134          *入口参数：void
- 135          *出口参数：void
- 136          *****************************************************/
- 137          void SC_TIM1_Init(void)
- 138          {
- 139   1        //Forbid editing areas before the following label !!!
- 140   1        /*TIM1_Init write here*/  
- 141   1      }
- 142          
- 143          /*****************************************************
- 144          *函数名称: SC_TIM2_Init
- 145          *函数功能: TIMER2初始化函数
- 146          *入口参数：void
- 147          *出口参数：void
- 148          *****************************************************/
- 149          void SC_TIM2_Init(void)
- 150          {
- 151   1        //Forbid editing areas before the following label !!!
- 152   1        /*TIM2_Init write here*/  
- 153   1      }
- 154          
- 155          /*****************************************************
- 156          *函数名称: SC_TIM3_Init
- 157          *函数功能: TIMER3初始化函数
- 158          *入口参数：void
- 159          *出口参数：void
- 160          *****************************************************/
- 161          void SC_TIM3_Init(void)
- 162          {
- 163   1        //Forbid editing areas before the following label !!!
- 164   1        /*TIM3_Init write here*/  
- 165   1      }
- 166          
- 167          /*****************************************************
- 168          *函数名称: SC_TIM4_Init
- 169          *函数功能: TIMER4初始化函数
- 170          *入口参数：void
- 171          *出口参数：void
- 172          *****************************************************/
- 173          void SC_TIM4_Init(void)
- 174          {
- 175   1        //Forbid editing areas before the following label !!!
- 176   1        /*TIM4_Init write here*/  
- 177   1      }
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 4   
+ 116   1        /*模式1初始化*/UART0_Init(32000000,9600,UART0_Mode_10B,UART0_CLOCK_TIMER1,UART0_RX_ENABLE);
+ 117   1        UART0_ITConfig(ENABLE,LOW);
+ 118   1        /*UART0_Init write here*/   
+ 119   1      }
+ 120          
+ 121          /*****************************************************
+ 122          *函数名称: SC_TIM0_Init
+ 123          *函数功能: TIMER0初始化函数
+ 124          *入口参数：void
+ 125          *出口参数：void 
+ 126          *****************************************************/
+ 127          void SC_TIM0_Init(void)
+ 128          {
+ 129   1        //Forbid editing areas before the following label !!!
+ 130   1        TIM0_TimeBaseInit(TIM0_PRESSEL_FSYS_D1,TIM0_MODE_TIMER);
+ 131   1        TIM0_WorkModeConfig(TIM0_WORK_MODE1,33536, 0);
+ 132   1        TIM0_ITConfig(ENABLE,HIGH);
+ 133   1        TIM0_Cmd(ENABLE);
+ 134   1        /*TIM0_Init write here*/    
+ 135   1      }
+ 136          
+ 137          /*****************************************************
+ 138          *函数名称: SC_TIM1_Init
+ 139          *函数功能: TIMER1初始化函数
+ 140          *入口参数：void
+ 141          *出口参数：void
+ 142          *****************************************************/
+ 143          void SC_TIM1_Init(void)
+ 144          {
+ 145   1        //Forbid editing areas before the following label !!!
+ 146   1        /*TIM1_Init write here*/  
+ 147   1      }
+ 148          
+ 149          /*****************************************************
+ 150          *函数名称: SC_TIM2_Init
+ 151          *函数功能: TIMER2初始化函数
+ 152          *入口参数：void
+ 153          *出口参数：void
+ 154          *****************************************************/
+ 155          void SC_TIM2_Init(void)
+ 156          {
+ 157   1        //Forbid editing areas before the following label !!!
+ 158   1        /*TIM2_Init write here*/  
+ 159   1      }
+ 160          
+ 161          /*****************************************************
+ 162          *函数名称: SC_TIM3_Init
+ 163          *函数功能: TIMER3初始化函数
+ 164          *入口参数：void
+ 165          *出口参数：void
+ 166          *****************************************************/
+ 167          void SC_TIM3_Init(void)
+ 168          {
+ 169   1        //Forbid editing areas before the following label !!!
+ 170   1        /*TIM3_Init write here*/  
+ 171   1      }
+ 172          
+ 173          /*****************************************************
+ 174          *函数名称: SC_TIM4_Init
+ 175          *函数功能: TIMER4初始化函数
+ 176          *入口参数：void
+ 177          *出口参数：void
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 4   
 
- 178          
- 179          /*****************************************************
- 180          *函数名称: SC_PWM_Init
- 181          *函数功能: PWM初始化函数
- 182          *入口参数：void
- 183          *出口参数：void 
- 184          *****************************************************/
- 185          void SC_PWM_Init(void)
- 186          {
- 187   1        //Forbid editing areas before the following label !!!
- 188   1        /*PWM_Init write here*/ 
- 189   1      }
- 190          
- 191          /*****************************************************
- 192          *函数名称: SC_PWM0_Init
- 193          *函数功能: PWM0初始化函数
- 194          *入口参数：void
- 195          *出口参数：void 
- 196          *****************************************************/
- 197          void SC_PWM0_Init(void)
- 198          {
- 199   1        //Forbid editing areas before the following label !!!
- 200   1        /*PWM0独立模式*/PWM_Init(PWM0_PRESSEL_FHRC_D2,3999);
- 201   1        /*PWM02 独立模式*/PWM_IndependentModeConfigEX(PWM02,0, PWM_OUTPUTSTATE_ENABLE);
- 202   1        /*PWM0*/PWM_Aligned_Mode_Select(PWM0_Edge_Aligned_Mode);
- 203   1        /*PWM0*/PWM_FaultDetectionConfigEX(PWM0_Type,DISABLE);
- 204   1        /*PWM0*/PWM_FaultDetectionModeConfigEX(PWM0_Type,PWM0_Immediate_Mode,PWM0_FaultDetectionVoltage_Low,PWM0_
+ 178          *****************************************************/
+ 179          void SC_TIM4_Init(void)
+ 180          {
+ 181   1        //Forbid editing areas before the following label !!!
+ 182   1        /*TIM4_Init write here*/  
+ 183   1      }
+ 184          
+ 185          /*****************************************************
+ 186          *函数名称: SC_PWM_Init
+ 187          *函数功能: PWM初始化函数
+ 188          *入口参数：void
+ 189          *出口参数：void 
+ 190          *****************************************************/
+ 191          void SC_PWM_Init(void)
+ 192          {
+ 193   1        //Forbid editing areas before the following label !!!
+ 194   1        /*PWM_Init write here*/ 
+ 195   1      }
+ 196          
+ 197          /*****************************************************
+ 198          *函数名称: SC_PWM0_Init
+ 199          *函数功能: PWM0初始化函数
+ 200          *入口参数：void
+ 201          *出口参数：void 
+ 202          *****************************************************/
+ 203          void SC_PWM0_Init(void)
+ 204          {
+ 205   1        //Forbid editing areas before the following label !!!
+ 206   1        /*PWM0独立模式*/PWM_Init(PWM0_PRESSEL_FHRC_D2,3999);
+ 207   1        /*PWM02 独立模式*/PWM_IndependentModeConfigEX(PWM02,0, PWM_OUTPUTSTATE_ENABLE);
+ 208   1        /*PWM0*/PWM_Aligned_Mode_Select(PWM0_Edge_Aligned_Mode);
+ 209   1        /*PWM0*/PWM_FaultDetectionConfigEX(PWM0_Type,DISABLE);
+ 210   1        /*PWM0*/PWM_FaultDetectionModeConfigEX(PWM0_Type,PWM0_Immediate_Mode,PWM0_FaultDetectionVoltage_Low,PWM0_
              -WaveFilteringTime_0us);
- 205   1        /*PWM0中断使能*/PWM_ITConfigEX(PWM0_Type,DISABLE,LOW);
- 206   1        /*PWM0开关*/PWM_CmdEX(PWM0_Type,ENABLE);
- 207   1        /*PWM0_Init write here*/  
- 208   1      }
- 209          
- 210          /*****************************************************
- 211          *函数名称: SC_PWM1_Init
- 212          *函数功能: PWM1初始化函数
- 213          *入口参数：void
- 214          *出口参数：void 
- 215          *****************************************************/
- 216          void SC_PWM1_Init(void)
- 217          {
- 218   1        //Forbid editing areas before the following label !!!
- 219   1        /*PWM1_Init write here*/  
- 220   1      }
- 221          
- 222          /*****************************************************
- 223          *函数名称: SC_PWM2_Init
- 224          *函数功能: PWM1初始化函数
- 225          *入口参数：void
- 226          *出口参数：void 
- 227          *****************************************************/
- 228          void SC_PWM2_Init(void)
- 229          {
- 230   1        //Forbid editing areas before the following label !!!
- 231   1        /*PWM2_Init write here*/  
- 232   1      }
- 233          
- 234          /*****************************************************
- 235          *函数名称: SC_PWM3_Init
- 236          *函数功能: PWM1初始化函数
- 237          *入口参数：void
- 238          *出口参数：void 
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 5   
+ 211   1        /*PWM0中断使能*/PWM_ITConfigEX(PWM0_Type,DISABLE,LOW);
+ 212   1        /*PWM0开关*/PWM_CmdEX(PWM0_Type,ENABLE);
+ 213   1        /*PWM0_Init write here*/  
+ 214   1      }
+ 215          
+ 216          /*****************************************************
+ 217          *函数名称: SC_PWM1_Init
+ 218          *函数功能: PWM1初始化函数
+ 219          *入口参数：void
+ 220          *出口参数：void 
+ 221          *****************************************************/
+ 222          void SC_PWM1_Init(void)
+ 223          {
+ 224   1        //Forbid editing areas before the following label !!!
+ 225   1        /*PWM1_Init write here*/  
+ 226   1      }
+ 227          
+ 228          /*****************************************************
+ 229          *函数名称: SC_PWM2_Init
+ 230          *函数功能: PWM1初始化函数
+ 231          *入口参数：void
+ 232          *出口参数：void 
+ 233          *****************************************************/
+ 234          void SC_PWM2_Init(void)
+ 235          {
+ 236   1        //Forbid editing areas before the following label !!!
+ 237   1        /*PWM2_Init write here*/  
+ 238   1      }
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 5   
 
- 239          *****************************************************/
- 240          void SC_PWM3_Init(void)
- 241          {
- 242   1        //Forbid editing areas before the following label !!!
- 243   1        /*PWM3_Init write here*/  
- 244   1      }
- 245          
- 246          /*****************************************************
- 247          *函数名称: SC_PWM4_Init
- 248          *函数功能: PWM1初始化函数
- 249          *入口参数：void
- 250          *出口参数：void 
- 251          *****************************************************/
- 252          void SC_PWM4_Init(void)
- 253          {
- 254   1        //Forbid editing areas before the following label !!!
- 255   1        /*PWM4_Init write here*/  
- 256   1      }
- 257          /*****************************************************
- 258          *函数名称: SC_INT_Init
- 259          *函数功能: INT初始化函数
- 260          *入口参数：void
- 261          *出口参数：void
- 262          *****************************************************/
- 263          void SC_INT_Init(void)
- 264          {
- 265   1        //Forbid editing areas before the following label !!!
- 266   1        /*INT_Init write here*/ 
- 267   1      }
- 268          
- 269          /*****************************************************
- 270          *函数名称: SC_ADC_Init
- 271          *函数功能: ADC初始化函数
- 272          *入口参数：void
- 273          *出口参数：void 
- 274          *****************************************************/
- 275          void SC_ADC_Init(void)
- 276          {
- 277   1        //Forbid editing areas before the following label !!!
- 278   1        ADC_Init(ADC_PRESSEL_3CLOCK,ADC_Cycle_Null);
- 279   1        /*AIN1口模式设置*/ADC_EAINConfig(ADC_EAIN_1,ENABLE);
- 280   1        /*AIN3口模式设置*/ADC_EAINConfig(ADC_EAIN_3,ENABLE);
- 281   1        /*AIN6口模式设置*/ADC_EAINConfig(ADC_EAIN_6,ENABLE);
- 282   1        /*AIN7口模式设置*/ADC_EAINConfig(ADC_EAIN_7,ENABLE);
- 283   1        ADC_ChannelConfig(ADC_CHANNEL_1,ENABLE);
- 284   1        ADC_ITConfig(ENABLE,LOW);
- 285   1        ADC_Cmd(ENABLE);
- 286   1        /*ADC_Init write here*/
- 287   1      }
- 288          
- 289          /*****************************************************
- 290          *函数名称: SC_PGA_Init
- 291          *函数功能: PGA初始化函数
- 292          *入口参数：void
- 293          *出口参数：void 
- 294          *****************************************************/
- 295          void SC_PGA_Init(void)
- 296          {
- 297   1        //Forbid editing areas before the following label !!!
- 298   1        /*PGA_Init write here*/
- 299   1      }
- 300          
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 6   
+ 239          
+ 240          /*****************************************************
+ 241          *函数名称: SC_PWM3_Init
+ 242          *函数功能: PWM1初始化函数
+ 243          *入口参数：void
+ 244          *出口参数：void 
+ 245          *****************************************************/
+ 246          void SC_PWM3_Init(void)
+ 247          {
+ 248   1        //Forbid editing areas before the following label !!!
+ 249   1        /*PWM3_Init write here*/  
+ 250   1      }
+ 251          
+ 252          /*****************************************************
+ 253          *函数名称: SC_PWM4_Init
+ 254          *函数功能: PWM1初始化函数
+ 255          *入口参数：void
+ 256          *出口参数：void 
+ 257          *****************************************************/
+ 258          void SC_PWM4_Init(void)
+ 259          {
+ 260   1        //Forbid editing areas before the following label !!!
+ 261   1        /*PWM4_Init write here*/  
+ 262   1      }
+ 263          /*****************************************************
+ 264          *函数名称: SC_INT_Init
+ 265          *函数功能: INT初始化函数
+ 266          *入口参数：void
+ 267          *出口参数：void
+ 268          *****************************************************/
+ 269          void SC_INT_Init(void)
+ 270          {
+ 271   1        //Forbid editing areas before the following label !!!
+ 272   1        /*INT_Init write here*/ 
+ 273   1      }
+ 274          
+ 275          /*****************************************************
+ 276          *函数名称: SC_ADC_Init
+ 277          *函数功能: ADC初始化函数
+ 278          *入口参数：void
+ 279          *出口参数：void 
+ 280          *****************************************************/
+ 281          void SC_ADC_Init(void)
+ 282          {
+ 283   1        //Forbid editing areas before the following label !!!
+ 284   1        ADC_Init(ADC_PRESSEL_3CLOCK,ADC_Cycle_Null);
+ 285   1        /*AIN1口模式设置*/ADC_EAINConfig(ADC_EAIN_1,ENABLE);
+ 286   1        /*AIN3口模式设置*/ADC_EAINConfig(ADC_EAIN_3,ENABLE);
+ 287   1        /*AIN6口模式设置*/ADC_EAINConfig(ADC_EAIN_6,ENABLE);
+ 288   1        /*AIN7口模式设置*/ADC_EAINConfig(ADC_EAIN_7,ENABLE);
+ 289   1        ADC_ChannelConfig(ADC_CHANNEL_1,ENABLE);
+ 290   1        ADC_ITConfig(DISABLE,LOW);
+ 291   1        ADC_Cmd(ENABLE);//DISABLE ENABLE
+ 292   1        /*ADC_Init write here*/
+ 293   1      }
+ 294          
+ 295          /*****************************************************
+ 296          *函数名称: SC_PGA_Init
+ 297          *函数功能: PGA初始化函数
+ 298          *入口参数：void
+ 299          *出口参数：void 
+ 300          *****************************************************/
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 6   
 
- 301          /*****************************************************
- 302          *函数名称: SC_IAP_Init
- 303          *函数功能: IAP初始化函数
- 304          *入口参数：void
- 305          *出口参数：void 
- 306          *****************************************************/
- 307          void SC_IAP_Init(void)
- 308          {
- 309   1        //Forbid editing areas before the following label !!!
- 310   1        /*IAP_Init write here*/   
- 311   1      }
- 312          
- 313          /*****************************************************
- 314          *函数名称: SC_USCI0_Init
- 315          *函数功能: USCI0初始化函数
- 316          *入口参数：void
- 317          *出口参数：void
- 318          *****************************************************/
- 319          void SC_USCI0_Init(void)
- 320          {
- 321   1        //Forbid editing areas before the following label !!!
- 322   1        /*USCI0_Init write here*/   
- 323   1      }
- 324          
- 325          /*****************************************************
- 326          *函数名称: SC_USCI1_Init
- 327          *函数功能: USCI1初始化函数
- 328          *入口参数：void
- 329          *出口参数：void
- 330          *****************************************************/
- 331          void SC_USCI1_Init(void)
- 332          {
- 333   1        //Forbid editing areas before the following label !!!
- 334   1        /*USCI1_Init write here*/   
- 335   1      }
- 336          
- 337          /*****************************************************
- 338          *函数名称: SC_USCI2_Init
- 339          *函数功能: USCI2初始化函数
- 340          *入口参数：void
- 341          *出口参数：void
- 342          *****************************************************/
- 343          void SC_USCI2_Init(void)
- 344          {
- 345   1        //Forbid editing areas before the following label !!!
- 346   1        GPIO_Init(GPIO4, GPIO_PIN_5,GPIO_MODE_IN_PU);
- 347   1        GPIO_Init(GPIO4, GPIO_PIN_4,GPIO_MODE_IN_PU);
- 348   1        USCI2_ITConfig(ENABLE,LOW);
- 349   1        USCI2_UART_Init(32000000,  USCI2_UART_BaudRate_FsysDIV12,  USCI2_UART_Mode_8B,USCI2_UART_RX_ENABLE);
- 350   1        /*USCI2_Init write here*/   
- 351   1      }
- 352          
- 353          /*****************************************************
- 354          *函数名称: SC_USCI3_Init
- 355          *函数功能: USCI3初始化函数
- 356          *入口参数：void
- 357          *出口参数：void
- 358          *****************************************************/
- 359          void SC_USCI3_Init(void)
- 360          {
- 361   1        //Forbid editing areas before the following label !!!
- 362   1        /*USCI3_Init write here*/   
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 7   
+ 301          void SC_PGA_Init(void)
+ 302          {
+ 303   1        //Forbid editing areas before the following label !!!
+ 304   1        /*PGA_Init write here*/
+ 305   1      }
+ 306          
+ 307          /*****************************************************
+ 308          *函数名称: SC_IAP_Init
+ 309          *函数功能: IAP初始化函数
+ 310          *入口参数：void
+ 311          *出口参数：void 
+ 312          *****************************************************/
+ 313          void SC_IAP_Init(void)
+ 314          {
+ 315   1        //Forbid editing areas before the following label !!!
+ 316   1        /*IAP_Init write here*/   
+ 317   1      }
+ 318          
+ 319          /*****************************************************
+ 320          *函数名称: SC_USCI0_Init
+ 321          *函数功能: USCI0初始化函数
+ 322          *入口参数：void
+ 323          *出口参数：void
+ 324          *****************************************************/
+ 325          void SC_USCI0_Init(void)
+ 326          {
+ 327   1        //Forbid editing areas before the following label !!!
+ 328   1        /*USCI0_Init write here*/   
+ 329   1      }
+ 330          
+ 331          /*****************************************************
+ 332          *函数名称: SC_USCI1_Init
+ 333          *函数功能: USCI1初始化函数
+ 334          *入口参数：void
+ 335          *出口参数：void
+ 336          *****************************************************/
+ 337          void SC_USCI1_Init(void)
+ 338          {
+ 339   1        //Forbid editing areas before the following label !!!
+ 340   1        /*USCI1_Init write here*/   
+ 341   1      }
+ 342          
+ 343          /*****************************************************
+ 344          *函数名称: SC_USCI2_Init
+ 345          *函数功能: USCI2初始化函数
+ 346          *入口参数：void
+ 347          *出口参数：void
+ 348          *****************************************************/
+ 349          void SC_USCI2_Init(void)
+ 350          {
+ 351   1        //Forbid editing areas before the following label !!!
+ 352   1        GPIO_Init(GPIO4, GPIO_PIN_5,GPIO_MODE_IN_PU);
+ 353   1        GPIO_Init(GPIO4, GPIO_PIN_4,GPIO_MODE_IN_PU);
+ 354   1        USCI2_ITConfig(ENABLE,LOW);
+ 355   1        USCI2_UART_Init(32000000,  USCI2_UART_BaudRate_FsysDIV12,  USCI2_UART_Mode_8B,USCI2_UART_RX_ENABLE);
+ 356   1        /*USCI2_Init write here*/   
+ 357   1      }
+ 358          
+ 359          /*****************************************************
+ 360          *函数名称: SC_USCI3_Init
+ 361          *函数功能: USCI3初始化函数
+ 362          *入口参数：void
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 7   
 
- 363   1      }
- 364          
- 365          /*****************************************************
- 366          *函数名称: SC_USCI4_Init
- 367          *函数功能: USCI4初始化函数
- 368          *入口参数：void
- 369          *出口参数：void
- 370          *****************************************************/
- 371          void SC_USCI4_Init(void)
- 372          {
- 373   1        //Forbid editing areas before the following label !!!
- 374   1        /*USCI4_Init write here*/   
- 375   1      }
- 376          
- 377          /*****************************************************
- 378          *函数名称: SC_USCI5_Init
- 379          *函数功能: USCI5初始化函数
- 380          *入口参数：void
- 381          *出口参数：void
- 382          *****************************************************/
- 383          void SC_USCI5_Init(void)
- 384          {
- 385   1        //Forbid editing areas before the following label !!!
- 386   1        /*USCI5_Init write here*/   
- 387   1      }
- 388          
- 389          /*****************************************************
- 390          *函数名称: SC_SSI_Init
- 391          *函数功能: SSI初始化函数
- 392          *入口参数：void
- 393          *出口参数：void
- 394          *****************************************************/
- 395          void SC_SSI_Init(void)
- 396          {
- 397   1        //Forbid editing areas before the following label !!!
- 398   1        /*SSI_Init write here*/   
- 399   1      }
- 400          
- 401          /*****************************************************
- 402          *函数名称: SC_SSI0_Init
- 403          *函数功能: SSI初始化函数
- 404          *入口参数：void
- 405          *出口参数：void
- 406          *****************************************************/
- 407          void SC_SSI0_Init(void)
- 408          {
- 409   1        //Forbid editing areas before the following label !!!
- 410   1        /*SSI0_Init write here*/    
- 411   1      }
- 412          
- 413          /*****************************************************
- 414          *函数名称: SC_SSI1_Init
- 415          *函数功能: SSI初始化函数
- 416          *入口参数：void
- 417          *出口参数：void
- 418          *****************************************************/
- 419          void SC_SSI1_Init(void)
- 420          {
- 421   1        //Forbid editing areas before the following label !!!
- 422   1        /*SSI1_Init write here*/    
- 423   1      }
- 424          
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 8   
+ 363          *出口参数：void
+ 364          *****************************************************/
+ 365          void SC_USCI3_Init(void)
+ 366          {
+ 367   1        //Forbid editing areas before the following label !!!
+ 368   1        /*USCI3_Init write here*/   
+ 369   1      }
+ 370          
+ 371          /*****************************************************
+ 372          *函数名称: SC_USCI4_Init
+ 373          *函数功能: USCI4初始化函数
+ 374          *入口参数：void
+ 375          *出口参数：void
+ 376          *****************************************************/
+ 377          void SC_USCI4_Init(void)
+ 378          {
+ 379   1        //Forbid editing areas before the following label !!!
+ 380   1        /*USCI4_Init write here*/   
+ 381   1      }
+ 382          
+ 383          /*****************************************************
+ 384          *函数名称: SC_USCI5_Init
+ 385          *函数功能: USCI5初始化函数
+ 386          *入口参数：void
+ 387          *出口参数：void
+ 388          *****************************************************/
+ 389          void SC_USCI5_Init(void)
+ 390          {
+ 391   1        //Forbid editing areas before the following label !!!
+ 392   1        /*USCI5_Init write here*/   
+ 393   1      }
+ 394          
+ 395          /*****************************************************
+ 396          *函数名称: SC_SSI_Init
+ 397          *函数功能: SSI初始化函数
+ 398          *入口参数：void
+ 399          *出口参数：void
+ 400          *****************************************************/
+ 401          void SC_SSI_Init(void)
+ 402          {
+ 403   1        //Forbid editing areas before the following label !!!
+ 404   1        /*SSI_Init write here*/   
+ 405   1      }
+ 406          
+ 407          /*****************************************************
+ 408          *函数名称: SC_SSI0_Init
+ 409          *函数功能: SSI初始化函数
+ 410          *入口参数：void
+ 411          *出口参数：void
+ 412          *****************************************************/
+ 413          void SC_SSI0_Init(void)
+ 414          {
+ 415   1        //Forbid editing areas before the following label !!!
+ 416   1        /*SSI0_Init write here*/    
+ 417   1      }
+ 418          
+ 419          /*****************************************************
+ 420          *函数名称: SC_SSI1_Init
+ 421          *函数功能: SSI初始化函数
+ 422          *入口参数：void
+ 423          *出口参数：void
+ 424          *****************************************************/
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 8   
 
- 425          /*****************************************************
- 426          *函数名称: SC_BTM_Init
- 427          *函数功能: 低频时钟定时器初始化函数
- 428          *入口参数：void
- 429          *出口参数：void 
- 430          *****************************************************/
- 431          void SC_BTM_Init(void)
- 432          {
- 433   1        //Forbid editing areas before the following label !!!
- 434   1        /*BTM_Init write here*/   
- 435   1      }
- 436          
- 437          /*****************************************************
- 438          *函数名称: SC_CRC_Init
- 439          *函数功能: check sum 初始化函数
- 440          *入口参数：void
- 441          *出口参数：void
- 442          *****************************************************/
- 443          void SC_CRC_Init(void)
- 444          {
- 445   1        //Forbid editing areas before the following label !!!
- 446   1        /*CRC_Init write here*/ 
- 447   1      }
- 448          
- 449          /*****************************************************
- 450          *函数名称: SC_CHKSUM_Init
- 451          *函数功能: check sum 初始化函数
- 452          *入口参数：void
- 453          *出口参数：void
- 454          *****************************************************/
- 455          void SC_CHKSUM_Init(void)
- 456          {
- 457   1        //Forbid editing areas before the following label !!!
- 458   1        /*CHKSUM_Init write here*/  
- 459   1      }
- 460          
- 461          /*****************************************************
- 462          *函数名称: SC_WDT_Init
- 463          *函数功能: 看门狗初始化函数
- 464          *入口参数：void
- 465          *出口参数：void 
- 466          *****************************************************/
- 467          void SC_WDT_Init(void)
- 468          {
- 469   1        //Forbid editing areas before the following label !!!
- 470   1        WDT_Init(WDT_OverflowTime_500MS);
- 471   1        OPTION_WDT_Cmd(ENABLE);
- 472   1        /*WDT_Init write here*/   
- 473   1      }
- 474          
- 475          /*****************************************************
- 476          *函数名称: SC_PWR_Init
- 477          *函数功能: 电源/功耗控制初始化函数
- 478          *入口参数：void
- 479          *出口参数：void 
- 480          *****************************************************/
- 481          void SC_PWR_Init(void)
- 482          {
- 483   1        //Forbid editing areas before the following label !!!
- 484   1        /*PWR_Init write here*/   
- 485   1      }
- 486          /*****************************************************
-C51 COMPILER V9.59.0.0   SC_INIT                                                           03/28/2024 21:58:57 PAGE 9   
+ 425          void SC_SSI1_Init(void)
+ 426          {
+ 427   1        //Forbid editing areas before the following label !!!
+ 428   1        /*SSI1_Init write here*/    
+ 429   1      }
+ 430          
+ 431          /*****************************************************
+ 432          *函数名称: SC_BTM_Init
+ 433          *函数功能: 低频时钟定时器初始化函数
+ 434          *入口参数：void
+ 435          *出口参数：void 
+ 436          *****************************************************/
+ 437          void SC_BTM_Init(void)
+ 438          {
+ 439   1        //Forbid editing areas before the following label !!!
+ 440   1        /*BTM_Init write here*/   
+ 441   1      }
+ 442          
+ 443          /*****************************************************
+ 444          *函数名称: SC_CRC_Init
+ 445          *函数功能: check sum 初始化函数
+ 446          *入口参数：void
+ 447          *出口参数：void
+ 448          *****************************************************/
+ 449          void SC_CRC_Init(void)
+ 450          {
+ 451   1        //Forbid editing areas before the following label !!!
+ 452   1        /*CRC_Init write here*/ 
+ 453   1      }
+ 454          
+ 455          /*****************************************************
+ 456          *函数名称: SC_CHKSUM_Init
+ 457          *函数功能: check sum 初始化函数
+ 458          *入口参数：void
+ 459          *出口参数：void
+ 460          *****************************************************/
+ 461          void SC_CHKSUM_Init(void)
+ 462          {
+ 463   1        //Forbid editing areas before the following label !!!
+ 464   1        /*CHKSUM_Init write here*/  
+ 465   1      }
+ 466          
+ 467          /*****************************************************
+ 468          *函数名称: SC_WDT_Init
+ 469          *函数功能: 看门狗初始化函数
+ 470          *入口参数：void
+ 471          *出口参数：void 
+ 472          *****************************************************/
+ 473          void SC_WDT_Init(void)
+ 474          {
+ 475   1        //Forbid editing areas before the following label !!!
+ 476   1        WDT_Init(WDT_OverflowTime_500MS);
+ 477   1        OPTION_WDT_Cmd(ENABLE);
+ 478   1        /*WDT_Init write here*/   
+ 479   1      }
+ 480          
+ 481          /*****************************************************
+ 482          *函数名称: SC_PWR_Init
+ 483          *函数功能: 电源/功耗控制初始化函数
+ 484          *入口参数：void
+ 485          *出口参数：void 
+ 486          *****************************************************/
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 9   
 
- 487          *函数名称: SC_DDIC_Init
- 488          *函数功能: 显示控制初始化函数
- 489          *入口参数：void
- 490          *出口参数：void 
- 491          *****************************************************/
- 492          void SC_DDIC_Init(void)
- 493          {
- 494   1        //Forbid editing areas before the following label !!!
- 495   1        /*DDIC_Init write here*/  
- 496   1      }
- 497          
- 498          /*****************************************************
- 499          *函数名称: SC_ACMP_Init
- 500          *函数功能: 运放初始化函数
- 501          *入口参数：void
- 502          *出口参数：void 
- 503          *****************************************************/
- 504          void SC_ACMP_Init(void)
- 505          {
- 506   1        //Forbid editing areas before the following label !!!
- 507   1        /*ACMP_Init write here*/  
- 508   1      }
- 509          
- 510          /*****************************************************
- 511          *函数名称: SC_MDU_Init
- 512          *函数功能: 乘除法器初始化函数
- 513          *入口参数：void
- 514          *出口参数：void 
- 515          *****************************************************/
- 516          void SC_MDU_Init(void)
- 517          {
- 518   1        //Forbid editing areas before the following label !!!
- 519   1        /*MDU_Init write here*/ 
- 520   1      }
- 521          
- 522          /*****************************************************
- 523          *函数名称: SC_LPD_Init
- 524          *函数功能: LPD初始化函数
- 525          *入口参数：void
- 526          *出口参数：void 
- 527          *****************************************************/
- 528          void SC_LPD_Init(void)
- 529          {
- 530   1        //Forbid editing areas before the following label !!!
- 531   1        /*LPD_Init write here*/
- 532   1      }
+ 487          void SC_PWR_Init(void)
+ 488          {
+ 489   1        //Forbid editing areas before the following label !!!
+ 490   1        /*PWR_Init write here*/   
+ 491   1      }
+ 492          /*****************************************************
+ 493          *函数名称: SC_DDIC_Init
+ 494          *函数功能: 显示控制初始化函数
+ 495          *入口参数：void
+ 496          *出口参数：void 
+ 497          *****************************************************/
+ 498          void SC_DDIC_Init(void)
+ 499          {
+ 500   1        //Forbid editing areas before the following label !!!
+ 501   1        /*DDIC_Init write here*/  
+ 502   1      }
+ 503          
+ 504          /*****************************************************
+ 505          *函数名称: SC_ACMP_Init
+ 506          *函数功能: 运放初始化函数
+ 507          *入口参数：void
+ 508          *出口参数：void 
+ 509          *****************************************************/
+ 510          void SC_ACMP_Init(void)
+ 511          {
+ 512   1        //Forbid editing areas before the following label !!!
+ 513   1        /*ACMP_Init write here*/  
+ 514   1      }
+ 515          
+ 516          /*****************************************************
+ 517          *函数名称: SC_MDU_Init
+ 518          *函数功能: 乘除法器初始化函数
+ 519          *入口参数：void
+ 520          *出口参数：void 
+ 521          *****************************************************/
+ 522          void SC_MDU_Init(void)
+ 523          {
+ 524   1        //Forbid editing areas before the following label !!!
+ 525   1        /*MDU_Init write here*/ 
+ 526   1      }
+ 527          
+ 528          /*****************************************************
+ 529          *函数名称: SC_LPD_Init
+ 530          *函数功能: LPD初始化函数
+ 531          *入口参数：void
+ 532          *出口参数：void 
+ 533          *****************************************************/
+ 534          void SC_LPD_Init(void)
+ 535          {
+ 536   1        //Forbid editing areas before the following label !!!
+ 537   1        /*LPD_Init write here*/
+ 538   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    550    ----
+   CODE SIZE        =    586    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/01/2024 21:04:51 PAGE 10  
+
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----

@@ -73,12 +73,6 @@ code ST_Buzzer stBuzzerTab1[] =
 ////tong suo
 code ST_Buzzer stBuzzerTab2[] =
 {
-    {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-    {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-    {3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
-		{3999    ,Buzzer0n_TIME,Buzzer0FF_TIME},
     {0xffffff   ,0xffff,0xffff}
 };
 
@@ -153,7 +147,7 @@ uint8_t  BuzzerStart(ST_Buzzer  *stBuzzerTab, uint16_t  *stimeOpenPower,uint16_t
 		static uint16_t HisFrq =  0UL;
 		static uint16_t sDuty = 0U;
 	
-	 if(*step == 0xff)
+		if(*step == 0xff)
     {
         return 1;
     }
@@ -216,17 +210,7 @@ void BuzzerProcess(void)
         sBuzzerDelay.Bit.run = 1;
     
         
-        if(BuzzerPowerOnFlag)
-        {
-            voliceNum = 1;
-        }
-            
-        else if(BuzzerPowerOffFlag)
-        {
-            voliceNum = 2;
-        }
-            
-        else if(BuzzerFlag)
+        if(BuzzerFlag)
         {
             voliceNum = 3;
         }

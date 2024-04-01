@@ -73,22 +73,52 @@ u16 display_value(u16 v,u8 type)
 		
 		}
 }
-void ShuMaGuanDisplay(void)
+void ShuMaGuanDisplay(u16 ad_v)
 {
 	
-		display_value((u16)gstADCollect.tds_ChunShui,1);
+		display_value((u16)ad_v,1);
+}
+
+
+
+
+
+
+u8 ZhiShiDengdisplay1(void)
+{
+		uLED_Dliaplay Udata;
+		if(gstFilte.type == ROFilter)
+		{
+				Udata.Bit.ppc = 0;
+				Udata.Bit.RO = 1;
+				ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
+		}
+		else
+		{
+				Udata.Bit.ppc = 1;
+				Udata.Bit.RO =  0;
+				ShuMaGuanDisplay(gstADCollect.tds_YuanShui);
+		}
+		return Udata.all;
+}
+
+void  ZhiShiDengdisplay2(void)
+{
+		gSendData[6].Bit.b0 = 1;
+		gSendData[6].Bit.b1 = ChuShuiFlag?1:0;
+	 	gSendData[6].Bit.b2 = gSendData[6].Bit.b1;
 }
 
 void    UART0_SendData( void)
 {
 		u8 i;
 		
+		
 	  gSendData[0].all = 0xA5;
 		gSendData[1].all = 8;
-	
-		gSendData[5].all = 0;		
-		gSendData[6].all = 3;
-		ShuMaGuanDisplay();
+	  
+	  gSendData[5].all  = ZhiShiDengdisplay1();
+		
 	 	gSendData[7].all = 0;
 		
 		for(i = 0;i<7;i++)
@@ -133,13 +163,12 @@ void    RDUART0_RcvByte(void)
 							if(rx[2] >0 )
 							{
 									ShuiLongTouOpen=1;
-									ShuiLongTouClose=0;
+
 							}
 								
 							else
 							{
 									ShuiLongTouOpen=0;
-									ShuiLongTouClose=1;
 							}
 							PanelLostFlag = 0;
 						

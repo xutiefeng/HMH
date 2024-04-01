@@ -72,19 +72,8 @@ void ClibInit(void)
 
 void EventCollect(void) 
 {
-  if(EvRecvFlag)
-	{
-      EvRecvFlag = 0;
-      PushEvent(evReceiveDisplay);
-	}
-	
-	if(Ev3MSFlag)
-	{
-		Ev3MSFlag = 0;
-		PushEvent(ev3MS);
-	}
  
-  if(Ev5MSFlag)
+ 	 if(Ev5MSFlag)
 	{
 		Ev5MSFlag = 0;
 		PushEvent(ev5MS);
