@@ -84,7 +84,7 @@ void ShuMaGuanDisplay(u16 ad_v)
 
 
 
-u8 ZhiShiDengdisplay1(void)
+u8 ZhiShiDengdisplay1(void)//龙头指示灯1
 {
 		uLED_Dliaplay Udata;
 		if(gstFilte.type == ROFilter)
@@ -102,7 +102,7 @@ u8 ZhiShiDengdisplay1(void)
 		return Udata.all;
 }
 
-void  ZhiShiDengdisplay2(void)
+void  ZhiShiDengdisplay2(void)//龙头指示灯2
 {
 		gSendData[6].Bit.b0 = 1;
 		gSendData[6].Bit.b1 = ChuShuiFlag?1:0;

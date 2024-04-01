@@ -1,0 +1,346 @@
+C51 COMPILER V9.60.0.0   S_TOUCHKEYCFG                                                     12/14/2022 15:21:51 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE S_TOUCHKEYCFG
+OBJECT MODULE PLACED IN S_TouchKeyCFG.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE lib\S_TouchKeyCFG.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\
+                    -S_TouchKeyCFG.lst) OBJECT(S_TouchKeyCFG.obj)
+
+line level    source
+
+   1          //*************************************************************************************************
+   2          //  Copyright (c)       ÉîÛÚÊÐÈüÔªÎ¢µç×ÓÓÐÏÞ¹«Ë¾
+   3          //      ÎÄ¼þÃû³Æ        :  S_TouchKeyCFG.c
+   4          //      ×÷Õß            : 
+   5          //      Ä£¿é¹¦ÄÜ        :  
+   6          //      °æ±¾            :
+   7          //      ¸ü¸Ä¼ÇÂ¼        :
+   8          //      ×¢ÒâÊÂÏî        :  ÓÃ»§ÐèÒªÅäÖÃµÄÎÄ¼þÔÚS_TouchKeyCFG.hÖÐ
+   9          //  ¿â°æ±¾±ê¼Ç  : 
+  10          //************************************************************************************************
+  11          #include "lib\S_TouchKeyCFG.h"
+  12          
+  13          //*************************************************************************************
+  14          //              844 ¼Ä´æÆ÷¶¨Òå
+  15          //*************************************************************************************
+  16          /*PSW*/
+  17          sfr     TK_PSW      =   0xD0;   //³ÌÐò×´Ì¬×Ö
+  18          sbit    TK_CY           =       TK_PSW^7;       //½øÎ»  
+  19          
+  20          //===========================================================================
+  21          //È«¾Ö±äÁ¿¶¨Òå
+  22          unsigned        char    xdata           SOCAPI_TouchKeyStatus;                                  //API½Ó¿Ú×´Ì¬£ºbit7-Ò»ÂÖÉ¨ÃèÍê³É±êÖ¾  1:Íê³É    0£ºÎ´Íê³É
+  23                                                                                                                                                      //                     bit6-Í¨µÀ´¥Ãþ¼ÆÊýÒç³ö±êÖ¾ 1:Òç³ö      0:Î´Òç³ö
+  24          //===============================================================================
+  25          //È«¾Ö±äÁ¿ÉùÃ÷£º¸ÃÇøÓò²»¿ÉÐÞ¸Ä
+  26          unsigned        int     xdata           RawData [SOCAPI_SET_TOUCHKEY_TOTAL];                    
+  27          unsigned        int             xdata           BaseLine[SOCAPI_SET_TOUCHKEY_TOTAL];
+  28          unsigned    int         xdata           FilterData[SOCAPI_SET_TOUCHKEY_TOTAL];                                                                                          
+  29          unsigned        char    xdata           RestAreaCnt[SOCAPI_SET_TOUCHKEY_TOTAL];                         
+  30          unsigned        char    xdata           TouchCnt[SOCAPI_SET_TOUCHKEY_TOTAL];                            
+  31          unsigned        char    xdata           NoTouchCnt[SOCAPI_SET_TOUCHKEY_TOTAL];                          
+  32          unsigned        char    xdata           CurrentChannel[SOCAPI_SET_TOUCHKEY_TOTAL];                                                   
+  33          unsigned        char    xdata           FloatAreaCnt[SOCAPI_SET_TOUCHKEY_TOTAL];  
+  34          unsigned        char    xdata           BaseLineAdjusttmp[SOCAPI_SET_TOUCHKEY_TOTAL];   
+  35          int                 xdata           DifferAccum[SOCAPI_SET_TOUCHKEY_TOTAL]; 
+  36          char                xdata               SetNoiseThreshold;
+  37          unsigned        char    xdata           ConfirmTouchCnt;
+  38          
+  39          //×Ô¶¨Òå±äÁ¿
+  40          unsigned        int     xdata       UpdateBaseLNum;                                             // µ¥¼ü³¤°´¼ÆÊýÆ÷
+  41          
+  42          //Íâ²¿±äÁ¿½Ó¿Ú
+  43          extern  unsigned        char    data            CurrentChannelMax;              //µ±Ç°Ñ¡ÖÐµÄkeysensorµÄ¸öÊý
+  44          extern  bit  bMultiple; //¶à°´¼ü±êÖ¾    
+  45          extern  bit  GetIsNeedUpdateBaseline(void);
+  46          extern  void SetNeedUpdateBaseline(void);
+  47          extern  unsigned long int SensorKeyFlag(void);
+  48          extern  void MultipleDeal(unsigned char CycleCnt);
+  49          extern  void TouchKey_Service(void);
+  50          
+  51          /*******************************¿âº¯Êý»ù´¡ÉèÖÃ£¬Ò»°ã²»ÐèÒª¸ü¸Ä***************************************/
+  52          #define         SOCAPI_CFG_CYCLE_CNT                                        32          //È¡Öµ·¶Î§10-255£¬´¥¿Ø³õÊ¼»¯Êý¾ÝÂË³ö´ÎÊý£¬ÒÔ¼°ÐÞÕýÖµ³õÊ¼»¯ÐÞÕý´
+             -ÎÊý£¬Ä¬ÈÏ32£¬È¡ÖµÔ½´ó´¥¿Ø³õÊ¼»¯Ê±¼äÔ½³¤£¬´¥¿ØÊý¾ÝÔ½ÎÈ¶¨  
+  53          #define         SOCAPI_CFG_OVERLOW_MAX_COUNT                        10          //µÍ»ùÏß¸üÐÂËÙ¶ÈÉèÖÃ£¬´ú±í·¢ÉúµÍ»ùÏßºó£¬¶àÉÙÂÖ¸üÐÂÒ»´Î»ùÏß
+C51 COMPILER V9.60.0.0   S_TOUCHKEYCFG                                                     12/14/2022 15:21:51 PAGE 2   
+
+             -£¬¸üÐÂ²½½ønoise/2£¬ÖµÔ½Ð¡»ùÏß¸üÐÂËÙ¶ÈÔ½¿ì
+  54          #define         SOCAPI_CFG_RESET_BASELINE_CNT                       10          //µÍ»ùÏß¸üÐÂ¶àÉÙ´Îºó£¬Èç¹û»¹´¦ÓÚµÍ»ùÏß×´Ì¬£¬Ö±½ÓÇ¿ÖÆ¸üÐÂ
+             -»ùÏß£¬ÖµÔ½Ð¡»ùÏß¸üÐÂËÙ¶ÈÔ½¿ì
+  55                                                                                                                                          //SOCAPI_CFG_OVERLOW_MAX_COUNTºÍSOCAPI_CFG_RESET_BASELINE_CNTµÄÈ¡Öµ³Ë»ý²»ÄÜ´óÓÚ255
+  56          /***************************************************************************************/
+  57          
+  58          
+  59          #define         AppType                                         0
+  60          #define         IsDoubleKey                                             1
+  61          #define         AirSeparationDistance               2
+  62          #define         CONFIRMTOUCHCNT                 3
+  63          #define         INIT_AUTO_UPDATE_TIME               4
+  64          #define         SET_KEY_CONTI_TIME              5  
+  65          #define         SET_SYNC_UPDATE                                 6
+  66          #define         SET_UPDATE_SPEED                                7       
+  67          #define         AUTO_UPDATE_TIME                    8
+  68          #define         FilteredKValue                                  9
+  69          #define         SET_ANTIJAM                                     10
+  70          #define         BAUD                                    11
+  71          #define         DwellTime                                       12
+  72          #define         SaveTime                                            13
+  73          #define         NOISE                           16
+  74          
+  75          #define         SET_TOUCH_FREQ                                  0
+  76          #define         SET_RESOLUTION                                  1
+  77          #define         SET_GAIN_CFG                                    2
+  78          #define         SCANTIME                                                3
+  79          #define         SET_ICHA                                                4
+  80          #define         FINGER_THRESHOLD_H                          6
+  81          #define         FINGER_THRESHOLD_L                          7
+  82          
+  83          //**********************************************************************************    
+  84          //                                                              ºê¶¨Òå½Ó¿Úµ÷ÓÃ²¿·Ö                                                                //
+  85          //**********************************************************************************
+  86          unsigned        char    code        CFG_OVERLOW_MAX_COUNT = SOCAPI_CFG_OVERLOW_MAX_COUNT;
+  87          unsigned        char    code        CFG_RESET_BASELINE_CNT = SOCAPI_CFG_RESET_BASELINE_CNT;     
+  88          unsigned        char    code        CFG_CYCLE_CNT = SOCAPI_CFG_CYCLE_CNT;
+  89          
+  90          //**********************************************************************************    
+  91          //                                                              º¯Êý½Ó¿Úµ÷ÓÃ²¿·Ö                                                                  //
+  92          //**********************************************************************************
+  93          /**************************************************
+  94          *º¯ÊýÃû³Æ£ºunsigned int SetOneKeyPushResetTime(void) 
+  95          *º¯Êý¹¦ÄÜ£º°´¼ü×î³¤µÄÊä³öÊ±¼ä
+  96          *Èë¿Ú²ÎÊý£ºvoid
+  97          *³ö¿Ú²ÎÊý£ºunsigned int SOCAPI_SET_KEY_CONTI_TIME
+  98          *±¸×¢    £ºÕâ¸ö·µ»ØÖµµÄÉèÖÃ£¬ ÊÇ¸ù¾ÝÓÐ¶à³¤Ê±¼äÆô¶¯TouchKeyRestart£¨£©Ò»´Î
+  99          ÀýÈç10ms Æô¶¯Ò»´Î£¬ ÄÇSOCAPI_SET_KEY_CONTI_TIME*10ms£¬³¬¹ýÊ±¼äºó´Ë°´¼üÎÞÐ§¡£
+ 100          **************************************************/
+ 101          unsigned int SetOneKeyPushResetTime(void)   
+ 102          {         
+ 103   1              return  TKCFG[SET_KEY_CONTI_TIME];
+ 104   1      }
+ 105          /**************************************************
+ 106          *º¯ÊýÃû³Æ£ºunsignedint  GetBaselineUpdateThreshold(void)
+ 107          *º¯Êý¹¦ÄÜ£º¸üÐÂËÙ¶È 
+ 108          *Èë¿Ú²ÎÊý£ºvoid
+ 109          *³ö¿Ú²ÎÊý£ºunsigned  int 
+ 110          *±¸×¢    £º
+ 111          **************************************************/
+ 112          unsigned int  GetBaselineUpdateThreshold(void)
+ 113          {
+C51 COMPILER V9.60.0.0   S_TOUCHKEYCFG                                                     12/14/2022 15:21:51 PAGE 3   
+
+ 114   1              return TKCFG[SET_UPDATE_SPEED]; 
+ 115   1      }
+ 116          
+ 117          /**************************************************
+ 118          *º¯ÊýÃû³Æ£ºunsigned char GetInitAutoUpdateTime(void)
+ 119          *º¯Êý¹¦ÄÜ£º³õÊ¼»¯×Ô¶¯Ð£×¼´ÎÊý
+ 120          *Èë¿Ú²ÎÊý£ºvoid
+ 121          *³ö¿Ú²ÎÊý£ºunsigned  char 
+ 122          *±¸×¢    £º
+ 123          **************************************************/
+ 124          unsigned char GetInitAutoUpdateTime(void)
+ 125          {
+ 126   1              return  TKCFG[INIT_AUTO_UPDATE_TIME];
+ 127   1      }
+ 128          /**************************************************
+ 129          *º¯ÊýÃû³Æ£ºint  GetCurrFingerValue(unsigned char i)
+ 130          *º¯Êý¹¦ÄÜ£º»ñÈ¡µ±Ç°µÄfinger Öµ
+ 131          *Èë¿Ú²ÎÊý£ºunsigned char
+ 132          *³ö¿Ú²ÎÊý£ºint 
+ 133          *±¸×¢    £º
+ 134          **************************************************/
+ 135          unsigned int   GetCurrFingerValue(unsigned char i)
+ 136          { 
+ 137   1              return  TKChannelCfg[i][FINGER_THRESHOLD_H]*256+TKChannelCfg[i][FINGER_THRESHOLD_L] ;
+ 138   1      }
+ 139          
+ 140          /**************************************************
+ 141          *º¯ÊýÃû³Æ£ºunsigned char  GetScanTimeValue(unsigned char i)
+ 142          *º¯Êý¹¦ÄÜ£º»ñÈ¡µ±Ç°Í¨µÀµÄÉ¨ÃèÊ±¼ä
+ 143          *Èë¿Ú²ÎÊý£ºunsigned char
+ 144          *³ö¿Ú²ÎÊý£ºunsigned char 
+ 145          *±¸×¢    £º
+ 146          **************************************************/
+ 147          unsigned char  GetScanTimeValue(unsigned char i)
+ 148          { 
+ 149   1              return TKChannelCfg[i][SCANTIME];
+ 150   1      }
+ 151          /**************************************************
+ 152          *º¯ÊýÃû³Æ£ºunsigned char  GetBaseLineAdjustValue(unsigned char i)
+ 153          *º¯Êý¹¦ÄÜ£º»ñÈ¡µ±Ç°Í¨µÀµÄ»ùÏßµ÷Õû
+ 154          j
+ 155          *Èë¿Ú²ÎÊý£ºunsigned char
+ 156          *³ö¿Ú²ÎÊý£ºunsigned char 
+ 157          *±¸×¢    £º
+ 158          **************************************************/
+ 159          unsigned char  GetBaseLineAdjustValue(unsigned char i)
+ 160          {       
+ 161   1              return BaseLineAdjusttmp[i]; 
+ 162   1      }
+ 163          /**************************************************
+ 164          *º¯ÊýÃû³Æ£ºunsigned char GetUpConfirmCnt(void)
+ 165          *º¯Êý¹¦ÄÜ£º¼ì²â°´¼üµ¯Æð´ÎÊý
+ 166          *Èë¿Ú²ÎÊý£ºvoid
+ 167          *³ö¿Ú²ÎÊý£º·µ»Ø°´¼üµ¯ÆðÈ·ÈÏ´ÎÊý 
+ 168          *±¸×¢    £º
+ 169          **************************************************/
+ 170          unsigned char GetUpConfirmCnt(void)
+ 171          {
+ 172   1              return ConfirmTouchCnt>>1;
+ 173   1      }
+ 174          /**************************************************
+ 175          *º¯ÊýÃû³Æ£ºvoid CurrentSensorChoose(void)
+C51 COMPILER V9.60.0.0   S_TOUCHKEYCFG                                                     12/14/2022 15:21:51 PAGE 4   
+
+ 176          *º¯Êý¹¦ÄÜ£ºµ±Ç°Í¨µÀÑ¡Ôñ
+ 177          *Èë¿Ú²ÎÊý£ºvoid
+ 178          *³ö¿Ú²ÎÊý£ºvoid
+ 179          *±¸×¢    £º
+ 180          **************************************************/
+ 181          void CurrentSensorChoose(void)
+ 182          {
+ 183   1              unsigned char   i = 0;
+ 184   1              unsigned char   Ctk_Channel_mark = 0;
+ 185   1              unsigned long int       CurrentSensorKey = 0 ; 
+ 186   1              
+ 187   1              CurrentSensorKey = SOCAPI_SET_TOUCHKEY_CHANNEL; 
+ 188   1                      
+ 189   1              for(i=0;i<31;i++)
+ 190   1              {
+ 191   2                      CurrentSensorKey=CurrentSensorKey>>1;
+ 192   2                      if(TK_CY)
+ 193   2                      {
+ 194   3                              CurrentChannel[Ctk_Channel_mark] = i;                                           //Ñ¡Ôñ´¥Ãþµ±Ç°µÄÍ¨µÀ
+ 195   3                              Ctk_Channel_mark++;
+ 196   3                              if(Ctk_Channel_mark >= SOCAPI_SET_TOUCHKEY_TOTAL)
+ 197   3                                      break;
+ 198   3                      }               
+ 199   2              }
+ 200   1              CurrentChannelMax = Ctk_Channel_mark;                                                   //µ±Ç°Ñ¡ÔñµÄ°´¼üÊý 
+ 201   1      }
+ 202          
+ 203          /**************************************************
+ 204          *º¯ÊýÃû³Æ£ºunsigned char  GetCfgMsg(unsigned char i)
+ 205          *º¯Êý¹¦ÄÜ£º»ñÈ¡Touch KEY ÅäÖÃÐÅÏ¢
+ 206          *Èë¿Ú²ÎÊý£ºvoid
+ 207          *³ö¿Ú²ÎÊý£ºint 
+ 208          *±¸×¢    £º
+ 209          **************************************************/
+ 210          unsigned char  GetCfgMsg(unsigned char i)
+ 211          {
+ 212   1              switch(i)
+ 213   1              { 
+ 214   2                       case 0:  return TKChannelCfg[0][SET_TOUCH_FREQ];
+ 215   2                       case 1:  return TKChannelCfg[0][SET_RESOLUTION];
+ 216   2                       case 2:  return TKChannelCfg[0][SET_GAIN_CFG];
+ 217   2                       case 3:  return GetBaseLineAdjustValue(0);//TKChannelCfg[0][SET_GAIN_CFG];
+ 218   2                       case 4:  return TKCFG[SET_ANTIJAM];
+ 219   2                       default:return 0;              
+ 220   2              }
+ 221   1      }
+ 222          
+ 223          /**************************************************
+ 224          *º¯ÊýÃû³Æ£ºvoid CurrentSensorChoose(void)
+ 225          *º¯Êý¹¦ÄÜ£º³õÊ¼»¯TK¼Ä´æÆ÷
+ 226          *Èë¿Ú²ÎÊý£ºvoid
+ 227          *³ö¿Ú²ÎÊý£ºvoid
+ 228          *±¸×¢    £º
+ 229          **************************************************/
+ 230          void TouchKeyCFGInit(void)
+ 231          {
+ 232   1              unsigned char   i;
+ 233   1              ConfirmTouchCnt = TKCFG[CONFIRMTOUCHCNT];
+ 234   1              SetNoiseThreshold = TKCFG[NOISE];
+ 235   1              CurrentSensorChoose(); 
+ 236   1              for(i=0;i<CurrentChannelMax;i++)
+ 237   1              {
+C51 COMPILER V9.60.0.0   S_TOUCHKEYCFG                                                     12/14/2022 15:21:51 PAGE 5   
+
+ 238   2                BaseLineAdjusttmp[i] =TKChannelCfg[i][SET_ICHA];;     
+ 239   2              } 
+ 240   1              UpdateBaseLNum = 0; 
+ 241   1      }
+ 242          
+ 243          /**************************************************
+ 244          *º¯ÊýÃû³Æ£ºunsigned int TouchKeyScan(void)
+ 245          *º¯Êý¹¦ÄÜ£º¼ì²â°´¼ü½Ó¿Ú
+ 246          *Èë¿Ú²ÎÊý£ºvoid
+ 247          *³ö¿Ú²ÎÊý£º°´¼üÍ¨µÀ£¬ ·µ»ØµÄÊÇÒ»¸öint , Í¨µÀÊý
+ 248          *±¸×¢    £º1,  µ÷ÓÃ´¥¿Ø¿â¼ì²âº¯ÊýSensorKeyFlag()
+ 249                             2,  ·ÖÎöµÃ³ö16¸öÍ¨µÀ£¬ÄÄ¸öÍ¨µÀÓÐ°´ÏÂ£¬°´ÏÂbit Î»ÉèÖÃÎª1£¬·ñÔòÎª0
+ 250                             3,  ¼ì²âÊÇ·ñÐèÒªÁ¢¼´¸üÐÂbaseline:  ´óÓÚMAX_KEY_RESET_BASELINE ¸ö°´¼ü°´ÏÂÊ±Á¢¼´¸üÐÂbaseline
+ 251                             4,  Ë«¼ü»òÕßµ¥¼ü°´ÏÂÊ±£¬ Ê±¼ä´óÓÚSetOneKeyPushResetTime()½á¹ûÊ±¸üÐÂbaseline 
+ 252          **************************************************/
+ 253          unsigned long int TouchKeyScan(void)
+ 254          {
+ 255   1              unsigned char t;
+ 256   1              unsigned long int Keyvalue; 
+ 257   1              unsigned long int KeyData = 0;  
+ 258   1              
+ 259   1          if(GetIsNeedUpdateBaseline() == 0)                          //¼ì²âÊÇ·ñÐèÒª¸üÐÂbaseline 
+ 260   1              {
+ 261   2                      Keyvalue = SensorKeyFlag();                                     //SensorÅÐ¶Ï, ÕâÀïÈç¹ûbMultiple = 1 ±íÊ¾ÖÐ¼äÓÐ¸ÉÈÅ
+ 262   2                                                                                  //·ÖÎö°´¼ü£¬µÃ³ö±ê×¼µÄ16Í¨µÀbit Î»
+ 263   2                      for(t=0;t<CurrentChannelMax;t++)
+ 264   2                      {
+ 265   3                              Keyvalue = Keyvalue>>1;
+ 266   3                              if(TK_CY)
+ 267   3                              {
+ 268   4                                      KeyData |= ((unsigned long int)0x01 << (CurrentChannel[t])); 
+ 269   4                                      break;                                                                          
+ 270   4                              }
+ 271   3                      }
+ 272   2                                                                                                      
+ 273   2                      if(KeyData !=0x0)                                           //µ¥¸ö°´¼ü´ïµ½¶à³¤Ê±¼ä¾Íupdate baseline ,ËÉÊÖ¼ì²â
+ 274   2                      {
+ 275   3                              UpdateBaseLNum++; 
+ 276   3                      }
+ 277   2                      else    
+ 278   2                      {
+ 279   3                              UpdateBaseLNum = 0;     
+ 280   3                      } 
+ 281   2              
+ 282   2                      if(UpdateBaseLNum > SetOneKeyPushResetTime())     //°´¼ü³¬³ö×î³¤Êä³öÊ±¼ä¸üÐÂ»ùÏß
+ 283   2                      {
+ 284   3                              SetNeedUpdateBaseline(); 
+ 285   3                              UpdateBaseLNum=0;
+ 286   3                      }
+ 287   2              }                       
+ 288   1              else
+ 289   1              {
+ 290   2                      MultipleDeal(TKCFG[AUTO_UPDATE_TIME]);                                                                          //»ùÏß¸´Î»´¦Àí
+ 291   2              }  
+ 292   1              
+ 293   1              return KeyData;
+ 294   1      }
+ 295          
+ 296          /**************************************************
+ 297          *º¯ÊýÃû³Æ£ºvoid CTK_ISR(void) interrupt 11
+ 298          *º¯Êý¹¦ÄÜ£º´¥ÃþÖÐ¶Ï·þÎñº¯Êý
+ 299          *Èë¿Ú²ÎÊý£ºvoid
+C51 COMPILER V9.60.0.0   S_TOUCHKEYCFG                                                     12/14/2022 15:21:51 PAGE 6   
+
+ 300          *³ö¿Ú²ÎÊý£ºvoid
+ 301          *±¸×¢    £º
+ 302          **************************************************/
+ 303          void CTK_ISR(void) interrupt    11
+ 304          {
+ 305   1         TouchKey_Service();
+ 306   1      }
+ 307          
+ 308          
+ 309          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    573    ----
+   CONSTANT SIZE    =     69    ----
+   XDATA SIZE       =     61    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

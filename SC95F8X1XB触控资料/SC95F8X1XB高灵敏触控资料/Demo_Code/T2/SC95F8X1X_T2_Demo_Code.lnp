@@ -1,0 +1,7 @@
+"STARTUP.obj",
+"main.obj",
+"S_TouchKeyCFG.obj",
+".\lib\SC95F8X1XB_HighSensitive_lib_T2_S_V2.1.0.LIB" 
+TO "SC95F8X1X_T2_Demo_Code" 
+RAMSIZE(256) 
+CODE( 0X100 )
