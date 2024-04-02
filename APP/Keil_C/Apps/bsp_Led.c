@@ -118,44 +118,63 @@ void LED_Process(void)
 		if(gstLed.run.Bit.time > 0)
 		{
 				gstLed.run.Bit.time--;
-		}			
-		else
-		{
-				gstLed.action = lightOff;
-		}
-			
-		if(gstLed.run.Bit.time %5 == 0)
-		{
-				if(gstLed.color == BlueColor)
-				{
-					temp_bit =1<<(gstLed.run.Bit.lednum+4);
-				}
-				else
-				{
-					temp_bit =1<<(gstLed.run.Bit.lednum);
-				}
 				
-			  if(gbFlagData[3].all && temp_bit)
-			  {
-					gbFlagData[3].all &=~temp_bit;
-			  }
-				else
-			  {
-					gbFlagData[3].all |=temp_bit;
-				}			 
-		}
+				if(gstLed.run.Bit.time %5 == 0)
+				{
+					if(gstLed.color == BlueColor)
+					{
+						temp_bit =1<<(gstLed.run.Bit.lednum+4);
+					}
+					else
+					{
+						temp_bit =1<<(gstLed.run.Bit.lednum);
+					}
+				
+					 if(gbFlagData[3].all && temp_bit)
+					 {
+						gbFlagData[3].all &=~temp_bit;
+					 }
+					else
+				  	{
+						gbFlagData[3].all |=temp_bit;
+					}			 
+				}
+		}			
+		
+			
+		
 	}
 	else if( gstLed.action == lightOn)
 	{
 		if(gstLed.color == BlueColor)
 		{
 			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
+			temp_bit = 1<<(gstLed.run.Bit.lednum);
 		}
 		else
 		{
 			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
+			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
+			
 		}
 		gbFlagData[3].all |=temp_bit2;
+		//gbFlagData[3].all &=~temp_bit;
+	}
+
+	else if( gstLed.action == lightOff)
+	{
+		if(gstLed.color == BlueColor)
+		{
+			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
+			temp_bit = 1<<(gstLed.run.Bit.lednum);
+		}
+		else
+		{
+			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
+			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
+			
+		}
+		gbFlagData[3].all &=~temp_bit2;
 	}
 	
 	if(BlueLedFlag)
