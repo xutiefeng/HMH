@@ -90,7 +90,19 @@ typedef enum
 	MixFilter
 }emFilter;
 
+typedef enum
+{
+	RedColor,
+	BlueColor,
+	MixColor
+}emColor;
 
+typedef enum
+{
+	 lightOn,//ÁÁ
+	 lightOff,//Ãð
+	 blink
+}U_LED;
 
 //typedef enum
 //{
@@ -124,6 +136,8 @@ typedef struct
     u8 		ADAvergeCnt;
 	
 }STAD_Collect;
+
+
 
 typedef struct 
 {
@@ -383,6 +397,7 @@ u8  gLightAdjust = 0xc0;
 #define  _90Min_Per100MS      10*60*90
 #define  _15Min_Per100MS      10*60*15
 #define  _3S400MS_Per100MS         34
+#define  _2S_Per100MS        10*2
 #define  _15S_Per100MS        10*15
 #define  _30S_Per100MS        10*30
 #define  _3Min_Per100MS       10*60*3

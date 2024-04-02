@@ -8,9 +8,21 @@
 extern unsigned	char	xdata		SOCAPI_TouchKeyStatus;					//API接口状态：bit7-一轮扫描完成标志  1:完成 	0：未完成
 
 static u8 sKeyValue = 0;
-static u8 sKeySelectCnt=0;
+
 static u8 sKeyReskCnt=0;
 
+
+/****************************************************************************************************************************************** 
+* 函数名称:	RestKeyProcess
+* 功能说明:	复位键按下，取消设置滤芯
+* 输    入: 无	
+* 输    出: 无
+* 注意事项:
+******************************************************************************************************************************************/
+void RestKeyProcess(void)
+{
+		//LongPress_3sFlag = 0;
+}
 
 /****************************************************************************************************************************************** 
 * 函数名称:	KeyRest
@@ -32,7 +44,7 @@ void KeyRest(void)
 		if(NoKeyPressFalg)
 		{
 ///////////////////////////////退出工程模式////////////////////////////////////////		
-			if(sKeyReskCnt >0 && sKeyReskCnt < 10 )
+			if(sKeyReskCnt >0 && sKeyReskCnt < 20 )
 			{
 
 			
@@ -52,15 +64,19 @@ void KeyRest(void)
 				}
 
 				sKeyReskCnt = 0;
-				KeyRestFlag = 0;	
-				LongPress_5sFlag = 0;
-				LongPress_3sFlag = 0;
-
+				KeyRestFlag = 0;
+				RestKeyProcess();//短按处理
+			}
+			else
+			{
+					sKeyReskCnt = 0;
 			}
 		}	
 		
 		if(KeyRestFlag)
 		{
+			KeyRestFlag = 0;
+			
 			sKeyReskCnt++;
 		}
 			
@@ -74,32 +90,14 @@ void KeyRest(void)
 		if(sKeyReskCnt == _3S_Per50MS)
 		{
 					Buzzer2Flag = 1;
+					LongPress_5sFlag = 0;
 					LongPress_3sFlag = 1;
-					#if 0
-					LED1_R = 0;
-					LED2_R = 0;
-					LED3_R = 0;
-					LED4_R = 0;
-					LED1_L = 1;
-					LED2_L = 1;
-					LED3_L = 1;
-					LED4_L = 1;
-					#endif
 		}
 		else if(sKeyReskCnt == _5S_Per50MS)
 		{
 					Buzzer3Flag = 0;
-					LongPress_3sFlag = 1;
-					#if 0
-					LED1_R = 1;
-					LED2_R = 1;
-					LED3_R = 1;
-					LED4_R = 1;
-					LED1_L = 0;
-					LED2_L = 0;
-					LED3_L = 0;
-					LED4_L = 0;
-					#endif
+					LongPress_5sFlag = 1;
+					LongPress_3sFlag = 0;
 		}
 			
 }
@@ -113,34 +111,48 @@ void KeyRest(void)
 * 输    出: 无
 * 注意事项: 短按有效
 ******************************************************************************************************************************************/
-	static u8 sKeyNoPress_Cnt =0;
+extern void setLED(u8 num,emColor color ,U_LED state,u8 time);
+
+
+
+
 void KeySelect(void)
 {
 	
-		sKeyNoPress_Cnt = 0;
-		if(NoKeyPressFalg)
+		static u8 sKeySelectCnt=0;
+		
+		if(KeySelecetFlag)//按下按键
+		{
+			KeySelecetFlag = 0;
+			sKeySelectCnt++;
+		}
+
+		else if(NoKeyPressFalg)//松开按键
 		{
 			if(sKeySelectCnt >0 && sKeySelectCnt < 10 )
 			{
 
 				///////////////////////////按键逻辑处理//////////////////////////////
 					if(LongPress_5sFlag)
-					{
-						sKeyNoPress_Cnt++;
+					{	
+							LongPress_5sFlag = 0;
+							RestFilter();
 					}
 						
 					else if(LongPress_3sFlag)
 					{
-						sKeyNoPress_Cnt++; 	
 						if(gstFilte.type == ROFilter)
 						{
 							gstFilte.type = MixFilter;
+							setLED(5,BlueColor,blink,_2S_Per100MS);
 						}
 						else
 						{
 							gstFilte.type = ROFilter;
+							setLED(6,BlueColor,blink,_2S_Per100MS);
 						}
 						Buzzer2Flag = 1;
+						
 					}			
 			}
 
@@ -149,17 +161,16 @@ void KeySelect(void)
 			sKeySelectCnt = 0;
 			KeySelecetFlag = 0;
 		}
-			
-		if(KeySelecetFlag)
-		{
-			sKeySelectCnt++;
-		}
-			
-		else if(sKeySelectCnt > _10S_Per50MS || !KeySelecetFlag)
-		{
-				return;
-		}
 }
+
+
+/****************************************************************************************************************************************** 
+* 函数名称:	KeyGaoYaSwitch
+* 功能说明:	检测高压开关闭合还是断开
+* 输    入: 无	
+* 输    出: 无
+* 注意事项: 短按有效
+******************************************************************************************************************************************/
 
 void KeyGaoYaSwitch(void)
 {
@@ -200,11 +211,16 @@ void KeyGaoYaSwitch(void)
 ******************************************************************************************************************************************/
 void NoKeyProcess(void)
 { 
-	static u8 sNoKeytCnt=0;	
-	if(NoKeyPressFalg)
-	{
-		sNoKeytCnt++;
-	}
+		static u8 sNoKeytCnt=0;	
+	
+		if(NoKeyPressFalg)
+		{
+			sNoKeytCnt++;
+		}
+		else
+		{
+			sNoKeytCnt = 0;
+		}
 	
 		if(sNoKeytCnt > _10S_Per50MS)
 		{

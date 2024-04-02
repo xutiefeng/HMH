@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/02/2024 20:37:52 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   49   1          
   50   1          TouchKeyInit();
   51   1          CMP_Init();
-C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 2   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/02/2024 20:37:52 PAGE 2   
 
   52   1          /*<UserCodeEnd>*//*<SinOne-Tag><60>*/
   53   1          /*<UserCodeStart>*//*<SinOne-Tag><4>*/
@@ -126,33 +126,35 @@ line level    source
  111   2              {
  112   3                  SOCAPI_TouchKeyStatus &= 0x7f;
  113   3                  exKeyValueFlag = TouchKeyScan();
-C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 3   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/02/2024 20:37:52 PAGE 3   
 
  114   3                  if(exKeyValueFlag >0)
  115   3                  { 
- 116   4                      NoKeyPressFalg = 0;
+ 116   4                      
  117   4                      if(exKeyValueFlag&0x02ul)
  118   4                      {
  119   5                          KeyRestFlag = 1;
- 120   5                      }
- 121   4                      exKeyValueFlag>>=8;
- 122   4                      if(exKeyValueFlag&0x40ul)
- 123   4                      {
- 124   5                          KeySelecetFlag  = 1;
- 125   5                      }
- 126   4                      
- 127   4                      
+ 120   5                          NoKeyPressFalg = 0;
+ 121   5                      }
+ 122   4                      exKeyValueFlag>>=8;
+ 123   4                      if(exKeyValueFlag&0x40ul)
+ 124   4                      {
+ 125   5                          KeySelecetFlag  = 1;
+ 126   5                          NoKeyPressFalg = 0;
+ 127   5                      }
  128   4                      
- 129   4                  }
- 130   3                  else
- 131   3                  {
- 132   4                      NoKeyPressFalg = 1;
- 133   4                  }
- 134   3                  
- 135   3                  TouchKeyRestart();
- 136   3              }
- 137   2      #endif
- 138   2      #if 0
+ 129   4                      
+ 130   4                      
+ 131   4                  }
+ 132   3                  else
+ 133   3                  {
+ 134   4                      NoKeyPressFalg = 1;
+ 135   4                  }
+ 136   3                  
+ 137   3                  TouchKeyRestart();
+ 138   3              }
+ 139   2      #endif
+ 140   2      #if 0
                       ADC_ChannelConfig(ADC_CHANNEL_1,ENABLE);
                       
                       gAD_Value4 = ADC_GetConversionAverageValue(10);
@@ -167,7 +169,7 @@ line level    source
                       gAD_Value3 = ADC_GetConversionAverageValue(10);
                       
               #endif
- 153   2      #if 0
+ 155   2      #if 0
                       if( KEY_test)//gPWMOnOff
                       {
                           LED1_R = 1;
@@ -188,15 +190,15 @@ line level    source
                           LED3_R = 0;
                           LED4_R = 0;
                           LED1_L = 1;
+C51 COMPILER V9.59.0.0   MAIN                                                              04/02/2024 20:37:52 PAGE 4   
+
                           LED2_L = 1;
                           LED3_L = 1;
-C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 4   
-
                           LED4_L = 1;
                       }
               #endif 
- 179   2              
- 180   2      #if 0
+ 181   2              
+ 182   2      #if 0
                       if(P05 == 0)
                       {
                           BuzzerFlag =  1;
@@ -208,18 +210,18 @@ line level    source
                       }
                       
               #endif
- 192   2      #if 1
- 193   2              sysRuning();
-*** WARNING C206 IN LINE 193 OF ..\User\main.c: 'sysRuning': missing function-prototype
- 194   2      #endif
- 195   2              
- 196   2              if((CMPCON&0x20)|| KEY_test==0x5A )    //ÅÐ¶ÏÄ£ÄâÆ÷Êä³ö×´Ì¬
- 197   2              {
- 198   3                  KEY_test &= ~0X5A;
- 199   3                  WriteTempEeprom();
- 200   3                  BuzzerFlag =  1;
- 201   3              } 
- 202   2      #if 0
+ 194   2      #if 1
+ 195   2              sysRuning();
+*** WARNING C206 IN LINE 195 OF ..\User\main.c: 'sysRuning': missing function-prototype
+ 196   2      #endif
+ 197   2              
+ 198   2              if((CMPCON&0x20)|| KEY_test==0x5A )    //ÅÐ¶ÏÄ£ÄâÆ÷Êä³ö×´Ì¬
+ 199   2              {
+ 200   3                  KEY_test &= ~0X5A;
+ 201   3                  WriteTempEeprom();
+ 202   3                  BuzzerFlag =  1;
+ 203   3              } 
+ 204   2      #if 0
                       else
                       {
                           if(readEEprom(EEPROM_ADDR) == 0)
@@ -252,22 +254,22 @@ line level    source
                               
                           }
                           
+C51 COMPILER V9.59.0.0   MAIN                                                              04/02/2024 20:37:52 PAGE 5   
+
                       }
               #endif
-C51 COMPILER V9.59.0.0   MAIN                                                              04/01/2024 21:04:51 PAGE 5   
-
- 237   2              /*<UserCodeEnd>*//*<SinOne-Tag><14>*/
- 238   2              /*<Begin-Inserted by EasyCodeCube for Condition>*/
- 239   2          }
- 240   1          /*<UserCodeEnd>*//*<SinOne-Tag><4>*/
- 241   1          /*<Generated by EasyCodeCube end>*/
- 242   1      }
- 243          
- 244          
+ 239   2              /*<UserCodeEnd>*//*<SinOne-Tag><14>*/
+ 240   2              /*<Begin-Inserted by EasyCodeCube for Condition>*/
+ 241   2          }
+ 242   1          /*<UserCodeEnd>*//*<SinOne-Tag><4>*/
+ 243   1          /*<Generated by EasyCodeCube end>*/
+ 244   1      }
+ 245          
+ 246          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    310    ----
+   CODE SIZE        =    327    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     14    ----
    PDATA SIZE       =   ----    ----

@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_ADCOLLECT
@@ -62,7 +62,7 @@ line level    source
   50          
   51          
   52          
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 2   
 
   53          
   54          
@@ -126,7 +126,7 @@ line level    source
  112   1      }
  113          
  114          void JieShui_IO_Flip_2(void)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 3   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 3   
 
  115          {
  116   1          P26 = 1;
@@ -190,7 +190,7 @@ line level    source
  174   3              sADChanalCnt =0;
  175   3              ChunShui_IO_Flip_2();
  176   3              YuanShui_IO_Flip_1();
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 4   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 4   
 
  177   3            }
  178   2            
@@ -254,7 +254,7 @@ line level    source
  236   2          break;
  237   2      #endif
  238   2          case 3:
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 5   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 5   
 
  239   2            if(sADChanalCnt == 1)
  240   2            {
@@ -318,7 +318,7 @@ line level    source
  298   1        adc_sum = adc_sum - adc_value_max;
  299   1        adc_sum = adc_sum>>3;
  300   1        return adc_sum;
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 6   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 6   
 
  301   1      }
  302          
@@ -382,7 +382,7 @@ line level    source
  360          #define ADC_MAX_VALUE 0x0fff
  361          #define ADC_MIN_VALUE 0
  362          
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 7   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 7   
 
  363          
  364          
@@ -446,7 +446,7 @@ line level    source
                       gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,1500,-478);//200
                   }
                 #else
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 8   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 8   
 
  425   1          
  426   1        #if 0
@@ -510,7 +510,7 @@ line level    source
  484   1      //    gstADCollect.tds_YuanShui*=3;
  485   1        
  486   1        if(sTDS_Time < 100)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 9   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 9   
 
  487   1          sTDS_Time++;
  488   1      
@@ -574,7 +574,7 @@ line level    source
                 }
                 else if(sADChanalCnt == 7)
                 {
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/01/2024 21:04:52 PAGE 10  
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/02/2024 20:37:53 PAGE 10  
 
                     ADCHANAL_Select(7);
                     gstADCollect.YuanShui = ADC_GetConversionAverageValue(3);// YuanShui LouShui

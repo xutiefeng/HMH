@@ -25,7 +25,7 @@
 
 #define STEP_6()  BlueLedFlag =1;RedLedtFlag =1;gbFlagData[3].all =0XFF;Buzzer5Flag =1;sFactoryStep++
 #define STEP_7()  sFactoryStep++;
-
+extern void setLED(u8 num,emColor color ,U_LED state,u8 time);
 
 void FactoryProcess(void)
 {
@@ -274,8 +274,9 @@ void TimeReminder(void)
 		}
 		else
 		{
-				LED2_R =0;
-				LED2_L =1;
+				//LED2_R =0;
+				//LED2_L =1;
+				setLED(2,BlueColor,lightOn,0);
 				
 		}
 	}
@@ -288,6 +289,7 @@ void TimeReminder(void)
 		{
 				LED1_R =1;
 				LED1_L =0;
+			    
 				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1&& ShuiLongTouOpen)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 0;
@@ -325,8 +327,9 @@ void TimeReminder(void)
 		}
 		else
 		{
-				LED1_R =0;
-				LED1_L =1;
+				//LED1_R =0;
+				//LED1_L =1;
+				setLED(1,BlueColor,lightOn,0);
 		}
 	}
 		
@@ -522,6 +525,17 @@ void FirstPowerOnProcess(void)
 		
 }
 /************************************************************************* 
+* 函数名称:	RestFilter
+* 功能说明:	复位滤芯
+* 输    入: 无	
+* 输    出: 无
+*************************************************************************/
+void RestFilter(void)
+{
+
+}
+
+/************************************************************************* 
 * 函数名称:	makeWaterProcess
 * 功能说明:	制作纯水
 * 输    入: 无	
@@ -698,6 +712,7 @@ void sysRuning(void)
         {
 						KeySelect();
 						KeyRest();
+						NoKeyProcess();
 						KeyGaoYaSwitch();
 						MakeWaterProcess();	
 						
@@ -706,10 +721,11 @@ void sysRuning(void)
 				
         case ev100MS:
         {
-						LED_Process();	
+						
 						TimeReminder();
 						TDS_Calulate();
 						UART0_SendData(); 
+						LED_Process();	
         }
         break;
 				

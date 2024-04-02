@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/01/2024 21:04:53 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 20:37:54 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_UART
@@ -62,7 +62,7 @@ line level    source
   51   2              gSendData[3].all = (v>>4)&0x0f;
   52   2              gSendData[3].all = display_tab[gSendData[3].all];
   53   2            
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/01/2024 21:04:53 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 20:37:54 PAGE 2   
 
   54   2              gSendData[4].all = v&0x0f;
   55   2              gSendData[4].all = display_tab[gSendData[4].all];
@@ -98,7 +98,7 @@ line level    source
   84          
   85          
   86          
-  87          u8 ZhiShiDengdisplay1(void)
+  87          u8 ZhiShiDengdisplay1(void)//龙头指示灯1
   88          {
   89   1          uLED_Dliaplay Udata;
   90   1          if(gstFilte.type == ROFilter)
@@ -116,7 +116,7 @@ line level    source
  102   1          return Udata.all;
  103   1      }
  104          
- 105          void  ZhiShiDengdisplay2(void)
+ 105          void  ZhiShiDengdisplay2(void)//龙头指示灯2
  106          {
  107   1          gSendData[6].Bit.b0 = 1;
  108   1          gSendData[6].Bit.b1 = ChuShuiFlag?1:0;
@@ -126,7 +126,7 @@ line level    source
  112          void    UART0_SendData( void)
  113          {
  114   1          u8 i;
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/01/2024 21:04:53 PAGE 3   
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 20:37:54 PAGE 3   
 
  115   1          
  116   1          
@@ -190,7 +190,7 @@ line level    source
  174   3                  
  175   3                    ReceiveRestart();
  176   3                }           
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/01/2024 21:04:53 PAGE 4   
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 20:37:54 PAGE 4   
 
  177   2                else
  178   2                {           

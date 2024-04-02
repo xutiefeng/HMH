@@ -113,15 +113,17 @@ void main(void)
             exKeyValueFlag = TouchKeyScan();
             if(exKeyValueFlag >0)
             { 
-                NoKeyPressFalg = 0;
+                
                 if(exKeyValueFlag&0x02ul)
                 {
                     KeyRestFlag = 1;
+										NoKeyPressFalg = 0;
                 }
                 exKeyValueFlag>>=8;
                 if(exKeyValueFlag&0x40ul)
                 {
                     KeySelecetFlag  = 1;
+										NoKeyPressFalg = 0;
                 }
                 
                 
