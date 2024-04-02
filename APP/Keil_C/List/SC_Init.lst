@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 1   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC_INIT
@@ -62,7 +62,7 @@ line level    source
   51          
   52          /*****************************************************
   53          *函数名称: SC_GPIO_Init
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 2   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 2   
 
   54          *函数功能: GPIO初始化函数
   55          *入口参数：void
@@ -126,7 +126,7 @@ line level    source
  113   1        //Forbid editing areas before the following label !!!
  114   1        GPIO_Init(GPIO2, GPIO_PIN_0,GPIO_MODE_IN_PU);
  115   1        GPIO_Init(GPIO2, GPIO_PIN_1,GPIO_MODE_IN_PU);
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 3   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 3   
 
  116   1        /*模式1初始化*/UART0_Init(32000000,9600,UART0_Mode_10B,UART0_CLOCK_TIMER1,UART0_RX_ENABLE);
  117   1        UART0_ITConfig(ENABLE,LOW);
@@ -190,7 +190,7 @@ line level    source
  175          *函数功能: TIMER4初始化函数
  176          *入口参数：void
  177          *出口参数：void
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 4   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 4   
 
  178          *****************************************************/
  179          void SC_TIM4_Init(void)
@@ -254,7 +254,7 @@ line level    source
  236   1        //Forbid editing areas before the following label !!!
  237   1        /*PWM2_Init write here*/  
  238   1      }
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 5   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 5   
 
  239          
  240          /*****************************************************
@@ -318,7 +318,7 @@ line level    source
  298          *入口参数：void
  299          *出口参数：void 
  300          *****************************************************/
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 6   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 6   
 
  301          void SC_PGA_Init(void)
  302          {
@@ -382,7 +382,7 @@ line level    source
  360          *函数名称: SC_USCI3_Init
  361          *函数功能: USCI3初始化函数
  362          *入口参数：void
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 7   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 7   
 
  363          *出口参数：void
  364          *****************************************************/
@@ -446,7 +446,7 @@ line level    source
  422          *入口参数：void
  423          *出口参数：void
  424          *****************************************************/
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 8   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 8   
 
  425          void SC_SSI1_Init(void)
  426          {
@@ -510,7 +510,7 @@ line level    source
  484          *入口参数：void
  485          *出口参数：void 
  486          *****************************************************/
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 9   
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 9   
 
  487          void SC_PWR_Init(void)
  488          {
@@ -574,7 +574,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
-C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 20:37:52 PAGE 10  
+C51 COMPILER V9.59.0.0   SC_INIT                                                           04/02/2024 21:09:59 PAGE 10  
 
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----

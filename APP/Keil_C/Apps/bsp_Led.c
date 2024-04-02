@@ -107,7 +107,7 @@ void setLED(u8 num,emColor color ,U_LED state,u8 time)
 void LED_Process(void)
 {
 
-	u8 temp_bit = 1<<gstLed.run.Bit.lednum;
+	u8 temp_bit = 0;
 	u8 temp_bit2;
 	
 	
@@ -126,6 +126,15 @@ void LED_Process(void)
 			
 		if(gstLed.run.Bit.time %5 == 0)
 		{
+				if(gstLed.color == BlueColor)
+				{
+					temp_bit =1<<(gstLed.run.Bit.lednum+4);
+				}
+				else
+				{
+					temp_bit =1<<(gstLed.run.Bit.lednum);
+				}
+				
 			  if(gbFlagData[3].all && temp_bit)
 			  {
 					gbFlagData[3].all &=~temp_bit;
@@ -138,16 +147,15 @@ void LED_Process(void)
 	}
 	else if( gstLed.action == lightOn)
 	{
-		if(gstLed.run.Bit.lednum < 4)
+		if(gstLed.color == BlueColor)
 		{
-			temp_bit2 |=1<<(gstLed.run.Bit.lednum+4);
+			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
 		}
 		else
 		{
-			temp_bit2 =	1<<(gstLed.run.Bit.lednum-4);
+			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
 		}
-		gbFlagData[3].all |=temp_bit;
-		gbFlagData[3].all &=~temp_bit2;
+		gbFlagData[3].all |=temp_bit2;
 	}
 	
 	if(BlueLedFlag)
