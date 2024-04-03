@@ -300,10 +300,7 @@ unsigned int adc_get_average(u16 *p)
   return adc_sum;
 }
 
-#define TDS_100 100
-#define TDS_300 300
-#define TDS_500 500
-#define TDS_1000 1000
+
 
 
 
@@ -380,48 +377,92 @@ void test_TDS(u16 D, float *pp)
 		
 		float *p =pp;	
 		
-	#if 0
-//		if(gstADCollect.fChunShui <= 753)//20
-//		{
-//				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,172.4,-3.4);//30
-//		}
-		if(v <= 600)//20
+		if(TDS_ChunShuiFalg)
 		{
-				*p = adc_to_tds(v,80,-3);
+				if(v <= 600)//20
+				{
+						*p = adc_to_tds(v,80,-3);
+				}
+
+				else if(v<= 880)						   //1146 50ppm
+				{
+						*p  = adc_to_tds(v,140,-5);//40
+				}
+				else if(v <= 1156)//50ppm
+				{
+						//*p   = adc_to_tds(v,200,-9.5);//50
+						*p= adc_to_tds(v,372,-54);
+				}
+				
+				else if(v <= 1356)//100ppm 1226
+				{
+						//*p   = adc_to_tds(v,200,-9.5);//50
+						*p= adc_to_tds(v,1137,-268);
+				}
+				
+				else if(v <= 1610)//200ppm
+				{
+						*p  = adc_to_tds(v,1479,-390);//85
+				}
+				
+				else if(v <= 1820)
+				{
+						
+						*p   = adc_to_tds(v,819,-174);//110
+				}
+				
+				else if(v <= 1820)
+				{
+						
+						*p  = adc_to_tds(v,897,-225);//110
+				}
 		}
 
-		else if(v<= 880)						   //1146 50ppm
+		if(TDS_YuanShuiFalg)
 		{
-				*p  = adc_to_tds(v,140,-5);//40
+			if(v< 2225)//ppm 108 ad:2225
+			{
+						*p  = adc_to_tds(v,205,0);//110
+			}
+			
+			
+			else if(v< 3090)//ppm 299 3087
+			{
+					*p  = adc_to_tds(v,907,-385);//110
+			
+			}
+			
+			else if(v< 3545)//ppm 496 3535
+			{
+					*p  = adc_to_tds(v,1880,-1117);//110
+			
+			}
+			
+			else//ppm 1000 3835
+			{
+					*p  = adc_to_tds(v,6880,-5443);//110
+			}
 		}
-//		else if(gstADCollect.fChunShui <= 880)
-//		{
-//				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,200,-6);//40
-//		}
-		else if(v <= 1156)//50ppm
+
+		if(TDS_JieShuiFalg)
 		{
-				*p= adc_to_tds(v,372,-54);
+
 		}
-//		else if(gstADCollect.fChunShui <= 1175)
-//		{
-//				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,232.5,-9.5);//50
-//		}
 		
-		else if(gstADCollect.fChunShui <= 1415)
-		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,421.7,-57.9);//85
-		}
+	#if 0
+	  
+		#endif
 		
-		else if(gstADCollect.fChunShui <= 1820)
-		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,897,-225);//110
-		}
+			
+		#endif
+	}
+
+	void TDS_Select(u8 type,u16 D, float *pp)
+{
+		//gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
+		u16 v = D;
 		
-		else if(gstADCollect.fChunShui <= 2020)
-		{
-				gstADCollect.tds_ChunShui  = adc_to_tds(gstADCollect.fChunShui,1500,-478);//200
-		}
-	#else
+		float *p =pp;	
 		
 	#if 0
 	  if(v <= 600)//20
@@ -467,96 +508,5 @@ void test_TDS(u16 D, float *pp)
 		#endif
 	}
 		
-		
 
-
-void PaiShuiProcess(void)//1S钟运行一次
-{
-	static u8 sTDS_Time =0;
-	
-	test_TDS(gstADCollect.fChunShui,&gstADCollect.tds_ChunShui);
-	test_TDS(gstADCollect.fYuanShui,&gstADCollect.tds_YuanShui);
-	
-//	if(gstADCollect.tds_YuanShui <= 60)
-//		gstADCollect.tds_YuanShui*=1.5;
-//	
-//	else if(gstADCollect.tds_YuanShui <= 333)
-//		gstADCollect.tds_YuanShui*=3;
-	
-	if(sTDS_Time < 100)
-		sTDS_Time++;
-
-	
-	if(sTDS_Time < 100)
-	{
-		if(gstADCollect.fYuanShui >= TDS_100)
-		{
-			KongShuiFa_IO = 1;			
-		}
-
-		else if(gstADCollect.fYuanShui >= TDS_300)
-		{
-			KongShuiFa_IO = 1;	
-		}
-
-		else if(gstADCollect.fYuanShui >= TDS_500)
-		{
-			KongShuiFa_IO = 1;	
-		}
-		else//上店10秒内TDS <100
-		{
-			KongShuiFa_IO = 1;	
-		}
-	}
-}
-
-
-
-#if 0
-	if(sADChanalCnt == 1)
-	{
-			ChunShui_IO_Flip();
-			ADCHANAL_Select(1);
-			gstADCollect.ChunShui = ADC_GetConversionAverageValue(3);//YuanShui
-		  gstADCollect.ChunShui  *= 0.00122;
-			sADChanalCnt = 3;
-	}
-
-	else if(sADChanalCnt == 3)
-	{
-			ADCHANAL_Select(3);
-			gstADCollect.JieShui = ADC_GetConversionAverageValue(3);//ChunShui
-			gstADCollect.JieShui *= 0.00122;
-		
-			JieShui_IO_Flip();
-			
-			sADChanalCnt = 6;
-	}
-	
-	else if(sADChanalCnt == 6)
-	{
-			ChunShui_IO_Flip();
-			ADCHANAL_Select(6);
-			gstADCollect.LouShui = ADC_GetConversionAverageValue(3);//JieShui
-			gstADCollect.LouShui  *= 0.00122;
-		
-			LouShui_IO_Flip();
-			
-			sADChanalCnt = 7;
-	}
-	else if(sADChanalCnt == 7)
-	{
-			ADCHANAL_Select(7);
-			gstADCollect.YuanShui = ADC_GetConversionAverageValue(3);// YuanShui LouShui
-		  gstADCollect.YuanShui  *= 0.00122;
-		
-			YuanShui_IO_Flip();
-			
-			sADChanalCnt = 1;
-	}
-	else
-	{
-			ADCHANAL_Select(1);
-	}
-#endif
 

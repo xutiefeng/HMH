@@ -72,6 +72,11 @@
               <FilePath>..\Apps\sysRun.c</FilePath>
             </File>
             <File>
+              <FileName>bsp_ADCollect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Apps\bsp_ADCollect.c</FilePath>
+            </File>
+            <File>
               <FileName>bsp_Led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Apps\bsp_Led.c</FilePath>
@@ -80,11 +85,6 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Apps\buzzer.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_ADCollect.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Apps\bsp_ADCollect.c</FilePath>
             </File>
             <File>
               <FileName>key.c</FileName>
@@ -112,21 +112,6 @@
           <GroupName>Drivers</GroupName>
           <Files>
             <File>
-              <FileName>SC95F8X1XB_HighSensitive_lib_T1_L_V2.1.0.LIB</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\Drivers\TKDriver\C\SC95F8X1XB_HighSensitive_lib_T1_L_V2.1.0.LIB</FilePath>
-            </File>
-            <File>
-              <FileName>TKDriver.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\TKDriver\C\TKDriver.C</FilePath>
-            </File>
-            <File>
-              <FileName>InterruptVectors_OTA.A51</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\Drivers\OTADriver\C\InterruptVectors_OTA.A51</FilePath>
-            </File>
-            <File>
               <FileName>OTADriver_IAP.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\OTADriver\C\OTADriver_IAP.c</FilePath>
@@ -150,6 +135,21 @@
               <FileName>BootLoad_UpdataFlagFill.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\OTADriver\C\BootLoad_UpdataFlagFill.c</FilePath>
+            </File>
+            <File>
+              <FileName>SC95F8X1XB_HighSensitive_lib_T1_L_V2.1.0.LIB</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\Drivers\TKDriver\C\SC95F8X1XB_HighSensitive_lib_T1_L_V2.1.0.LIB</FilePath>
+            </File>
+            <File>
+              <FileName>TKDriver.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\TKDriver\C\TKDriver.C</FilePath>
+            </File>
+            <File>
+              <FileName>InterruptVectors_OTA.A51</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\Drivers\OTADriver\C\InterruptVectors_OTA.A51</FilePath>
             </File>
           </Files>
         </Group>

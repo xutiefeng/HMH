@@ -160,7 +160,7 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>c</ItemText>
+          <ItemText>gstAM901,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -180,7 +180,7 @@
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gstLed</ItemText>
+          <ItemText>gstLed,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
@@ -216,6 +216,11 @@
           <count>13</count>
           <WinNumber>1</WinNumber>
           <ItemText>gSendData</ItemText>
+        </Ww>
+        <Ww>
+          <count>14</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gstLed.action</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -625,7 +630,7 @@
 
   <Group>
     <GroupName>FWLib</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -753,7 +758,7 @@
 
   <Group>
     <GroupName>Startup</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

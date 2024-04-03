@@ -81,8 +81,8 @@ typedef struct
 				u8 all;
 				struct
 				{
-					u8 lednum :3;
-					u8 time		:5;
+					u8 lednum :2;
+					u8 time		:6;
 				}Bit;
 		}run;
 		u8 lednum;//ÄÄ¸öµÆ
@@ -109,43 +109,79 @@ void LED_Process(void)
 
 	u8 temp_bit = 0;
 	u8 temp_bit2;
-	
-	
-	
-	if(gstLed.action == blink)
+
+	if(ErrowFlag)
 	{
-			
-		if(gstLed.run.Bit.time > 0)
+	
+		gstLed.run.Bit.time++;	
+		gbFlagData[3].all =0;
+		if(gstLed.run.Bit.time == 10)
+			gstLed.run.Bit.time = 0;
+		
+		if(gstLed.run.Bit.time < 5 )
 		{
-				gstLed.run.Bit.time--;
-		}			
+			LED3_R = 1;
+		}	
 		else
 		{
-				gstLed.action = lightOff;
-		}
-			
-		if(gstLed.run.Bit.time %5 == 0)
-		{
-				if(gstLed.color == BlueColor)
-				{
-					temp_bit =1<<(gstLed.run.Bit.lednum+4);
-				}
-				else
-				{
-					temp_bit =1<<(gstLed.run.Bit.lednum);
-				}
-				
-			  if(gbFlagData[3].all && temp_bit)
-			  {
-					gbFlagData[3].all &=~temp_bit;
-			  }
-				else
-			  {
-					gbFlagData[3].all |=temp_bit;
-				}			 
+			LED3_R = 0;
 		}
 	}
+	
+	else if(gstLed.action == blink)
+	{
+			if(gstLed.run.Bit.time %5 == 0)
+			{
+					if(gstLed.color == BlueColor)
+					{
+						temp_bit =1<<(gstLed.run.Bit.lednum+4);
+					}
+					else
+					{
+						temp_bit =1<<(gstLed.run.Bit.lednum);
+					}
+					
+					if(gbFlagData[3].all&temp_bit)
+					{
+
+						gbFlagData[3].all &=~temp_bit;
+					}
+					else
+					{
+						gbFlagData[3].all |=temp_bit;
+					}			 
+			}
+			else
+			{
+			
+			}
+			if(gstLed.run.Bit.time > 0)
+			{
+					gstLed.run.Bit.time--;
+			}			
+			else
+			{
+					gstLed.action = lightOn;
+			}
+	}
 	else if( gstLed.action == lightOn)
+	{
+		if(gstLed.color == BlueColor)
+		{
+			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
+			temp_bit = 1<<(gstLed.run.Bit.lednum);
+		}
+		else
+		{
+			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
+			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
+			
+		}
+		gbFlagData[3].all |=temp_bit2;
+		gbFlagData[3].all &=~temp_bit;
+	}
+	
+	else if( gstLed.action == lightOff)
 	{
 		if(gstLed.color == BlueColor)
 		{
@@ -153,9 +189,9 @@ void LED_Process(void)
 		}
 		else
 		{
-			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
+			temp_bit2 =	1<<(gstLed.run.Bit.lednum);		
 		}
-		gbFlagData[3].all |=temp_bit2;
+		gbFlagData[3].all &=~temp_bit2;
 	}
 	
 	if(BlueLedFlag)

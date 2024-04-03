@@ -1,2 +1,0 @@
-//gpiomode write here
-//functions write here

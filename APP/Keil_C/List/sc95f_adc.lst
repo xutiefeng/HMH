@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/02/2024 21:10:01 PAGE 1   
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/03/2024 18:39:20 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SC95F_ADC
@@ -62,7 +62,7 @@ line level    source
   51          FunctionalState:NewState:ADCx使能/关闭选择
   52          *出口参数:void
   53          **************************************************/
-C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/02/2024 21:10:01 PAGE 2   
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/03/2024 18:39:20 PAGE 2   
 
   54          void ADC_ChannelConfig(ADC_Channel_TypeDef ADC_Channel, FunctionalState NewState)
   55          {
@@ -126,7 +126,7 @@ line level    source
  113   1      }
  114          
  115          /*****************************************************
-C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/02/2024 21:10:01 PAGE 3   
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/03/2024 18:39:20 PAGE 3   
 
  116          *函数名称:void ADC_Cmd(FunctionalState NewState)
  117          *函数功能:ADC功能开关函数
@@ -190,7 +190,7 @@ line level    source
  175          {
  176   1        uint8_t tmpCnt;
  177   1        uint16_t tmpValueSum = 0, tmpValue;
-C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/02/2024 21:10:01 PAGE 4   
+C51 COMPILER V9.59.0.0   SC95F_ADC                                                         04/03/2024 18:39:20 PAGE 4   
 
  178   1        uint16_t tmpValue_Max = 0, tmpValue_Min = 0xFFFF;
  179   1        bit tmpStaus = EADC;

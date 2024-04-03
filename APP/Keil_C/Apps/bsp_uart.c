@@ -91,15 +91,20 @@ u8 ZhiShiDengdisplay1(void)//龙头指示灯1
 		{
 				Udata.Bit.ppc = 0;
 				Udata.Bit.RO = 1;
-				ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
+				//ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
 		}
 		else
 		{
 				Udata.Bit.ppc = 1;
 				Udata.Bit.RO =  0;
-				ShuMaGuanDisplay(gstADCollect.tds_YuanShui);
+				//ShuMaGuanDisplay(gstADCollect.tds_YuanShui);
 		}
 		return Udata.all;
+}
+
+void TDSdisplay(void)
+{
+ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
 }
 
 void  ZhiShiDengdisplay2(void)//龙头指示灯2
@@ -120,7 +125,7 @@ void    UART0_SendData( void)
 	  gSendData[5].all  = ZhiShiDengdisplay1();
 		
 	 	gSendData[7].all = 0;
-		
+		TDSdisplay();
 		for(i = 0;i<7;i++)
 		{
 				gSendData[7].all +=gSendData[i].all;

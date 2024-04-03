@@ -89,14 +89,14 @@ extern "C"
         XS_UpFinish,
         XS_Error,
         //
-        XS_ErrFUNC,   //å‡½æ•°é…ç½®
-        XS_ErrSOH,    //å¸§å¤´
-        XS_ErrPN,     //åŒ…å¤´
-        XS_ErrVERIFY, //æ ¡éªŒ
-        XS_ErrPNS,    //åŒ…åºå·
-        XS_ErrTO,     //è¶…æ—¶
-        XS_ErrOV,     //æ•°æ®æº¢å‡º
-        XS_ErrPF,     //å¤„ç†å‡½æ•°é”™è¯¯
+        XS_ErrFUNC,   //º¯ÊýÅäÖÃ
+        XS_ErrSOH,    //Ö¡Í·
+        XS_ErrPN,     //°üÍ·
+        XS_ErrVERIFY, //Ð£Ñé
+        XS_ErrPNS,    //°üÐòºÅ
+        XS_ErrTO,     //³¬Ê±
+        XS_ErrOV,     //Êý¾ÝÒç³ö
+        XS_ErrPF,     //´¦Àíº¯Êý´íÎó
     } XmodemState_t;
 
     typedef enum

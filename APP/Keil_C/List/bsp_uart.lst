@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 21:10:00 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/03/2024 18:39:19 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_UART
@@ -62,7 +62,7 @@ line level    source
   51   2              gSendData[3].all = (v>>4)&0x0f;
   52   2              gSendData[3].all = display_tab[gSendData[3].all];
   53   2            
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 21:10:00 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/03/2024 18:39:19 PAGE 2   
 
   54   2              gSendData[4].all = v&0x0f;
   55   2              gSendData[4].all = display_tab[gSendData[4].all];
@@ -105,112 +105,117 @@ line level    source
   91   1          {
   92   2              Udata.Bit.ppc = 0;
   93   2              Udata.Bit.RO = 1;
-  94   2              ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
+  94   2              //ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
   95   2          }
   96   1          else
   97   1          {
   98   2              Udata.Bit.ppc = 1;
   99   2              Udata.Bit.RO =  0;
- 100   2              ShuMaGuanDisplay(gstADCollect.tds_YuanShui);
+ 100   2              //ShuMaGuanDisplay(gstADCollect.tds_YuanShui);
  101   2          }
  102   1          return Udata.all;
  103   1      }
  104          
- 105          void  ZhiShiDengdisplay2(void)//龙头指示灯2
+ 105          void TDSdisplay(void)
  106          {
- 107   1          gSendData[6].Bit.b0 = 1;
- 108   1          gSendData[6].Bit.b1 = ChuShuiFlag?1:0;
- 109   1          gSendData[6].Bit.b2 = gSendData[6].Bit.b1;
- 110   1      }
- 111          
- 112          void    UART0_SendData( void)
- 113          {
- 114   1          u8 i;
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 21:10:00 PAGE 3   
+ 107   1      ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
+ 108   1      }
+ 109          
+ 110          void  ZhiShiDengdisplay2(void)//龙头指示灯2
+ 111          {
+ 112   1          gSendData[6].Bit.b0 = 1;
+ 113   1          gSendData[6].Bit.b1 = ChuShuiFlag?1:0;
+ 114   1          gSendData[6].Bit.b2 = gSendData[6].Bit.b1;
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/03/2024 18:39:19 PAGE 3   
 
- 115   1          
- 116   1          
- 117   1          gSendData[0].all = 0xA5;
- 118   1          gSendData[1].all = 8;
- 119   1          
- 120   1          gSendData[5].all  = ZhiShiDengdisplay1();
+ 115   1      }
+ 116          
+ 117          void    UART0_SendData( void)
+ 118          {
+ 119   1          u8 i;
+ 120   1          
  121   1          
- 122   1          gSendData[7].all = 0;
- 123   1          
- 124   1          for(i = 0;i<7;i++)
- 125   1          {
- 126   2              gSendData[7].all +=gSendData[i].all;
- 127   2          }
- 128   1          
- 129   1          SBUF = 0xA5;
- 130   1      }
- 131          
- 132          
- 133          
- 134          
- 135          void    RDUART0_RcvByte(void)
- 136          {
- 137   1          u8   temp;
- 138   1          static u8 RxLen;
- 139   1          static u8 SCICheckout;
- 140   1          static u8 rx[8];
- 141   1          //LPUART_Getchar(LPUART0, &temp);
- 142   1         
- 143   1              temp = SBUF;
- 144   1              if(RxLen == 0)
- 145   1              {
- 146   2                if((temp == 0Xa5))
- 147   2                {
- 148   3                  rx[0] = temp;
- 149   3                  SCICheckout += temp;
- 150   3                  RxLen++;
- 151   3                }
- 152   2                else
- 153   2                {
- 154   3                   ReceiveRestart();
- 155   3                }
- 156   2              }
- 157   1        
- 158   1              else if(RxLen == 7)
- 159   1              {
- 160   2                if(temp ==  SCICheckout)
- 161   2                {
- 162   3           
- 163   3                    if(rx[2] >0 )
- 164   3                    {
- 165   4                        ShuiLongTouOpen=1;
- 166   4      
- 167   4                    }
- 168   3                      
- 169   3                    else
- 170   3                    {
- 171   4                        ShuiLongTouOpen=0;
+ 122   1          gSendData[0].all = 0xA5;
+ 123   1          gSendData[1].all = 8;
+ 124   1          
+ 125   1          gSendData[5].all  = ZhiShiDengdisplay1();
+ 126   1          
+ 127   1          gSendData[7].all = 0;
+ 128   1          TDSdisplay();
+ 129   1          for(i = 0;i<7;i++)
+ 130   1          {
+ 131   2              gSendData[7].all +=gSendData[i].all;
+ 132   2          }
+ 133   1          
+ 134   1          SBUF = 0xA5;
+ 135   1      }
+ 136          
+ 137          
+ 138          
+ 139          
+ 140          void    RDUART0_RcvByte(void)
+ 141          {
+ 142   1          u8   temp;
+ 143   1          static u8 RxLen;
+ 144   1          static u8 SCICheckout;
+ 145   1          static u8 rx[8];
+ 146   1          //LPUART_Getchar(LPUART0, &temp);
+ 147   1         
+ 148   1              temp = SBUF;
+ 149   1              if(RxLen == 0)
+ 150   1              {
+ 151   2                if((temp == 0Xa5))
+ 152   2                {
+ 153   3                  rx[0] = temp;
+ 154   3                  SCICheckout += temp;
+ 155   3                  RxLen++;
+ 156   3                }
+ 157   2                else
+ 158   2                {
+ 159   3                   ReceiveRestart();
+ 160   3                }
+ 161   2              }
+ 162   1        
+ 163   1              else if(RxLen == 7)
+ 164   1              {
+ 165   2                if(temp ==  SCICheckout)
+ 166   2                {
+ 167   3           
+ 168   3                    if(rx[2] >0 )
+ 169   3                    {
+ 170   4                        ShuiLongTouOpen=1;
+ 171   4      
  172   4                    }
- 173   3                    PanelLostFlag = 0;
- 174   3                  
- 175   3                    ReceiveRestart();
- 176   3                }           
-C51 COMPILER V9.59.0.0   BSP_UART                                                          04/02/2024 21:10:00 PAGE 4   
+ 173   3                      
+ 174   3                    else
+ 175   3                    {
+ 176   4                        ShuiLongTouOpen=0;
+C51 COMPILER V9.59.0.0   BSP_UART                                                          04/03/2024 18:39:19 PAGE 4   
 
- 177   2                else
- 178   2                {           
- 179   3                   ReceiveRestart();
- 180   3                }
- 181   2              }
- 182   1              
- 183   1              else
- 184   1              {
- 185   2                rx[RxLen] = temp;
- 186   2                RxLen++;
- 187   2                SCICheckout += temp;
- 188   2              }
- 189   1      }
- 190          
+ 177   4                    }
+ 178   3                    PanelLostFlag = 0;
+ 179   3                  
+ 180   3                    ReceiveRestart();
+ 181   3                }           
+ 182   2                else
+ 183   2                {           
+ 184   3                   ReceiveRestart();
+ 185   3                }
+ 186   2              }
+ 187   1              
+ 188   1              else
+ 189   1              {
+ 190   2                rx[RxLen] = temp;
+ 191   2                RxLen++;
+ 192   2                SCICheckout += temp;
+ 193   2              }
+ 194   1      }
+ 195          
 *** WARNING C290 IN LINE 75 OF ..\Apps\bsp_uart.c: missing return value
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    822    ----
+   CODE SIZE        =    814    ----
    CONSTANT SIZE    =     16    ----
    XDATA SIZE       =     18    ----
    PDATA SIZE       =   ----    ----

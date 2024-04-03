@@ -58,7 +58,8 @@ typedef struct
 			}Bit;
 			u16         All;
 		}Run;		
-		
+		u16				LianXuZhiShuiCnt;
+		u16				PaiShuiDaoJiShi;
 		ST_Filter *stFilter;
 		
 }ST_AM901;
@@ -128,11 +129,13 @@ typedef struct
     u16 	LouShui[10];
     u16		JieShui[10];
    	u16 	fYuanShui;
-		u16  	fChunShui;
-		u16  	fLouShui;
-		u16  	fJieShui;
-		float tds_ChunShui;
-		float tds_YuanShui;
+	u16  	fChunShui;
+	u16  	fLouShui;
+	u16  	fJieShui;
+	float tds_ChunShui;
+	float tds_YuanShui;
+	float tds_JieShui;
+	float tds_LouShui;
     u8 		ADAvergeCnt;
 	
 }STAD_Collect;
@@ -350,6 +353,12 @@ u8  gLightAdjust = 0xc0;
 #define  SCUCESS        1
 #define  FAIL           0
 
+#define TDS_100 100
+#define TDS_300 300
+#define TDS_500 500
+#define TDS_1000 1000
+
+
 #if 1//µ⁄“ª∞Êœ‘ æ∞Â
 #define KEY1_MASK 0x01
 #define KEY2_MASK 0x02
@@ -393,11 +402,15 @@ u8  gLightAdjust = 0xc0;
 #define  _30S_Per50MS  20*30
 #define  _1Min_Per50MS   20*60
 #define  _5Min_Per50MS   20*300
+#define  _20Min_Per50MS   20*1200
+
 
 #define  _90Min_Per100MS      10*60*90
 #define  _15Min_Per100MS      10*60*15
 #define  _3S400MS_Per100MS         34
 #define  _2S_Per100MS        10*2
+#define  _4S_Per100MS        40
+
 #define  _15S_Per100MS        10*15
 #define  _30S_Per100MS        10*30
 #define  _3Min_Per100MS       10*60*3
@@ -427,4 +440,10 @@ u8  gLightAdjust = 0xc0;
 #define  _35S_Per1S		35
 #define  _50S_Per1S		50
 #define  _3Min_Per1S		60*3
+#define  _9Min_Per1S		60*9
+#define  _8Min_Per1S		60*8
+#define  _4Min_Per1S		60*4
+#define  _0Min_Per1S		0
+
+
 #endif

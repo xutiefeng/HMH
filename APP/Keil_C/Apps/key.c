@@ -144,12 +144,12 @@ void KeySelect(void)
 						if(gstFilte.type == ROFilter)
 						{
 							gstFilte.type = MixFilter;
-							setLED(1,BlueColor,blink,_2S_Per100MS);
+							setLED(1,BlueColor,blink,_4S_Per100MS);
 						}
 						else
 						{
 							gstFilte.type = ROFilter;
-							setLED(2,BlueColor,blink,_2S_Per100MS);
+							setLED(2,BlueColor,blink,_4S_Per100MS);
 						}
 						Buzzer2Flag = 1;
 						

@@ -53,59 +53,64 @@ void main(void)
     /*<UserCodeStart>*//*<SinOne-Tag><4>*/
     /*****MainLoop*****/
     //WriteTempEeprom();
+    //		Pump_io =1;
+    //		while(1)
+    //		{
+    //				 WDTCON |=0x10;
+    //		}
     while(1)
     {
         /*<UserCodeStart>*//*<SinOne-Tag><14>*/
         /***User program***/
         WDTCON |=0x10;
         
-//        if(IOT_GET_FW==IOT_Work())                        //IOT平台交互命令处理
-//        {
-//#if(FIRMWARE_DOWMLOADER_MODE==0) //在BOOT中下载固件
-//            OTA_JumpBoot();             //复位到BOOT，在BOOT中下载固件并更新到APP区
-//#endif
-//        }
+        //        if(IOT_GET_FW==IOT_Work())                        //IOT平台交互命令处理
+        //        {
+        //#if(FIRMWARE_DOWMLOADER_MODE==0) //在BOOT中下载固件
+        //            OTA_JumpBoot();             //复位到BOOT，在BOOT中下载固件并更新到APP区
+        //#endif
+        //        }
         
-//#if(FIRMWARE_DOWMLOADER_MODE==1)
-//        OTA_FirmwareDownload(&IAP_Pack);   //从IOT平台下载固件
-//        
-//        if(IAP_Pack.Size!=0)                       //完成一包数据接收
-//        {
-//            unsigned int IapLen;
-//            BootLoadInit();                         //开放IAP操作区域
-//            IapLen=SaveOTA_to_BacksArea(&IAP_Pack); //将APP写入备份区
-//            if(IapLen!=0)                           //写入成功
-//            {
-//                IAP_Pack.State=OTA_IAPWRITED;
-//            }
-//            else
-//            {
-//                IAP_Pack.State=OTA_FAULT;             //下载失败
-//            }
-//            IAP_Pack.Size=0;
-//            BootLoad_DeInit();                        //恢复IAP操作区域
-//        }			
-//        if(IAP_Pack.State==OTA_COMPLETE)     //下载完成是，IAP_Pack.State置为OTA_COMPLETE状态
-//        {
-//            BootLoadInit();                   //开放IAP操作区域
-//            if (!IAP_BacksArea_CrcCheck())    //检查下载到备份区代码的Crc       
-//            {
-//                BootLoad_DeInit();            //恢复IAP操作区域
-//                IAP_Pack.State=OTA_FAULT;     //下载失败
-//            }
-//            else                              //校验通过
-//            {
-//                BootLoad_DeInit();            //恢复IAP操作区域
-//                OTA_JumpBoot();             //复位到BOOT，将备份区更新到APP区
-//            }
-//        }	
-//        
-//        if(IAP_Pack.State==OTA_FAULT)  //出错处理
-//       {
-//           OTA_Init(IOT_Uart_Receiver,&IOT_Uart_DataBuf);
-//            IOT_Init(0);
-//       }		
-//#endif
+        //#if(FIRMWARE_DOWMLOADER_MODE==1)
+        //        OTA_FirmwareDownload(&IAP_Pack);   //从IOT平台下载固件
+        //        
+        //        if(IAP_Pack.Size!=0)                       //完成一包数据接收
+        //        {
+        //            unsigned int IapLen;
+        //            BootLoadInit();                         //开放IAP操作区域
+        //            IapLen=SaveOTA_to_BacksArea(&IAP_Pack); //将APP写入备份区
+        //            if(IapLen!=0)                           //写入成功
+        //            {
+        //                IAP_Pack.State=OTA_IAPWRITED;
+        //            }
+        //            else
+        //            {
+        //                IAP_Pack.State=OTA_FAULT;             //下载失败
+        //            }
+        //            IAP_Pack.Size=0;
+        //            BootLoad_DeInit();                        //恢复IAP操作区域
+        //        }			
+        //        if(IAP_Pack.State==OTA_COMPLETE)     //下载完成是，IAP_Pack.State置为OTA_COMPLETE状态
+        //        {
+        //            BootLoadInit();                   //开放IAP操作区域
+        //            if (!IAP_BacksArea_CrcCheck())    //检查下载到备份区代码的Crc       
+        //            {
+        //                BootLoad_DeInit();            //恢复IAP操作区域
+        //                IAP_Pack.State=OTA_FAULT;     //下载失败
+        //            }
+        //            else                              //校验通过
+        //            {
+        //                BootLoad_DeInit();            //恢复IAP操作区域
+        //                OTA_JumpBoot();             //复位到BOOT，将备份区更新到APP区
+        //            }
+        //        }	
+        //        
+        //        if(IAP_Pack.State==OTA_FAULT)  //出错处理
+        //       {
+        //           OTA_Init(IOT_Uart_Receiver,&IOT_Uart_DataBuf);
+        //            IOT_Init(0);
+        //       }		
+        //#endif
 #if 1         
         if(SOCAPI_TouchKeyStatus & 0x80)
         {
@@ -117,13 +122,13 @@ void main(void)
                 if(exKeyValueFlag&0x02ul)
                 {
                     KeyRestFlag = 1;
-										NoKeyPressFalg = 0;
+                    NoKeyPressFalg = 0;
                 }
                 exKeyValueFlag>>=8;
                 if(exKeyValueFlag&0x40ul)
                 {
                     KeySelecetFlag  = 1;
-										NoKeyPressFalg = 0;
+                    NoKeyPressFalg = 0;
                 }
                 
                 

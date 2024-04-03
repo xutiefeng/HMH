@@ -61,10 +61,10 @@ typedef enum
 #define  LongPress_3sFlag                      	    gbFlagData[0].Bit.b6 
 #define  SysRunFlag                        			gbFlagData[0].Bit.b7
 
-#define  ALLTempSenseErrowFlag					 			  gbFlagData[1].Bit.b0  
-#define  OzoneRunFlag                   				gbFlagData[1].Bit.b1 
-#define  ChouTiOutputHoldFlag                   gbFlagData[1].Bit.b2 
-#define  ChouTiFlag     												gbFlagData[1].Bit.b3 
+#define  ErrowFlag					 			  gbFlagData[1].Bit.b0  
+#define  TDS_ChunShuiFalg                   				gbFlagData[1].Bit.b1 
+#define  TDS_YuanShuiFalg                   gbFlagData[1].Bit.b2 
+#define  TDS_JieShuiFalg     												gbFlagData[1].Bit.b3 
 #define  HeatFlag   														gbFlagData[1].Bit.b4 
 #define  CoolFlag																gbFlagData[1].Bit.b5 
 #define  ChuShuiFlag                              	gbFlagData[1].Bit.b6 

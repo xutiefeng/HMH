@@ -1,3 +1,0 @@
-
-OTA_UARTHANDLE();
-/*USCI2_it write here*/

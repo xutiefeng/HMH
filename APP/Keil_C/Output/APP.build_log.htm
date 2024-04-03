@@ -22,14 +22,14 @@ Dialog DLL:      TP51.DLL V2.60.0.0
  
 <h2>Project:</h2>
 D:\tfxu\Project\AM901_0308\APP\Keil_C\project\APP.uvproj
-Project File Date:  03/29/2024
+Project File Date:  04/03/2024
 
 <h2>Output:</h2>
 Rebuild Project 'APP' - Target '<APP>'
 compiling main.c...
 D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(43): warning C206: 'DevicePowerOnInit': missing function-prototype
 D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(46): warning C206: 'sysRest': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(195): warning C206: 'sysRuning': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\User\main.c(200): warning C206: 'sysRuning': missing function-prototype
 compiling SC_Init.c...
 compiling SC_it.c...
 D:\tfxu\Project\AM901_0308\APP\Keil_C\User\SC_it.c(40): warning C206: 'ADCollectProcess': missing function-prototype
@@ -41,13 +41,17 @@ compiling MIIO_OPERATE.C...
 compiling clib.c...
 compiling globe.c...
 compiling sysRun.c...
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(362): warning C209: '_FilterlifeDayTime': too few actual parameters
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(385): warning C209: '_FilterlifeDayTime': too few actual parameters
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(401): warning C209: '_FilterlifeTime': too few actual parameters
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(425): warning C209: '_FilterlifeTime': too few actual parameters
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(715): warning C206: 'NoKeyProcess': missing function-prototype
-D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(739): warning C206: 'PaiShuiProcess': missing function-prototype
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(366): warning C209: '_FilterlifeDayTime': too few actual parameters
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(389): warning C209: '_FilterlifeDayTime': too few actual parameters
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(405): warning C209: '_FilterlifeTime': too few actual parameters
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(429): warning C209: '_FilterlifeTime': too few actual parameters
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(558): warning C182: pointer to different objects
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(553): warning C280: 'sPaiShuiFaOn_Cnt': unreferenced local variable
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\sysRun.c(797): warning C206: 'NoKeyProcess': missing function-prototype
 compiling bsp_ADCollect.c...
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\bsp_ADCollect.c(457): warning C312: misplaced endif control
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\bsp_ADCollect.c(508): warning C312: misplaced endif control
+D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\bsp_ADCollect.c(460): warning C280: 'type': unreferenced local variable
 compiling bsp_Led.c...
 D:\tfxu\Project\AM901_0308\APP\Keil_C\Apps\bsp_Led.c(5): warning C280: 'x': unreferenced local variable
 compiling buzzer.c...
@@ -85,9 +89,9 @@ linking...
     NAME:    _IAP_EEPROMPROGRAMBYTEOPTION/IAP_OPTION_EW
     CALLER1: ?C_C51STARTUP
     CALLER2: ACMPINTERRUPT/SC_IT
-Program Size: data=36.5 xdata=3744 const=162 code=22988
+Program Size: data=36.5 xdata=3768 const=162 code=24093
 creating hex file from "..\Output\APP"...
-"..\Output\APP" - 0 Error(s), 20 Warning(s).
+"..\Output\APP" - 0 Error(s), 24 Warning(s).
 Build Time Elapsed:  00:00:04
 </pre>
 </body>

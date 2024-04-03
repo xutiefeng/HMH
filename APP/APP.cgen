@@ -3,8 +3,8 @@ Project.Name=APP
 Project.Path=D:\tfxu\Project\AM901_0308\APP
 Project.KeilPath=D:\tfxu\Project\AM901_0308\APP\Keil_C\
 Project.CurrentPath=D:\tfxu\Project\AM901_0308\APP\APP.cgen
-Project.CreationTime=20240327190847
-Project.ModificationTime=20240327190847
+Project.CreationTime=20240403153848
+Project.ModificationTime=20240403153848
 Project.Version=EasyCodeCube 3.3.4
 Project.IsBootloaderProject=false
 Project.IsUnifiedVersionProject=True
@@ -52,8 +52,10 @@ Style=DockLeft
 [PinNumber]11[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P5.3[/PinName]
 [PinNumber]13[/PinNumber][UpperIndex]1[/UpperIndex][Iindex]0[/Iindex][PinName]USRX2[/PinName]
 [PinNumber]14[/PinNumber][UpperIndex]1[/UpperIndex][Iindex]0[/Iindex][PinName]USTX2[/PinName]
+[PinNumber]15[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P4.3[/PinName]
 [PinNumber]16[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P4.2[/PinName]
 [PinNumber]17[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P4.1[/PinName]
+[PinNumber]18[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P4.0[/PinName]
 [PinNumber]19[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P3.7[/PinName]
 [PinNumber]20[/PinNumber][UpperIndex]3[/UpperIndex][Iindex]0[/Iindex][PinName]TK1[/PinName]
 [PinNumber]21[/PinNumber][UpperIndex]0[/UpperIndex][Iindex]2[/Iindex][PinName]P3.5[/PinName]

@@ -26,6 +26,16 @@
 #define STEP_6()  BlueLedFlag =1;RedLedtFlag =1;gbFlagData[3].all =0XFF;Buzzer5Flag =1;sFactoryStep++
 #define STEP_7()  sFactoryStep++;
 extern void setLED(u8 num,emColor color ,U_LED state,u8 time);
+extern void test_TDS(u16 D, float *pp);
+
+void CloseFuZai(void)
+{
+	JinShuiFa_io = 0;
+	FeiShuiFa_IO = 0;
+	HuiLiuFa_io = 0;
+	KongShuiFa_IO = 0;
+	Pump_io = 0;
+}
 
 void FactoryProcess(void)
 {
@@ -87,10 +97,7 @@ void FactoryProcess(void)
 				gbFlagData[3].all = 0;
 				BlueLedFlag = 0;
 				RedLedtFlag = 0;
-				JinShuiFa_io = 0;
-				FeiShuiFa_IO = 0;
-				HuiLiuFa_io = 0;
-				KongShuiFa_IO = 0;
+				CloseFuZai();
 				sFactoryStep++;
 			break;
 
@@ -274,10 +281,7 @@ void TimeReminder(void)
 		}
 		else
 		{
-				//LED2_R =0;
-				//LED2_L =1;
-				setLED(2,BlueColor,lightOn,0);
-				
+				setLED(2,BlueColor,lightOn,0);			
 		}
 	}
 	else
@@ -543,12 +547,75 @@ void RestFilter(void)
 *************************************************************************/
 
 
+void PaiShuiProcess(void)//1S钟运行一次
+{
+	static u8 sTDS_Time =0;
+	static u8 sPaiShuiFaOn_Cnt;
+	
+	test_TDS(gstADCollect.fChunShui,&gstADCollect.tds_ChunShui);
+	test_TDS(gstADCollect.fYuanShui,&gstADCollect.tds_YuanShui);//检测10次求平均值
+	test_TDS(gstADCollect.fJieShui,&gstADCollect.tds_JieShui);//检测10次求平均值
+	test_TDS(gstADCollect.fLouShui,&gstADCollect.fLouShui);//检测10次求平均值
+	TDS_ChunShuiFalg = 1;
+	if(sTDS_Time < 60)
+	{
+			TDS_YuanShuiFalg =1;
+			
+			if(gstADCollect.fYuanShui <= TDS_100)
+			{	
+				gstAM901.PaiShuiDaoJiShi = _9Min_Per1S;
+			}
+
+			else if(gstADCollect.fYuanShui <= TDS_300)
+			{
+				gstAM901.PaiShuiDaoJiShi = _8Min_Per1S;//KongShuiFa_IO = 1;	
+			}
+
+			else if(gstADCollect.fYuanShui <= TDS_500)
+			{
+				gstAM901.PaiShuiDaoJiShi = _4Min_Per1S;//KongShuiFa_IO = 1;	
+			}
+			else//上店10秒内TDS <100
+			{
+				gstAM901.PaiShuiDaoJiShi  =0;//KongShuiFa_IO = 1;	
+			}
+	}
+
+	if(sTDS_Time < 60)
+	{
+		sTDS_Time++;
+	}		
+	else
+	{
+		if(gstAM901.PaiShuiDaoJiShi > 0 && (gstAM901.PaiShuiDaoJiShi !=0xffff))
+		{
+			gstAM901.PaiShuiDaoJiShi--;
+		}
+		
+		else
+		{
+			KongShuiFa_IO = 1;
+			gstAM901.PaiShuiDaoJiShi =0xffff;
+		}
+		
+		
+		if(!KeySwitchFlag)//水满
+		{
+				KongShuiFa_IO = 0;
+		}
+	}
+	
+
+}
+
+
+
 void MakeWaterProcess(void)
 {		
 		static u8 sMWaterStep = 5;
 		static u16 sMWaterStepCnt = 0;
 
-		if(FactoryModeFlag)
+		if(ErrowFlag||FactoryModeFlag || !SysRunFlag)
 		{
 			return ;
 		}
@@ -586,14 +653,28 @@ void MakeWaterProcess(void)
 						Pump_io = 1;
 						sMWaterStep++;
 						ChuShuiFlag = 1;
+						
 					}			
 				break;
 				
 				case 2:
+				
 					if(!KeySwitchFlag)//水满
 					{
+							if(!ErrowFlag)
+							{
+									gstAM901.LianXuZhiShuiCnt =0;
+							}							
 							sMWaterStep++;
 							LED4_L =0;
+					}
+
+					if(_20Min_Per50MS < gstAM901.LianXuZhiShuiCnt++)
+					{
+						ChuShuiFlag = 0;
+						ErrowFlag =  1;
+						CloseFuZai();
+						setLED(3,RedColor ,blink,_4S_Per100MS);
 					}
 				break;
 				
@@ -606,6 +687,7 @@ void MakeWaterProcess(void)
 				
 				case 4://0.5秒后关闭氣泵
 					sMWaterStepCnt++;
+					
 					if(sMWaterStepCnt > _500MS_Per50MS)
 					{
 						sMWaterStepCnt = 0;
@@ -678,7 +760,7 @@ void TDS_JiaoZhun(u16 v0,u16 AdValue_0,u16 v1,u16 AdValue_1)
 			  b = AdValue_1/(float)4095;
 				b = b*a;
 				b =  v1- b;
-				return;
+				b= 0;
 		}
 	
 }
