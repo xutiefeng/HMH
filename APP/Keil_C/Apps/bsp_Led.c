@@ -120,12 +120,41 @@ void LED_Process(void)
 		
 		if(gstLed.run.Bit.time < 5 )
 		{
+<<<<<<< HEAD
 			LED3_R = 1;
 		}	
 		else
 		{
 			LED3_R = 0;
 		}
+=======
+				gstLed.run.Bit.time--;
+				
+				if(gstLed.run.Bit.time %5 == 0)
+				{
+					if(gstLed.color == BlueColor)
+					{
+						temp_bit =1<<(gstLed.run.Bit.lednum+4);
+					}
+					else
+					{
+						temp_bit =1<<(gstLed.run.Bit.lednum);
+					}
+				
+					 if(gbFlagData[3].all && temp_bit)
+					 {
+						gbFlagData[3].all &=~temp_bit;
+					 }
+					else
+				  	{
+						gbFlagData[3].all |=temp_bit;
+					}			 
+				}
+		}			
+		
+			
+		
+>>>>>>> c6dfe53dd198aae27ea6e1419075aaa27af70448
 	}
 	
 	else if(gstLed.action == blink)
@@ -170,6 +199,7 @@ void LED_Process(void)
 		{
 			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
 			temp_bit = 1<<(gstLed.run.Bit.lednum);
+<<<<<<< HEAD
 		}
 		else
 		{
@@ -191,6 +221,32 @@ void LED_Process(void)
 		{
 			temp_bit2 =	1<<(gstLed.run.Bit.lednum);		
 		}
+=======
+		}
+		else
+		{
+			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
+			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
+			
+		}
+		gbFlagData[3].all |=temp_bit2;
+		//gbFlagData[3].all &=~temp_bit;
+	}
+
+	else if( gstLed.action == lightOff)
+	{
+		if(gstLed.color == BlueColor)
+		{
+			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
+			temp_bit = 1<<(gstLed.run.Bit.lednum);
+		}
+		else
+		{
+			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
+			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
+			
+		}
+>>>>>>> c6dfe53dd198aae27ea6e1419075aaa27af70448
 		gbFlagData[3].all &=~temp_bit2;
 	}
 	
