@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   CLIB                                                              04/03/2024 18:39:18 PAGE 1   
+C51 COMPILER V9.59.0.0   CLIB                                                              04/07/2024 19:40:23 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CLIB
@@ -62,7 +62,7 @@ line level    source
   50   1        EN_INTRUPT;
   51   1          
   52   1        return (event);
-C51 COMPILER V9.59.0.0   CLIB                                                              04/03/2024 18:39:18 PAGE 2   
+C51 COMPILER V9.59.0.0   CLIB                                                              04/07/2024 19:40:23 PAGE 2   
 
   53   1      }
   54          /*********************************************************************************************************
@@ -89,45 +89,50 @@ line level    source
   73          void EventCollect(void) 
   74          {
   75   1       
-  76   1         if(Ev5MSFlag)
+  76   1        if(PowerDownFlag)
   77   1        {
-  78   2          Ev5MSFlag = 0;
-  79   2          PushEvent(ev5MS);
+  78   2          PowerDownFlag = 0;
+  79   2          PushEvent(evPowerDown);
   80   2        }
-  81   1          
-  82   1        if(Ev20MSFlag)
-  83   1        {
-  84   2          Ev20MSFlag = 0;
-  85   2          PushEvent(ev20MS);
-  86   2        }
-  87   1        if(Ev50MSFlag)
+  81   1        else if(Ev5MSFlag)
+  82   1        {
+  83   2          Ev5MSFlag = 0;
+  84   2          PushEvent(ev5MS);
+  85   2        }
+  86   1          
+  87   1        else if(Ev20MSFlag)
   88   1        {
-  89   2          Ev50MSFlag = 0;
-  90   2          PushEvent(ev50MS);
+  89   2          Ev20MSFlag = 0;
+  90   2          PushEvent(ev20MS);
   91   2        }
-  92   1        if(Ev100MSFlag)
+  92   1        else if(Ev50MSFlag)
   93   1        {
-  94   2          Ev100MSFlag = 0;
-  95   2          PushEvent(ev100MS);
+  94   2          Ev50MSFlag = 0;
+  95   2          PushEvent(ev50MS);
   96   2        }
-  97   1        if(Ev1SFlag)
+  97   1        else if(Ev100MSFlag)
   98   1        {
-  99   2          Ev1SFlag = 0;
- 100   2          PushEvent(ev1S);
+  99   2          Ev100MSFlag = 0;
+ 100   2          PushEvent(ev100MS);
  101   2        }
- 102   1        
- 103   1      #if 0
+ 102   1        else if(Ev1SFlag)
+ 103   1        {
+ 104   2          Ev1SFlag = 0;
+ 105   2          PushEvent(ev1S);
+ 106   2        }
+ 107   1        
+ 108   1      #if 0
                 
                 if(EvReceiveControlFlag)
                 {
                   EvReceiveControlFlag = 0;
+C51 COMPILER V9.59.0.0   CLIB                                                              04/07/2024 19:40:23 PAGE 3   
+
                   PushEvent(evReceiveControl);
                 }
                 if(EvReceiveCoreFlag)
                 {
                   EvReceiveCoreFlag = 0;
-C51 COMPILER V9.59.0.0   CLIB                                                              04/03/2024 18:39:18 PAGE 3   
-
                   PushEvent(evReceiveCore);
                 }
                 if(Ev25MsFlag)
@@ -156,12 +161,7 @@ line level    source
                   PushEvent(evTime1S);
                 }
               #endif
- 141   1      }
- 142          
- 143          
- 144          
- 145          
- 146          
+ 146   1      }
  147          
  148          
  149          
@@ -178,20 +178,25 @@ line level    source
  160          
  161          
  162          
+ 163          
+ 164          
+ 165          
+ 166          
+ 167          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    450    ----
+   CODE SIZE        =    483    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      3    ----
    PDATA SIZE       =   ----    ----
+C51 COMPILER V9.59.0.0   CLIB                                                              04/07/2024 19:40:23 PAGE 4   
+
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
-C51 COMPILER V9.59.0.0   CLIB                                                              04/03/2024 18:39:18 PAGE 4   
-
    XDATA CONST SIZE =   ----    ----
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.

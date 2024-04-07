@@ -72,6 +72,8 @@ typedef union
 	u8	ppc :2;
 	u8	C		:2;	
 	u8	RO 	:2;
+	u8	Water :1;
+	u8	wifi 	:1;
 	}Bit;
 }uLED_Dliaplay;
 
@@ -408,8 +410,9 @@ u8  gLightAdjust = 0xc0;
 #define  _90Min_Per100MS      10*60*90
 #define  _15Min_Per100MS      10*60*15
 #define  _3S400MS_Per100MS         34
-#define  _2S_Per100MS        10*2
-#define  _4S_Per100MS        40
+#define  _2S_Per100MS         10*2
+#define  _4S_Per100MS         40
+
 
 #define  _15S_Per100MS        10*15
 #define  _30S_Per100MS        10*30
@@ -423,7 +426,8 @@ u8  gLightAdjust = 0xc0;
 #define  _500MS_Per100MS   5
 #define  _2S_Per100MS   10*2
 #define  _1S_Per100MS   10*1
-#define  _10S_Per100MS   10*10
+#define  _10S_Per100MS   100
+#define  _20S_Per100MS   200
 #define  _25S_Per100MS  10*20
 
 #define  _1h_Per1S      60*60

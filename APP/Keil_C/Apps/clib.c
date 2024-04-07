@@ -73,28 +73,33 @@ void ClibInit(void)
 void EventCollect(void) 
 {
  
- 	 if(Ev5MSFlag)
+	if(PowerDownFlag)
+	{
+		PowerDownFlag = 0;
+		PushEvent(evPowerDown);
+	}
+ 	else if(Ev5MSFlag)
 	{
 		Ev5MSFlag = 0;
 		PushEvent(ev5MS);
 	}
     
-	if(Ev20MSFlag)
+	else if(Ev20MSFlag)
 	{
 		Ev20MSFlag = 0;
 		PushEvent(ev20MS);
 	}
-	if(Ev50MSFlag)
+	else if(Ev50MSFlag)
 	{
 		Ev50MSFlag = 0;
 		PushEvent(ev50MS);
 	}
-	if(Ev100MSFlag)
+	else if(Ev100MSFlag)
 	{
 		Ev100MSFlag = 0;
 		PushEvent(ev100MS);
 	}
-	if(Ev1SFlag)
+	else if(Ev1SFlag)
 	{
 		Ev1SFlag = 0;
 		PushEvent(ev1S);

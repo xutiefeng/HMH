@@ -6,7 +6,7 @@
 
 
 extern unsigned	char	xdata		SOCAPI_TouchKeyStatus;					//API接口状态：bit7-一轮扫描完成标志  1:完成 	0：未完成
-
+extern void RestFilter(void);
 static u8 sKeyValue = 0;
 
 static u8 sKeyReskCnt=0;
@@ -24,6 +24,120 @@ void RestKeyProcess(void)
 		//LongPress_3sFlag = 0;
 }
 
+
+
+
+
+/****************************************************************************************************************************************** 
+* 函数名称:	KeySelect
+* 功能说明:	选择按键
+* 输    入: 无	
+* 输    出: 无
+* 注意事项: 短按有效
+******************************************************************************************************************************************/
+extern void setLED(u8 num,emColor color ,U_LED state,u8 time);
+
+/****************************************************************************************************************************************** 
+* 函数名称:	KeyCancelRestKey
+* 功能说明:	
+* 输    入: 无	
+* 输    出: 无
+* 注意事项: 短按有效
+******************************************************************************************************************************************/
+void KeyCancelRestKey(void)
+{
+	
+		static u8  sCancelRestKeyCnt=0;
+		static u16 sRestFilteryCnt=0;
+	
+		if(!RestFilterFlag)
+		{
+				sRestFilteryCnt = 0;
+				return;
+		}
+		
+		sRestFilteryCnt++;
+		
+		if((KeyCancelRestFlag )&& (sRestFilteryCnt < _5Min_Per50MS))
+		{
+			sCancelRestKeyCnt++;
+			if(sCancelRestKeyCnt > _5S_Per50MS)
+			{
+					KeyCancelRestFlag = 0;
+					ReadEEprom(0);
+			}		
+		}
+		
+}
+
+/****************************************************************************************************************************************** 
+* 函数名称:	KeySelect
+* 功能说明:	选择按键
+* 输    入: 无	
+* 输    出: 无
+* 注意事项: 短按有效
+******************************************************************************************************************************************/
+void KeySelect(void)
+{
+	
+		static u8 sKeySelectCnt=0;
+	
+		if(KeyCancelRestFlag)
+		{
+				KeySelecetFlag = 0;
+				sKeySelectCnt = 0;
+				return;
+		}
+		
+		if(		KeySelecetFlag )//按下按键
+		{
+			KeySelecetFlag = 0;
+			KeyRestFlag = 0;
+			sKeySelectCnt++;
+		}
+
+		else if(NoKeyPressFalg)//松开按键
+		{
+			if(sKeySelectCnt >0 && sKeySelectCnt < 10 )
+			{
+
+				///////////////////////////按键逻辑处理//////////////////////////////
+					if(LongPress_5sFlag)
+					{	
+							LongPress_5sFlag = 0;
+							RestFilter();		
+							RestFilterFlag = 1;
+					}
+						
+					else if(LongPress_3sFlag)
+					{
+						if(gstFilte.type == ROFilter)
+						{
+							gstFilte.type = MixFilter;
+							setLED(1,BlueColor,lightOn,0);
+						}
+						else
+						{
+							gstFilte.type = ROFilter;
+							setLED(2,BlueColor,lightOn,0);
+						}
+						Buzzer2Flag = 1;
+						
+					}			
+					sKeySelectCnt = 0;
+					KeySelecetFlag = 0;
+				}
+			else
+			{
+					sKeySelectCnt = 0;
+			}
+				
+
+			}
+			
+}
+
+
 /****************************************************************************************************************************************** 
 * 函数名称:	KeyRest
 * 功能说明:	长按复位键3秒，蜂鸣器短鸣一声：0.2秒
@@ -37,6 +151,13 @@ void KeyRest(void)
 		static u8 sUseFactoryCnt =0;
 	  static u8 sKeyReskCnt =0;//按下计时
 	  static u8 sKeyPressCnt =0;//按下次数
+	
+		if(KeyCancelRestFlag)
+		{
+				KeySelecetFlag = 0;
+				sKeyReskCnt = 0;
+				return;
+		}
 
 		if(sUseFactoryCnt < 0xff)
 			sUseFactoryCnt++;
@@ -95,74 +216,12 @@ void KeyRest(void)
 		}
 		else if(sKeyReskCnt == _5S_Per50MS)
 		{
-					Buzzer3Flag = 0;
+					Buzzer5Flag = 1;
 					LongPress_5sFlag = 1;
 					LongPress_3sFlag = 0;
 		}
 			
 }
-
-
-
-/****************************************************************************************************************************************** 
-* 函数名称:	KeySelect
-* 功能说明:	选择按键
-* 输    入: 无	
-* 输    出: 无
-* 注意事项: 短按有效
-******************************************************************************************************************************************/
-extern void setLED(u8 num,emColor color ,U_LED state,u8 time);
-
-
-
-
-void KeySelect(void)
-{
-	
-		static u8 sKeySelectCnt=0;
-		
-		if(KeySelecetFlag)//按下按键
-		{
-			KeySelecetFlag = 0;
-			sKeySelectCnt++;
-		}
-
-		else if(NoKeyPressFalg)//松开按键
-		{
-			if(sKeySelectCnt >0 && sKeySelectCnt < 10 )
-			{
-
-				///////////////////////////按键逻辑处理//////////////////////////////
-					if(LongPress_5sFlag)
-					{	
-							LongPress_5sFlag = 0;
-							RestFilter();
-					}
-						
-					else if(LongPress_3sFlag)
-					{
-						if(gstFilte.type == ROFilter)
-						{
-							gstFilte.type = MixFilter;
-							setLED(1,BlueColor,blink,_4S_Per100MS);
-						}
-						else
-						{
-							gstFilte.type = ROFilter;
-							setLED(2,BlueColor,blink,_4S_Per100MS);
-						}
-						Buzzer2Flag = 1;
-						
-					}			
-			}
-
-			
-			
-			sKeySelectCnt = 0;
-			KeySelecetFlag = 0;
-		}
-}
-
 
 /****************************************************************************************************************************************** 
 * 函数名称:	KeyGaoYaSwitch
@@ -216,6 +275,7 @@ void NoKeyProcess(void)
 		if(NoKeyPressFalg)
 		{
 			sNoKeytCnt++;
+			
 		}
 		else
 		{
@@ -226,6 +286,7 @@ void NoKeyProcess(void)
 		{
 				LongPress_3sFlag = 0;
 				LongPress_5sFlag = 0;		
+				
 		}	
 	
 }

@@ -20,6 +20,7 @@ void LED_sCan(void);
 void LED_Process(void);
 void LED_ForceOutput(u8 v);
 void FactoryErrowDisplay(u8 v);
+void CloseAllLED(void);
 	
 ///void setLED(u8 num,u8 color, U_LED state);
 #ifdef	__cplusplus

@@ -34,6 +34,7 @@ typedef enum
     ev50MS ,
     ev100MS,
     ev1S,
+	  evPowerDown
 }Evnt_t;
 
 
@@ -52,23 +53,23 @@ typedef enum
 #define KEY_CHOU_TI_DealyTime     32//16*2
 #define KEY_CHOU_TI_DealyTime_2   300//150*2
 
-#define  KeyRestFlag				 		 							  gbFlagData[0].Bit.b0
+#define  KeyRestFlag				 		 							  	gbFlagData[0].Bit.b0
 #define  KeySelecetFlag                        	 	gbFlagData[0].Bit.b1 
-#define  NoKeyPressFalg                           	gbFlagData[0].Bit.b2
+#define  NoKeyPressFalg                           gbFlagData[0].Bit.b2
 #define  KeySwitchFlag1                          	gbFlagData[0].Bit.b3 
-#define  KeySwitchFlag								gbFlagData[0].Bit.b4
+#define  KeySwitchFlag														gbFlagData[0].Bit.b4
 #define  LongPress_5sFlag                    	    gbFlagData[0].Bit.b5  
-#define  LongPress_3sFlag                      	    gbFlagData[0].Bit.b6 
-#define  SysRunFlag                        			gbFlagData[0].Bit.b7
+#define  LongPress_3sFlag                      	  gbFlagData[0].Bit.b6 
+#define  KeyCancelRestFlag                        gbFlagData[0].Bit.b7
 
-#define  ErrowFlag					 			  gbFlagData[1].Bit.b0  
+#define  ErrowFlag					 			  								gbFlagData[1].Bit.b0  
 #define  TDS_ChunShuiFalg                   				gbFlagData[1].Bit.b1 
-#define  TDS_YuanShuiFalg                   gbFlagData[1].Bit.b2 
+#define  TDS_YuanShuiFalg                  					gbFlagData[1].Bit.b2 
 #define  TDS_JieShuiFalg     												gbFlagData[1].Bit.b3 
-#define  HeatFlag   														gbFlagData[1].Bit.b4 
-#define  CoolFlag																gbFlagData[1].Bit.b5 
+#define  SysRunFlag   															gbFlagData[1].Bit.b4 
+#define  RestFilterFlag															gbFlagData[1].Bit.b5 
 #define  ChuShuiFlag                              	gbFlagData[1].Bit.b6 
-#define  ShuiLongTouOpen                              gbFlagData[1].Bit.b7 
+#define  ShuiLongTouOpen                            gbFlagData[1].Bit.b7 
 
 
 #define  HisBuzzerFlag                            gbFlagData[2].Bit.b0 
@@ -92,8 +93,8 @@ typedef enum
 
 #define  SysOffDelayFlag								gbFlagData[4].Bit.b0 
 #define  ParameterRecoverFlag						gbFlagData[4].Bit.b1 
-#define  LedBlinkFlag									gbFlagData[4].Bit.b2 
-#define  LedChangeFlag							gbFlagData[4].Bit.b3
+#define  LedBlinkFlag										gbFlagData[4].Bit.b2 
+#define  LedChangeFlag									gbFlagData[4].Bit.b3
 #define  RedLedtFlag										gbFlagData[4].Bit.b4
 #define  BlueLedFlag                    gbFlagData[4].Bit.b5 
 #define  PunpFlag												gbFlagData[4].Bit.b6 
@@ -131,9 +132,9 @@ typedef enum
 
 
 #define  PanelLostFlag                          gbFlagData[8].Bit.b0
-#define  FactoryModeFlag                      gbFlagData[8].Bit.b1 
+#define  FactoryModeFlag                     		 gbFlagData[8].Bit.b1 
 #define  HisFactoryModeFlag                      gbFlagData[8].Bit.b2 
-#define  FstModeFlag                 gbFlagData[8].Bit.b3 
+#define  FstModeFlag                 						gbFlagData[8].Bit.b3 
 #define  LinMingDuFlag                          gbFlagData[8].Bit.b4 
 #define  CoolFlag_FromEEprom										gbFlagData[8].Bit.b5 
 #define  HisVCU_VIBPwrOff                       gbFlagData[8].Bit.b5 
@@ -144,6 +145,7 @@ typedef enum
 #define  Ev1SFlag                               gbFlagData[9].Bit.b3 
 #define  Ev5MSFlag                              gbFlagData[9].Bit.b4
 #define  Ev3MSFlag                              gbFlagData[9].Bit.b5
+#define  PowerDownFlag                          gbFlagData[9].Bit.b6
 //////////////////////////////???????? ///////////////////////////////////////////////
 
 #define  LED1_DisplayFlag                           gSendData[0].Bit.b0 //led power

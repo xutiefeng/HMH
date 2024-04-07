@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        04/03/2024 18:39:19 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        04/07/2024 19:40:24 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_EEPROM
@@ -15,161 +15,183 @@ line level    source
    4          #include "bsp_eeprom.h"
    5          #include "globe.h"
    6          
-   7          #define WriteToEEprom(X)          WriteEEpromData(EEPROM##X##_ADDR,gstAM901.stFilter,EEPROM_DATA_LEN) 
-   8          #define ReadFromEEprom(X)         IAP_ReadByteArray(EEPROM##X##_ADDR,(u8 *)gstAM901.stFilter,EEPROM_DATA_LEN,
-             -IAP_MEMTYPE_EEPROM)
-   9          #define EraseEEprom(X)            IAP_EEPROMSectorEraseOption(EEPROM##X##_ADDR)
-  10          
-  11          #define EEPROM_DATA_LEN 4
-  12          #define Block_Size 0XFFff
-  13          /**************************************************
-  14          *函数名称:void IAP_SectorEraseOption(Address,Data,IAP_MemType)
-  15          *函数功能:IAP扇区擦除
-  16          *入口参数:uint32_t:Address:IAP操作地址
-  17          *         IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
-  18          *出口参数:void
-  19          **************************************************/
-  20          
-  21          //u8 testAyy[]={0x60,0x33,0x99,0x90,0x90,0x90,0xD5,0xFA};
-  22          #define _INIT_DADA 0x5b
-  23          #define  EEPROM0_ADDR 0ul
-  24          #define  EEPROM1_ADDR 0x200UL
-  25          #define  EEPROM2_ADDR 0x400UL
-  26          #define  EEPROM3_ADDR 0x600UL
-  27          #define EEPROM_SIZE 0XFFFF
+   7          #define _INIT_DADA 0x5b
+   8          #define  EEPROM0_ADDR 0ul
+   9          #define  EEPROM1_ADDR 0x200UL
+  10          #define  EEPROM2_ADDR 0x400UL
+  11          #define  EEPROM3_ADDR 0x600UL
+  12          #define EEPROM_SIZE 0XFFFF
+  13          
+  14          
+  15          #define WriteToEEprom(X)          WriteEEpromData(EEPROM##X##_ADDR,(u8 *)gstAM901.stFilter,sizeof(ST_Filter))
+             - 
+  16          #define ReadFromEEprom(X)         IAP_ReadByteArray(EEPROM##X##_ADDR,(u8 *)gstAM901.stFilter,sizeof(ST_Filter
+             -),IAP_MEMTYPE_EEPROM)
+  17          #define EraseEEprom(X)            IAP_EEPROMSectorEraseOption(EEPROM##X##_ADDR)
+  18          
+  19          #define EEPROM_DATA_LEN 4
+  20          #define Block_Size 0XFFff
+  21          /**************************************************
+  22          *函数名称:void IAP_SectorEraseOption(Address,Data,IAP_MemType)
+  23          *函数功能:IAP扇区擦除
+  24          *入口参数:uint32_t:Address:IAP操作地址
+  25          *         IAP_MemType_TypeDef:IAP_MemType:IAP操作对象
+  26          *出口参数:void
+  27          **************************************************/
   28          
-  29          //static u8 FromEeppAry[8];
+  29          //u8 testAyy[]={0x60,0x33,0x99,0x90,0x90,0x90,0xD5,0xFA};
   30          
-  31          
-  32          u8 WriteEEpromData(u32 x,u8 *p,u8 len)
-  33          {
-  34   1        u8 i ,FromEepromData;
-  35   1        u8 *pData = p;
-  36   1          
-  37   1        
-  38   1        
-  39   1        for(i= 0;i < len; i++)
-  40   1        {
-  41   2          loop:   
-  42   2          IAP_EEPROMProgramByteOption(x+i,pData[i]);
-  43   2          FromEepromData =IAP_ReadByte(x+i,IAP_MEMTYPE_EEPROM);
-  44   2          if(FromEepromData != pData[i] )
-  45   2            goto loop;
-  46   2        }
-  47   1        return 1;
-  48   1      }
-  49          
+  31          //static u8 FromEeppAry[8];
+  32          
+  33          
+  34          u8 WriteEEpromData(u32 x,u8 *p,u8 len)
+  35          {
+  36   1        u8 i ,FromEepromData;
+  37   1        u8 *pData = p;
+  38   1        u32 addr =x;
+  39   1        
+  40   1        
+  41   1        for(i= 0;i < len; i++)
+  42   1        { 
+  43   2          IAP_EEPROMProgramByteOption(addr+i,pData[i]);
+  44   2          FromEepromData =IAP_ReadByte(addr+i,IAP_MEMTYPE_EEPROM);
+  45   2          if(FromEepromData != pData[i] )
+  46   2            return 0;
+  47   2        }
+  48   1        return 1;
+  49   1      }
   50          
   51          
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        04/07/2024 19:40:24 PAGE 2   
+
   52          
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        04/03/2024 18:39:19 PAGE 2   
-
-  53          void WriteTempEeprom(void)
-  54          {
-  55   1        //IAP_ReadByteArray(EEPROM_ADDR,FromEeppAry,8,IAP_MEMTYPE_EEPROM);
-  56   1        if(!gstAM901.Run.Bit.EepromBlok )
+  53          
+  54          void WriteTempEeprom(u8 blolk)
+  55          {
+  56   1        if(blolk ==0)
   57   1        {
-  58   2            gstAM901.stFilter->type++;
-  59   2            if(WriteToEEprom(0) == 0)
-*** WARNING C182 IN LINE 59 OF ..\Apps\bsp_eeprom.c: pointer to different objects
-  60   2            {
-  61   3                if(WriteToEEprom(0) == 0)
-*** WARNING C182 IN LINE 61 OF ..\Apps\bsp_eeprom.c: pointer to different objects
-  62   3                {
-  63   4                    if(WriteToEEprom(0) == 0)
-*** WARNING C182 IN LINE 63 OF ..\Apps\bsp_eeprom.c: pointer to different objects
-  64   4                    {
-  65   5                        WriteToEEprom(1);
-*** WARNING C182 IN LINE 65 OF ..\Apps\bsp_eeprom.c: pointer to different objects
-  66   5                    }
-  67   4      
-  68   4                }
-  69   3            }
-  70   2        }
-  71   1         
-  72   1        else
-  73   1        {
-  74   2            gstAM901.stFilter->type  = 0;
-  75   2            WriteToEEprom(1);
-*** WARNING C182 IN LINE 75 OF ..\Apps\bsp_eeprom.c: pointer to different objects
-  76   2        }
-  77   1          
-  78   1      
-  79   1      
-  80   1      //while(1);
-  81   1      }
-  82          
-  83          
-  84          u8 readEEprom(u32 x)
-  85          {
-  86   1         IAP_ReadByteArray(x,(u8 *)gstAM901.stFilter,EEPROM_DATA_LEN,IAP_MEMTYPE_EEPROM);
-  87   1         return gstAM901.stFilter->type;
-  88   1      }
-  89          
-  90          /*********************************************************************************************************
-             -********************************* 
-  91          * 函数名称:  ReadTempEeprom
-  92          * 功能说明:  读取EEPROM接口
-  93          * 输    入: 无  
-  94          * 输    出: 无
-  95          **********************************************************************************************************
-             -********************************/
-  96          
-  97          
-  98          
-  99          void EEpromInit(void)
- 100          {
- 101   1          if(ReadFromEEprom(0) == 0)
- 102   1          {
- 103   2              ReadFromEEprom(0);
- 104   2          }
- 105   1          if(gstAM901.stFilter->type< EEPROM_SIZE)
- 106   1          {
- 107   2              gstAM901.Run.Bit.EepromBlok = 0;
-C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        04/03/2024 18:39:19 PAGE 3   
+  58   2          if(!gstAM901.Run.Bit.EepromBlok )
+  59   2          {
+  60   3              //gstAM901.stFilter->type++;
+  61   3              if(WriteToEEprom(0) == 0)
+  62   3              {
+  63   4                  if(WriteToEEprom(0) == 0)
+  64   4                  {
+  65   5                      if(WriteToEEprom(0) == 0)
+  66   5                      {
+  67   6                          WriteToEEprom(0);
+  68   6                      }
+  69   5                  }
+  70   4              }
+  71   3          }
+  72   2        }
+  73   1      
+  74   1        else if(blolk ==1)
+  75   1        {
+  76   2          if(!gstAM901.Run.Bit.EepromBlok )
+  77   2          {
+  78   3              gstAM901.stFilter->type++;
+  79   3              if(WriteToEEprom(1) == 0)
+  80   3              {
+  81   4                  if(WriteToEEprom(1) == 0)
+  82   4                  {
+  83   5                      if(WriteToEEprom(1) == 0)
+  84   5                      {
+  85   6                          WriteToEEprom(1);
+  86   6                      }
+  87   5      
+  88   5                  }
+  89   4              }
+  90   3          }
+  91   2        }
+  92   1        else
+  93   1        {
+  94   2            gstAM901.stFilter->type  = 0;
+  95   2            WriteToEEprom(1);
+  96   2        }
+  97   1          
+  98   1      }
+  99          
+ 100          
+ 101          void  ReadEEprom(u8 x)
+ 102          {
+ 103   1        u8 len;
+ 104   1        u8 cnt =0;
+ 105   1      loop:
+ 106   1        if(x == 0)
+ 107   1         len = ReadFromEEprom(0);
+ 108   1        else if(x == 1)
+ 109   1         len = ReadFromEEprom(1);
+ 110   1        
+ 111   1        if(len != sizeof(ST_Filter) && cnt++ >3)
+ 112   1          goto loop;
+ 113   1      }
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        04/07/2024 19:40:24 PAGE 3   
 
- 108   2              EraseEEprom(0);
- 109   2              return;
- 110   2          }
- 111   1          else
- 112   1          {
- 113   2              if(ReadFromEEprom(1) == 0)
- 114   2              {
- 115   3                  ReadFromEEprom(1);
- 116   3              }
- 117   2          }
- 118   1          
- 119   1          if(gstAM901.stFilter->type < EEPROM_SIZE)//5a 表示上一次用的是EEPROM_ADDR 块，标记成F5;这一次用EEPROM1_
+ 114          
+ 115          /*********************************************************************************************************
+             -********************************* 
+ 116          * 函数名称:  ReadTempEeprom
+ 117          * 功能说明:  读取EEPROM接口
+ 118          * 输    入: 无  
+ 119          * 输    出: 无
+ 120          **********************************************************************************************************
+             -********************************/
+ 121          
+ 122          
+ 123          
+ 124          void EEpromInit(void)
+ 125          {
+ 126   1          if(ReadFromEEprom(0) == 0)
+ 127   1          {
+ 128   2              ReadFromEEprom(0);
+ 129   2          }
+ 130   1          if(gstAM901.stFilter->type< EEPROM_SIZE)
+ 131   1          {
+ 132   2              gstAM901.Run.Bit.EepromBlok = 0;
+ 133   2              EraseEEprom(0);
+ 134   2              return;
+ 135   2          }
+ 136   1          else
+ 137   1          {
+ 138   2              if(ReadFromEEprom(1) == 0)
+ 139   2              {
+ 140   3                  ReadFromEEprom(1);
+ 141   3              }
+ 142   2          }
+ 143   1          
+ 144   1          if(gstAM901.stFilter->type < EEPROM_SIZE)//5a 表示上一次用的是EEPROM_ADDR 块，标记成F5;这一次用EEPROM1_
              -ADDR
- 120   1          {
- 121   2              gstAM901.Run.Bit.EepromBlok = 1;//gstAM901.Run.Bit.EepromBlok = 1;
- 122   2              EraseEEprom(1);//EraseEEprom(1);
- 123   2          }
- 124   1          else//首次使用
- 125   1          {
- 126   2                gstAM901.Run.Bit.EepromBlok = 0;
- 127   2                //EraseEEprom(0);
- 128   2                EraseEEprom(1);
- 129   2                memset((u8 *)gstAM901.stFilter,0,EEPROM_DATA_LEN);
- 130   2                FirstPownOnFlag = 1;
- 131   2          }
- 132   1      }
- 133          
- 134          
- 135          
- 136          
- 137          
- 138          
- 139          
- 140          
+ 145   1          {
+ 146   2              gstAM901.Run.Bit.EepromBlok = 1;//gstAM901.Run.Bit.EepromBlok = 1;
+ 147   2              EraseEEprom(1);//EraseEEprom(1);
+ 148   2          }
+ 149   1          else//首次使用
+ 150   1          {
+ 151   2                gstAM901.Run.Bit.EepromBlok = 0;
+ 152   2                EraseEEprom(1);
+ 153   2                memset((u8 *)gstAM901.stFilter,0,EEPROM_DATA_LEN);
+ 154   2                FirstPownOnFlag = 1;
+ 155   2          }
+ 156   1      }
+ 157          
+ 158          
+ 159          
+ 160          
+ 161          
+ 162          
+ 163          
+ 164          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    667    ----
+   CODE SIZE        =    913    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     13    ----
+   XDATA SIZE       =     17    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
+C51 COMPILER V9.59.0.0   BSP_EEPROM                                                        04/07/2024 19:40:24 PAGE 4   
+
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
@@ -179,4 +201,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  5 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -12,6 +12,7 @@
 #include "..\Apps\bsp_Led.h"
 #include "..\Apps\ioConfig.h"
 #include "string.h"
+#include "..\Apps\includeall.h"
 
 #define CLOSE_ALL_LED()  gbFlagData[3].all=0;BlueLedFlag =0;RedLedtFlag =0
 #define OPEN_ALL_LED()   gbFlagData[3].all=0xff;BlueLedFlag =1;RedLedtFlag =1
@@ -139,6 +140,8 @@ void sysRest(void)
 	 memset(&gstAM901,0,sizeof(gstAM901));
 	 memset(&gstRDsysTick,0,sizeof(gstRDsysTick));
 	 gstAM901.stFilter = &gstFilte;
+	 FstModeFlag = 0;
+	 KeyCancelRestFlag = 0;
 }
 
 
@@ -151,11 +154,11 @@ void sysRest(void)
 * 输    入: 无	
 * 输    出: 无
 *************************************************************************/
-void FilterlifeTime(emFilter type)
+void FilterlifeTime(void)
 {
 	if(FstModeFlag)
 	{
-		if( type  == ROFilter)
+		if(gstFilte.type   == ROFilter)
 		{			
 			gstFilte.RO_FlowRateCnt+=600ul;
 		}
@@ -167,7 +170,7 @@ void FilterlifeTime(emFilter type)
 	else
 	{
 
-		if( type  == ROFilter)
+		if( gstFilte.type   == ROFilter)
 		{
 			
 			gstFilte.RO_FlowRateCnt++;
@@ -181,22 +184,22 @@ void FilterlifeTime(emFilter type)
 
 }
 
-void FilterlifeDayTime(emFilter type)
+void FilterlifeDayTime(void)
 {
 	if(FstModeFlag)
 	{
-		if( type  == ROFilter)
+		if( gstFilte.type   == ROFilter)
 		{
-			gstFilte.RO_DayCnt+=86400ul;
+			gstFilte.RO_DayCnt+=86439ul;//86400ul-1
 		}
 		else
 		{
-			gstFilte.Mix_DayCnt+=86400ul;
+			gstFilte.Mix_DayCnt+=86439ul;//86400ul-1
 		}
 	}
 	else
 	{
-		if( type  == ROFilter)
+		if( gstFilte.type  == ROFilter)
 		{
 			
 			gstFilte.RO_DayCnt++;
@@ -219,7 +222,7 @@ void FilterlifeDayTime(emFilter type)
 *************************************************************************/
 
 
-
+extern void CloseAllLED(void);
 void TimeReminder(void)
 {
 	static ST_TimeReminder sTimeReminderCnt ={0};
@@ -237,41 +240,31 @@ void TimeReminder(void)
 		
 	if( gstFilte.type  == ROFilter)
 	{
-		LED1_R =0;
-		LED1_L =0;
 		if(temp <= 1)//寿命到期
 		{
-				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1 && ShuiLongTouOpen)
+				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1 /*&& ShuiLongTouOpen*/)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 0;
 					sTimeReminderCnt.Bit.buzeerOn1 = 1;
 					Buzzer1Flag = 1;
 				}
-				LED2_R =1;
-				LED2_L =0; 	
+				setLED(2,BlueColor,lightOff,0);
+				setLED(2,RedColor,lightOn,0);
 		}
 	
 		else if(temp <=3)//寿命快到期
 		{
 		
-
-				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1&& ShuiLongTouOpen)
+				
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1/*&& ShuiLongTouOpen*/)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 1;
 					sTimeReminderCnt.Bit.buzeerOn1 = 0;
 					Buzzer4Flag = 1;
+					setLED(2,BlueColor,lightOff,0);
+				  setLED(2,RedColor,blink,_4S_Per100MS);
 				}
 				
-				if(sTimeReminderCnt.Bit.cnt <= 5)
-				{
-						LED2_R =1;
-						LED2_L =0;
-				}
-				else
-				{
-						LED2_R =0;
-						LED2_L =0;
-				}
 				
 				sTimeReminderCnt.Bit.cnt++;
 				
@@ -281,20 +274,20 @@ void TimeReminder(void)
 		}
 		else
 		{
-				setLED(2,BlueColor,lightOn,0);			
+				setLED(2,RedColor,lightOff,0);
+				setLED(1,BlueColor,lightOff,0);
+				setLED(2,BlueColor,lightOn,0);	
 		}
 	}
 	else
 	{
 		
-		LED2_R =0;
-		LED2_L =0;
+		
 		if(temp <= 3)//寿命到期
 		{
-				LED1_R =1;
-				LED1_L =0;
-			    
-				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1&& ShuiLongTouOpen)
+				
+			  setLED(1,RedColor,lightOn,0);  
+				if(!sTimeReminderCnt.Bit.buzeerOn1 && KeySwitchFlag1/*&& ShuiLongTouOpen*/)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 0;
 					sTimeReminderCnt.Bit.buzeerOn1 = 1;
@@ -306,23 +299,15 @@ void TimeReminder(void)
 		else if(temp <= 10)//寿命快到期
 		{
 
-				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1&& ShuiLongTouOpen)
+				if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1/*&& ShuiLongTouOpen*/)
 				{
 					sTimeReminderCnt.Bit.buzeerOn = 1;
 					sTimeReminderCnt.Bit.buzeerOn1 = 0;
 					Buzzer4Flag = 1;
+					setLED(1,BlueColor,lightOff,0);
+					setLED(1,RedColor,blink,_4S_Per100MS);
 				}
 				
-				if(sTimeReminderCnt.Bit.cnt < 5)
-				{
-						LED1_R =1;
-						LED1_L =0;
-				}
-				else
-				{
-						LED1_R =0;
-						LED1_L =0;
-				}
 				
 				sTimeReminderCnt.Bit.cnt++;
 				
@@ -331,8 +316,8 @@ void TimeReminder(void)
 		}
 		else
 		{
-				//LED1_R =0;
-				//LED1_L =1;
+				setLED(2,BlueColor,lightOff,0);
+				setLED(1,RedColor,lightOff,0);
 				setLED(1,BlueColor,lightOn,0);
 		}
 	}
@@ -490,10 +475,6 @@ void DevicePowerOnInit(void)
 	}
 	Chanel_IO1 = 0;
 	Chanel_IO2 = 0;
-	led1_io = 0;
-	led2_io = 0;
-	led3_io = 0;
-	led4_io = 0;
 	Blueled_io = 0;
 	Redled_io = 0;
 }
@@ -536,11 +517,26 @@ void FirstPowerOnProcess(void)
 *************************************************************************/
 void RestFilter(void)
 {
-
+		WriteTempEeprom(0);
+		if(gstFilte.type == ROFilter)
+		{			
+					gstFilte.RO_DayCnt =0;
+					gstFilte.RO_FlowRateCnt = 0;
+					setLED(2,BlueColor,lightOff,0);
+					setLED(2,BlueColor,blink,_4S_Per100MS);
+		}
+		else
+		{
+					gstFilte.Mix_DayCnt =0;
+					gstFilte.Mix_FlowRate = 0;	
+					setLED(1,BlueColor,lightOff,0);
+					setLED(1,BlueColor,blink,_4S_Per100MS);
+		}
 }
 
+
 /************************************************************************* 
-* 函数名称:	makeWaterProcess
+* 函数名称:	PaiShuiProcess
 * 功能说明:	制作纯水
 * 输    入: 无	
 * 输    出: 无
@@ -550,28 +546,27 @@ void RestFilter(void)
 void PaiShuiProcess(void)//1S钟运行一次
 {
 	static u8 sTDS_Time =0;
-	static u8 sPaiShuiFaOn_Cnt;
 	
 	test_TDS(gstADCollect.fChunShui,&gstADCollect.tds_ChunShui);
 	test_TDS(gstADCollect.fYuanShui,&gstADCollect.tds_YuanShui);//检测10次求平均值
 	test_TDS(gstADCollect.fJieShui,&gstADCollect.tds_JieShui);//检测10次求平均值
-	test_TDS(gstADCollect.fLouShui,&gstADCollect.fLouShui);//检测10次求平均值
+	test_TDS(gstADCollect.fLouShui,&gstADCollect.tds_LouShui);//检测10次求平均值
 	TDS_ChunShuiFalg = 1;
 	if(sTDS_Time < 60)
 	{
 			TDS_YuanShuiFalg =1;
 			
-			if(gstADCollect.fYuanShui <= TDS_100)
+			if(gstADCollect.tds_YuanShui <= TDS_100)
 			{	
 				gstAM901.PaiShuiDaoJiShi = _9Min_Per1S;
 			}
 
-			else if(gstADCollect.fYuanShui <= TDS_300)
+			else if(gstADCollect.tds_YuanShui <= TDS_300)
 			{
 				gstAM901.PaiShuiDaoJiShi = _8Min_Per1S;//KongShuiFa_IO = 1;	
 			}
 
-			else if(gstADCollect.fYuanShui <= TDS_500)
+			else if(gstADCollect.tds_YuanShui <= TDS_500)
 			{
 				gstAM901.PaiShuiDaoJiShi = _4Min_Per1S;//KongShuiFa_IO = 1;	
 			}
@@ -579,6 +574,10 @@ void PaiShuiProcess(void)//1S钟运行一次
 			{
 				gstAM901.PaiShuiDaoJiShi  =0;//KongShuiFa_IO = 1;	
 			}
+	}
+	if(gstADCollect.tds_JieShui > TDS_1000)
+	{
+			gstAM901.PaiShuiDaoJiShi = 1;
 	}
 
 	if(sTDS_Time < 60)
@@ -743,7 +742,6 @@ void TDS_JiaoZhun(u16 v0,u16 AdValue_0,u16 v1,u16 AdValue_1)
 	
 		if(v0 > v1)
 		{
-			//	a = (v0- v1)*4095/((float)(AdValue_0-AdValue_1));
 				a= (v0- v1);
 			  a= a*4095/(float)(AdValue_0-AdValue_1);
 				b = AdValue_1/(float)4095;
@@ -752,9 +750,6 @@ void TDS_JiaoZhun(u16 v0,u16 AdValue_0,u16 v1,u16 AdValue_1)
 		}
 		else
 		{
-				
-				
-			
 				a= (v1- v0);
 			  a= a*4095/(float)(AdValue_1-AdValue_0);
 			  b = AdValue_1/(float)4095;
@@ -763,6 +758,32 @@ void TDS_JiaoZhun(u16 v0,u16 AdValue_0,u16 v1,u16 AdValue_1)
 				b= 0;
 		}
 	
+}
+
+void PowerDownProcess(void)
+{
+				EA =0;
+        GPIO_Init(GPIO0, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO0, GPIO_PIN_4,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO4, GPIO_PIN_3,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO4, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO4, GPIO_PIN_1,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_7,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_5,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_4,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_3,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO3, GPIO_PIN_1,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO1, GPIO_PIN_0,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO1, GPIO_PIN_2,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO1, GPIO_PIN_4,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO2, GPIO_PIN_5,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO2, GPIO_PIN_6,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO2, GPIO_PIN_7,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO0, GPIO_PIN_0,GPIO_MODE_IN_HI);
+        GPIO_Init(GPIO0, GPIO_PIN_1,GPIO_MODE_IN_HI);        
+        WriteTempEeprom(1);
+        EA =1;     	
 }
 
 
@@ -776,14 +797,21 @@ extern void TDS_Calulate(void);
 extern  void KeyGaoYaSwitch(void);
 extern void KeyRest(void);
 extern void KeySelect(void);
+extern void NoKeyProcess(void);
 u16 gPPM1 = 110 ,gPPM2 = 50 ,gAD1 = 1420 ,gAD2 =1120;
+
 void sysRuning(void)
 {	
 
 	EventCollect();
     switch(PopEvent())
     {    
-		
+			case evPowerDown:
+			{
+					PowerDownProcess();
+			}				
+			break;
+			
         case ev5MS:       
 					BuzzerProcess();	
 					
@@ -794,10 +822,10 @@ void sysRuning(void)
         {
 						KeySelect();
 						KeyRest();
+						KeyCancelRestKey();
 						NoKeyProcess();
 						KeyGaoYaSwitch();
-						MakeWaterProcess();	
-						
+						MakeWaterProcess();				
         }
         break;
 				

@@ -40,7 +40,7 @@ const	unsigned	char  code	display_tab[]=
 
 
 
-u16 display_value(u16 v,u8 type)
+void display_value(u16 v,u8 type)
 {
 		switch(type)
 		{
@@ -84,34 +84,55 @@ void ShuMaGuanDisplay(u16 ad_v)
 
 
 
-u8 ZhiShiDengdisplay1(void)//龙头指示灯1
+
+
+u8 TDS_ZhiShi_display(void)
 {
-		uLED_Dliaplay Udata;
-		if(gstFilte.type == ROFilter)
-		{
+	static u8 sFactoryModeCnt =0;
+	uLED_Dliaplay Udata;
+	Udata.all =0;
+	if(FactoryModeFlag || FstModeFlag)
+	{
+			if(sFactoryModeCnt++ >_20S_Per100MS )
+			{
+					sFactoryModeCnt = 0;
+					
+			}
+			if(sFactoryModeCnt < _10S_Per100MS)
+			{
+					ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
+					Udata.Bit.Water =1;
+			}
+			else
+			{
+					ShuMaGuanDisplay(gstADCollect.tds_YuanShui);	
+					Udata.Bit.Water = 0;
+			}
+	}
+	else
+	{
+			ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
+			
+	}	
+	
+	if(gstFilte.type == ROFilter)
+	{
 				Udata.Bit.ppc = 0;
 				Udata.Bit.RO = 1;
-				//ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
-		}
-		else
-		{
-				Udata.Bit.ppc = 1;
-				Udata.Bit.RO =  0;
-				//ShuMaGuanDisplay(gstADCollect.tds_YuanShui);
-		}
-		return Udata.all;
-}
-
-void TDSdisplay(void)
-{
-ShuMaGuanDisplay(gstADCollect.tds_ChunShui);
+	}
+	else
+	{
+			Udata.Bit.ppc = 1;
+			Udata.Bit.RO =  0;
+	}
+	return Udata.all;
+		
+	 	
 }
 
 void  ZhiShiDengdisplay2(void)//龙头指示灯2
 {
-		gSendData[6].Bit.b0 = 1;
-		gSendData[6].Bit.b1 = ChuShuiFlag?1:0;
-	 	gSendData[6].Bit.b2 = gSendData[6].Bit.b1;
+		
 }
 
 void    UART0_SendData( void)
@@ -122,10 +143,10 @@ void    UART0_SendData( void)
 	  gSendData[0].all = 0xA5;
 		gSendData[1].all = 8;
 	  
-	  gSendData[5].all  = ZhiShiDengdisplay1();
-		
+	  gSendData[5].all  = TDS_ZhiShi_display();
+		//gSendData[6].Bit.b0 = ShuiLongTouOpen;
+		gSendData[6].Bit.b1 = gSendData[5].Bit.b6;//chun shui
 	 	gSendData[7].all = 0;
-		TDSdisplay();
 		for(i = 0;i<7;i++)
 		{
 				gSendData[7].all +=gSendData[i].all;
@@ -143,7 +164,6 @@ void    RDUART0_RcvByte(void)
     static u8 RxLen;
     static u8 SCICheckout;
 	  static u8 rx[8];
-    //LPUART_Getchar(LPUART0, &temp);
    
 				temp = SBUF;
 				if(RxLen == 0)

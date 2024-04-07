@@ -49,8 +49,8 @@
 #include "includeall.h"   
 
 void EEpromInit(void );
-void WriteTempEeprom(void);
-
+void WriteTempEeprom(u8 blolk);
+void  ReadEEprom(u8 x);
 #endif /* _APP_H */
 
 

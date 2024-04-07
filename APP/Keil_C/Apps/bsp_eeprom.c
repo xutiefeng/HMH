@@ -4,8 +4,16 @@
 #include "bsp_eeprom.h"
 #include "globe.h"
 
-#define WriteToEEprom(X)   				WriteEEpromData(EEPROM##X##_ADDR,gstAM901.stFilter,EEPROM_DATA_LEN) 
-#define ReadFromEEprom(X)  				IAP_ReadByteArray(EEPROM##X##_ADDR,(u8 *)gstAM901.stFilter,EEPROM_DATA_LEN,IAP_MEMTYPE_EEPROM)
+#define _INIT_DADA 0x5b
+#define  EEPROM0_ADDR 0ul
+#define  EEPROM1_ADDR 0x200UL
+#define  EEPROM2_ADDR 0x400UL
+#define  EEPROM3_ADDR 0x600UL
+#define EEPROM_SIZE 0XFFFF
+
+
+#define WriteToEEprom(X)   				WriteEEpromData(EEPROM##X##_ADDR,(u8 *)gstAM901.stFilter,sizeof(ST_Filter)) 
+#define ReadFromEEprom(X)  				IAP_ReadByteArray(EEPROM##X##_ADDR,(u8 *)gstAM901.stFilter,sizeof(ST_Filter),IAP_MEMTYPE_EEPROM)
 #define EraseEEprom(X)            IAP_EEPROMSectorEraseOption(EEPROM##X##_ADDR)
 
 #define EEPROM_DATA_LEN 4
@@ -19,12 +27,6 @@
 **************************************************/
 
 //u8 testAyy[]={0x60,0x33,0x99,0x90,0x90,0x90,0xD5,0xFA};
-#define _INIT_DADA 0x5b
-#define  EEPROM0_ADDR 0ul
-#define  EEPROM1_ADDR 0x200UL
-#define  EEPROM2_ADDR 0x400UL
-#define  EEPROM3_ADDR 0x600UL
-#define EEPROM_SIZE 0XFFFF
 
 //static u8 FromEeppAry[8];
 
@@ -33,16 +35,15 @@ u8 WriteEEpromData(u32 x,u8 *p,u8 len)
 {
 	u8 i ,FromEepromData;
 	u8 *pData = p;
-		
+	u32 addr =x;
 	
 	
 	for(i= 0;i < len; i++)
-	{
-		loop:		
-		IAP_EEPROMProgramByteOption(x+i,pData[i]);
-		FromEepromData =IAP_ReadByte(x+i,IAP_MEMTYPE_EEPROM);
+	{	
+		IAP_EEPROMProgramByteOption(addr+i,pData[i]);
+		FromEepromData =IAP_ReadByte(addr+i,IAP_MEMTYPE_EEPROM);
 		if(FromEepromData != pData[i] )
-			goto loop;
+			return 0;
 	}
 	return 1;
 }
@@ -50,41 +51,65 @@ u8 WriteEEpromData(u32 x,u8 *p,u8 len)
 
 
 
-void WriteTempEeprom(void)
+void WriteTempEeprom(u8 blolk)
 {
-	//IAP_ReadByteArray(EEPROM_ADDR,FromEeppAry,8,IAP_MEMTYPE_EEPROM);
-	if(!gstAM901.Run.Bit.EepromBlok )
+	if(blolk ==0)
 	{
-			gstAM901.stFilter->type++;
-			if(WriteToEEprom(0) == 0)
-			{
-					if(WriteToEEprom(0) == 0)
-					{
-							if(WriteToEEprom(0) == 0)
-							{
-									WriteToEEprom(1);
-							}
-
-					}
-			}
+		if(!gstAM901.Run.Bit.EepromBlok )
+		{
+				//gstAM901.stFilter->type++;
+				if(WriteToEEprom(0) == 0)
+				{
+						if(WriteToEEprom(0) == 0)
+						{
+								if(WriteToEEprom(0) == 0)
+								{
+										WriteToEEprom(0);
+								}
+						}
+				}
+		}
 	}
- 	 
+
+	else if(blolk ==1)
+	{
+		if(!gstAM901.Run.Bit.EepromBlok )
+		{
+				gstAM901.stFilter->type++;
+				if(WriteToEEprom(1) == 0)
+				{
+						if(WriteToEEprom(1) == 0)
+						{
+								if(WriteToEEprom(1) == 0)
+								{
+										WriteToEEprom(1);
+								}
+
+						}
+				}
+		}
+	}
  	else
 	{
 			gstAM901.stFilter->type  = 0;
 			WriteToEEprom(1);
 	}
  	  
-
-
-//while(1);
 }
 
 
-u8 readEEprom(u32 x)
+void  ReadEEprom(u8 x)
 {
-	 IAP_ReadByteArray(x,(u8 *)gstAM901.stFilter,EEPROM_DATA_LEN,IAP_MEMTYPE_EEPROM);
-	 return gstAM901.stFilter->type;
+	u8 len;
+	u8 cnt =0;
+loop:
+	if(x == 0)
+	 len = ReadFromEEprom(0);
+	else if(x == 1)
+	 len = ReadFromEEprom(1);
+	
+	if(len != sizeof(ST_Filter) && cnt++ >3)
+		goto loop;
 }
 
 /****************************************************************************************************************************************** 
@@ -124,7 +149,6 @@ void EEpromInit(void)
 		else//首次使用
 		{
 					gstAM901.Run.Bit.EepromBlok = 0;
-					//EraseEEprom(0);
 					EraseEEprom(1);
 					memset((u8 *)gstAM901.stFilter,0,EEPROM_DATA_LEN);
 					FirstPownOnFlag = 1;

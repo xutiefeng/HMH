@@ -12,7 +12,7 @@
 #include "..\Apps\buzzer.h"
 #include "..\Apps\bsp_eeprom.h"
 #include "..\Apps\bsp_uart.h"
-
-
+#include "..\Apps\key.h"
+#include "..\Apps\bsp_ADCollect.h"
 #endif
     

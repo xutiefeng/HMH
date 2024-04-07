@@ -19,7 +19,7 @@ void TemperatureCollect(void);
 void ADCollectProcess(void);
 float GetInputVoltage(void);
 void TDS_Calulate(void);
-
+void test_TDS(u16 D, float *pp);
 #ifdef	__cplusplus
 }
 #endif

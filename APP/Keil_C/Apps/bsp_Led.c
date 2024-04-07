@@ -2,9 +2,12 @@
 #include "..\Apps\includeall.h"
 
 
-void RedLed(u8 x)
+void CloseAllLED(void)
 {
-	
+	led1_io = 1;
+	led2_io = 1;
+	led3_io = 1;
+	led4_io = 1;
 }
 
 void LED_sCan(void)
@@ -16,10 +19,7 @@ void LED_sCan(void)
 		
 		return;
 	}
-	led1_io = 1;
-	led2_io = 1;
-	led3_io = 1;
-	led4_io = 1;
+	CloseAllLED();
 	if(LedChangeFlag)
 	{
 		LedChangeFlag = 0;
@@ -74,6 +74,8 @@ void LED_sCan(void)
 	}	
 }
 
+
+
 typedef struct
 {
 	  union
@@ -94,6 +96,8 @@ ST_LED gstLed;
 
 void setLED(u8 num,emColor color ,U_LED state,u8 time)
 {
+		u8 temp_bit ;
+		u8 temp_bit2;
 		if(gstLed.action == blink)
 			return;
 		
@@ -101,33 +105,39 @@ void setLED(u8 num,emColor color ,U_LED state,u8 time)
 		gstLed.run.Bit.time   = time;
 		gstLed.color =  color;
 		gstLed.action = state;
+		
+		
+		if(gstLed.color == BlueColor)
+		{
+			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
+			temp_bit = 1<<(gstLed.run.Bit.lednum);
+		}
+		else
+		{
+			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
+			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
+			
+		}
+		if( gstLed.action == lightOn)
+			gbFlagData[3].all |=temp_bit2;
+		else
+			gbFlagData[3].all &=~temp_bit2;
 }
+
+
 
 	
 void LED_Process(void)
 {
 
 	u8 temp_bit = 0;
-	u8 temp_bit2;
 
-	if(ErrowFlag)
-	{
 	
-		gstLed.run.Bit.time++;	
-		gbFlagData[3].all =0;
-		if(gstLed.run.Bit.time == 10)
-			gstLed.run.Bit.time = 0;
-		
-		if(gstLed.run.Bit.time < 5 )
+	if(gstLed.action == blink)
+	{
+			
+		if(gstLed.run.Bit.time > 0)
 		{
-<<<<<<< HEAD
-			LED3_R = 1;
-		}	
-		else
-		{
-			LED3_R = 0;
-		}
-=======
 				gstLed.run.Bit.time--;
 				
 				if(gstLed.run.Bit.time %5 == 0)
@@ -141,115 +151,24 @@ void LED_Process(void)
 						temp_bit =1<<(gstLed.run.Bit.lednum);
 					}
 				
-					 if(gbFlagData[3].all && temp_bit)
-					 {
+				    if(gbFlagData[3].all&temp_bit)
+					{
 						gbFlagData[3].all &=~temp_bit;
-					 }
+					}
 					else
 				  	{
 						gbFlagData[3].all |=temp_bit;
 					}			 
 				}
 		}			
+		else
+		{
+				gstLed.action  = lightOn;
+		}
+			
 		
-			
-		
->>>>>>> c6dfe53dd198aae27ea6e1419075aaa27af70448
-	}
-	
-	else if(gstLed.action == blink)
-	{
-			if(gstLed.run.Bit.time %5 == 0)
-			{
-					if(gstLed.color == BlueColor)
-					{
-						temp_bit =1<<(gstLed.run.Bit.lednum+4);
-					}
-					else
-					{
-						temp_bit =1<<(gstLed.run.Bit.lednum);
-					}
-					
-					if(gbFlagData[3].all&temp_bit)
-					{
-
-						gbFlagData[3].all &=~temp_bit;
-					}
-					else
-					{
-						gbFlagData[3].all |=temp_bit;
-					}			 
-			}
-			else
-			{
-			
-			}
-			if(gstLed.run.Bit.time > 0)
-			{
-					gstLed.run.Bit.time--;
-			}			
-			else
-			{
-					gstLed.action = lightOn;
-			}
-	}
-	else if( gstLed.action == lightOn)
-	{
-		if(gstLed.color == BlueColor)
-		{
-			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
-			temp_bit = 1<<(gstLed.run.Bit.lednum);
-<<<<<<< HEAD
-		}
-		else
-		{
-			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
-			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
-			
-		}
-		gbFlagData[3].all |=temp_bit2;
-		gbFlagData[3].all &=~temp_bit;
-	}
-	
-	else if( gstLed.action == lightOff)
-	{
-		if(gstLed.color == BlueColor)
-		{
-			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
-		}
-		else
-		{
-			temp_bit2 =	1<<(gstLed.run.Bit.lednum);		
-		}
-=======
-		}
-		else
-		{
-			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
-			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
-			
-		}
-		gbFlagData[3].all |=temp_bit2;
-		//gbFlagData[3].all &=~temp_bit;
 	}
 
-	else if( gstLed.action == lightOff)
-	{
-		if(gstLed.color == BlueColor)
-		{
-			temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
-			temp_bit = 1<<(gstLed.run.Bit.lednum);
-		}
-		else
-		{
-			temp_bit2 =	1<<(gstLed.run.Bit.lednum);
-			temp_bit = 1<<(gstLed.run.Bit.lednum+4);
-			
-		}
->>>>>>> c6dfe53dd198aae27ea6e1419075aaa27af70448
-		gbFlagData[3].all &=~temp_bit2;
-	}
-	
 	if(BlueLedFlag)
 	{
 		Blueled_io = 1;

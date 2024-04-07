@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_LED                                                           04/03/2024 18:39:18 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_LED                                                           04/07/2024 19:40:23 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_LED
@@ -13,25 +13,24 @@ line level    source
    2          #include "..\Apps\includeall.h"
    3          
    4          
-   5          void RedLed(u8 x)
+   5          void CloseAllLED(void)
    6          {
-   7   1        
-   8   1      }
-*** WARNING C280 IN LINE 5 OF ..\Apps\bsp_Led.c: 'x': unreferenced local variable
-   9          
-  10          void LED_sCan(void)
-  11          { 
-  12   1        if(gbFlagData[3].all ==0 )
-  13   1        {
-  14   2          Chanel_IO1 = 0;
-  15   2          Chanel_IO2 = 0;
-  16   2          
-  17   2          return;
-  18   2        }
-  19   1        led1_io = 1;
-  20   1        led2_io = 1;
-  21   1        led3_io = 1;
-  22   1        led4_io = 1;
+   7   1        led1_io = 1;
+   8   1        led2_io = 1;
+   9   1        led3_io = 1;
+  10   1        led4_io = 1;
+  11   1      }
+  12          
+  13          void LED_sCan(void)
+  14          { 
+  15   1        if(gbFlagData[3].all ==0 )
+  16   1        {
+  17   2          Chanel_IO1 = 0;
+  18   2          Chanel_IO2 = 0;
+  19   2          
+  20   2          return;
+  21   2        }
+  22   1        CloseAllLED();
   23   1        if(LedChangeFlag)
   24   1        {
   25   2          LedChangeFlag = 0;
@@ -62,9 +61,9 @@ line level    source
   50   2          LedChangeFlag = 1;
   51   2      
   52   2          Chanel_IO1 = 0;
-C51 COMPILER V9.59.0.0   BSP_LED                                                           04/03/2024 18:39:18 PAGE 2   
-
   53   2          Chanel_IO2 = 1;
+C51 COMPILER V9.59.0.0   BSP_LED                                                           04/07/2024 19:40:23 PAGE 2   
+
   54   2          
   55   2        
   56   2          if(LED1_R)
@@ -88,153 +87,128 @@ line level    source
   74   2        } 
   75   1      }
   76          
-  77          typedef struct
-  78          {
-  79              union
-  80              {
-  81                  u8 all;
-  82                  struct
-  83                  {
-  84                    u8 lednum :2;
-  85                    u8 time   :6;
-  86                  }Bit;
-  87              }run;
-  88              u8 lednum;//哪个灯
-  89              emColor color;  //什么颜色
-  90              U_LED action;//需要执行什么状态，常亮？或者闪烁 
-  91          }ST_LED;
-  92          
-  93          ST_LED gstLed;
+  77          
+  78          
+  79          typedef struct
+  80          {
+  81              union
+  82              {
+  83                  u8 all;
+  84                  struct
+  85                  {
+  86                    u8 lednum :2;
+  87                    u8 time   :6;
+  88                  }Bit;
+  89              }run;
+  90              u8 lednum;//哪个灯
+  91              emColor color;  //什么颜色
+  92              U_LED action;//需要执行什么状态，常亮？或者闪烁 
+  93          }ST_LED;
   94          
-  95          void setLED(u8 num,emColor color ,U_LED state,u8 time)
-  96          {
-  97   1          if(gstLed.action == blink)
-  98   1            return;
-  99   1          
- 100   1          gstLed.run.Bit.lednum = num-1;
- 101   1          gstLed.run.Bit.time   = time;
- 102   1          gstLed.color =  color;
- 103   1          gstLed.action = state;
- 104   1      }
- 105          
- 106            
- 107          void LED_Process(void)
- 108          {
- 109   1      
- 110   1        u8 temp_bit = 0;
- 111   1        u8 temp_bit2;
- 112   1      
- 113   1        if(ErrowFlag)
- 114   1        {
-C51 COMPILER V9.59.0.0   BSP_LED                                                           04/03/2024 18:39:18 PAGE 3   
+  95          ST_LED gstLed;
+  96          
+  97          void setLED(u8 num,emColor color ,U_LED state,u8 time)
+  98          {
+  99   1          u8 temp_bit ;
+ 100   1          u8 temp_bit2;
+ 101   1          if(gstLed.action == blink)
+ 102   1            return;
+ 103   1          
+ 104   1          gstLed.run.Bit.lednum = num-1;
+ 105   1          gstLed.run.Bit.time   = time;
+ 106   1          gstLed.color =  color;
+ 107   1          gstLed.action = state;
+ 108   1          
+ 109   1          
+ 110   1          if(gstLed.color == BlueColor)
+ 111   1          {
+ 112   2            temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
+ 113   2            temp_bit = 1<<(gstLed.run.Bit.lednum);
+ 114   2          }
+ 115   1          else
+C51 COMPILER V9.59.0.0   BSP_LED                                                           04/07/2024 19:40:23 PAGE 3   
 
- 115   2        
- 116   2          gstLed.run.Bit.time++;  
- 117   2          gbFlagData[3].all =0;
- 118   2          if(gstLed.run.Bit.time == 10)
- 119   2            gstLed.run.Bit.time = 0;
- 120   2          
- 121   2          if(gstLed.run.Bit.time < 5 )
- 122   2          {
- 123   3            LED3_R = 1;
- 124   3          } 
- 125   2          else
- 126   2          {
- 127   3            LED3_R = 0;
- 128   3          }
- 129   2        }
- 130   1        
- 131   1        else if(gstLed.action == blink)
- 132   1        {
- 133   2            if(gstLed.run.Bit.time %5 == 0)
- 134   2            {
- 135   3                if(gstLed.color == BlueColor)
- 136   3                {
- 137   4                  temp_bit =1<<(gstLed.run.Bit.lednum+4);
- 138   4                }
- 139   3                else
- 140   3                {
- 141   4                  temp_bit =1<<(gstLed.run.Bit.lednum);
- 142   4                }
- 143   3                
- 144   3                if(gbFlagData[3].all&temp_bit)
- 145   3                {
- 146   4      
- 147   4                  gbFlagData[3].all &=~temp_bit;
- 148   4                }
- 149   3                else
- 150   3                {
- 151   4                  gbFlagData[3].all |=temp_bit;
- 152   4                }      
- 153   3            }
- 154   2            else
- 155   2            {
- 156   3            
- 157   3            }
- 158   2            if(gstLed.run.Bit.time > 0)
- 159   2            {
- 160   3                gstLed.run.Bit.time--;
- 161   3            }     
- 162   2            else
- 163   2            {
- 164   3                gstLed.action = lightOn;
- 165   3            }
- 166   2        }
- 167   1        else if( gstLed.action == lightOn)
- 168   1        {
- 169   2          if(gstLed.color == BlueColor)
- 170   2          {
- 171   3            temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
- 172   3            temp_bit = 1<<(gstLed.run.Bit.lednum);
- 173   3          }
- 174   2          else
- 175   2          {
- 176   3            temp_bit2 = 1<<(gstLed.run.Bit.lednum);
-C51 COMPILER V9.59.0.0   BSP_LED                                                           04/03/2024 18:39:18 PAGE 4   
+ 116   1          {
+ 117   2            temp_bit2 = 1<<(gstLed.run.Bit.lednum);
+ 118   2            temp_bit = 1<<(gstLed.run.Bit.lednum+4);
+ 119   2            
+ 120   2          }
+ 121   1          if( gstLed.action == lightOn)
+ 122   1            gbFlagData[3].all |=temp_bit2;
+ 123   1          else
+ 124   1            gbFlagData[3].all &=~temp_bit2;
+ 125   1      }
+ 126          
+ 127          
+ 128          
+ 129            
+ 130          void LED_Process(void)
+ 131          {
+ 132   1      
+ 133   1        u8 temp_bit = 0;
+ 134   1      
+ 135   1        
+ 136   1        if(gstLed.action == blink)
+ 137   1        {
+ 138   2            
+ 139   2          if(gstLed.run.Bit.time > 0)
+ 140   2          {
+ 141   3              gstLed.run.Bit.time--;
+ 142   3              
+ 143   3              if(gstLed.run.Bit.time %5 == 0)
+ 144   3              {
+ 145   4                if(gstLed.color == BlueColor)
+ 146   4                {
+ 147   5                  temp_bit =1<<(gstLed.run.Bit.lednum+4);
+ 148   5                }
+ 149   4                else
+ 150   4                {
+ 151   5                  temp_bit =1<<(gstLed.run.Bit.lednum);
+ 152   5                }
+ 153   4              
+ 154   4                  if(gbFlagData[3].all&temp_bit)
+ 155   4                {
+ 156   5                  gbFlagData[3].all &=~temp_bit;
+ 157   5                }
+ 158   4                else
+ 159   4                  {
+ 160   5                  gbFlagData[3].all |=temp_bit;
+ 161   5                }      
+ 162   4              }
+ 163   3          }     
+ 164   2          else
+ 165   2          {
+ 166   3              gstLed.action  = lightOn;
+ 167   3          }
+ 168   2            
+ 169   2          
+ 170   2        }
+ 171   1      
+ 172   1        if(BlueLedFlag)
+ 173   1        {
+ 174   2          Blueled_io = 1;
+ 175   2        }
+ 176   1        else
+ 177   1        {
+C51 COMPILER V9.59.0.0   BSP_LED                                                           04/07/2024 19:40:23 PAGE 4   
 
- 177   3            temp_bit = 1<<(gstLed.run.Bit.lednum+4);
- 178   3            
- 179   3          }
- 180   2          gbFlagData[3].all |=temp_bit2;
- 181   2          gbFlagData[3].all &=~temp_bit;
- 182   2        }
- 183   1        
- 184   1        else if( gstLed.action == lightOff)
- 185   1        {
- 186   2          if(gstLed.color == BlueColor)
- 187   2          {
- 188   3            temp_bit2 =1<<(gstLed.run.Bit.lednum+4);
- 189   3          }
- 190   2          else
- 191   2          {
- 192   3            temp_bit2 = 1<<(gstLed.run.Bit.lednum);   
- 193   3          }
- 194   2          gbFlagData[3].all &=~temp_bit2;
- 195   2        }
- 196   1        
- 197   1        if(BlueLedFlag)
- 198   1        {
- 199   2          Blueled_io = 1;
- 200   2        }
- 201   1        else
- 202   1        {
- 203   2          Blueled_io = 0;
- 204   2        }
- 205   1        
- 206   1        if(RedLedtFlag)
- 207   1        {
- 208   2          Redled_io = 1;
- 209   2        }
- 210   1        else
- 211   1        {
- 212   2          Redled_io = 0;
- 213   2        }
- 214   1          
- 215   1      }
+ 178   2          Blueled_io = 0;
+ 179   2        }
+ 180   1        
+ 181   1        if(RedLedtFlag)
+ 182   1        {
+ 183   2          Redled_io = 1;
+ 184   2        }
+ 185   1        else
+ 186   1        {
+ 187   2          Redled_io = 0;
+ 188   2        }
+ 189   1          
+ 190   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    999    ----
+   CODE SIZE        =    738    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     11    ----
    PDATA SIZE       =   ----    ----
@@ -248,4 +222,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

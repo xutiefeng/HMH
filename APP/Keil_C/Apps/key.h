@@ -7,5 +7,5 @@ void KeyProcess(void);
 void KeyGaoYaSwitch(void);
 void KeyRest(void);
 void KeySelect(void);
-
+void KeyCancelRestKey(void);
 #endif

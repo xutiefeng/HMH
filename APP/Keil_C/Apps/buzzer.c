@@ -76,7 +76,7 @@ code ST_Buzzer stBuzzerTab2[] =
     {0xffffff   ,0xffff,0xffff}
 };
 
-ST_Buzzer stBuzzerTab31[] =
+code ST_Buzzer stBuzzerTab31[] =
 {
 	#if 0
     {1900    ,200,120},

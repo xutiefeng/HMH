@@ -377,14 +377,80 @@ void test_TDS(u16 D, float *pp)
 		
 		float *p =pp;	
 		
-		if(TDS_ChunShuiFalg)
+		if(p == &gstADCollect.tds_ChunShui)
 		{
-				if(v <= 600)//20
+				if( v <= 377 )//ppm 6 357
 				{
-						*p = adc_to_tds(v,80,-3);
+							*p = adc_to_tds(v,70,0);
+				}
+				else if(v <= 688)//ppm 668 20
+				{
+						*p = adc_to_tds(v,182,-9.7);
 				}
 
-				else if(v<= 880)						   //1146 50ppm
+				else if(v<= 1086)						   //1066 50ppm
+				{
+						*p  = adc_to_tds(v,309,-31);//40
+				}
+				else if(v <= 1156)//50ppm
+				{
+						//*p   = adc_to_tds(v,200,-9.5);//50
+						*p= adc_to_tds(v,372,-54);
+				}
+				
+				else if(v <= 1356)//100ppm 1226
+				{
+						//*p   = adc_to_tds(v,200,-9.5);//50
+						*p= adc_to_tds(v,1137,-268);
+				}
+				
+				else if(v <= 1610)//200ppm
+				{
+						*p  = adc_to_tds(v,1479,-390);//85
+				}
+				
+				else if(v <= 1820)
+				{
+						
+						*p   = adc_to_tds(v,819,-174);//110
+				}
+				
+				else if(v <= 1820)
+				{
+						
+						*p  = adc_to_tds(v,897,-225);//110
+				}
+		}
+
+		else if(p == &gstADCollect.tds_YuanShui)
+		{
+			if(v< 2225)//ppm 108 ad:2225
+			{
+						*p  = adc_to_tds(v,205,0);//110
+			}
+			
+			
+			else if(v< 3090)//ppm 299 3087
+			{
+					*p  = adc_to_tds(v,907,-385);//110
+			
+			}
+			
+			else if(v< 3545)//ppm 496 3535
+			{
+					*p  = adc_to_tds(v,1880,-1117);//110
+			
+			}
+			
+			else//ppm 1000 3835
+			{
+					*p  = adc_to_tds(v,6880,-5443);//110
+			}
+		}
+
+		else
+		{
+				if(v<= 880)						   //1146 50ppm
 				{
 						*p  = adc_to_tds(v,140,-5);//40
 				}
@@ -417,47 +483,10 @@ void test_TDS(u16 D, float *pp)
 						*p  = adc_to_tds(v,897,-225);//110
 				}
 		}
-
-		if(TDS_YuanShuiFalg)
-		{
-			if(v< 2225)//ppm 108 ad:2225
-			{
-						*p  = adc_to_tds(v,205,0);//110
-			}
-			
-			
-			else if(v< 3090)//ppm 299 3087
-			{
-					*p  = adc_to_tds(v,907,-385);//110
-			
-			}
-			
-			else if(v< 3545)//ppm 496 3535
-			{
-					*p  = adc_to_tds(v,1880,-1117);//110
-			
-			}
-			
-			else//ppm 1000 3835
-			{
-					*p  = adc_to_tds(v,6880,-5443);//110
-			}
-		}
-
-		if(TDS_JieShuiFalg)
-		{
-
-		}
 		
-	#if 0
-	  
-		#endif
-		
-			
-		#endif
 	}
 
-	void TDS_Select(u8 type,u16 D, float *pp)
+	void TDS_Select(u16 D, float *pp)
 {
 		//gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
 		u16 v = D;
@@ -505,7 +534,7 @@ void test_TDS(u16 D, float *pp)
 		#endif
 		
 				*p  = adc_to_tds(v,205,0);//110
-		#endif
+
 	}
 		
 
