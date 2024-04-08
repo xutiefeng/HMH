@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 1   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE SYSRUN
@@ -62,7 +62,7 @@ line level    source
   51   2          
   52   2          return ;
   53   2        }
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 2   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 2   
 
   54   1      
   55   1        if(FactoryModeFlag^HisFactoryModeFlag)
@@ -126,7 +126,7 @@ line level    source
  113   3              break;
  114   3            
  115   3          }
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 3   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 3   
 
  116   2        }
  117   1        
@@ -190,7 +190,7 @@ line level    source
  175   3            
  176   3            gstFilte.RO_FlowRateCnt++;
  177   3          }
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 4   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 4   
 
  178   2          else
  179   2          {
@@ -254,7 +254,7 @@ line level    source
  237   1        if(gstAM901.Run.Bit.DayResidualPercent < temp)
  238   1          temp = gstAM901.Run.Bit.DayResidualPercent;
  239   1        
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 5   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 5   
 
  240   1          
  241   1        if( gstFilte.type  == ROFilter)
@@ -318,7 +318,7 @@ line level    source
  299   2          else if(temp <= 10)//寿命快到期
  300   2          {
  301   3      
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 6   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 6   
 
  302   3              if(!sTimeReminderCnt.Bit.buzeerOn && KeySwitchFlag1/*&& ShuiLongTouOpen*/)
  303   3              {
@@ -382,7 +382,7 @@ line level    source
  361   3            gstAM901.Run.Bit.DayResidualPercent =  (u8)ftemp;
  362   3          }
  363   2          
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 7   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 7   
 
  364   2          
  365   2        }
@@ -446,7 +446,7 @@ line level    source
  422   2          
  423   2          if(temp >3600ul )
  424   2            temp = 3600ul;
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 8   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 8   
 
  425   2          
  426   2          temp =  3600-temp;  
@@ -510,7 +510,7 @@ line level    source
  484          * 功能说明: 首次上电对设备清洗处理
  485          * 输    入: 无  
  486          * 输    出: 无
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 9   
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 9   
 
  487          *************************************************************************/
  488          void FirstPowerOnProcess(void)
@@ -574,7 +574,7 @@ line level    source
  546          void PaiShuiProcess(void)//1S钟运行一次
  547          {
  548   1        static u8 sTDS_Time =0;
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 10  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 10  
 
  549   1        
  550   1        test_TDS(gstADCollect.fChunShui,&gstADCollect.tds_ChunShui);
@@ -638,7 +638,7 @@ line level    source
  608   1      }
  609          
  610          
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 11  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 11  
 
  611          
  612          void MakeWaterProcess(void)
@@ -702,7 +702,7 @@ line level    source
  670   2      
  671   2                if(_20Min_Per50MS < gstAM901.LianXuZhiShuiCnt++)
  672   2                {
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 12  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 12  
 
  673   3                  ChuShuiFlag = 0;
  674   3                  ErrowFlag =  1;
@@ -766,7 +766,7 @@ line level    source
  732   2              
  733   2            }
  734   1      }
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 13  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 13  
 
  735          
  736          // TDS值校准
@@ -830,7 +830,7 @@ line level    source
  794          * 输    出: 无
  795          *************************************************************************/
  796          extern void TDS_Calulate(void);
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 14  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 14  
 
  797          extern  void KeyGaoYaSwitch(void);
  798          extern void KeyRest(void);
@@ -894,7 +894,7 @@ line level    source
  856   1      }
 
 
-C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 14:55:08 PAGE 15  
+C51 COMPILER V9.59.0.0   SYSRUN                                                            04/08/2024 15:30:28 PAGE 15  
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   4217    ----

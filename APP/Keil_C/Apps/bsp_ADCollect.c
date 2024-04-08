@@ -371,7 +371,7 @@ float adc_to_tds(u16 adc_value, int a,int b)
 }
 
 #define _PPm_1step   377//´¿½øË®
-#define _PPm_2step   950//50ppm
+#define _PPm_2step   980//50ppm
 #define _PPm_3step   1020//88ppm
 #define _PPm_4step   1191//113ppm
 void test_TDS(u16 D, float *pp)
@@ -387,17 +387,29 @@ void test_TDS(u16 D, float *pp)
 				{
 							*p = adc_to_tds(v,70,0);
 				}
+				else if(v <= 1156)//50ppm
+				{
+						//*p   = adc_to_tds(v,200,-9.5);//50
+						*p= adc_to_tds(v,372,-54);
+				}
 				
-
+				else if(v <= 1356)//100ppm 1226
+				{
+						//*p   = adc_to_tds(v,200,-9.5);//50
+						*p= adc_to_tds(v,1137,-250);
+				}
+				else
+					
+				{
+						*p= adc_to_tds(v,424,(v-_PPm_4step)*0.5);
+				}
+				
+#if 0
 				else if(v<= _PPm_2step)						   //950 50ppm
 				{
 						*p  = adc_to_tds(v,216,0);
 				}
-				
-				else if(v <= _PPm_3step)//88ppm 1020
-				{
-						*p  = adc_to_tds(v,216,(v-_PPm_2step)*0.3);//40
-				}
+			
 			
 				else if(v <= _PPm_4step)//113ppm 1091
 				{
@@ -407,6 +419,7 @@ void test_TDS(u16 D, float *pp)
 				{
 							*p= adc_to_tds(v,500,(v-_PPm_4step)*0.5);///*p  = adc_to_tds(v,1479,-390);//85
 				}
+#endif
 //				else if(v <= 1356)//100ppm 1226
 //				{
 //						//*p   = adc_to_tds(v,200,-9.5);//50
