@@ -370,6 +370,10 @@ float adc_to_tds(u16 adc_value, int a,int b)
 		return linear_tds;
 }
 
+#define _PPm_1step   377//´¿½øË®
+#define _PPm_2step   950//50ppm
+#define _PPm_3step   1020//88ppm
+#define _PPm_4step   1191//113ppm
 void test_TDS(u16 D, float *pp)
 {
 		//gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
@@ -379,47 +383,52 @@ void test_TDS(u16 D, float *pp)
 		
 		if(p == &gstADCollect.tds_ChunShui)
 		{
-				if( v <= 377 )//ppm 6 357
+				if( v <= _PPm_1step )//ppm 6 357
 				{
 							*p = adc_to_tds(v,70,0);
 				}
-				else if(v <= 688)//ppm 668 20
-				{
-						*p = adc_to_tds(v,182,-9.7);
-				}
+				
 
-				else if(v<= 1086)						   //1066 50ppm
+				else if(v<= _PPm_2step)						   //950 50ppm
 				{
-						*p  = adc_to_tds(v,309,-31);//40
-				}
-				else if(v <= 1156)//50ppm
-				{
-						//*p   = adc_to_tds(v,200,-9.5);//50
-						*p= adc_to_tds(v,372,-54);
+						*p  = adc_to_tds(v,216,0);//40
 				}
 				
-				else if(v <= 1356)//100ppm 1226
+				else if(v <= _PPm_3step)//88ppm 1020
 				{
-						//*p   = adc_to_tds(v,200,-9.5);//50
-						*p= adc_to_tds(v,1137,-268);
+						*p  = adc_to_tds(v,216,(v-_PPm_2step)*0.3);//40
 				}
+			
+				else if(v <= _PPm_4step)//113ppm 1091
+				{
+						*p= adc_to_tds(v,424,0);
+				}
+				else
+				{
+							*p= adc_to_tds(v,500,(v-_PPm_4step)*0.5);///*p  = adc_to_tds(v,1479,-390);//85
+				}
+//				else if(v <= 1356)//100ppm 1226
+//				{
+//						//*p   = adc_to_tds(v,200,-9.5);//50
+//						*p= adc_to_tds(v,1137,-268);
+//				}
 				
-				else if(v <= 1610)//200ppm
-				{
-						*p  = adc_to_tds(v,1479,-390);//85
-				}
-				
-				else if(v <= 1820)
-				{
-						
-						*p   = adc_to_tds(v,819,-174);//110
-				}
-				
-				else if(v <= 1820)
-				{
-						
-						*p  = adc_to_tds(v,897,-225);//110
-				}
+//				else if(v <= 1610)//200ppm
+//				{
+//						*p  = adc_to_tds(v,1479,-390);//85
+//				}
+//				
+//				else if(v <= 1820)
+//				{
+//						
+//						*p   = adc_to_tds(v,819,-174);//110
+//				}
+//				
+//				else if(v <= 1820)
+//				{
+//						
+//						*p  = adc_to_tds(v,897,-225);//110
+//				}
 		}
 
 		else if(p == &gstADCollect.tds_YuanShui)

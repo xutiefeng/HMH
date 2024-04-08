@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_ADCOLLECT
@@ -62,7 +62,7 @@ line level    source
   50          
   51          
   52          
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 2   
 
   53          
   54          
@@ -126,7 +126,7 @@ line level    source
  112   1      }
  113          
  114          void JieShui_IO_Flip_2(void)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 3   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 3   
 
  115          {
  116   1          P26 = 1;
@@ -190,7 +190,7 @@ line level    source
  174   3              sADChanalCnt =0;
  175   3              ChunShui_IO_Flip_2();
  176   3              YuanShui_IO_Flip_1();
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 4   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 4   
 
  177   3            }
  178   2            
@@ -254,7 +254,7 @@ line level    source
  236   2          break;
  237   2      #endif
  238   2          case 3:
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 5   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 5   
 
  239   2            if(sADChanalCnt == 1)
  240   2            {
@@ -318,7 +318,7 @@ line level    source
  298   1        adc_sum = adc_sum - adc_value_max;
  299   1        adc_sum = adc_sum>>3;
  300   1        return adc_sum;
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 6   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 6   
 
  301   1      }
  302          
@@ -382,7 +382,7 @@ line level    source
  360          
  361          
  362          float adc_to_tds(u16 adc_value, int a,int b) 
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 7   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 7   
 
  363          {
  364   1        
@@ -394,134 +394,143 @@ line level    source
  370   1          return linear_tds;
  371   1      }
  372          
- 373          void test_TDS(u16 D, float *pp)
- 374          {
- 375   1          //gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
- 376   1          u16 v = D;
- 377   1          
- 378   1          float *p =pp; 
- 379   1          
- 380   1          if(p == &gstADCollect.tds_ChunShui)
- 381   1          {
- 382   2              if( v <= 377 )//ppm 6 357
- 383   2              {
- 384   3                    *p = adc_to_tds(v,70,0);
- 385   3              }
- 386   2              else if(v <= 688)//ppm 668 20
+ 373          #define _PPm_1step   377//´¿½øË®
+ 374          #define _PPm_2step   950//50ppm
+ 375          #define _PPm_3step   1020//88ppm
+ 376          #define _PPm_4step   1191//113ppm
+ 377          void test_TDS(u16 D, float *pp)
+ 378          {
+ 379   1          //gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
+ 380   1          u16 v = D;
+ 381   1          
+ 382   1          float *p =pp; 
+ 383   1          
+ 384   1          if(p == &gstADCollect.tds_ChunShui)
+ 385   1          {
+ 386   2              if( v <= _PPm_1step )//ppm 6 357
  387   2              {
- 388   3                  *p = adc_to_tds(v,182,-9.7);
+ 388   3                    *p = adc_to_tds(v,70,0);
  389   3              }
- 390   2      
- 391   2              else if(v<= 1086)              //1066 50ppm
- 392   2              {
- 393   3                  *p  = adc_to_tds(v,309,-31);//40
- 394   3              }
- 395   2              else if(v <= 1156)//50ppm
- 396   2              {
- 397   3                  //*p   = adc_to_tds(v,200,-9.5);//50
- 398   3                  *p= adc_to_tds(v,372,-54);
- 399   3              }
- 400   2              
- 401   2              else if(v <= 1356)//100ppm 1226
- 402   2              {
- 403   3                  //*p   = adc_to_tds(v,200,-9.5);//50
- 404   3                  *p= adc_to_tds(v,1137,-268);
+ 390   2              
+ 391   2      
+ 392   2              else if(v<= _PPm_2step)              //950 50ppm
+ 393   2              {
+ 394   3                  *p  = adc_to_tds(v,216,0);//40
+ 395   3              }
+ 396   2              
+ 397   2              else if(v <= _PPm_3step)//88ppm 1020
+ 398   2              {
+ 399   3                  *p  = adc_to_tds(v,216,(v-_PPm_2step)*0.3);//40
+ 400   3              }
+ 401   2            
+ 402   2              else if(v <= _PPm_4step)//113ppm 1091
+ 403   2              {
+ 404   3                  *p= adc_to_tds(v,424,0);
  405   3              }
- 406   2              
- 407   2              else if(v <= 1610)//200ppm
- 408   2              {
- 409   3                  *p  = adc_to_tds(v,1479,-390);//85
- 410   3              }
- 411   2              
- 412   2              else if(v <= 1820)
- 413   2              {
- 414   3                  
- 415   3                  *p   = adc_to_tds(v,819,-174);//110
- 416   3              }
- 417   2              
- 418   2              else if(v <= 1820)
- 419   2              {
- 420   3                  
- 421   3                  *p  = adc_to_tds(v,897,-225);//110
- 422   3              }
- 423   2          }
- 424   1      
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 8   
+ 406   2              else
+ 407   2              {
+ 408   3                    *p= adc_to_tds(v,500,(v-_PPm_4step)*0.5);///*p  = adc_to_tds(v,1479,-390);//85
+ 409   3              }
+ 410   2      //        else if(v <= 1356)//100ppm 1226
+ 411   2      //        {
+ 412   2      //            //*p   = adc_to_tds(v,200,-9.5);//50
+ 413   2      //            *p= adc_to_tds(v,1137,-268);
+ 414   2      //        }
+ 415   2              
+ 416   2      //        else if(v <= 1610)//200ppm
+ 417   2      //        {
+ 418   2      //            *p  = adc_to_tds(v,1479,-390);//85
+ 419   2      //        }
+ 420   2      //        
+ 421   2      //        else if(v <= 1820)
+ 422   2      //        {
+ 423   2      //            
+ 424   2      //            *p   = adc_to_tds(v,819,-174);//110
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 8   
 
- 425   1          else if(p == &gstADCollect.tds_YuanShui)
- 426   1          {
- 427   2            if(v< 2225)//ppm 108 ad:2225
- 428   2            {
- 429   3                  *p  = adc_to_tds(v,205,0);//110
- 430   3            }
- 431   2            
- 432   2            
- 433   2            else if(v< 3090)//ppm 299 3087
- 434   2            {
- 435   3                *p  = adc_to_tds(v,907,-385);//110
- 436   3            
- 437   3            }
- 438   2            
- 439   2            else if(v< 3545)//ppm 496 3535
- 440   2            {
- 441   3                *p  = adc_to_tds(v,1880,-1117);//110
- 442   3            
- 443   3            }
- 444   2            
- 445   2            else//ppm 1000 3835
- 446   2            {
- 447   3                *p  = adc_to_tds(v,6880,-5443);//110
- 448   3            }
- 449   2          }
- 450   1      
- 451   1          else
- 452   1          {
- 453   2              if(v<= 880)              //1146 50ppm
- 454   2              {
- 455   3                  *p  = adc_to_tds(v,140,-5);//40
- 456   3              }
- 457   2              else if(v <= 1156)//50ppm
- 458   2              {
- 459   3                  //*p   = adc_to_tds(v,200,-9.5);//50
- 460   3                  *p= adc_to_tds(v,372,-54);
- 461   3              }
- 462   2              
- 463   2              else if(v <= 1356)//100ppm 1226
- 464   2              {
- 465   3                  //*p   = adc_to_tds(v,200,-9.5);//50
- 466   3                  *p= adc_to_tds(v,1137,-268);
- 467   3              }
- 468   2              
- 469   2              else if(v <= 1610)//200ppm
- 470   2              {
- 471   3                  *p  = adc_to_tds(v,1479,-390);//85
- 472   3              }
- 473   2              
- 474   2              else if(v <= 1820)
- 475   2              {
- 476   3                  
- 477   3                  *p   = adc_to_tds(v,819,-174);//110
- 478   3              }
- 479   2              
- 480   2              else if(v <= 1820)
- 481   2              {
- 482   3                  
- 483   3                  *p  = adc_to_tds(v,897,-225);//110
- 484   3              }
- 485   2          }
- 486   1          
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 9   
+ 425   2      //        }
+ 426   2      //        
+ 427   2      //        else if(v <= 1820)
+ 428   2      //        {
+ 429   2      //            
+ 430   2      //            *p  = adc_to_tds(v,897,-225);//110
+ 431   2      //        }
+ 432   2          }
+ 433   1      
+ 434   1          else if(p == &gstADCollect.tds_YuanShui)
+ 435   1          {
+ 436   2            if(v< 2225)//ppm 108 ad:2225
+ 437   2            {
+ 438   3                  *p  = adc_to_tds(v,205,0);//110
+ 439   3            }
+ 440   2            
+ 441   2            
+ 442   2            else if(v< 3090)//ppm 299 3087
+ 443   2            {
+ 444   3                *p  = adc_to_tds(v,907,-385);//110
+ 445   3            
+ 446   3            }
+ 447   2            
+ 448   2            else if(v< 3545)//ppm 496 3535
+ 449   2            {
+ 450   3                *p  = adc_to_tds(v,1880,-1117);//110
+ 451   3            
+ 452   3            }
+ 453   2            
+ 454   2            else//ppm 1000 3835
+ 455   2            {
+ 456   3                *p  = adc_to_tds(v,6880,-5443);//110
+ 457   3            }
+ 458   2          }
+ 459   1      
+ 460   1          else
+ 461   1          {
+ 462   2              if(v<= 880)              //1146 50ppm
+ 463   2              {
+ 464   3                  *p  = adc_to_tds(v,140,-5);//40
+ 465   3              }
+ 466   2              else if(v <= 1156)//50ppm
+ 467   2              {
+ 468   3                  //*p   = adc_to_tds(v,200,-9.5);//50
+ 469   3                  *p= adc_to_tds(v,372,-54);
+ 470   3              }
+ 471   2              
+ 472   2              else if(v <= 1356)//100ppm 1226
+ 473   2              {
+ 474   3                  //*p   = adc_to_tds(v,200,-9.5);//50
+ 475   3                  *p= adc_to_tds(v,1137,-268);
+ 476   3              }
+ 477   2              
+ 478   2              else if(v <= 1610)//200ppm
+ 479   2              {
+ 480   3                  *p  = adc_to_tds(v,1479,-390);//85
+ 481   3              }
+ 482   2              
+ 483   2              else if(v <= 1820)
+ 484   2              {
+ 485   3                  
+ 486   3                  *p   = adc_to_tds(v,819,-174);//110
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 9   
 
- 487   1        }
- 488          
- 489            void TDS_Select(u16 D, float *pp)
- 490          {
- 491   1          //gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
- 492   1          u16 v = D;
- 493   1          
- 494   1          float *p =pp; 
+ 487   3              }
+ 488   2              
+ 489   2              else if(v <= 1820)
+ 490   2              {
+ 491   3                  
+ 492   3                  *p  = adc_to_tds(v,897,-225);//110
+ 493   3              }
+ 494   2          }
  495   1          
- 496   1        #if 0
+ 496   1        }
+ 497          
+ 498            void TDS_Select(u16 D, float *pp)
+ 499          {
+ 500   1          //gstADCollect.tds_ChunShui =adc_to_tds(gstADCollect.fChunShui);
+ 501   1          u16 v = D;
+ 502   1          
+ 503   1          float *p =pp; 
+ 504   1          
+ 505   1        #if 0
                   if(v <= 600)//20
                   {
                       *p = adc_to_tds(v,80,-3);
@@ -560,22 +569,22 @@ line level    source
                       *p  = adc_to_tds(v,897,-225);//110
                   }
                   #endif
- 535   1          
- 536   1              *p  = adc_to_tds(v,205,0);//110
- 537   1      
- 538   1        }
- 539              
- 540          
- 541          
+ 544   1          
+ 545   1              *p  = adc_to_tds(v,205,0);//110
+ 546   1      
+ 547   1        }
+ 548              
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 10  
+
+ 549          
+ 550          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   2165    ----
+   CODE SIZE        =   2099    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     69    ----
    PDATA SIZE       =   ----    ----
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/07/2024 20:33:52 PAGE 10  
-
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----

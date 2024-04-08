@@ -115,16 +115,33 @@ u8 TDS_ZhiShi_display(void)
 			
 	}	
 	
-	if(gstFilte.type == ROFilter)
-	{
-				Udata.Bit.ppc = 0;
+		 if(LED2_L)
+		 {			
 				Udata.Bit.RO = 1;
-	}
-	else
-	{
-			Udata.Bit.ppc = 1;
-			Udata.Bit.RO =  0;
-	}
+		 }
+		 else if(LED2_R)
+		 {
+				Udata.Bit.RO = 2;
+		 }
+		 else
+	 	 {
+			  Udata.Bit.RO = 0;
+		 }
+
+	  
+		 if(LED1_L)
+		 {				
+				 Udata.Bit.ppc = 1;
+		 }
+		 else if(LED1_R)
+	   {
+			  Udata.Bit.ppc = 2;
+		 }
+		 else
+		 {
+				Udata.Bit.ppc = 0;
+		 }
+	
 	return Udata.all;
 		
 	 	
