@@ -391,7 +391,7 @@ void test_TDS(u16 D, float *pp)
 
 				else if(v<= _PPm_2step)						   //950 50ppm
 				{
-						*p  = adc_to_tds(v,216,0);//40
+						*p  = adc_to_tds(v,216,0);
 				}
 				
 				else if(v <= _PPm_3step)//88ppm 1020

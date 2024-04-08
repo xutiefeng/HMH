@@ -63,8 +63,19 @@ void KeyCancelRestKey(void)
 			sCancelRestKeyCnt++;
 			if(sCancelRestKeyCnt > _5S_Per50MS)
 			{
+					Buzzer4Flag = 1;
 					KeyCancelRestFlag = 0;
 					ReadEEprom(0);
+					if(gstFilte.type == ROFilter)
+					{
+							gstFilte.type = MixFilter;
+							setLED(1,BlueColor,blink,30);
+					}
+					else
+					{
+							gstFilte.type = ROFilter;
+							setLED(2,BlueColor,blink,30);
+					}
 			}		
 		}
 		

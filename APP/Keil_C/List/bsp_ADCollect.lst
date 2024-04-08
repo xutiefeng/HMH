@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 1   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE BSP_ADCOLLECT
@@ -62,7 +62,7 @@ line level    source
   50          
   51          
   52          
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 2   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 2   
 
   53          
   54          
@@ -126,7 +126,7 @@ line level    source
  112   1      }
  113          
  114          void JieShui_IO_Flip_2(void)
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 3   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 3   
 
  115          {
  116   1          P26 = 1;
@@ -190,7 +190,7 @@ line level    source
  174   3              sADChanalCnt =0;
  175   3              ChunShui_IO_Flip_2();
  176   3              YuanShui_IO_Flip_1();
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 4   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 4   
 
  177   3            }
  178   2            
@@ -254,7 +254,7 @@ line level    source
  236   2          break;
  237   2      #endif
  238   2          case 3:
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 5   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 5   
 
  239   2            if(sADChanalCnt == 1)
  240   2            {
@@ -318,7 +318,7 @@ line level    source
  298   1        adc_sum = adc_sum - adc_value_max;
  299   1        adc_sum = adc_sum>>3;
  300   1        return adc_sum;
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 6   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 6   
 
  301   1      }
  302          
@@ -382,7 +382,7 @@ line level    source
  360          
  361          
  362          float adc_to_tds(u16 adc_value, int a,int b) 
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 7   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 7   
 
  363          {
  364   1        
@@ -415,7 +415,7 @@ line level    source
  391   2      
  392   2              else if(v<= _PPm_2step)              //950 50ppm
  393   2              {
- 394   3                  *p  = adc_to_tds(v,216,0);//40
+ 394   3                  *p  = adc_to_tds(v,216,0);
  395   3              }
  396   2              
  397   2              else if(v <= _PPm_3step)//88ppm 1020
@@ -446,7 +446,7 @@ line level    source
  422   2      //        {
  423   2      //            
  424   2      //            *p   = adc_to_tds(v,819,-174);//110
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 8   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 8   
 
  425   2      //        }
  426   2      //        
@@ -510,7 +510,7 @@ line level    source
  484   2              {
  485   3                  
  486   3                  *p   = adc_to_tds(v,819,-174);//110
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 9   
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 9   
 
  487   3              }
  488   2              
@@ -574,7 +574,7 @@ line level    source
  546   1      
  547   1        }
  548              
-C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:30:58 PAGE 10  
+C51 COMPILER V9.59.0.0   BSP_ADCOLLECT                                                     04/08/2024 14:55:08 PAGE 10  
 
  549          
  550          
