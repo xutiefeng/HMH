@@ -1,6 +1,0 @@
-#define TUYA_ID x7a3ztat //TUYA_ID 
-#define ZIGBEE_TXD_INIT 0x0201 //ZIGBEE_TXD_INIT 
-#define ZIGBEE_TXD P20 //ZIGBEE_TXD 
-#define ZIGBEE_RXD_INIT 0x0202 //ZIGBEE_RXD_INIT 
-#define ZIGBEE_RXD P21 //ZIGBEE_RXD 
-//definition write here

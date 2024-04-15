@@ -1,3 +1,0 @@
-
-TIM0_Mode1SetReloadCounter(33536)//TIM0_Mode1SetReloadCounter
-//@*SC_it.c*@functions write here

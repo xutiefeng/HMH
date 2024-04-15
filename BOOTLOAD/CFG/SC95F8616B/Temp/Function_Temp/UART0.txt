@@ -1,6 +1,0 @@
-GPIO_Init(GPIO2, GPIO_PIN_0,GPIO_MODE_IN_PU)//RX0端口初始化
-GPIO_Init(GPIO2, GPIO_PIN_1,GPIO_MODE_IN_PU)//TX0端口初始化
-//gpiomode write here
-/*模式1初始化*/UART0_Init(32000000,115200,UART0_Mode_10B,UART0_CLOCK_TIMER1,UART0_RX_ENABLE)///*模式1初始化*/UART0_Init
-UART0_ITConfig(ENABLE,LOW)//UART0_ITConfig
-//functions write here

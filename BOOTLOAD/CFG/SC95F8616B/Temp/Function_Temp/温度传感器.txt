@@ -1,3 +1,0 @@
-#define AD_Set ADC_CHANNEL_12 //AD_Set 
-#define AD_Reset ADC_EAIN_12 //AD_Reset 
-//definition write here

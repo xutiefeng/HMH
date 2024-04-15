@@ -1,2 +1,0 @@
-[PinNumber]35[/PinNumber][UpperIndex]2[/UpperIndex][Iindex]0[/Iindex][PinName]RX0[/PinName]
-[PinNumber]36[/PinNumber][UpperIndex]2[/UpperIndex][Iindex]0[/Iindex][PinName]TX0[/PinName]

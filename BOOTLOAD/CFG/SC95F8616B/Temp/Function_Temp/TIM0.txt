@@ -1,6 +1,0 @@
-//gpiomode write here
-TIM0_TimeBaseInit(TIM0_PRESSEL_FSYS_D1,TIM0_MODE_TIMER)//TIM0_TimeBaseInit
-TIM0_WorkModeConfig(TIM0_WORK_MODE1,33536, 0)//TIM0_WorkModeConfig
-TIM0_ITConfig(ENABLE,LOW)//TIM0_ITConfig
-TIM0_Cmd(ENABLE)//TIM0_Cmd
-//functions write here

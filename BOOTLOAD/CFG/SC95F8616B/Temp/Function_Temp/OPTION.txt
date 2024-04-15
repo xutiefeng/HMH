@@ -1,3 +1,0 @@
-//gpiomode write here
-SC95F8616B_NIO_Init()//SC95F8616B_NIO_Init
-//functions write here

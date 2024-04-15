@@ -1,4 +1,0 @@
-
-UART0_ClearFlag(UART0_FLAG_TI);/*UART0Interrupt Flag Clear*/
-UART0_ClearFlag(UART0_FLAG_RI);/*UART0Interrupt Flag Clear*/
-//@*SC_it.c*@functions write here

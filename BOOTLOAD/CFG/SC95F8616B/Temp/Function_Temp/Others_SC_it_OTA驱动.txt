@@ -1,3 +1,0 @@
-
-OTA_UARTHANDLE();
-/*UART0_it write here*/
